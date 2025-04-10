@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.bin
+*.pt
+*.jsonl
+*.log
+*.ckpt
+.cache/
+.env
+venv/
+*.ipynb_checkpoints/
+hf_cache/
