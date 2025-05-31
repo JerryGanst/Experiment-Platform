@@ -1,0 +1,198 @@
+# IT领域提示词补全词库 - 完整版
+version: 1.0
+author: DeepSeek-R1
+last_updated: 2025-05-29
+
+# =============== 前缀触发规则 ===============
+prefix_triggers:
+  # "如何"类引导
+  - prefix: "如何"
+    category: "方法论引导"
+    options:
+      - text: "学习"
+        description: "获取系统化知识的学习路径"
+      - text: "解决"
+        description: "针对具体问题的解决方案"
+      - text: "优化"
+        description: "性能/效率提升方案"
+      - text: "评估"
+        description: "技术选型或方案对比"
+      - text: "选择"
+        description: "工具/框架选型建议"
+      - text: "入门"
+        description: "零基础快速上手指南"
+      - text: "调试"
+        description: "故障排查与修复方法"
+      - text: "部署"
+        description: "生产环境实施指南"
+    template: "如何{option} {topic}？"
+
+  # "什么是"类引导
+  - prefix: "什么是"
+    category: "概念解析"
+    options:
+      - text: "核心原理"
+        description: "技术底层工作机制"
+      - text: "最佳实践"
+        description: "行业验证的实施方法"
+      - text: "主要区别"
+        description: "相似技术对比分析"
+      - text: "常见问题"
+        description: "高频疑问解答"
+      - text: "设计模式"
+        description: "架构设计范式"
+      - text: "应用场景"
+        description: "典型使用案例"
+      - text: "发展趋势"
+        description: "技术演进方向预测"
+    template: "什么是{option}？"
+
+# =============== 专业领域触发规则 ===============
+domain_triggers:
+  # 人工智能/机器学习
+  - term: "人工智能"
+    category: "AI/ML"
+    options:
+      - text: "算法对比"
+        description: "主流AI算法优劣分析"
+      - text: "模型训练"
+        description: "高效训练技巧与调参"
+      - text: "落地实践"
+        description: "工业场景应用方案"
+      - text: "伦理问题"
+        description: "AI伦理与治理框架"
+      - text: "最新突破"
+        description: "前沿研究进展速览"
+    template: "人工智能{option}有哪些关键点？"
+
+  - term: "机器学习"
+    category: "AI/ML"
+    options:
+      - text: "算法选择"
+        description: "场景适配的算法推荐"
+      - text: "特征工程"
+        description: "高效特征处理方法"
+      - text: "过拟合解决"
+        description: "泛化能力提升方案"
+      - text: "实时推理"
+        description: "线上预测优化策略"
+      - text: "AutoML"
+        description: "自动化机器学习实践"
+    template: "机器学习{option}的最佳实践是什么？"
+
+  # 数据科学
+  - term: "数据科学"
+    category: "Data Science"
+    options:
+      - text: "分析流程"
+        description: "标准数据分析方法论"
+      - text: "工具链搭建"
+        description: "高效数据科学环境"
+      - text: "特征工程"
+        description: "数据转换技巧"
+      - text: "结果可视化"
+        description: "洞察传达方案"
+      - text: "AB测试"
+        description: "实验设计原则"
+    template: "数据科学{option}的核心要点？"
+
+  - term: "大数据"
+    category: "Data Science"
+    options:
+      - text: "架构设计"
+        description: "分布式系统方案"
+      - text: "性能优化"
+        description: "海量数据处理技巧"
+      - text: "实时处理"
+        description: "流式计算框架"
+      - text: "成本控制"
+        description: "资源利用率提升"
+      - text: "湖仓一体"
+        description: "现代数据平台建设"
+    template: "大数据{option}的实施路径？"
+
+  # 前沿技术
+  - term: "区块链"
+    category: "Emerging Tech"
+    options:
+      - text: "应用场景"
+        description: "超越数字货币的用例"
+      - text: "共识机制"
+        description: "主流算法对比"
+      - text: "智能合约"
+        description: "安全开发实践"
+      - text: "性能瓶颈"
+        description: "扩容解决方案"
+      - text: "监管合规"
+        description: "法律风险防范"
+    template: "区块链{option}的现状与挑战？"
+
+  - term: "量子计算"
+    category: "Emerging Tech"
+    options:
+      - text: "原理入门"
+        description: "量子比特基础"
+      - text: "算法优势"
+        description: "经典vs量子对比"
+      - text: "硬件进展"
+        description: "主流技术路线"
+      - text: "应用前景"
+        description: "革命性场景预测"
+      - text: "学习路径"
+        description: "量子开发资源"
+    template: "量子计算{option}的关键知识？"
+
+  # 编程开发
+  - term: "微服务"
+    category: "Development"
+    options:
+      - text: "拆分策略"
+        description: "服务边界定义方法"
+      - text: "通信机制"
+        description: "服务间交互模式"
+      - text: "故障隔离"
+        description: "弹性架构设计"
+      - text: "事务管理"
+        description: "分布式事务方案"
+      - text: "DevOps集成"
+        description: "CI/CD流水线优化"
+    template: "微服务{option}的最佳实践？"
+
+  - term: "容器化"
+    category: "Development"
+    options:
+      - text: "集群管理"
+        description: "K8s高级特性"
+      - text: "网络配置"
+        description: "多容器通信方案"
+      - text: "存储方案"
+        description: "持久化数据管理"
+      - text: "安全加固"
+        description: "容器运行时防护"
+      - text: "GitOps"
+        description: "声明式部署模式"
+    template: "容器化{option}的实施指南？"
+
+# =============== 快捷命令 ===============
+quick_commands:
+  - prefix: "/"
+    options:
+      - text: "解释代码"
+        description: "解析代码逻辑与功能"
+        template: "解释这段代码：\n```\n{selection}\n```"
+
+      - text: "生成SQL"
+        description: "根据需求创建查询语句"
+        template: "根据以下需求生成SQL：\n{需求描述}"
+
+      - text: "写单元测试"
+        description: "为代码生成测试用例"
+        template: "为以下函数编写单元测试：\n```{language}\n{code}\n```"
+
+      - text: "性能优化"
+        description: "代码性能提升建议"
+        template: "优化以下代码性能：\n```{language}\n{code}\n```"
+
+      - text: "代码重构"
+        description: "改进代码结构与可读性"
+        template: "重构以下代码：\n```{language}\n{code}\n```"

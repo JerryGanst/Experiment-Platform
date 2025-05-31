@@ -1,0 +1,7 @@
+{
+  "trigger_delay": 300,
+  "max_suggestions": 6,
+  "always_on_top": true,
+  "window_opacity": 0.95,
+  "auto_complete": true
+}
