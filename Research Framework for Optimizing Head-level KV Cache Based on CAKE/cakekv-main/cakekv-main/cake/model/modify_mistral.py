@@ -17,8 +17,9 @@ from transformers.models.mistral.configuration_mistral import MistralConfig
 from transformers.models.mistral.modeling_mistral import *
 
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
+from transformers.modeling_outputs import BaseModelOutputWithPast
 
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union, List
 from transformers.utils import (
     add_start_docstrings,
     add_start_docstrings_to_model_forward,

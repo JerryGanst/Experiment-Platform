@@ -13,8 +13,9 @@ from transformers.models.qwen2.configuration_qwen2 import Qwen2Config
 from transformers.models.qwen2.modeling_qwen2 import *
 
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
+from transformers.modeling_outputs import BaseModelOutputWithPast
 
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union, List
 from transformers.utils import (
     add_start_docstrings,
     add_start_docstrings_to_model_forward,

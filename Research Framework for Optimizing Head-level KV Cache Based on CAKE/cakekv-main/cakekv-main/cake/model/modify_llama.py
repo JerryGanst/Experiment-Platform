@@ -1,5 +1,5 @@
 import math
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union, List
 
 import torch
 from torch import nn
@@ -10,6 +10,7 @@ import transformers
 
 from transformers.models.llama.modeling_llama import *
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
+from transformers.modeling_outputs import BaseModelOutputWithPast
 
 from transformers.cache_utils import Cache, DynamicCache, StaticCache
 

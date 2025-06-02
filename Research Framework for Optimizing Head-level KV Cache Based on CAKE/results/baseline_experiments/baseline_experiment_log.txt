@@ -1,0 +1,6 @@
+2025-06-02 09:31:03,809 - __main__ - INFO - Starting baseline experiment suite
+2025-06-02 09:31:03,809 - __main__ - INFO - Arguments: Namespace(model_name='facebook/opt-125m', datasets='mmlu', kv_cache_lengths='256', batch_sizes='1', max_new_tokens=32, repetitions=1, output_dir='results\\baseline_experiments', log_level='INFO', seed=42)
+2025-06-02 09:31:03,830 - __main__ - INFO - Random seed set to 42
+2025-06-02 09:31:03,830 - __main__ - INFO - Total number of baseline experiment configurations to run: 1
+2025-06-02 09:31:03,831 - __main__ - ERROR - Dataset configuration for 'mmlu' not found. Skipping...
+2025-06-02 09:31:03,831 - __main__ - INFO - Baseline experiment suite finished.
