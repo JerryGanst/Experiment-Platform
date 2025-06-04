@@ -1,0 +1,9 @@
+{
+  "experiment_id": "baseline_mmlu_kv512_bs1_rep0_173026",
+  "generated_texts": [
+    "\nNo.\n\nMARY M. JONES\n\nThe family of Mary Jones, of Whitefield, is very much the victim of the misfortunes of the horse, and the horse's loss in the fall of 1814. The horse, after having been stolen from his stable, was bought and"
+  ],
+  "input_texts": [
+    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:"
+  ]
+}

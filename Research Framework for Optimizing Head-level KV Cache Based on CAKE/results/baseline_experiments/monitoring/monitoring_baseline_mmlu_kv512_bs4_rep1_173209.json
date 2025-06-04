@@ -1,0 +1,21 @@
+{
+  "experiment_id": "baseline_mmlu_kv512_bs4_rep1_173209",
+  "timestamp": "2025-06-02T17:32:18.818453",
+  "metrics": {
+    "gpu": {
+      "device_0": {
+        "peak_memory_mb": 520.24267578125,
+        "average_memory_mb": 308.6019287109375,
+        "std_dev_memory_mb": 34.63201519822624,
+        "peak_reserved_mb": 620.0,
+        "average_reserved_mb": 618.5,
+        "sample_count": 4,
+        "monitoring_duration_sec": 0.30330586433410645
+      },
+      "total_devices": 1,
+      "timestamp": "2025-06-02T17:32:18.817453",
+      "total_peak_memory_mb": 520.24267578125
+    },
+    "total_monitoring_time": 0.4039902687072754
+  }
+}

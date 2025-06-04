@@ -1,0 +1,15 @@
+{
+  "experiment_id": "baseline_mmlu_kv256_bs4_rep1_173141",
+  "generated_texts": [
+    "2\nThe above question was answered by the following:\nA. The wife is the wife who has received the will.\nB. the husband is a dependent.\nD. the wife is a dependent.\nAnswer:1\nThe executor is a husband.\nAnswer:2\nThe executor is",
+    "'s\n1.\nWendy goes to the school, she has a question to ask the students about their favorite ice cream flavor. (Note that the sample size of each class is determined by the student’s grade point average.)\n2.\nWendy asks them if their favorite ice cream flavor",
+    "-\nA. The capacity for cooperation based on a shared interest in the common goal of achieving the goals of the state.\nB. The ability to develop a shared interest in what is needed.\nC. The ability to communicate with other stakeholders in order to obtain the necessary knowledge and data to support those goals.",
+    "\nThe doctrine of the primacy of the Apostolic Faith has been confirmed by the Holy Spirit.\nThe doctrine of the primacy of the Apostolic Faith, which was accepted by the Holy Spirit, is the doctrine of the primacy of the Holy Spirit.\n1. Apostolic Faith\nIn the Catholic Church"
+  ],
+  "input_texts": [
+    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:",
+    "Question: Wendy wants to take a survey to determine which flavor of ice cream is the most popular at her school. Which of the following methods is the best way for her to choose a random sample of the students at her school?\nChoices:\nA. selecting ten students from each homeroom\nB. selecting members of the girls’ softball team\nC. selecting members of the boys’ basketball team\nD. selecting students who like her favorite flavor of ice cream\nAnswer:",
+    "Question: ______, ________ and _______ are all factors which can impinge upon stakeholder communication and collaboration.\nChoices:\nA. Resource intensity, Culture clash, Accountability\nB. Resource clash, Culture intensity, Accountability\nC. Resource intensity, Culture clash, Coordinative fluidity\nD. Resource clash, Culture clash, Coordinative fluidity\nAnswer:",
+    "Question: Jean Calvin is known for emphasizing which of the following doctrines?\nChoices:\nA. Transubstantiation\nB. Miaphystism\nC. Glossolalia\nD. Predestination\nAnswer:"
+  ]
+}

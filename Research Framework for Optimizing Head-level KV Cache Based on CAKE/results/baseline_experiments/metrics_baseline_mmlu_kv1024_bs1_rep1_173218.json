@@ -1,0 +1,17 @@
+{
+  "experiment_id": "baseline_mmlu_kv1024_bs1_rep1_173218",
+  "success": true,
+  "ttft_ms": 7.999897003173828,
+  "tpot_ms": 6.438724578373016,
+  "throughput_tokens_per_sec": 154.35086954646732,
+  "total_time_sec": 0.4146397113800049,
+  "tokens_generated": 64,
+  "peak_gpu_memory_mb": 384.44140625,
+  "model_name": "facebook/opt-125m",
+  "precision": "fp16",
+  "batch_size": 1,
+  "kv_cache_length": 1024,
+  "max_new_tokens": 64,
+  "use_h2o": false,
+  "timestamp": "2025-06-02T17:32:28.552403"
+}

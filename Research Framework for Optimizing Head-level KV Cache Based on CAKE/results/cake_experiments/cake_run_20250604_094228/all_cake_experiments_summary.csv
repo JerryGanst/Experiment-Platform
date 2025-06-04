@@ -1,0 +1,2 @@
+experiment_id,success,error_message,timestamp
+cake_mmlu_kv512_bs1_stratadaptive_bud0.8_rep0_20250604_094228,False,load_dataset_split() got an unexpected keyword argument 'split_name',2025-06-04T09:42:39.141633

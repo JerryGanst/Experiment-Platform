@@ -1,0 +1,2 @@
+experiment_id,success,error_message,timestamp
+cake_mmlu_kv512_bs1_stratadaptive_bud0.8_rep0_20250604_104220,False,'PerformanceMetricsCollector' object has no attribute 'compute_and_save_metrics',2025-06-04T10:43:07.442710

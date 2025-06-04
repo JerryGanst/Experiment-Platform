@@ -1,0 +1,11 @@
+{
+  "experiment_id": "baseline_mmlu_kv256_bs2_rep1_173132",
+  "generated_texts": [
+    "\nA. fee simple determinable.\nB. fee simple subject to a choice.\nC. fee simple subject to an execution interest.\nD. contingent remainder.\nAnswer:\nA. fee simple determinable.\nB. fee simple subject to a choice.\nC. fee simple subject to a",
+    " and the girl’s favorite ice cream.\nWendy’s answer: is the ice cream a good choice for her?\nAnswer: yes.\nWendy’s answer: is ice cream a good choice for her?\nAnswer: yes.\nWendy’s"
+  ],
+  "input_texts": [
+    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:",
+    "Question: Wendy wants to take a survey to determine which flavor of ice cream is the most popular at her school. Which of the following methods is the best way for her to choose a random sample of the students at her school?\nChoices:\nA. selecting ten students from each homeroom\nB. selecting members of the girls’ softball team\nC. selecting members of the boys’ basketball team\nD. selecting students who like her favorite flavor of ice cream\nAnswer:"
+  ]
+}

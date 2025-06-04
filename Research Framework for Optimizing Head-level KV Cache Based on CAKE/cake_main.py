@@ -60,7 +60,7 @@ def setup_logging(log_file=None, level=logging.INFO):
 
     handlers = []
     if log_file:
-        handlers.append(logging.FileHandler(log_file))
+        handlers.append(logging.FileHandler(log_file, encoding='utf-8'))
     handlers.append(logging.StreamHandler(sys.stdout))
 
     logging.basicConfig(
@@ -138,7 +138,7 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
     try:
         # 加载模型和分词器
         current_model_config = {
-            "model_name_or_path": experiment_main_config["model_name_or_path"],
+            "model_name_or_path": experiment_main_config.get("current_model_name") or experiment_main_config["model_name_or_path"],
             "precision": experiment_main_config["precision"]
         }
         logger.info("Loading model and tokenizer...")
@@ -148,7 +148,7 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         if not is_model_type_supported_by_cake(model, CAKE_MODEL_CONFIG):
             error_msg = f"模型 {current_model_config['model_name_or_path']} 类型不支持CAKE优化 (根据CAKE_MODEL_CONFIG)"
             logger.error(error_msg)
-            metrics_collector.record_error(error_msg)
+            metrics_collector.mark_failure(error_msg)
             return metrics_collector.finalize_metrics_on_error()
 
         # 配置模型的KV缓存长度 (CAKE可能内部管理，但外部配置可作为参考)
@@ -170,7 +170,7 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         # 加载数据集
         logger.info(f"Loading dataset {dataset_name}...")
         # dataset_options是从DATASET_CONFIG[dataset_name]获取的
-        dataset = load_dataset_split(dataset_options, split_name="train") # 假设使用训练集进行测试，或选择合适的split
+        dataset = load_dataset_split(dataset_options, split="validation") # 使用validation分片，因为MMLU没有train分片
 
         # 准备评估样本
         # dataset_subset_size 应从 experiment_main_config 获取
@@ -206,8 +206,7 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
             samples,
             tokenizer,
             batch_size=actual_num_samples_to_prepare, # 使用实际准备的样本数作为batch_size
-            max_length=effective_max_length,
-            prompt_template_key=dataset_name if dataset_name in DATASET_CONFIG.get("prompt_templates", {}) else "default"
+            max_length=effective_max_length
         )
 
         # 将批处理数据移至设备
@@ -284,7 +283,7 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
             )
 
         # 结束性能测量
-        metrics_collector.end_generation(generated_ids=outputs, input_ids_len=inputs["input_ids"].shape[1])
+        metrics_collector.end_generation()
 
         # 停止监控并收集指标
         if experiment_main_config.get("enable_monitoring", True):
@@ -293,13 +292,18 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
             if "gpu" in monitoring_metrics_data.get("metrics", {}):
                  metrics_collector.record_gpu_stats(monitoring_metrics_data["metrics"]["gpu"])
             
-            # 保存监控数据
-            exp_monitoring_dir = os.path.join(output_dir, "monitoring_data", experiment_id)
-            os.makedirs(exp_monitoring_dir, exist_ok=True)
-            monitoring_manager.save_metrics(
-                output_dir=exp_monitoring_dir,
-                filename=f"monitoring_stats.json"
-            )
+            # 保存监控数据 - 使用更短的路径避免Windows路径长度限制
+            try:
+                # 使用更短的目录名和文件名
+                monitor_dir = os.path.join(output_dir, "monitor")
+                os.makedirs(monitor_dir, exist_ok=True)
+                monitoring_manager.save_metrics(
+                    output_dir=monitor_dir,
+                    filename="stats.json"
+                )
+            except Exception as monitor_error:
+                logger.warning(f"无法保存监控数据: {monitor_error}")
+                # 继续执行，不要因为监控数据保存失败而中断实验
 
         # 解码输出（可选，用于质量评估）
         # generated_texts = tokenizer.batch_decode(
@@ -379,9 +383,14 @@ def main():
         "precision": EXPERIMENT_CONFIG["precision"] # 假设精度是全局的
     }
 
+    # 创建一个临时的实验配置，包含命令行指定的模型名称
+    temp_experiment_config = EXPERIMENT_CONFIG.copy()
+    temp_experiment_config["current_model_name"] = args.model_name
+
     for rep in range(args.repetitions):
         for dataset_name in datasets_list:
-            dataset_options = DATASET_CONFIG.get(dataset_name, DATASET_CONFIG.get(DATASET_CONFIG.get("available_datasets", {}).get(dataset_name, {}).get("path"))) # 尝试获取配置
+            # 修复数据集配置获取逻辑，与baseline_main.py保持一致
+            dataset_options = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
             if not dataset_options:
                 logger.error(f"Dataset configuration for '{dataset_name}' not found in DATASET_CONFIG. Skipping...")
                 # 更新pbar跳过这个数据集的所有组合
@@ -400,7 +409,7 @@ def main():
                             os.makedirs(current_exp_output_dir, exist_ok=True)
 
                             experiment_metrics = run_cake_experiment(
-                                experiment_main_config=EXPERIMENT_CONFIG, # 传递全局实验配置
+                                experiment_main_config=temp_experiment_config, # 使用包含命令行模型名称的配置
                                 dataset_name=dataset_name,
                                 dataset_options=dataset_options,
                                 kv_cache_length=kv_len,

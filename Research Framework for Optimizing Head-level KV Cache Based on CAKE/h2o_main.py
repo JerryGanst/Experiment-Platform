@@ -51,24 +51,23 @@ from h2o_experiment.utils.monitoring_manager import MonitoringManager
 def setup_logging(log_file=None, level=logging.INFO):
     """设置日志记录"""
     log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-
-    # 创建日志目录
+    log_dir = None
     if log_file:
         log_dir = os.path.dirname(log_file)
         if log_dir and not os.path.exists(log_dir):
-            os.makedirs(log_dir)
+            os.makedirs(log_dir, exist_ok=True)
 
     handlers = []
     if log_file:
-        handlers.append(logging.FileHandler(log_file))
+        handlers.append(logging.FileHandler(log_file, encoding='utf-8'))
     handlers.append(logging.StreamHandler())
 
     logging.basicConfig(
         level=level,
         format=log_format,
-        handlers=handlers
+        handlers=handlers,
+        force=True  # 强制重新配置日志
     )
-
     # 减少一些库的日志输出
     logging.getLogger("transformers").setLevel(logging.WARNING)
     logging.getLogger("datasets").setLevel(logging.WARNING)

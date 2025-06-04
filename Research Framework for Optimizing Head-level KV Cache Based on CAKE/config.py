@@ -67,6 +67,23 @@ EXPERIMENT_CONFIG = {
 
 # 数据集配置
 DATASET_CONFIG = {
+    # 添加available_datasets键以匹配baseline_main.py的期望
+    "available_datasets": {
+        # 英文数据集
+        "mmlu": {"path": "cais/mmlu", "subset": "all", "description": "多领域推理任务"},
+        "hellaswag": {"path": "hellaswag", "subset": None, "description": "常识推理任务"},
+        "longbench": {"path": "THUDM/longbench", "subset": "default", "description": "长文本理解基准"},
+        "squad2": {"path": "squad_v2", "subset": None, "description": "阅读理解问答任务"},
+        "gsm8k": {"path": "gsm8k", "subset": "main", "description": "数学推理任务"},
+        "winogrande": {"path": "winogrande", "subset": "winogrande_xl", "description": "常识推理任务"},
+        "arc_challenge": {"path": "ai2_arc", "subset": "ARC-Challenge", "description": "科学推理任务"},
+        "truthful_qa_mc": {"path": "truthful_qa", "subset": "multiple_choice", "description": "真实性问答任务"},
+        # 中文数据集
+        "cluewsc2020": {"path": "cluewsc2020", "subset": None, "description": "指代消解任务"},
+        "ceval": {"path": "ceval", "subset": "all", "description": "中文多领域评测基准"},
+        "race": {"path": "race", "subset": "all", "description": "中文阅读理解任务"},
+        "openeval": {"path": "openeval", "subset": None, "description": "中文全面评估基准"}
+    },
     "english": {
         "mmlu": {"path": "cais/mmlu", "subset": "all", "description": "多领域推理任务"},
         "hellaswag": {"path": "hellaswag", "subset": None, "description": "常识推理任务"},
@@ -170,10 +187,10 @@ H2O_MODEL_CONFIG = {
 CAKE_MODEL_CONFIG = {
     "default_allocation_strategy": "adaptive",
     "default_cache_budget": 0.8,
-    "supported_models_cake": ["llama", "mistral", "falcon", "gptneox", "phi"], # Models to be tested with CAKE
+    "supported_models_cake": ["llama", "mistral", "qwen2"], # 仅包含CAKE核心代码实际支持的模型
     "dynamic_allocation_default": True,
     "layer_analysis_default": {
-         "attention_pattern_analysis": True,
-         "layer_importance_scoring": True
+        "attention_pattern_analysis": True,
+        "layer_importance_scoring": True
     }
 } 

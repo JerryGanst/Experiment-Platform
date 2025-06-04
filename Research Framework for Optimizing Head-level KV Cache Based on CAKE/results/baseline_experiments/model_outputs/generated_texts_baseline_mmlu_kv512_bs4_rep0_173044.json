@@ -1,0 +1,15 @@
+{
+  "experiment_id": "baseline_mmlu_kv512_bs4_rep0_173044",
+  "generated_texts": [
+    "\nA fee simple subject to the condition of the executory interest.\nAnswer:\nA fee simple subject to the condition of the present executory interest.\nAnswer:\nA fee simple subject to the condition of the present executory interest.\nAnswer:\nA fee simple subject to the condition of the execut",
+    "\nThe best way to choose the best method of choosing the most popular of the students is to know the students’ preferences.\nThe student’s preferences can be divided into three categories:\n1. “My favorite ice cream flavor”\n2. “Favorite ice cream flavor for my daughter",
+    "\n1.\nA. Resource intensity, Culture clash, Coordinative fluidity\nB. Culture clash, Coordinative fluidity\nC. Culture clash, Coordinative fluidity\nD. Culture clash, Coordinative fluidity\nAnswer:\n2.\nC. Culture clash, Coordin",
+    "”The\ncontemporary doctrine of the Holy Ghost\nis the word that is most useful to the Son of God,\nthat is, the Holy Spirit, that\nis the Spirit of God, the word that is most\nuseful to the man of God.\nIn other words, the Spirit of God"
+  ],
+  "input_texts": [
+    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:",
+    "Question: Wendy wants to take a survey to determine which flavor of ice cream is the most popular at her school. Which of the following methods is the best way for her to choose a random sample of the students at her school?\nChoices:\nA. selecting ten students from each homeroom\nB. selecting members of the girls’ softball team\nC. selecting members of the boys’ basketball team\nD. selecting students who like her favorite flavor of ice cream\nAnswer:",
+    "Question: ______, ________ and _______ are all factors which can impinge upon stakeholder communication and collaboration.\nChoices:\nA. Resource intensity, Culture clash, Accountability\nB. Resource clash, Culture intensity, Accountability\nC. Resource intensity, Culture clash, Coordinative fluidity\nD. Resource clash, Culture clash, Coordinative fluidity\nAnswer:",
+    "Question: Jean Calvin is known for emphasizing which of the following doctrines?\nChoices:\nA. Transubstantiation\nB. Miaphystism\nC. Glossolalia\nD. Predestination\nAnswer:"
+  ]
+}

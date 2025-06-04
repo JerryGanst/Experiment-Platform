@@ -233,7 +233,7 @@ def is_model_type_supported_by_cake(model, cake_model_config: dict) -> bool:
     
     is_supported = model_type in supported_types
     if not is_supported:
-        logger.warning(f"模型类型 '{model_type}' 未在CAKE_MODEL_CONFIG中被列为支持。支持的类型: {', '.join(supported_types)}")
+        logger.warning(f"模型类型 '{model_type}' 未在CAKE_MODEL_CONFIG中被列为支持。支持的类型: {', '.join(supported_types)}。建议使用: NousResearch/Llama-2-7b-hf、mistralai/Mistral-7B-v0.1、Qwen/Qwen2-7B 等模型")
     else:
         logger.info(f"模型类型 '{model_type}' 被CAKE支持。")
     

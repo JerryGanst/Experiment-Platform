@@ -288,10 +288,20 @@ def llama_model_forward_cake(
         hidden_states = layer_outputs[0]
 
         if use_cache:
-            next_decoder_cache = layer_outputs[2 if output_attentions else 1]
-            past_key_values = layer_outputs[2 if output_attentions else 1]
+            # 安全地访问layer_outputs，防止索引越界
+            if len(layer_outputs) > 2:
+                next_decoder_cache = layer_outputs[2 if output_attentions else 1]
+                past_key_values = layer_outputs[2 if output_attentions else 1]
+            elif len(layer_outputs) > 1:
+                # 兼容性处理：如果只有2个元素，尝试使用第二个作为cache
+                next_decoder_cache = layer_outputs[1]
+                past_key_values = layer_outputs[1]
+            else:
+                # 如果layer_outputs长度不足，保持原来的past_key_values
+                next_decoder_cache = past_key_values
         if output_attentions:
-            all_self_attns += (layer_outputs[1],)
+            if len(layer_outputs) > 1:
+                all_self_attns += (layer_outputs[1],)
 
     hidden_states = self.norm(hidden_states)
 

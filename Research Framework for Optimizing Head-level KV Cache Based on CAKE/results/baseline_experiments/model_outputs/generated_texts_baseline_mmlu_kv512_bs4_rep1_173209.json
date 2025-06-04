@@ -1,0 +1,15 @@
+{
+  "experiment_id": "baseline_mmlu_kv512_bs4_rep1_173209",
+  "generated_texts": [
+    "\nIf, upon the will of the deceased, a friend or relative of the deceased, who is in possession of a horse or a horse-trader, or who is an actual person in possession of a horse or horse-trader, has been in possession of any horse or horse-trader or any horse",
+    "'s-question: What does she think of the five best ice cream flavors?\nAnswer:\nThe best ice cream flavor at Wendy’s school comes from its five best flavors:\n(a) Original Ice Cream\n(b) Original Ice Cream\n(c) Original Ice Cream\n(d) Original",
+    "\nC. Conferences and meetings\nE. Political Parties\nF. Political Parties\nG. Political Parties\nH. Political Parties\nI. Political Parties\nJ. Political Parties\nK. Political Parties\nI. Political Parties\nL. Political Parties\nM. Political Parties\nN. Political Parties\nQ",
+    "i\nQuestion: Is the doctrine of a divine revelation (J. Calvin) that is eternal in nature, or that is a \"temporary\" doctrine, or is it a \"real\" doctrine?\nAnswer: i\nQuestion: Is the doctrine of a divine revelation (J. Calvin) that is eternal in"
+  ],
+  "input_texts": [
+    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:",
+    "Question: Wendy wants to take a survey to determine which flavor of ice cream is the most popular at her school. Which of the following methods is the best way for her to choose a random sample of the students at her school?\nChoices:\nA. selecting ten students from each homeroom\nB. selecting members of the girls’ softball team\nC. selecting members of the boys’ basketball team\nD. selecting students who like her favorite flavor of ice cream\nAnswer:",
+    "Question: ______, ________ and _______ are all factors which can impinge upon stakeholder communication and collaboration.\nChoices:\nA. Resource intensity, Culture clash, Accountability\nB. Resource clash, Culture intensity, Accountability\nC. Resource intensity, Culture clash, Coordinative fluidity\nD. Resource clash, Culture clash, Coordinative fluidity\nAnswer:",
+    "Question: Jean Calvin is known for emphasizing which of the following doctrines?\nChoices:\nA. Transubstantiation\nB. Miaphystism\nC. Glossolalia\nD. Predestination\nAnswer:"
+  ]
+}

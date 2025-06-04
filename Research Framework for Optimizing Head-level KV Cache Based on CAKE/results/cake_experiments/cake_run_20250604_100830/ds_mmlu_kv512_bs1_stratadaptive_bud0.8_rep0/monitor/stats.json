@@ -1,0 +1,21 @@
+{
+  "experiment_id": "cake_mmlu_kv512_bs1_stratadaptive_bud0.8_rep0_20250604_100830",
+  "timestamp": "2025-06-04T10:09:54.060642",
+  "metrics": {
+    "gpu": {
+      "device_0": {
+        "peak_memory_mb": 10812.65771484375,
+        "average_memory_mb": 10593.68322619763,
+        "std_dev_memory_mb": 106.8946175929033,
+        "peak_reserved_mb": 11624.0,
+        "average_reserved_mb": 10989.10989010989,
+        "sample_count": 182,
+        "monitoring_duration_sec": 18.299023628234863
+      },
+      "total_devices": 1,
+      "timestamp": "2025-06-04T10:09:54.059917",
+      "total_peak_memory_mb": 10812.65771484375
+    },
+    "total_monitoring_time": 18.40129828453064
+  }
+}

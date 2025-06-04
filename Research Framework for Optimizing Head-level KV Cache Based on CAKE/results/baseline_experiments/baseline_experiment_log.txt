@@ -4,3 +4,885 @@
 2025-06-02 09:31:03,830 - __main__ - INFO - Total number of baseline experiment configurations to run: 1
 2025-06-02 09:31:03,831 - __main__ - ERROR - Dataset configuration for 'mmlu' not found. Skipping...
 2025-06-02 09:31:03,831 - __main__ - INFO - Baseline experiment suite finished.
+2025-06-02 17:21:29,889 - __main__ - INFO - Starting baseline experiment suite
+2025-06-02 17:21:29,889 - __main__ - INFO - Arguments: Namespace(model_name='facebook/opt-125m', datasets='mmlu', kv_cache_lengths='256', batch_sizes='1', max_new_tokens=32, repetitions=1, output_dir='results\\baseline_experiments', log_level='INFO', seed=42)
+2025-06-02 17:21:29,905 - __main__ - INFO - Random seed set to 42
+2025-06-02 17:21:29,906 - __main__ - INFO - Total number of baseline experiment configurations to run: 1
+2025-06-02 17:21:29,906 - __main__ - INFO - Running baseline: Rep 1/1, Dataset: mmlu, KV_Len: 256, Batch: 1
+2025-06-02 17:21:29,907 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs1_rep0_172129
+2025-06-02 17:21:29,907 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs1_rep0_172129
+2025-06-02 17:21:29,907 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:21:29,907 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:21:29,907 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:21:31,886 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:21:32,289 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:21:33,073 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:21:33,073 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:21:33,073 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:21:33,074 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:21:33,074 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:21:33,074 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:21:33,074 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:21:42,511 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:21:42,511 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:21:42,512 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:21:42,512 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:21:42,519 - __main__ - INFO - Warming up model...
+2025-06-02 17:21:42,934 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs1_rep0_172129
+2025-06-02 17:21:42,934 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:21:42,935 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:21:42,935 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:21:42,935 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:21:42,935 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:21:42,935 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:21:42,935 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:21:42,936 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:21:42,936 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:21:42,937 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:21:42,937 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:21:42,942 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:21:43,143 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.21s
+2025-06-02 17:21:43,143 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:21:43,143 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:21:43,239 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:21:43,239 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:21:43,240 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:21:43,241 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs1_rep0_172129.json
+2025-06-02 17:21:43,242 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:21:43,242 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:21:43,243 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs1_rep0_172129.json
+2025-06-02 17:21:43,244 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs1_rep0_172129 completed successfully
+2025-06-02 17:21:43,249 - __main__ - INFO - All baseline experiment summaries saved to results\baseline_experiments\all_baseline_experiments_summary.csv
+2025-06-02 17:21:43,249 - __main__ - INFO - Baseline experiment suite finished.
+2025-06-02 17:28:26,256 - __main__ - INFO - Starting baseline experiment suite
+2025-06-02 17:28:26,256 - __main__ - INFO - Arguments: Namespace(model_name='facebook/opt-125m', datasets='mmlu', kv_cache_lengths='256', batch_sizes='1', max_new_tokens=32, repetitions=1, output_dir='results\\baseline_experiments', log_level='DEBUG', seed=42)
+2025-06-02 17:28:26,283 - __main__ - INFO - Random seed set to 42
+2025-06-02 17:28:26,283 - __main__ - INFO - Total number of baseline experiment configurations to run: 1
+2025-06-02 17:28:26,284 - __main__ - INFO - Running baseline: Rep 1/1, Dataset: mmlu, KV_Len: 256, Batch: 1
+2025-06-02 17:28:26,285 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs1_rep0_172826
+2025-06-02 17:28:26,285 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs1_rep0_172826
+2025-06-02 17:28:26,285 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:28:26,286 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:28:26,286 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:28:26,288 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:26,631 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /facebook/opt-125m/resolve/main/config.json HTTP/1.1" 200 0
+2025-06-02 17:28:28,509 - tensorflow - DEBUG - Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
+2025-06-02 17:28:28,661 - h5py._conv - DEBUG - Creating converter from 7 to 5
+2025-06-02 17:28:28,661 - h5py._conv - DEBUG - Creating converter from 5 to 7
+2025-06-02 17:28:28,661 - h5py._conv - DEBUG - Creating converter from 7 to 5
+2025-06-02 17:28:28,662 - h5py._conv - DEBUG - Creating converter from 5 to 7
+2025-06-02 17:28:28,850 - jax._src.path - DEBUG - etils.epath found. Using etils.epath for file I/O.
+2025-06-02 17:28:29,353 - matplotlib - DEBUG - matplotlib data path: C:\Users\JerryGanst\anaconda3\envs\h2o-env\lib\site-packages\matplotlib\mpl-data
+2025-06-02 17:28:29,358 - matplotlib - DEBUG - CONFIGDIR=C:\Users\JerryGanst\.matplotlib
+2025-06-02 17:28:29,359 - matplotlib - DEBUG - interactive is False
+2025-06-02 17:28:29,359 - matplotlib - DEBUG - platform is win32
+2025-06-02 17:28:29,395 - matplotlib - DEBUG - CACHEDIR=C:\Users\JerryGanst\.matplotlib
+2025-06-02 17:28:29,396 - matplotlib.font_manager - DEBUG - Using fontManager instance from C:\Users\JerryGanst\.matplotlib\fontlist-v390.json
+2025-06-02 17:28:29,816 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /facebook/opt-125m/resolve/main/model.safetensors HTTP/1.1" 404 0
+2025-06-02 17:28:29,818 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:29,948 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:28:30,206 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/facebook/opt-125m HTTP/1.1" 200 4552
+2025-06-02 17:28:30,385 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /facebook/opt-125m/resolve/main/generation_config.json HTTP/1.1" 200 0
+2025-06-02 17:28:30,397 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:28:30,474 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/facebook/opt-125m/commits/main HTTP/1.1" 200 9934
+2025-06-02 17:28:30,646 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /facebook/opt-125m/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-06-02 17:28:30,734 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:28:30,735 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:28:30,735 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:28:30,735 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:28:30,736 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:28:30,736 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:28:30,736 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:28:30,858 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/facebook/opt-125m/discussions?p=0 HTTP/1.1" 200 33072
+2025-06-02 17:28:30,985 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /datasets/cais/mmlu/resolve/main/README.md HTTP/1.1" 200 0
+2025-06-02 17:28:31,151 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/models/facebook/opt-125m/commits/refs%2Fpr%2F49 HTTP/1.1" 200 10899
+2025-06-02 17:28:31,224 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/mmlu.py HTTP/1.1" 404 0
+2025-06-02 17:28:31,226 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): s3.amazonaws.com:443
+2025-06-02 17:28:31,404 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /facebook/opt-125m/resolve/refs%2Fpr%2F49/model.safetensors.index.json HTTP/1.1" 404 0
+2025-06-02 17:28:31,681 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /facebook/opt-125m/resolve/refs%2Fpr%2F49/model.safetensors HTTP/1.1" 302 0
+2025-06-02 17:28:31,921 - urllib3.connectionpool - DEBUG - https://s3.amazonaws.com:443 "HEAD /datasets.huggingface.co/datasets/datasets/cais/mmlu/cais/mmlu.py HTTP/1.1" 404 0
+2025-06-02 17:28:32,310 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:32,591 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/.huggingface.yaml HTTP/1.1" 404 0
+2025-06-02 17:28:32,598 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): datasets-server.huggingface.co:443
+2025-06-02 17:28:33,065 - urllib3.connectionpool - DEBUG - https://datasets-server.huggingface.co:443 "GET /info?dataset=cais/mmlu HTTP/1.1" 200 None
+2025-06-02 17:28:33,334 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:33,615 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/tree/c30699e8356da336a370243923dbaf21066bb9fe?recursive=False&expand=False HTTP/1.1" 200 6877
+2025-06-02 17:28:33,868 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 242
+2025-06-02 17:28:34,120 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/tree/c30699e8356da336a370243923dbaf21066bb9fe/abstract_algebra?recursive=False&expand=False HTTP/1.1" 200 732
+2025-06-02 17:28:34,123 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:34,503 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:35,060 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 242
+2025-06-02 17:28:35,066 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:35,487 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:35,761 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 242
+2025-06-02 17:28:35,766 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:36,156 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:36,459 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 217
+2025-06-02 17:28:36,703 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/tree/c30699e8356da336a370243923dbaf21066bb9fe/all?recursive=False&expand=False HTTP/1.1" 200 953
+2025-06-02 17:28:36,707 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:37,055 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:37,314 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 217
+2025-06-02 17:28:37,316 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:37,835 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:38,096 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 217
+2025-06-02 17:28:38,105 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:38,563 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:38,934 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "POST /api/datasets/cais/mmlu/paths-info/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 217
+2025-06-02 17:28:38,938 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-06-02 17:28:39,332 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "GET /api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe HTTP/1.1" 200 55874
+2025-06-02 17:28:39,346 - filelock - DEBUG - Attempting to acquire lock 2164797888192 on C:\Users\JerryGanst\.cache\huggingface\datasets\_Users_JerryGanst_.cache_huggingface_datasets_cais___mmlu_all_0.0.0_c30699e8356da336a370243923dbaf21066bb9fe.lock
+2025-06-02 17:28:39,347 - filelock - DEBUG - Lock 2164797888192 acquired on C:\Users\JerryGanst\.cache\huggingface\datasets\_Users_JerryGanst_.cache_huggingface_datasets_cais___mmlu_all_0.0.0_c30699e8356da336a370243923dbaf21066bb9fe.lock
+2025-06-02 17:28:39,348 - fsspec.local - DEBUG - open file: C:/Users/JerryGanst/.cache/huggingface/datasets/cais___mmlu/all/0.0.0/c30699e8356da336a370243923dbaf21066bb9fe/dataset_info.json
+2025-06-02 17:28:39,348 - filelock - DEBUG - Attempting to release lock 2164797888192 on C:\Users\JerryGanst\.cache\huggingface\datasets\_Users_JerryGanst_.cache_huggingface_datasets_cais___mmlu_all_0.0.0_c30699e8356da336a370243923dbaf21066bb9fe.lock
+2025-06-02 17:28:39,349 - filelock - DEBUG - Lock 2164797888192 released on C:\Users\JerryGanst\.cache\huggingface\datasets\_Users_JerryGanst_.cache_huggingface_datasets_cais___mmlu_all_0.0.0_c30699e8356da336a370243923dbaf21066bb9fe.lock
+2025-06-02 17:28:39,370 - filelock - DEBUG - Attempting to acquire lock 2165408676496 on C:\Users\JerryGanst\.cache\huggingface\datasets\cais___mmlu\all\0.0.0\c30699e8356da336a370243923dbaf21066bb9fe_builder.lock
+2025-06-02 17:28:39,371 - filelock - DEBUG - Lock 2165408676496 acquired on C:\Users\JerryGanst\.cache\huggingface\datasets\cais___mmlu\all\0.0.0\c30699e8356da336a370243923dbaf21066bb9fe_builder.lock
+2025-06-02 17:28:39,372 - fsspec.local - DEBUG - open file: C:/Users/JerryGanst/.cache/huggingface/datasets/cais___mmlu/all/0.0.0/c30699e8356da336a370243923dbaf21066bb9fe/dataset_info.json
+2025-06-02 17:28:39,372 - filelock - DEBUG - Attempting to release lock 2165408676496 on C:\Users\JerryGanst\.cache\huggingface\datasets\cais___mmlu\all\0.0.0\c30699e8356da336a370243923dbaf21066bb9fe_builder.lock
+2025-06-02 17:28:39,373 - filelock - DEBUG - Lock 2165408676496 released on C:\Users\JerryGanst\.cache\huggingface\datasets\cais___mmlu\all\0.0.0\c30699e8356da336a370243923dbaf21066bb9fe_builder.lock
+2025-06-02 17:28:39,376 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:28:39,378 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:28:39,379 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:28:39,379 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:28:39,383 - __main__ - INFO - Warming up model...
+2025-06-02 17:28:39,850 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs1_rep0_172826
+2025-06-02 17:28:39,851 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:28:39,851 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:28:39,851 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:28:39,851 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:28:39,851 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:28:39,852 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:28:39,852 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:28:39,852 - utils.gpu_monitor - DEBUG - 重置GPU 0 的峰值内存统计。
+2025-06-02 17:28:39,852 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:28:39,853 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:28:39,853 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:28:39,853 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:28:39,859 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:28:40,072 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.22s
+2025-06-02 17:28:40,073 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:28:40,073 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:28:40,079 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:28:40,079 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:28:40,079 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:28:40,080 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs1_rep0_172826.json
+2025-06-02 17:28:40,080 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:28:40,081 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:28:40,081 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs1_rep0_172826.json
+2025-06-02 17:28:40,082 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs1_rep0_172826 completed successfully
+2025-06-02 17:28:40,087 - __main__ - INFO - All baseline experiment summaries saved to results\baseline_experiments\all_baseline_experiments_summary.csv
+2025-06-02 17:28:40,088 - __main__ - INFO - Baseline experiment suite finished.
+2025-06-02 17:29:50,007 - __main__ - INFO - Starting baseline experiment suite
+2025-06-02 17:29:50,007 - __main__ - INFO - Arguments: Namespace(model_name='facebook/opt-125m', datasets='mmlu', kv_cache_lengths='256,512,1024', batch_sizes='1,2,4', max_new_tokens=64, repetitions=2, output_dir='results\\baseline_experiments', log_level='INFO', seed=42)
+2025-06-02 17:29:50,024 - __main__ - INFO - Random seed set to 42
+2025-06-02 17:29:50,024 - __main__ - INFO - Total number of baseline experiment configurations to run: 18
+2025-06-02 17:29:50,025 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 256, Batch: 1
+2025-06-02 17:29:50,025 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs1_rep0_172950
+2025-06-02 17:29:50,025 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs1_rep0_172950
+2025-06-02 17:29:50,025 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:29:50,025 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:29:50,025 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:29:52,553 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:29:52,958 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:29:53,531 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:29:53,532 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:29:53,532 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:29:53,532 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:29:53,532 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:29:53,532 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:29:53,532 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:30:02,908 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:30:02,908 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:30:02,909 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:30:02,909 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:30:02,912 - __main__ - INFO - Warming up model...
+2025-06-02 17:30:03,242 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs1_rep0_172950
+2025-06-02 17:30:03,243 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:30:03,243 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:30:03,243 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:30:03,243 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:30:03,243 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:30:03,243 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:30:03,243 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:30:03,244 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:30:03,244 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:30:03,244 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:30:03,244 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:30:03,250 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:30:03,541 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.30s
+2025-06-02 17:30:03,541 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:30:03,541 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:30:03,547 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:30:03,547 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:30:03,547 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:30:03,548 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs1_rep0_172950.json
+2025-06-02 17:30:03,548 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:03,548 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:03,549 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs1_rep0_172950.json
+2025-06-02 17:30:03,549 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs1_rep0_172950 completed successfully
+2025-06-02 17:30:03,552 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 256, Batch: 2
+2025-06-02 17:30:03,552 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs2_rep0_173003
+2025-06-02 17:30:03,552 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs2_rep0_173003
+2025-06-02 17:30:03,553 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:30:03,553 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:30:03,553 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:30:04,052 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:30:04,459 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:30:05,044 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:30:05,044 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:30:05,045 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:30:05,045 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:30:05,045 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:30:05,045 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:30:05,046 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:30:15,226 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:30:15,226 - data.dataset_loader - INFO - Preparing 4 samples from mmlu
+2025-06-02 17:30:15,227 - data.dataset_loader - INFO - Prepared 4 samples successfully
+2025-06-02 17:30:15,227 - __main__ - INFO - Preparing batch with size 2...
+2025-06-02 17:30:15,240 - __main__ - INFO - Warming up model...
+2025-06-02 17:30:15,541 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs2_rep0_173003
+2025-06-02 17:30:15,541 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:30:15,541 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:30:15,541 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:30:15,541 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:30:15,541 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:30:15,541 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:30:15,541 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:30:15,542 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:30:15,542 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:30:15,542 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:30:15,542 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:30:15,549 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:30:15,893 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.35s
+2025-06-02 17:30:15,893 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:30:15,893 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:30:15,946 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:30:15,946 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:30:15,946 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:30:15,948 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs2_rep0_173003.json
+2025-06-02 17:30:15,948 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:15,949 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:15,950 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs2_rep0_173003.json
+2025-06-02 17:30:15,951 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs2_rep0_173003 completed successfully
+2025-06-02 17:30:15,954 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 256, Batch: 4
+2025-06-02 17:30:15,955 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs4_rep0_173015
+2025-06-02 17:30:15,955 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs4_rep0_173015
+2025-06-02 17:30:15,955 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:30:15,955 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:30:15,955 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:30:16,447 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:30:16,848 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:30:17,393 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:30:17,393 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:30:17,393 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:30:17,394 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:30:17,394 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:30:17,394 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:30:17,394 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:30:25,898 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:30:25,898 - data.dataset_loader - INFO - Preparing 8 samples from mmlu
+2025-06-02 17:30:25,899 - data.dataset_loader - INFO - Prepared 8 samples successfully
+2025-06-02 17:30:25,899 - __main__ - INFO - Preparing batch with size 4...
+2025-06-02 17:30:25,901 - __main__ - INFO - Warming up model...
+2025-06-02 17:30:26,076 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs4_rep0_173015
+2025-06-02 17:30:26,076 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:30:26,077 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:30:26,077 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:30:26,077 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:30:26,077 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:30:26,077 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:30:26,077 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:30:26,078 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:30:26,078 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:30:26,078 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:30:26,078 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:30:26,084 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:30:26,395 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.32s
+2025-06-02 17:30:26,395 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:30:26,396 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:30:26,481 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:30:26,481 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:30:26,481 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:30:26,483 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs4_rep0_173015.json
+2025-06-02 17:30:26,483 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:26,484 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:26,484 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs4_rep0_173015.json
+2025-06-02 17:30:26,485 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs4_rep0_173015 completed successfully
+2025-06-02 17:30:26,489 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 512, Batch: 1
+2025-06-02 17:30:26,489 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv512_bs1_rep0_173026
+2025-06-02 17:30:26,489 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv512_bs1_rep0_173026
+2025-06-02 17:30:26,489 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:30:26,489 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:30:26,489 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:30:26,982 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:30:27,385 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:30:27,928 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:30:27,928 - models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-02 17:30:27,928 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:30:27,928 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 512
+2025-06-02 17:30:27,929 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:30:27,929 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:30:27,929 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:30:35,505 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:30:35,505 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:30:35,505 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:30:35,506 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:30:35,508 - __main__ - INFO - Warming up model...
+2025-06-02 17:30:35,757 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv512_bs1_rep0_173026
+2025-06-02 17:30:35,758 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:30:35,758 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:30:35,758 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:30:35,758 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:30:35,758 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:30:35,758 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:30:35,758 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:30:35,758 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:30:35,758 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:30:35,759 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:30:35,759 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:30:35,766 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:30:36,094 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.34s
+2025-06-02 17:30:36,094 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:30:36,094 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:30:36,163 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:30:36,163 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:30:36,164 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:30:36,165 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv512_bs1_rep0_173026.json
+2025-06-02 17:30:36,166 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:36,166 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:36,167 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv512_bs1_rep0_173026.json
+2025-06-02 17:30:36,167 - __main__ - INFO - Baseline experiment baseline_mmlu_kv512_bs1_rep0_173026 completed successfully
+2025-06-02 17:30:36,170 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 512, Batch: 2
+2025-06-02 17:30:36,171 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv512_bs2_rep0_173036
+2025-06-02 17:30:36,171 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv512_bs2_rep0_173036
+2025-06-02 17:30:36,171 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:30:36,171 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:30:36,171 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:30:36,666 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:30:37,068 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:30:37,631 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:30:37,632 - models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-02 17:30:37,632 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:30:37,632 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 512
+2025-06-02 17:30:37,633 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:30:37,634 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:30:37,634 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:30:44,452 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:30:44,452 - data.dataset_loader - INFO - Preparing 4 samples from mmlu
+2025-06-02 17:30:44,452 - data.dataset_loader - INFO - Prepared 4 samples successfully
+2025-06-02 17:30:44,452 - __main__ - INFO - Preparing batch with size 2...
+2025-06-02 17:30:44,454 - __main__ - INFO - Warming up model...
+2025-06-02 17:30:44,681 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv512_bs2_rep0_173036
+2025-06-02 17:30:44,682 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:30:44,682 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:30:44,682 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:30:44,682 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:30:44,682 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:30:44,682 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:30:44,682 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:30:44,682 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:30:44,682 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:30:44,683 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:30:44,683 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:30:44,688 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:30:44,961 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.28s
+2025-06-02 17:30:44,961 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:30:44,961 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:30:44,986 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:30:44,986 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:30:44,986 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:30:44,987 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv512_bs2_rep0_173036.json
+2025-06-02 17:30:44,987 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:44,987 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:44,988 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv512_bs2_rep0_173036.json
+2025-06-02 17:30:44,988 - __main__ - INFO - Baseline experiment baseline_mmlu_kv512_bs2_rep0_173036 completed successfully
+2025-06-02 17:30:44,990 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 512, Batch: 4
+2025-06-02 17:30:44,991 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv512_bs4_rep0_173044
+2025-06-02 17:30:44,991 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv512_bs4_rep0_173044
+2025-06-02 17:30:44,991 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:30:44,991 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:30:44,991 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:30:45,479 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:30:45,872 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:30:46,415 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:30:46,415 - models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-02 17:30:46,415 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:30:46,415 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 512
+2025-06-02 17:30:46,416 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:30:46,416 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:30:46,416 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:30:53,027 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:30:53,027 - data.dataset_loader - INFO - Preparing 8 samples from mmlu
+2025-06-02 17:30:53,028 - data.dataset_loader - INFO - Prepared 8 samples successfully
+2025-06-02 17:30:53,028 - __main__ - INFO - Preparing batch with size 4...
+2025-06-02 17:30:53,031 - __main__ - INFO - Warming up model...
+2025-06-02 17:30:53,426 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv512_bs4_rep0_173044
+2025-06-02 17:30:53,427 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:30:53,427 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:30:53,427 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:30:53,427 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:30:53,427 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:30:53,427 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:30:53,427 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:30:53,427 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:30:53,427 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:30:53,428 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:30:53,428 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:30:53,435 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:30:53,740 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.31s
+2025-06-02 17:30:53,740 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:30:53,740 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:30:53,831 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:30:53,831 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:30:53,831 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:30:53,832 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv512_bs4_rep0_173044.json
+2025-06-02 17:30:53,832 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:53,833 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:30:53,833 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv512_bs4_rep0_173044.json
+2025-06-02 17:30:53,834 - __main__ - INFO - Baseline experiment baseline_mmlu_kv512_bs4_rep0_173044 completed successfully
+2025-06-02 17:30:53,836 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 1024, Batch: 1
+2025-06-02 17:30:53,836 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv1024_bs1_rep0_173053
+2025-06-02 17:30:53,836 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv1024_bs1_rep0_173053
+2025-06-02 17:30:53,837 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:30:53,837 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:30:53,837 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:30:54,346 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:30:54,751 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:30:55,306 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:30:55,306 - models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-02 17:30:55,306 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:30:55,306 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 1024
+2025-06-02 17:30:55,306 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:30:55,306 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:30:55,306 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:02,923 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:02,923 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:31:02,924 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:31:02,924 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:31:02,926 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:03,285 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv1024_bs1_rep0_173053
+2025-06-02 17:31:03,285 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:03,285 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:03,285 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:03,285 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:03,285 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:03,285 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:03,285 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:03,286 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:03,286 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:03,286 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:03,286 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:03,292 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:31:03,682 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.40s
+2025-06-02 17:31:03,682 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:31:03,682 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:31:03,690 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:31:03,690 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:31:03,690 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:31:03,691 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv1024_bs1_rep0_173053.json
+2025-06-02 17:31:03,691 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:03,691 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:03,691 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv1024_bs1_rep0_173053.json
+2025-06-02 17:31:03,692 - __main__ - INFO - Baseline experiment baseline_mmlu_kv1024_bs1_rep0_173053 completed successfully
+2025-06-02 17:31:03,694 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 1024, Batch: 2
+2025-06-02 17:31:03,694 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv1024_bs2_rep0_173103
+2025-06-02 17:31:03,695 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv1024_bs2_rep0_173103
+2025-06-02 17:31:03,695 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:31:03,695 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:31:03,695 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:31:04,203 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:31:04,603 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:31:05,172 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:31:05,173 - models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-02 17:31:05,173 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:31:05,173 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 1024
+2025-06-02 17:31:05,173 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:31:05,174 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:31:05,174 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:12,592 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:12,592 - data.dataset_loader - INFO - Preparing 4 samples from mmlu
+2025-06-02 17:31:12,593 - data.dataset_loader - INFO - Prepared 4 samples successfully
+2025-06-02 17:31:12,593 - __main__ - INFO - Preparing batch with size 2...
+2025-06-02 17:31:12,596 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:12,725 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv1024_bs2_rep0_173103
+2025-06-02 17:31:12,725 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:12,725 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:12,726 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:12,726 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:12,726 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:12,726 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:12,726 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:12,726 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:12,726 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:12,727 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:12,727 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:12,732 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:31:13,030 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.30s
+2025-06-02 17:31:13,030 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:31:13,030 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:31:13,130 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:31:13,130 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:31:13,130 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:31:13,132 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv1024_bs2_rep0_173103.json
+2025-06-02 17:31:13,132 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:13,132 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:13,133 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv1024_bs2_rep0_173103.json
+2025-06-02 17:31:13,134 - __main__ - INFO - Baseline experiment baseline_mmlu_kv1024_bs2_rep0_173103 completed successfully
+2025-06-02 17:31:13,137 - __main__ - INFO - Running baseline: Rep 1/2, Dataset: mmlu, KV_Len: 1024, Batch: 4
+2025-06-02 17:31:13,137 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv1024_bs4_rep0_173113
+2025-06-02 17:31:13,137 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv1024_bs4_rep0_173113
+2025-06-02 17:31:13,137 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:31:13,137 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:31:13,137 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:31:13,672 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:31:14,098 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:31:14,889 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:31:14,890 - models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-02 17:31:14,890 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:31:14,890 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 1024
+2025-06-02 17:31:14,890 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:31:14,890 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:31:14,890 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:22,349 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:22,349 - data.dataset_loader - INFO - Preparing 8 samples from mmlu
+2025-06-02 17:31:22,350 - data.dataset_loader - INFO - Prepared 8 samples successfully
+2025-06-02 17:31:22,350 - __main__ - INFO - Preparing batch with size 4...
+2025-06-02 17:31:22,354 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:22,839 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv1024_bs4_rep0_173113
+2025-06-02 17:31:22,839 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:22,839 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:22,839 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:22,839 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:22,839 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:22,839 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:22,840 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:22,840 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:22,840 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:22,840 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:22,840 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:22,846 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:31:23,207 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.37s
+2025-06-02 17:31:23,208 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:31:23,208 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:31:23,244 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:31:23,244 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:31:23,244 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:31:23,245 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv1024_bs4_rep0_173113.json
+2025-06-02 17:31:23,245 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:23,245 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:23,255 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv1024_bs4_rep0_173113.json
+2025-06-02 17:31:23,257 - __main__ - INFO - Baseline experiment baseline_mmlu_kv1024_bs4_rep0_173113 completed successfully
+2025-06-02 17:31:23,260 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 256, Batch: 1
+2025-06-02 17:31:23,260 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs1_rep1_173123
+2025-06-02 17:31:23,260 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs1_rep1_173123
+2025-06-02 17:31:23,260 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:31:23,260 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:31:23,260 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:31:23,764 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:31:24,164 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:31:24,722 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:31:24,722 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:31:24,722 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:31:24,722 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:31:24,722 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:31:24,722 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:31:24,722 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:31,628 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:31,628 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:31:31,628 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:31:31,628 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:31:31,632 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:31,894 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs1_rep1_173123
+2025-06-02 17:31:31,895 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:31,895 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:31,895 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:31,895 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:31,895 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:31,895 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:31,895 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:31,896 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:31,896 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:31,896 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:31,896 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:31,902 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:31:32,268 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.37s
+2025-06-02 17:31:32,268 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:31:32,268 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:31:32,300 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:31:32,300 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:31:32,300 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:31:32,301 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs1_rep1_173123.json
+2025-06-02 17:31:32,301 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:32,301 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:32,302 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs1_rep1_173123.json
+2025-06-02 17:31:32,302 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs1_rep1_173123 completed successfully
+2025-06-02 17:31:32,304 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 256, Batch: 2
+2025-06-02 17:31:32,305 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs2_rep1_173132
+2025-06-02 17:31:32,305 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs2_rep1_173132
+2025-06-02 17:31:32,305 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:31:32,305 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:31:32,305 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:31:32,819 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:31:33,207 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:31:33,780 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:31:33,781 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:31:33,781 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:31:33,781 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:31:33,781 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:31:33,781 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:31:33,782 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:40,260 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:40,260 - data.dataset_loader - INFO - Preparing 4 samples from mmlu
+2025-06-02 17:31:40,260 - data.dataset_loader - INFO - Prepared 4 samples successfully
+2025-06-02 17:31:40,261 - __main__ - INFO - Preparing batch with size 2...
+2025-06-02 17:31:40,262 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:40,628 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs2_rep1_173132
+2025-06-02 17:31:40,628 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:40,628 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:40,628 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:40,628 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:40,628 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:40,628 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:40,628 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:40,629 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:40,629 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:40,629 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:40,629 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:40,636 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:31:41,047 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.42s
+2025-06-02 17:31:41,047 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:31:41,047 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:31:41,133 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:31:41,133 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:31:41,133 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:31:41,134 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs2_rep1_173132.json
+2025-06-02 17:31:41,135 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:41,135 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:41,136 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs2_rep1_173132.json
+2025-06-02 17:31:41,137 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs2_rep1_173132 completed successfully
+2025-06-02 17:31:41,143 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 256, Batch: 4
+2025-06-02 17:31:41,143 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv256_bs4_rep1_173141
+2025-06-02 17:31:41,143 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv256_bs4_rep1_173141
+2025-06-02 17:31:41,143 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:31:41,143 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:31:41,143 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:31:41,736 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:31:42,135 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:31:42,810 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:31:42,810 - models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-02 17:31:42,811 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:31:42,811 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 256
+2025-06-02 17:31:42,811 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:31:42,811 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:31:42,811 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:49,990 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:49,991 - data.dataset_loader - INFO - Preparing 8 samples from mmlu
+2025-06-02 17:31:49,992 - data.dataset_loader - INFO - Prepared 8 samples successfully
+2025-06-02 17:31:49,992 - __main__ - INFO - Preparing batch with size 4...
+2025-06-02 17:31:49,995 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:50,245 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv256_bs4_rep1_173141
+2025-06-02 17:31:50,245 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:50,245 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:50,245 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:50,245 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:50,245 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:50,245 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:50,245 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:50,246 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:50,246 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:50,246 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:50,246 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:50,251 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:31:50,553 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.31s
+2025-06-02 17:31:50,553 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:31:50,553 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:31:50,650 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:31:50,651 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:31:50,651 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:31:50,663 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv256_bs4_rep1_173141.json
+2025-06-02 17:31:50,664 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:50,664 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:31:50,666 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv256_bs4_rep1_173141.json
+2025-06-02 17:31:50,667 - __main__ - INFO - Baseline experiment baseline_mmlu_kv256_bs4_rep1_173141 completed successfully
+2025-06-02 17:31:50,672 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 512, Batch: 1
+2025-06-02 17:31:50,673 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv512_bs1_rep1_173150
+2025-06-02 17:31:50,673 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv512_bs1_rep1_173150
+2025-06-02 17:31:50,673 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:31:50,673 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:31:50,673 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:31:51,189 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:31:51,629 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:31:52,182 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:31:52,182 - models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-02 17:31:52,182 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:31:52,182 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 512
+2025-06-02 17:31:52,182 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:31:52,182 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:31:52,182 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:31:59,569 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:31:59,569 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:31:59,570 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:31:59,570 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:31:59,573 - __main__ - INFO - Warming up model...
+2025-06-02 17:31:59,737 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv512_bs1_rep1_173150
+2025-06-02 17:31:59,737 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:31:59,737 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:31:59,737 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:31:59,737 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:31:59,738 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:31:59,738 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:31:59,738 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:31:59,738 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:31:59,738 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:31:59,739 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:31:59,739 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:31:59,751 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:32:00,036 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.30s
+2025-06-02 17:32:00,036 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:32:00,036 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:32:00,042 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:32:00,042 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:32:00,042 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:32:00,042 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv512_bs1_rep1_173150.json
+2025-06-02 17:32:00,043 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:00,043 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:00,043 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv512_bs1_rep1_173150.json
+2025-06-02 17:32:00,044 - __main__ - INFO - Baseline experiment baseline_mmlu_kv512_bs1_rep1_173150 completed successfully
+2025-06-02 17:32:00,046 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 512, Batch: 2
+2025-06-02 17:32:00,046 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv512_bs2_rep1_173200
+2025-06-02 17:32:00,046 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv512_bs2_rep1_173200
+2025-06-02 17:32:00,046 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:32:00,047 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:32:00,047 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:32:00,581 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:32:00,982 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:32:01,547 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:32:01,547 - models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-02 17:32:01,547 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:32:01,548 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 512
+2025-06-02 17:32:01,548 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:32:01,548 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:32:01,548 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:32:08,865 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:32:08,865 - data.dataset_loader - INFO - Preparing 4 samples from mmlu
+2025-06-02 17:32:08,866 - data.dataset_loader - INFO - Prepared 4 samples successfully
+2025-06-02 17:32:08,866 - __main__ - INFO - Preparing batch with size 2...
+2025-06-02 17:32:08,870 - __main__ - INFO - Warming up model...
+2025-06-02 17:32:09,035 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv512_bs2_rep1_173200
+2025-06-02 17:32:09,035 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:32:09,035 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:32:09,035 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:32:09,035 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:32:09,035 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:32:09,035 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:32:09,035 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:32:09,036 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:32:09,036 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:32:09,036 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:32:09,036 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:32:09,043 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:32:09,321 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.29s
+2025-06-02 17:32:09,321 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:32:09,322 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:32:09,338 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:32:09,338 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:32:09,338 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:32:09,339 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv512_bs2_rep1_173200.json
+2025-06-02 17:32:09,339 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:09,339 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:09,340 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv512_bs2_rep1_173200.json
+2025-06-02 17:32:09,340 - __main__ - INFO - Baseline experiment baseline_mmlu_kv512_bs2_rep1_173200 completed successfully
+2025-06-02 17:32:09,343 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 512, Batch: 4
+2025-06-02 17:32:09,343 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv512_bs4_rep1_173209
+2025-06-02 17:32:09,343 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv512_bs4_rep1_173209
+2025-06-02 17:32:09,343 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:32:09,343 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:32:09,343 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:32:09,999 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:32:10,403 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:32:10,966 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:32:10,966 - models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-02 17:32:10,967 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:32:10,967 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 512
+2025-06-02 17:32:10,967 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:32:10,967 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:32:10,967 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:32:18,202 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:32:18,202 - data.dataset_loader - INFO - Preparing 8 samples from mmlu
+2025-06-02 17:32:18,203 - data.dataset_loader - INFO - Prepared 8 samples successfully
+2025-06-02 17:32:18,203 - __main__ - INFO - Preparing batch with size 4...
+2025-06-02 17:32:18,205 - __main__ - INFO - Warming up model...
+2025-06-02 17:32:18,412 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv512_bs4_rep1_173209
+2025-06-02 17:32:18,412 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:32:18,412 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:32:18,412 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:32:18,413 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:32:18,413 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:32:18,413 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:32:18,413 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:32:18,413 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:32:18,413 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:32:18,414 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:32:18,414 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:32:18,418 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:32:18,735 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.32s
+2025-06-02 17:32:18,735 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:32:18,735 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:32:18,817 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:32:18,817 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:32:18,817 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:32:18,819 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv512_bs4_rep1_173209.json
+2025-06-02 17:32:18,819 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:18,820 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:18,820 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv512_bs4_rep1_173209.json
+2025-06-02 17:32:18,822 - __main__ - INFO - Baseline experiment baseline_mmlu_kv512_bs4_rep1_173209 completed successfully
+2025-06-02 17:32:18,825 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 1024, Batch: 1
+2025-06-02 17:32:18,826 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv1024_bs1_rep1_173218
+2025-06-02 17:32:18,826 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv1024_bs1_rep1_173218
+2025-06-02 17:32:18,826 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:32:18,826 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:32:18,826 - models.model_loader - INFO - Loading model: facebook/opt-125m
+2025-06-02 17:32:19,320 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-02 17:32:19,709 - models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-02 17:32:20,441 - models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-02 17:32:20,442 - models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-02 17:32:20,442 - models.model_loader - INFO - Updated max_position_embeddings from 2048 to 2048
+2025-06-02 17:32:20,442 - models.model_loader - INFO - Model opt configured successfully for KV cache length: 1024
+2025-06-02 17:32:20,442 - models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-02 17:32:20,442 - __main__ - INFO - Loading dataset mmlu...
+2025-06-02 17:32:20,442 - data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: validation
+2025-06-02 17:32:27,697 - data.dataset_loader - INFO - Dataset loaded successfully with 1531 samples
+2025-06-02 17:32:27,697 - data.dataset_loader - INFO - Preparing 2 samples from mmlu
+2025-06-02 17:32:27,697 - data.dataset_loader - INFO - Prepared 2 samples successfully
+2025-06-02 17:32:27,697 - __main__ - INFO - Preparing batch with size 1...
+2025-06-02 17:32:27,699 - __main__ - INFO - Warming up model...
+2025-06-02 17:32:28,045 - utils.monitoring_manager - INFO - 初始化监控管理器，实验ID: baseline_mmlu_kv1024_bs1_rep1_173218
+2025-06-02 17:32:28,045 - utils.gpu_monitor - INFO - 使用PyTorch监控GPU，找到1个设备
+2025-06-02 17:32:28,045 - utils.gpu_monitor - INFO - GPU监控器初始化完成，监控间隔: 0.1秒
+2025-06-02 17:32:28,045 - utils.monitoring_manager - INFO - GPU监控器初始化成功，监控间隔: 0.1秒
+2025-06-02 17:32:28,045 - utils.monitoring_manager - WARNING - System monitoring is temporarily disabled or psutil is not available.
+2025-06-02 17:32:28,045 - utils.monitoring_manager - INFO - 启动所有监控组件
+2025-06-02 17:32:28,045 - utils.gpu_monitor - INFO - 启动GPU监控
+2025-06-02 17:32:28,046 - utils.gpu_monitor - INFO - 已重置GPU统计信息
+2025-06-02 17:32:28,046 - utils.gpu_monitor - INFO - GPU监控循环已启动
+2025-06-02 17:32:28,046 - utils.monitoring_manager - INFO - gpu监控器启动成功
+2025-06-02 17:32:28,047 - __main__ - INFO - Starting performance measurement...
+2025-06-02 17:32:28,047 - metrics.metrics_collector - INFO - Started generation timing
+2025-06-02 17:32:28,055 - metrics.metrics_collector - INFO - Recorded first token generation
+2025-06-02 17:32:28,461 - metrics.metrics_collector - INFO - Ended generation timing. Total time: 0.41s
+2025-06-02 17:32:28,461 - utils.monitoring_manager - INFO - 停止所有监控组件
+2025-06-02 17:32:28,461 - utils.gpu_monitor - INFO - 停止GPU监控
+2025-06-02 17:32:28,551 - utils.gpu_monitor - INFO - GPU监控线程已加入
+2025-06-02 17:32:28,551 - utils.monitoring_manager - INFO - gpu监控器停止成功，收集指标完成
+2025-06-02 17:32:28,551 - metrics.metrics_collector - INFO - Recorded GPU statistics
+2025-06-02 17:32:28,552 - utils.monitoring_manager - INFO - 监控指标已保存到 results\baseline_experiments\monitoring\monitoring_baseline_mmlu_kv1024_bs1_rep1_173218.json
+2025-06-02 17:32:28,552 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:28,552 - metrics.metrics_collector - INFO - Computed performance metrics
+2025-06-02 17:32:28,552 - metrics.metrics_collector - INFO - Saved metrics to results\baseline_experiments\metrics_baseline_mmlu_kv1024_bs1_rep1_173218.json
+2025-06-02 17:32:28,553 - __main__ - INFO - Baseline experiment baseline_mmlu_kv1024_bs1_rep1_173218 completed successfully
+2025-06-02 17:32:28,555 - __main__ - INFO - Running baseline: Rep 2/2, Dataset: mmlu, KV_Len: 1024, Batch: 2
+2025-06-02 17:32:28,556 - __main__ - INFO - Starting baseline experiment: baseline_mmlu_kv1024_bs2_rep1_173228
+2025-06-02 17:32:28,556 - metrics.metrics_collector - INFO - Performance metrics collector initialized with ID: baseline_mmlu_kv1024_bs2_rep1_173228
+2025-06-02 17:32:28,556 - metrics.metrics_collector - INFO - Recorded experiment config
+2025-06-02 17:32:28,556 - __main__ - INFO - Loading model and tokenizer...
+2025-06-02 17:32:28,556 - models.model_loader - INFO - Loading model: facebook/opt-125m

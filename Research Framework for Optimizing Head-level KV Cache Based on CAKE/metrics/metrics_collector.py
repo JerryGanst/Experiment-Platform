@@ -100,6 +100,24 @@ class PerformanceMetricsCollector:
         self.error_message = error_message
         logger.error(f"Experiment marked as failed: {error_message}")
     
+    def record_error(self, error_message):
+        """
+        记录错误信息
+        
+        Args:
+            error_message: 错误信息
+        """
+        self.mark_failure(error_message)
+    
+    def finalize_metrics_on_error(self):
+        """
+        当实验失败时完成指标收集
+        
+        Returns:
+            metrics: 包含错误信息的指标字典
+        """
+        return self.compute_metrics()
+    
     def compute_metrics(self):
         """
         计算性能指标
@@ -207,4 +225,32 @@ class PerformanceMetricsCollector:
             json.dump(metrics, f, indent=2)
         
         logger.info(f"Saved metrics to {filepath}")
-        return filepath 
+        return filepath
+    
+    def compute_and_save_metrics(self, output_dir="./results", filename_prefix="metrics"):
+        """
+        计算并保存性能指标到文件
+        
+        Args:
+            output_dir: 输出目录
+            filename_prefix: 文件名前缀
+            
+        Returns:
+            metrics: 计算得到的性能指标字典
+        """
+        metrics = self.compute_metrics()
+        if not metrics:
+            logger.warning("No metrics to compute and save")
+            return None
+        
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        filename = f"{filename_prefix}_{self.experiment_id}.json"
+        filepath = os.path.join(output_dir, filename)
+        
+        with open(filepath, 'w') as f:
+            json.dump(metrics, f, indent=2)
+        
+        logger.info(f"Computed and saved metrics to {filepath}")
+        return metrics 
