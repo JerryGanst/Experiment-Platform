@@ -6,6 +6,8 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Optional, Tuple, Union
 
+from baselines.base_method import BaseKVCacheMethod
+
 import torch
 from torch import nn
 import torch.utils.checkpoint
@@ -18,7 +20,7 @@ from transformers.models.opt.modeling_opt import OPTAttention
 
 __all__ = ['convert_kvcache_opt_heavy_recent', 'OPTAttention_heavy_hitter']
 
-class HeavyRecentCacheLayer:
+class HeavyRecentCacheLayer(BaseKVCacheMethod):
     def __init__(self, config):
         self.config = config
         self.heavy_ratio = config.heavy_ratio
@@ -30,13 +32,16 @@ class HeavyRecentCacheLayer:
         self.recent_budget = None
         self.cache_budget = None
 
-    def init_cache(self):
+    def initialize_cache(self):
         self.cache = None
         self.attention_masks = None
         self.previous_scores = None
         self.heavy_budget = None
         self.recent_budget = None
         self.cache_budget = None
+
+    # Backwards compatibility
+    init_cache = initialize_cache
 
     def update_cache(self, key_states, value_states):
         if self.cache is None:
@@ -64,6 +69,14 @@ class HeavyRecentCacheLayer:
 
     def get_cache(self):
         return self.cache
+
+    def get_method_specific_metrics(self) -> dict:
+        """Return metrics specific to the heavy recent cache algorithm."""
+        return {
+            "heavy_budget": self.heavy_budget,
+            "recent_budget": self.recent_budget,
+            "cache_size": self.cache[0].shape[2] if self.cache is not None else 0,
+        }
 
 class OPTAttention_heavy_hitter(nn.Module):
     """Multi-headed attention from 'Attention Is All You Need' paper"""
@@ -153,7 +166,7 @@ def convert_kvcache_opt_heavy_recent(model, config):
     
     def init_cache():
         for layer in layers_cache:
-            layer.init_cache()
+            layer.initialize_cache()
     
     # 将init_cache方法附加到模型实例
     model.init_cache = init_cache
