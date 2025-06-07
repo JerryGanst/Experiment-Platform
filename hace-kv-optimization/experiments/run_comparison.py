@@ -23,7 +23,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from hace_core import config as global_config
-from analysis.analysis.statistics_analyzer import StatisticsAnalyzer
+from analysis.statistical_tests import StatisticsAnalyzer
 
 # 日志设置
 logger = logging.getLogger(__name__)
