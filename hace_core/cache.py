@@ -20,9 +20,15 @@ class HACECache(BaseKVCacheMethod):
         self.cache_state: Dict[str, Any] | None = None
 
     def initialize_cache(self, model_config: Dict[str, Any] | None = None) -> None:
-        """Initialize cache data structures.
+        """Initialize cache data structures for HACE.
 
-        TODO: implement real initialization logic using ``model_config``.
+        Parameters
+        ----------
+        model_config:
+            Optional dictionary describing the model.  The current
+            implementation only uses this to determine how many layers and
+            heads may be present, but the field is kept generic for future
+            extension.
         """
         self.cache_state = {}
 
@@ -36,12 +42,21 @@ class HACECache(BaseKVCacheMethod):
     ) -> None:
         """Update cache contents for a single attention head.
 
-        This placeholder simply stores the latest key/value pair.
-        TODO: implement HACE eviction and compression policy.
+        Tokens whose importance score is below ``head_importance_threshold`` are
+        ignored.  For the remaining tokens, only the most recent
+        ``adaptive_window_size`` entries are retained.
         """
         if self.cache_state is None:
             self.initialize_cache()
-        self.cache_state[(layer_idx, head_idx)] = (key, value, importance)
+
+        if importance is not None and importance < self.head_importance_threshold:
+            return
+
+        key_value_list = self.cache_state.setdefault((layer_idx, head_idx), [])
+        key_value_list.append((key, value, importance))
+        if len(key_value_list) > self.adaptive_window_size:
+            # Keep only the newest entries
+            self.cache_state[(layer_idx, head_idx)] = key_value_list[-self.adaptive_window_size:]
 
     def get_method_specific_metrics(self) -> Dict[str, Any]:
         """Return HACE-specific metrics.
@@ -50,5 +65,7 @@ class HACECache(BaseKVCacheMethod):
         TODO: expose more detailed metrics such as eviction counts.
         """
         if self.cache_state is None:
-            return {"cache_entries": 0}
-        return {"cache_entries": len(self.cache_state)}
+            return {"cache_entries": 0, "cached_tokens": 0}
+
+        total_tokens = sum(len(v) for v in self.cache_state.values())
+        return {"cache_entries": len(self.cache_state), "cached_tokens": total_tokens}
