@@ -1,9 +1,0 @@
-{
-  "experiment_id": "baseline_mmlu_kv512_bs1_rep1_173150",
-  "generated_texts": [
-    "\nThe estate of a horse who is living and owning a horse is the subject of the will of a widow or an heir of a horse who is not. The will also gives priority to the horse's interests.\nIf the horse dies, the widow or heir of a horse who lives and owns a horse is entitled"
-  ],
-  "input_texts": [
-    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:"
-  ]
-}

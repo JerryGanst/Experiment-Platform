@@ -1,2 +1,0 @@
-experiment_id,success,error_message,timestamp
-cake_mmlu_kv512_bs1_stratadaptive_bud0.8_rep0_20250604_095952,False,PerformanceMetricsCollector.end_generation() got an unexpected keyword argument 'generated_ids',2025-06-04T10:01:20.493165
