@@ -1,2 +1,13 @@
 # Ignore results directories
 Research Framework for Optimizing Head-level KV Cache Based on CAKE/results/
+
+# Python virtual environments
+venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Experiment results
+results/
+
