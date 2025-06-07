@@ -1,0 +1,8 @@
+model_name_or_path: facebook/opt-1.3b
+precision: fp16
+datasets:
+  - mmlu
+kv_cache_lengths: [512, 1024]
+batch_sizes: [1, 4]
+max_new_tokens: 256
+repetitions: 3
