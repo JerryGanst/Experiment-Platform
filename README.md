@@ -167,3 +167,14 @@ for model in ["llama2-7b", "mistral-7b"]:
                 method="HACE",
                 tasks=["narrativeqa", "qasper", "multifieldqa"]
             )
+```
+
+## Running Experiments
+
+Use the Python script `run_experiment.py` located in the
+`Research Framework for Optimizing Head-level KV Cache Based on CAKE` directory
+to launch experiments. The script is platform independent and replaces the old
+`run_experiment.ps1` helper.
+
+```bash
+python -m "Research Framework for Optimizing Head-level KV Cache Based on CAKE".run_experiment --help
