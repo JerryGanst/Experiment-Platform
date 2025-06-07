@@ -1,2 +1,0 @@
-experiment_id,success,error_message,timestamp
-cake_mmlu_kv512_bs1_stratadaptive_bud0.8_rep0_20250604_095441,False,prepare_batch() got an unexpected keyword argument 'prompt_template_key',2025-06-04T09:55:41.494808

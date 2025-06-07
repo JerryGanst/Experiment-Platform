@@ -1,2 +1,0 @@
-experiment_id,success,ttft_ms,tpot_ms,throughput_tokens_per_sec,total_time_sec,tokens_generated,peak_gpu_memory_mb,model_name,precision,batch_size,kv_cache_length,max_new_tokens,use_h2o,timestamp
-baseline_mmlu_kv256_bs1_rep0_172826,True,6.000041961669922,6.870954267440304,146.1189721637666,0.21899962425231934,32,281.33056640625,facebook/opt-125m,fp16,1,256,32,False,2025-06-02T17:28:40.080637
