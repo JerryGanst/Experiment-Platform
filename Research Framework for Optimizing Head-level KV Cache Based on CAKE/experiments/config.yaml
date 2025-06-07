@@ -1,0 +1,17 @@
+model_name_or_path: facebook/opt-1.3b
+precision: fp16
+datasets:
+  - mmlu
+kv_cache_lengths:
+  - 512
+cache_budgets:
+  - 0.5
+  - 0.7
+batch_size: 1
+max_new_tokens: 16
+output_dir: results/raw
+methods:
+  baseline: true
+  hace:
+    enabled: true
+    allocation_strategy: adaptive
