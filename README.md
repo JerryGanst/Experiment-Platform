@@ -178,3 +178,15 @@ to launch experiments. The script is platform independent and replaces the old
 
 ```bash
 python -m "Research Framework for Optimizing Head-level KV Cache Based on CAKE".run_experiment --help
+```
+
+## Quick Start
+
+1. Edit `Research Framework for Optimizing Head-level KV Cache Based on CAKE/experiments/config.yaml` to configure your model, datasets and HACE options.
+2. Launch an experiment with `main.py`:
+
+```bash
+python main.py hace --run_name my_test
+```
+
+The results CSV will be generated under `results/` as `all_experiments.csv`.
