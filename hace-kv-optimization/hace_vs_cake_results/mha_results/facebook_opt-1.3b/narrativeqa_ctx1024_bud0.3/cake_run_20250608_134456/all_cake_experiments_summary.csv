@@ -1,0 +1,2 @@
+experiment_id,timestamp,performance,gpu,system,monitoring_duration
+cake_narrativeqa_kv1024_bs1_stratadaptive_bud0.3_rep0_20250608_134456,2025-06-08T13:45:00.253094,"{'success': False, 'error_message': '模型 facebook/opt-1.3b 类型不支持CAKE优化 (根据CAKE_MODEL_CONFIG)'}","{'total_devices': 1, 'total_peak_memory_mb': 0}",{'message': 'No system data collected'},0

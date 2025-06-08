@@ -1,0 +1,2 @@
+experiment_id,timestamp,performance,gpu,system,monitoring_duration
+cake_single_needle_kv1024_bs1_stratadaptive_bud0.5_rep0_20250608_145424,2025-06-08T14:54:30.158484,"{'success': False, 'error_message': ""Dataset 'custom/needlebench' doesn't exist on the Hub or cannot be accessed.""}","{'total_devices': 1, 'total_peak_memory_mb': 0}",{'message': 'No system data collected'},0

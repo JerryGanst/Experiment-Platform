@@ -1,0 +1,2 @@
+experiment_id,timestamp,performance,gpu,system,monitoring_duration
+cake_narrativeqa_kv2048_bs1_stratadaptive_bud1.0_rep0_20250608_132550,2025-06-08T13:26:04.766862,"{'success': False, 'error_message': ""BuilderConfig 'narrativeqa' not found. Available: ['default']""}","{'total_devices': 1, 'total_peak_memory_mb': 0}",{'message': 'No system data collected'},0

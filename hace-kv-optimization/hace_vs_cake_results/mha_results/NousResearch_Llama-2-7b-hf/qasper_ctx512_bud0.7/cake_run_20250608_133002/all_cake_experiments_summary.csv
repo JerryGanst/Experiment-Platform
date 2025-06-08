@@ -1,0 +1,2 @@
+experiment_id,timestamp,performance,gpu,system,monitoring_duration
+cake_qasper_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_133002,2025-06-08T13:30:17.356783,"{'success': False, 'error_message': ""BuilderConfig 'qasper' not found. Available: ['default']""}","{'total_devices': 1, 'total_peak_memory_mb': 0}",{'message': 'No system data collected'},0
