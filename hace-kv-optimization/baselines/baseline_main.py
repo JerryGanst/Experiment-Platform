@@ -1,5 +1,4 @@
-# This is the new file content for baseline_main.py
-# It is identical to the original main.py 
+# 基线实验主脚本 
 
 import sys
 import os
@@ -45,8 +44,7 @@ from hace_core.models.model_loader import (
     prepare_model_for_baseline
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
-from hace_core.metrics.metrics_collector import PerformanceMetricsCollector
-from hace_core.utils.monitoring_manager import MonitoringManager
+from hace_core.utils.unified_monitor import UnifiedMonitor
 
 
 # 设置日志
@@ -109,9 +107,9 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
     experiment_id = f"baseline_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{repeat_index}_{datetime.now().strftime('%H%M%S')}"
     logger.info(f"Starting baseline experiment: {experiment_id}")
 
-    # 初始化性能指标收集器
-    metrics_collector = PerformanceMetricsCollector(experiment_id)
-    metrics_collector.record_config({
+    # 初始化统一监控器
+    monitor = UnifiedMonitor(experiment_id=experiment_id)
+    monitor.record_config({
         "model_name": model_config["model_name_or_path"],
         "precision": model_config["precision"],
         "batch_size": batch_size,
@@ -121,6 +119,7 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
         "dataset": dataset_name
     })
 
+    model = None  # 初始化model变量
     try:
         # 加载模型和分词器
         logger.info("Loading model and tokenizer...")
@@ -171,30 +170,29 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
         # 清理GPU缓存
         torch.cuda.empty_cache()
 
-        # 初始化监控管理器并启动监控
-        monitoring_manager = MonitoringManager(experiment_id=experiment_id)
-        monitoring_manager.start_monitoring()
+        # 启动统一监控
+        monitor.start_monitoring()
 
         # 开始性能测量
         logger.info("Starting performance measurement...")
-        metrics_collector.start_generation()
+        monitor.start_generation()
 
         # 定义自定义 LogitsProcessor 来记录令牌生成时间
         class TokenTimeLogitsProcessor(LogitsProcessor):
-            def __init__(self, collector):
-                self.collector = collector
+            def __init__(self, monitor):
+                self.monitor = monitor
                 self.first_token_recorded = False
 
             def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
                 if not self.first_token_recorded:
-                    self.collector.record_first_token()
+                    self.monitor.record_first_token()
                     self.first_token_recorded = True
                 else:
-                    self.collector.record_token()
+                    self.monitor.record_token()
                 return scores
 
         # 创建 LogitsProcessor 实例
-        token_time_processor = TokenTimeLogitsProcessor(metrics_collector)
+        token_time_processor = TokenTimeLogitsProcessor(monitor)
         logits_processor_list = LogitsProcessorList([token_time_processor])
 
         # 生成文本
@@ -210,23 +208,10 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             )
 
         # 结束性能测量
-        metrics_collector.end_generation()
+        monitor.end_generation()
 
         # 停止监控并收集指标
-        monitoring_manager.stop_monitoring()
-        monitoring_metrics = monitoring_manager.get_metrics()
-
-        # 记录GPU指标
-        if "gpu" in monitoring_metrics["metrics"]:
-            metrics_collector.record_gpu_stats(monitoring_metrics["metrics"]["gpu"])
-
-        # 保存监控数据（可选）
-        monitoring_dir = os.path.join(output_dir, "monitoring")
-        os.makedirs(monitoring_dir, exist_ok=True)
-        monitoring_manager.save_metrics(
-            output_dir=monitoring_dir,
-            filename=f"monitoring_{experiment_id}.json"
-        )
+        monitor.stop_monitoring()
 
         # 解码输出（可选，用于质量评估）
         generated_texts = tokenizer.batch_decode(
@@ -235,8 +220,8 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
         )
 
         # 计算和保存指标
-        metrics = metrics_collector.compute_metrics()
-        metrics_filepath = metrics_collector.save_metrics(output_dir)
+        metrics = monitor.get_comprehensive_metrics()
+        metrics_filepath = monitor.save_metrics(output_dir)
 
         # 保存生成的文本（可选）
         if OUTPUT_CONFIG.get("save_model_outputs", False):
@@ -255,8 +240,8 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
 
     except Exception as e:
         logger.error(f"Error during baseline experiment {experiment_id}: {e}")
-        metrics_collector.record_error(str(e))
-        return metrics_collector.compute_metrics()
+        monitor.mark_failure(str(e))
+        return monitor.get_comprehensive_metrics()
 
 
 def main():

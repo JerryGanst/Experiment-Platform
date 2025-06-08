@@ -63,74 +63,29 @@ def load_and_validate_csv(csv_path: str, method_name: str) -> pd.DataFrame | Non
         return None
 
 def generate_comparison_plots(combined_df: pd.DataFrame, metrics_config: list, vis_dir: str, plot_prefix: str):
-    """生成对比图表。"""
-    os.makedirs(vis_dir, exist_ok=True)
+    """生成对比图表（使用analysis.plotter模块）"""
+    from analysis import plotter
+    
+    # 分离不同方法的数据
+    baseline_df = combined_df[combined_df["method_type"].str.contains("Baseline|基线", case=False, na=False)]
+    h2o_df = combined_df[combined_df["method_type"].str.contains("H2O", case=False, na=False)] if "H2O" in combined_df["method_type"].values else None
+    cake_df = combined_df[combined_df["method_type"].str.contains("CAKE", case=False, na=False)] if "CAKE" in combined_df["method_type"].values else None
+    
     plots_paths = {}
     
-    comparison_dimensions = ["kv_cache_length", "batch_size"]
-    if "heavy_ratio" in combined_df.columns: # H2O特定维度
-        comparison_dimensions.append("heavy_ratio")
-    if "allocation_strategy" in combined_df.columns: # CAKE特定维度
-        comparison_dimensions.append("allocation_strategy")
-
-    for metric_info in metrics_config:
-        metric_name = metric_info["name"]
-        metric_title = metric_info["title"]
-        if metric_name not in combined_df.columns:
-            logger.warning(f"指标 '{metric_name}' 不在合并的数据中，跳过绘图。")
-            continue
-
-        for dim in comparison_dimensions:
-            if dim not in combined_df.columns:
-                logger.warning(f"维度 '{dim}' 不在合并的数据中，跳过 {metric_name} vs {dim} 的绘图。")
-                continue
-            
-            # 确保绘图时x轴有多个唯一值
-            if combined_df[dim].nunique() < 2 and not (dim == "allocation_strategy" and combined_df[dim].nunique() ==1) :
-                logger.info(f"维度 '{dim}' 的唯一值少于2个 ({combined_df[dim].unique()})，不适合为 '{metric_name}' 生成线图/箱线图。")
-                # 如果只有一个点，可以考虑bar plot
-                if combined_df[dim].nunique() == 1 and combined_df["method_type"].nunique() > 1:
-                     try:
-                        plt.figure(figsize=(10, 6))
-                        sns.barplot(data=combined_df[combined_df[dim] == combined_df[dim].unique()[0]], x="method_type", y=metric_name, hue="method_type", dodge=False)
-                        plt.title(f"{metric_title} at {dim} = {combined_df[dim].unique()[0]}")
-                        plt.ylabel(metric_title)
-                        plt.xlabel("Method Type")
-                        plt.tight_layout()
-                        plot_filename = os.path.join(vis_dir, f"{plot_prefix}_bar_{dim}_{metric_name}.png")
-                        plt.savefig(plot_filename)
-                        plt.close()
-                        plots_paths[f"{metric_name}_vs_{dim}_bar"] = plot_filename
-                        logger.info(f"单一维度值条形图已保存: {plot_filename}")
-                     except Exception as e:
-                        logger.error(f"为 {metric_name} vs {dim} (单一值) 生成条形图失败: {e}", exc_info=True)
-                continue
-            
-            plt.figure(figsize=(12, 7))
-            try:
-                if pd.api.types.is_numeric_dtype(combined_df[dim]):
-                    # 对于数值型维度，使用线图
-                    sns.lineplot(data=combined_df, x=dim, y=metric_name, hue="method_type", style="method_type", markers=True, dashes=False)
-                else:
-                    # 对于类别型维度 (如 allocation_strategy)，使用箱线图
-                    # 按类别排序以获得一致的图表顺序
-                    ordered_categories = sorted(combined_df[dim].astype(str).unique())
-                    sns.boxplot(data=combined_df, x=dim, y=metric_name, hue="method_type", order=ordered_categories, notch=False)
-                    plt.xticks(rotation=45, ha="right")
-                
-                plt.title(f"{metric_title} vs {dim}")
-                plt.xlabel(str(dim).replace("_", " ").title())
-                plt.ylabel(metric_title)
-                if "memory" in metric_name.lower(): plt.ylim(bottom=0)
-                plt.legend(title="Method Type")
-                plt.tight_layout()
-                plot_filename = os.path.join(vis_dir, f"{plot_prefix}_{dim}_{metric_name}.png")
-                plt.savefig(plot_filename)
-                plt.close()
-                plots_paths[f"{metric_name}_vs_{dim}"] = plot_filename
-                logger.info(f"对比图已保存: {plot_filename}")
-            except Exception as e:
-                logger.error(f"为 {metric_name} vs {dim} 生成图表失败: {e}", exc_info=True)
+    # 使用统一的绘图模块
+    if h2o_df is not None and len(h2o_df) > 0:
+        memory_plots = plotter.create_memory_comparison_plots(baseline_df, h2o_df, vis_dir)
+        latency_plots = plotter.create_latency_plots(baseline_df, h2o_df, vis_dir)
+        tradeoff_plots = plotter.create_tradeoff_plot(baseline_df, h2o_df, vis_dir)
+        plots_paths.update({f"h2o_{i}": path for i, path in enumerate(memory_plots + latency_plots + [tradeoff_plots])})
+    
+    if cake_df is not None and len(cake_df) > 0:
+        memory_plots = plotter.create_memory_comparison_plots(baseline_df, cake_df, vis_dir)
+        latency_plots = plotter.create_latency_plots(baseline_df, cake_df, vis_dir)
+        tradeoff_plots = plotter.create_tradeoff_plot(baseline_df, cake_df, vis_dir)
+        plots_paths.update({f"cake_{i}": path for i, path in enumerate(memory_plots + latency_plots + [tradeoff_plots])})
+    
     return plots_paths
 
 def generate_summary_tables(combined_df: pd.DataFrame, metrics_config: list) -> dict:

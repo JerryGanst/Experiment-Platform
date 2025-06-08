@@ -1,7 +1,7 @@
 import sys
 import os
 
-# 获取当前文件 (e.g., .../h2o_hf/h2o_experiment/cake_main.py) 的绝对路径
+# 获取当前文件的绝对路径
 current_file_path = os.path.abspath(__file__)
 # 获取 hace-kv-optimization 目录的路径
 pkg_dir = os.path.dirname(current_file_path)
@@ -44,8 +44,7 @@ from hace_core.models.model_loader import (
     is_model_type_supported_by_cake # 主要变化
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
-from hace_core.metrics.metrics_collector import PerformanceMetricsCollector
-from hace_core.utils.monitoring_manager import MonitoringManager
+from hace_core.utils.unified_monitor import UnifiedMonitor
 
 
 # 设置日志 (与h2o_main.py相同)
@@ -119,9 +118,9 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
 
     logger.info(f"Starting CAKE experiment: {experiment_id}")
 
-    # 初始化性能指标收集器
-    metrics_collector = PerformanceMetricsCollector(experiment_id)
-    metrics_collector.record_config({
+    # 初始化统一监控器
+    monitor = UnifiedMonitor(experiment_id=experiment_id)
+    monitor.record_config({
         "model_name": experiment_main_config["model_name_or_path"],
         "precision": experiment_main_config["precision"],
         "batch_size": batch_size,
@@ -135,6 +134,7 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         "trial_params": trial_params if trial_params else {}
     })
 
+    model = None  # 初始化model变量
     try:
         # 加载模型和分词器
         current_model_config = {
@@ -148,8 +148,8 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         if not is_model_type_supported_by_cake(model, CAKE_MODEL_CONFIG):
             error_msg = f"模型 {current_model_config['model_name_or_path']} 类型不支持CAKE优化 (根据CAKE_MODEL_CONFIG)"
             logger.error(error_msg)
-            metrics_collector.mark_failure(error_msg)
-            return metrics_collector.finalize_metrics_on_error()
+            monitor.mark_failure(error_msg)
+            return monitor.get_comprehensive_metrics()
 
         # 配置模型的KV缓存长度 (CAKE可能内部管理，但外部配置可作为参考)
         # model = configure_model_for_kv_cache_length(model, kv_cache_length)
@@ -186,8 +186,8 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         if actual_num_samples_to_prepare == 0:
             error_msg = f"没有足够的样本为数据集 {dataset_name} 准备批处理 (需要 {batch_size}, 可用 {num_eval_samples})。"
             logger.error(error_msg)
-            metrics_collector.record_error(error_msg)
-            return metrics_collector.finalize_metrics_on_error()
+            monitor.mark_failure(error_msg)
+            return monitor.get_comprehensive_metrics()
 
         samples = prepare_samples_for_evaluation(
             dataset,
@@ -233,31 +233,29 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         torch.cuda.empty_cache()
         time.sleep(0.5) # 短暂停止以确保监控器捕获基线
 
-        # 初始化监控管理器并启动监控
-        # monitoring_config 来自主config.py
-        monitoring_manager = MonitoringManager(experiment_id=experiment_id, config=MONITORING_CONFIG)
+        # 启动统一监控
         if experiment_main_config.get("enable_monitoring", True):
-            monitoring_manager.start_monitoring()
+            monitor.start_monitoring()
 
         # 开始性能测量
         logger.info("Starting CAKE performance measurement...")
-        metrics_collector.start_generation()
+        monitor.start_generation()
 
         # 定义自定义 LogitsProcessor 来记录令牌生成时间
         class TokenTimeLogitsProcessor(LogitsProcessor):
-            def __init__(self, collector):
-                self.collector = collector
+            def __init__(self, monitor):
+                self.monitor = monitor
                 self.first_token_recorded = False
 
             def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
                 if not self.first_token_recorded:
-                    self.collector.record_first_token()
+                    self.monitor.record_first_token()
                     self.first_token_recorded = True
                 else:
-                    self.collector.record_token()
+                    self.monitor.record_token()
                 return scores
 
-        token_time_processor = TokenTimeLogitsProcessor(metrics_collector)
+        token_time_processor = TokenTimeLogitsProcessor(monitor)
         logits_processor_list = LogitsProcessorList([token_time_processor])
         
         # 生成配置，从DATASET_CONFIG获取，允许覆盖
@@ -283,53 +281,38 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
             )
 
         # 结束性能测量
-        metrics_collector.end_generation()
+        monitor.end_generation()
 
         # 停止监控并收集指标
         if experiment_main_config.get("enable_monitoring", True):
-            monitoring_manager.stop_monitoring()
-            monitoring_metrics_data = monitoring_manager.get_metrics()
-            if "gpu" in monitoring_metrics_data.get("metrics", {}):
-                 metrics_collector.record_gpu_stats(monitoring_metrics_data["metrics"]["gpu"])
-            
-            # 保存监控数据 - 使用更短的路径避免Windows路径长度限制
-            try:
-                # 使用更短的目录名和文件名
-                monitor_dir = os.path.join(output_dir, "monitor")
-                os.makedirs(monitor_dir, exist_ok=True)
-                monitoring_manager.save_metrics(
-                    output_dir=monitor_dir,
-                    filename="stats.json"
-                )
-            except Exception as monitor_error:
-                logger.warning(f"无法保存监控数据: {monitor_error}")
-                # 继续执行，不要因为监控数据保存失败而中断实验
-
-        # 解码输出（可选，用于质量评估）
-        # generated_texts = tokenizer.batch_decode(
-        #     outputs[:, inputs["input_ids"].shape[1]:],
-        #     skip_special_tokens=True
-        # )
-        # metrics_collector.record_generated_texts(generated_texts) # 如果需要保存
+            monitor.stop_monitoring()
 
         # 计算和保存指标
-        final_metrics = metrics_collector.compute_and_save_metrics(output_dir, filename_prefix="cake_metrics")
+        final_metrics = monitor.get_comprehensive_metrics()
+        monitor.save_metrics(output_dir, filename=f"cake_metrics_{experiment_id}.json")
         logger.info(f"CAKE Experiment {experiment_id} completed. Metrics: {final_metrics}")
         return final_metrics
 
     except Exception as e:
         logger.error(f"Error during CAKE experiment {experiment_id}: {e}", exc_info=True)
-        metrics_collector.record_error(str(e))
-        return metrics_collector.finalize_metrics_on_error()
+        monitor.mark_failure(str(e))
+        return monitor.get_comprehensive_metrics()
     finally:
         # 清理模型和GPU内存
-        del model
-        del tokenizer
-        if 'inputs' in locals(): del inputs
-        if 'outputs' in locals(): del outputs
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        logger.info(f"Cleaned up resources for experiment {experiment_id}")
+        try:
+            if 'model' in locals() and model is not None:
+                del model
+            if 'tokenizer' in locals():
+                del tokenizer
+            if 'inputs' in locals(): 
+                del inputs
+            if 'outputs' in locals(): 
+                del outputs
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            logger.info(f"Cleaned up resources for experiment {experiment_id}")
+        except Exception as cleanup_error:
+            logger.warning(f"Error during cleanup: {cleanup_error}")
 
 
 def main():
@@ -389,7 +372,7 @@ def main():
 
     for rep in range(args.repetitions):
         for dataset_name in datasets_list:
-            # 修复数据集配置获取逻辑，与baseline_main.py保持一致
+            # 修复数据集配置获取逻辑
             dataset_options = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
             if not dataset_options:
                 logger.error(f"Dataset configuration for '{dataset_name}' not found in DATASET_CONFIG. Skipping...")

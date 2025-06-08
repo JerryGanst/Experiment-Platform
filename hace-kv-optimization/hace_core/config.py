@@ -67,7 +67,7 @@ EXPERIMENT_CONFIG = {
 
 # 数据集配置
 DATASET_CONFIG = {
-    # 添加available_datasets键以匹配baseline_main.py的期望
+    # 添加available_datasets键
     "available_datasets": {
         # 英文数据集
         "mmlu": {"path": "cais/mmlu", "subset": "all", "description": "多领域推理任务"},
@@ -78,6 +78,40 @@ DATASET_CONFIG = {
         "winogrande": {"path": "winogrande", "subset": "winogrande_xl", "description": "常识推理任务"},
         "arc_challenge": {"path": "ai2_arc", "subset": "ARC-Challenge", "description": "科学推理任务"},
         "truthful_qa_mc": {"path": "truthful_qa", "subset": "multiple_choice", "description": "真实性问答任务"},
+        
+        # LongBench 单文档问答
+        "narrativeqa": {"path": "THUDM/longbench", "subset": "narrativeqa", "description": "基于小说和电影剧本的问答"},
+        "qasper": {"path": "THUDM/longbench", "subset": "qasper", "description": "基于科学论文的问答"},
+        "multifieldqa_en": {"path": "THUDM/longbench", "subset": "multifieldqa_en", "description": "多领域英文问答"},
+        
+        # LongBench 多文档问答
+        "hotpotqa": {"path": "THUDM/longbench", "subset": "hotpotqa", "description": "多跳推理问答"},
+        "2wikimqa": {"path": "THUDM/longbench", "subset": "2wikimqa", "description": "基于维基百科的多文档问答"},
+        "musique": {"path": "THUDM/longbench", "subset": "musique", "description": "多步骤推理问答"},
+        
+        # LongBench 摘要生成
+        "gov_report": {"path": "THUDM/longbench", "subset": "gov_report", "description": "政府报告摘要"},
+        "qmsum": {"path": "THUDM/longbench", "subset": "qmsum", "description": "会议摘要"},
+        "multi_news": {"path": "THUDM/longbench", "subset": "multi_news", "description": "多新闻摘要"},
+        
+        # LongBench 少样本学习
+        "trec": {"path": "THUDM/longbench", "subset": "trec", "description": "问题分类"},
+        "triviaqa": {"path": "THUDM/longbench", "subset": "triviaqa", "description": "知识问答"},
+        "samsum": {"path": "THUDM/longbench", "subset": "samsum", "description": "对话摘要"},
+        
+        # LongBench 合成任务
+        "passage_count": {"path": "THUDM/longbench", "subset": "passage_count", "description": "段落计数"},
+        "passage_retrieval_en": {"path": "THUDM/longbench", "subset": "passage_retrieval_en", "description": "段落检索"},
+        
+        # LongBench 代码任务
+        "lcc": {"path": "THUDM/longbench", "subset": "lcc", "description": "代码补全"},
+        "repobench-p": {"path": "THUDM/longbench", "subset": "repobench-p", "description": "代码库级别任务"},
+        
+        # NeedleBench 任务
+        "single_needle": {"path": "custom/needlebench", "subset": "single_needle", "description": "单针检索任务"},
+        "multi_needle_retrieval": {"path": "custom/needlebench", "subset": "multi_needle_retrieval", "description": "多针检索任务"},
+        "multi_needle_reasoning": {"path": "custom/needlebench", "subset": "multi_needle_reasoning", "description": "多针推理任务"},
+        
         # 中文数据集
         "cluewsc2020": {"path": "cluewsc2020", "subset": None, "description": "指代消解任务"},
         "ceval": {"path": "ceval", "subset": "all", "description": "中文多领域评测基准"},

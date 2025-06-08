@@ -206,7 +206,7 @@ def generate_html_report(tables, plots, output_dir):
     )
     
     # 保存HTML报告
-    output_path = os.path.join(output_dir, "h2o_experiment_report.html")
+    output_path = os.path.join(output_dir, "experiment_report.html")
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
     
@@ -255,7 +255,7 @@ def main():
     report_path = generate_html_report(tables, plots, args.output_dir)
     
     # 保存Excel版表格
-    excel_path = os.path.join(args.output_dir, "h2o_experiment_tables.xlsx")
+    excel_path = os.path.join(args.output_dir, "experiment_tables.xlsx")
     with pd.ExcelWriter(excel_path) as writer:
         for name, df in tables.items():
             df.to_excel(writer, sheet_name=name.replace("表", ""), index=False)

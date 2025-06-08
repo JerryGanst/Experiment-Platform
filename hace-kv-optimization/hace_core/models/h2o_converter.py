@@ -14,8 +14,8 @@ from typing import Optional, Tuple, Union
 # 配置导入路径
 current_file_path = os.path.abspath(__file__)
 models_dir = os.path.dirname(current_file_path)
-h2o_experiment_dir = os.path.dirname(models_dir)
-project_root = os.path.dirname(h2o_experiment_dir)
+hace_optimization_dir = os.path.dirname(models_dir)
+project_root = os.path.dirname(hace_optimization_dir)
 utils_hh_dir = os.path.join(project_root, "utils_hh")
 
 # 确保utils_hh目录在sys.path中

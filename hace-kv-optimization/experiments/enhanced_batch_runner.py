@@ -444,75 +444,8 @@ class EnhancedBatchRunner:
         logger.info(f"实验结果已保存到: {results_file}")
     
     def _generate_report(self):
-        """生成实验报告"""
-        report_file = self.output_dir / "enhanced_experiment_report.md"
-        
-        completed_results = [r for r in self.results if r.status == ExperimentStatus.COMPLETED]
-        failed_results = [r for r in self.results if r.status == ExperimentStatus.FAILED]
-        
-        # 按执行模式分组
-        mode_groups = {}
-        for result in completed_results:
-            mode = result.execution_mode.value
-            if mode not in mode_groups:
-                mode_groups[mode] = []
-            mode_groups[mode].append(result)
-        
-        report_lines = [
-            "# 增强版批量实验报告",
-            "",
-            f"**生成时间**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-            "",
-            "## 概览",
-            f"- 总实验数: {len(self.results)}",
-            f"- 成功完成: {len(completed_results)}",
-            f"- 失败: {len(failed_results)}",
-            f"- 成功率: {len(completed_results)/len(self.results)*100:.1f}%",
-            f"- 使用的执行模式: {', '.join(mode_groups.keys())}",
-            "",
-        ]
-        
-        # 按执行模式展示结果
-        for mode, results in mode_groups.items():
-            report_lines.extend([
-                f"## {mode.title()} 模式结果",
-                "",
-                "| 实验名称 | 方法 | 模型类型 | 耗时(秒) | 内存使用(MB) | 压缩比 |",
-                "|----------|------|----------|----------|--------------|---------|",
-            ])
-            
-            for result in results:
-                metrics = result.metrics
-                compression_ratio = metrics.get('compression_ratio', 'N/A')
-                if isinstance(compression_ratio, (int, float)):
-                    compression_ratio = f"{compression_ratio:.3f}"
-                
-                report_lines.append(
-                    f"| {result.name} | {metrics.get('method', 'N/A')} | "
-                    f"{metrics.get('model_type', 'N/A')} | {result.duration():.1f} | "
-                    f"{metrics.get('memory_usage_mb', 0):.1f} | {compression_ratio} |"
-                )
-            
-            report_lines.append("")
-        
-        # 失败实验
-        if failed_results:
-            report_lines.extend([
-                "## 失败实验详情",
-                "",
-            ])
-            
-            for result in failed_results:
-                report_lines.extend([
-                    f"### {result.name} ({result.execution_mode.value})",
-                    f"**错误**: {result.error}",
-                    ""
-                ])
-        
-        with open(report_file, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(report_lines))
-        
-        logger.info(f"实验报告已生成: {report_file}")
+        """生成简单的实验总结（详细报告由analysis模块生成）"""
+        logger.info("实验执行完成，详细报告请使用analysis模块生成")
     
     def _print_summary(self):
         """打印执行总结"""

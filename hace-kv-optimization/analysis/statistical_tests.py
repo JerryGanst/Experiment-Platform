@@ -563,6 +563,4 @@ class StatisticsAnalyzer:
             output_dir=output_dir
         )
 
-    def generate_report(self, analysis_results, output_dir, report_name="statistics_report"):
-        # 实现生成报告的逻辑
-        pass 
+ 

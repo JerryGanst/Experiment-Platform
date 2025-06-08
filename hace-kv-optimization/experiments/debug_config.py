@@ -46,8 +46,8 @@ try:
         print(f"\n❌ available_datasets键不存在")
         print(f"当前顶级键: {list(DATASET_CONFIG.keys())}")
     
-    # 模拟baseline_main.py的获取过程
-    print(f"\n🔍 模拟baseline_main.py的数据集配置获取:")
+    # 模拟数据集配置获取过程
+    print(f"\n🔍 模拟数据集配置获取:")
     dataset_name = "mmlu"
     dataset_config = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
     print(f"DATASET_CONFIG.get('available_datasets', {{}}) = {DATASET_CONFIG.get('available_datasets', {})}")

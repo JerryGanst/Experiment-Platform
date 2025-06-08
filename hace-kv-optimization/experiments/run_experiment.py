@@ -22,11 +22,9 @@ from hace_core import config as global_config  # 项目根目录的config
 # 实验类型
 EXPERIMENT_TYPES = {
     "baseline": "运行标准KV缓存基线测试",
-    "h2o": "运行H2O优化KV缓存测试",
-    "cake": "运行CAKE层级感知KV缓存测试",  # 新增
-    "compare_h2o_baseline": "运行基线和H2O对比实验并生成报告",
-    "compare_cake_baseline": "运行基线和CAKE对比实验并生成报告", # 新增
-    "compare_all": "运行基线, H2O, CAKE三方对比实验并生成报告"  # 新增
+    "cake": "运行CAKE层级感知KV缓存测试",
+    "compare_cake_baseline": "运行基线和CAKE对比实验并生成报告",
+    "compare_all": "运行基线和CAKE对比实验并生成报告"
 }
 
 def parse_args():
@@ -105,7 +103,7 @@ def parse_args():
     return parser.parse_args()
 
 def run_single_experiment_script(script_name:str, common_params:list, specific_params:list, run_output_dir:str, log_level:str, run_env:dict):
-    """辅助函数运行单个实验脚本 (如 baseline_main.py, h2o_main.py, cake_main.py)"""
+    """辅助函数运行单个实验脚本 (如 h2o_main.py, cake_main.py)"""
     cmd = [sys.executable, os.path.join(pkg_dir, 'baselines', script_name)] + \
           ["--output_dir", run_output_dir, "--log_level", log_level] + \
           common_params + specific_params
@@ -223,7 +221,7 @@ def main():
        (args.experiment_type in ["compare_h2o_baseline", "compare_cake_baseline", "compare_all"] and not args.skip_run_baseline and not baseline_csv_path):
         baseline_output_dir = os.path.join(current_run_main_output_dir, "baseline_run")
         os.makedirs(baseline_output_dir, exist_ok=True)
-        # 注意: baseline_main.py 不接受h2o或cake的特定参数
+        # 运行基线实验
         run_result = run_single_experiment_script("baseline_main.py", common_params, [], baseline_output_dir, args.log_level, run_env)
         if isinstance(run_result, str): baseline_csv_path = run_result
         elif run_result is False and args.experiment_type != "baseline": # 如果在对比流程中运行失败，则中止
