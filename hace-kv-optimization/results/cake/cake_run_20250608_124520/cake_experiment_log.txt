@@ -1,0 +1,100 @@
+2025-06-08 12:45:20,756 - __main__ - INFO - Starting CAKE experiment suite with run name: cake_run_20250608_124520
+2025-06-08 12:45:20,757 - __main__ - INFO - Arguments: Namespace(model_name='NousResearch/Llama-2-7b-hf', datasets='mmlu', kv_cache_lengths='512,1024', batch_sizes='1,4,8', max_new_tokens=256, allocation_strategies='adaptive', cache_budgets='0.7', repetitions=3, output_dir='./results/cake', log_level='INFO', seed=42, run_name='cake_run_20250608_124520')
+2025-06-08 12:45:20,757 - __main__ - INFO - Global EXPERIMENT_CONFIG being used: {'model_name_or_path': 'NousResearch/Llama-2-7b-hf', 'precision': 'fp16', 'datasets': ['mmlu', 'gsm8k', 'winogrande', 'arc_challenge', 'hellaswag', 'truthful_qa_mc'], 'dataset_subset_size': {'mmlu': 100, 'gsm8k': 100, 'winogrande': None, 'arc_challenge': None, 'hellaswag': None, 'truthful_qa_mc': None, 'pubmed_qa': 100, 'cais/mmlu-zh': 50}, 'kv_cache_lengths': [512, 1024, 2048], 'batch_sizes': [1, 4, 8], 'max_new_tokens': 256, 'repetitions': 3, 'h2o_enabled': True, 'h2o_ratios': [0.1, 0.2, 0.3], 'eviction_strategies': ['attention', 'time_decay', 'hybrid'], 'h2o_kv_cache_lengths': [512, 1024], 'cake_enabled': True, 'layer_allocation_strategies': ['uniform', 'adaptive', 'attention_based'], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}, 'cache_budgets': [0.5, 0.7, 0.9], 'cake_kv_cache_lengths': [512, 1024], 'head_level_optimization': False, 'head_analysis_enabled': False, 'head_selection_strategy': 'top_k', 'head_k_value': 10, 'output_base_dir': 'results', 'enable_monitoring': True, 'monitor_interval': 0.5}
+2025-06-08 12:45:20,757 - __main__ - INFO - Global CAKE_MODEL_CONFIG being used: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:45:20,774 - __main__ - INFO - Random seed set to 42
+2025-06-08 12:45:20,774 - __main__ - INFO - Total number of CAKE experiment configurations to run: 18
+2025-06-08 12:45:20,775 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:45:20,775 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124520
+2025-06-08 12:45:20,776 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:45:20,776 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124520
+2025-06-08 12:45:20,776 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:45:20,776 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:45:20,776 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:45:22,247 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:45:25,151 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-06-08 12:45:25,151 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-08 12:45:25,774 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-08 12:45:25,774 - hace_core.models.model_loader - INFO - 模型类型 'llama' 被CAKE支持。
+2025-06-08 12:45:25,787 - root - WARNING - 无法导入CAKE核心功能: No module named 'cake'
+2025-06-08 12:45:25,787 - hace_core.models.model_loader - INFO - Preparing model for CAKE testing with experiment config: {'layer_allocation_strategies': ['adaptive'], 'cache_budgets': [0.7], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}} and model specific config: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:45:25,787 - hace_core.models.cake_converter - ERROR - CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确
+2025-06-08 12:45:25,787 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124520: CAKE核心功能不可用
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 167, in run_cake_experiment
+    model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 207, in prepare_model_for_cake
+    model = convert_model_to_cake(
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 288, in convert_model_to_cake
+    return apply_cake_to_model(model, model_config_hf, cake_exp_config, cake_model_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 245, in apply_cake_to_model
+    raise ImportError("CAKE核心功能不可用")
+ImportError: CAKE核心功能不可用
+2025-06-08 12:45:25,789 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: CAKE核心功能不可用
+2025-06-08 12:45:25,792 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124520
+2025-06-08 12:45:25,792 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:45:25,793 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124525
+2025-06-08 12:45:25,793 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:45:25,793 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124525
+2025-06-08 12:45:25,793 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:45:25,793 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:45:25,793 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:45:26,239 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:45:26,759 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-06-08 12:45:26,759 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-08 12:45:27,368 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-08 12:45:27,368 - hace_core.models.model_loader - INFO - 模型类型 'llama' 被CAKE支持。
+2025-06-08 12:45:27,369 - hace_core.models.model_loader - INFO - Preparing model for CAKE testing with experiment config: {'layer_allocation_strategies': ['adaptive'], 'cache_budgets': [0.7], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}} and model specific config: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:45:27,369 - hace_core.models.cake_converter - ERROR - CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确
+2025-06-08 12:45:27,369 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124525: CAKE核心功能不可用
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 167, in run_cake_experiment
+    model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 207, in prepare_model_for_cake
+    model = convert_model_to_cake(
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 288, in convert_model_to_cake
+    return apply_cake_to_model(model, model_config_hf, cake_exp_config, cake_model_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 245, in apply_cake_to_model
+    raise ImportError("CAKE核心功能不可用")
+ImportError: CAKE核心功能不可用
+2025-06-08 12:45:27,370 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: CAKE核心功能不可用
+2025-06-08 12:45:27,372 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124525
+2025-06-08 12:45:27,372 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:45:27,372 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124527
+2025-06-08 12:45:27,372 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:45:27,373 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124527
+2025-06-08 12:45:27,373 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:45:27,373 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:45:27,373 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:45:27,758 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:45:27,779 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -213329510: [-213329510]
+2025-06-08 12:45:27,779 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124527: Trying to create tensor with negative dimension -213329510: [-213329510]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 144, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -213329510: [-213329510]
+2025-06-08 12:45:27,781 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -213329510: [-213329510]

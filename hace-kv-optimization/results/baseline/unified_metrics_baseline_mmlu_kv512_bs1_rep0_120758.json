@@ -1,0 +1,36 @@
+{
+  "experiment_id": "baseline_mmlu_kv512_bs1_rep0_120758",
+  "timestamp": "2025-06-08T12:10:03.111072",
+  "performance": {
+    "success": true,
+    "ttft_ms": 509.6631050109863,
+    "tpot_ms": 372.2066673578001,
+    "throughput_tokens_per_sec": 2.68275303691955,
+    "total_time_sec": 95.4243631362915,
+    "tokens_generated": 256,
+    "model_name": "NousResearch/Llama-2-7b-hf",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 512,
+    "max_new_tokens": 256,
+    "use_baseline": true,
+    "dataset": "mmlu"
+  },
+  "gpu": {
+    "total_devices": 1,
+    "device_0": {
+      "peak_memory_mb": 10155.95947265625,
+      "average_memory_mb": 9911.45426509338,
+      "sample_count": 845
+    },
+    "total_peak_memory_mb": 10155.95947265625
+  },
+  "system": {
+    "peak_cpu_percent": 24.5,
+    "average_cpu_percent": 8.918085106382978,
+    "peak_memory_percent": 30.1,
+    "peak_memory_used_gb": 19.215839385986328,
+    "sample_count": 94
+  },
+  "monitoring_duration": 95.4364755153656
+}

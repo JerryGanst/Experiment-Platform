@@ -1,0 +1,605 @@
+2025-06-08 12:47:20,341 - __main__ - INFO - Starting CAKE experiment suite with run name: cake_run_20250608_124720
+2025-06-08 12:47:20,341 - __main__ - INFO - Arguments: Namespace(model_name='NousResearch/Llama-2-7b-hf', datasets='mmlu', kv_cache_lengths='512,1024', batch_sizes='1,4,8', max_new_tokens=256, allocation_strategies='adaptive', cache_budgets='0.7', repetitions=3, output_dir='./results/cake', log_level='INFO', seed=42, run_name='cake_run_20250608_124720')
+2025-06-08 12:47:20,341 - __main__ - INFO - Global EXPERIMENT_CONFIG being used: {'model_name_or_path': 'NousResearch/Llama-2-7b-hf', 'precision': 'fp16', 'datasets': ['mmlu', 'gsm8k', 'winogrande', 'arc_challenge', 'hellaswag', 'truthful_qa_mc'], 'dataset_subset_size': {'mmlu': 100, 'gsm8k': 100, 'winogrande': None, 'arc_challenge': None, 'hellaswag': None, 'truthful_qa_mc': None, 'pubmed_qa': 100, 'cais/mmlu-zh': 50}, 'kv_cache_lengths': [512, 1024, 2048], 'batch_sizes': [1, 4, 8], 'max_new_tokens': 256, 'repetitions': 3, 'h2o_enabled': True, 'h2o_ratios': [0.1, 0.2, 0.3], 'eviction_strategies': ['attention', 'time_decay', 'hybrid'], 'h2o_kv_cache_lengths': [512, 1024], 'cake_enabled': True, 'layer_allocation_strategies': ['uniform', 'adaptive', 'attention_based'], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}, 'cache_budgets': [0.5, 0.7, 0.9], 'cake_kv_cache_lengths': [512, 1024], 'head_level_optimization': False, 'head_analysis_enabled': False, 'head_selection_strategy': 'top_k', 'head_k_value': 10, 'output_base_dir': 'results', 'enable_monitoring': True, 'monitor_interval': 0.5}
+2025-06-08 12:47:20,341 - __main__ - INFO - Global CAKE_MODEL_CONFIG being used: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:47:20,354 - __main__ - INFO - Random seed set to 42
+2025-06-08 12:47:20,354 - __main__ - INFO - Total number of CAKE experiment configurations to run: 18
+2025-06-08 12:47:20,355 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:20,356 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124720
+2025-06-08 12:47:20,356 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:20,356 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124720
+2025-06-08 12:47:20,356 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:20,356 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:20,356 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:21,871 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:24,768 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-06-08 12:47:24,769 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-08 12:47:25,433 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-08 12:47:25,433 - hace_core.models.model_loader - INFO - 模型类型 'llama' 被CAKE支持。
+2025-06-08 12:47:25,434 - root - WARNING - 无法导入CAKE核心功能: No module named 'cake'
+2025-06-08 12:47:25,434 - hace_core.models.model_loader - INFO - Preparing model for CAKE testing with experiment config: {'layer_allocation_strategies': ['adaptive'], 'cache_budgets': [0.7], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}} and model specific config: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:47:25,435 - hace_core.models.cake_converter - ERROR - CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确
+2025-06-08 12:47:25,435 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124720: CAKE核心功能不可用
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 168, in run_cake_experiment
+    model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 207, in prepare_model_for_cake
+    model = convert_model_to_cake(
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 288, in convert_model_to_cake
+    return apply_cake_to_model(model, model_config_hf, cake_exp_config, cake_model_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 245, in apply_cake_to_model
+    raise ImportError("CAKE核心功能不可用")
+ImportError: CAKE核心功能不可用
+2025-06-08 12:47:25,435 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: CAKE核心功能不可用
+2025-06-08 12:47:25,438 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep0_20250608_124720
+2025-06-08 12:47:25,438 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:25,438 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124725
+2025-06-08 12:47:25,438 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:25,438 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124725
+2025-06-08 12:47:25,439 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:25,439 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:25,439 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:25,745 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:26,269 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-06-08 12:47:26,269 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-08 12:47:26,897 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-08 12:47:26,897 - hace_core.models.model_loader - INFO - 模型类型 'llama' 被CAKE支持。
+2025-06-08 12:47:26,897 - hace_core.models.model_loader - INFO - Preparing model for CAKE testing with experiment config: {'layer_allocation_strategies': ['adaptive'], 'cache_budgets': [0.7], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}} and model specific config: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:47:26,898 - hace_core.models.cake_converter - ERROR - CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确
+2025-06-08 12:47:26,898 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124725: CAKE核心功能不可用
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 168, in run_cake_experiment
+    model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 207, in prepare_model_for_cake
+    model = convert_model_to_cake(
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 288, in convert_model_to_cake
+    return apply_cake_to_model(model, model_config_hf, cake_exp_config, cake_model_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 245, in apply_cake_to_model
+    raise ImportError("CAKE核心功能不可用")
+ImportError: CAKE核心功能不可用
+2025-06-08 12:47:26,898 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: CAKE核心功能不可用
+2025-06-08 12:47:26,900 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep0_20250608_124725
+2025-06-08 12:47:26,900 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:26,900 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124726
+2025-06-08 12:47:26,901 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:26,901 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124726
+2025-06-08 12:47:26,901 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:26,901 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:26,901 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:27,210 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:27,231 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:27,231 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124726: Trying to create tensor with negative dimension -214902374: [-214902374]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:27,233 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:27,234 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep0_20250608_124726
+2025-06-08 12:47:27,234 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 1024, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:27,234 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,234 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:27,234 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,234 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:27,235 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:27,235 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:27,538 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:27,562 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:27,562 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep0_20250608_124727: Trying to create tensor with negative dimension -231472742: [-231472742]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:27,564 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:27,565 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,565 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 1024, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:27,566 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,566 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:27,566 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,566 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:27,566 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:27,566 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:27,855 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:27,880 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -293357158: [-293357158]
+2025-06-08 12:47:27,880 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep0_20250608_124727: Trying to create tensor with negative dimension -293357158: [-293357158]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -293357158: [-293357158]
+2025-06-08 12:47:27,882 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -293357158: [-293357158]
+2025-06-08 12:47:27,883 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,883 - __main__ - INFO - Running CAKE: Rep 1/3, Dataset: mmlu, KV_Len: 1024, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:27,883 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,883 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:27,883 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:27,884 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:27,884 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:27,884 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:28,181 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:28,211 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:28,212 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep0_20250608_124727: Trying to create tensor with negative dimension -231472742: [-231472742]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:28,213 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:28,214 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep0_20250608_124727
+2025-06-08 12:47:28,214 - __main__ - INFO - Running CAKE: Rep 2/3, Dataset: mmlu, KV_Len: 512, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:28,215 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,215 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:28,215 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,215 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:28,215 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:28,215 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:28,507 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:28,540 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:28,540 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep1_20250608_124728: Trying to create tensor with negative dimension -231472742: [-231472742]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:28,542 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -231472742: [-231472742]
+2025-06-08 12:47:28,542 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,543 - __main__ - INFO - Running CAKE: Rep 2/3, Dataset: mmlu, KV_Len: 512, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:28,543 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,543 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:28,543 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,543 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:28,543 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:28,543 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:28,825 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:28,847 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -219620966: [-219620966]
+2025-06-08 12:47:28,847 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep1_20250608_124728: Trying to create tensor with negative dimension -219620966: [-219620966]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -219620966: [-219620966]
+2025-06-08 12:47:28,848 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -219620966: [-219620966]
+2025-06-08 12:47:28,849 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,849 - __main__ - INFO - Running CAKE: Rep 2/3, Dataset: mmlu, KV_Len: 512, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:28,850 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,850 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:28,850 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:28,850 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:28,850 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:28,850 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:29,144 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:29,174 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:29,174 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep1_20250608_124728: Trying to create tensor with negative dimension -214902374: [-214902374]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:29,175 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:29,176 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep1_20250608_124728
+2025-06-08 12:47:29,176 - __main__ - INFO - Running CAKE: Rep 2/3, Dataset: mmlu, KV_Len: 1024, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:29,177 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,177 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:29,177 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,177 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:29,177 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:29,177 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:29,476 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:29,504 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:29,504 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep1_20250608_124729: Trying to create tensor with negative dimension -214902374: [-214902374]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:29,505 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:29,506 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,506 - __main__ - INFO - Running CAKE: Rep 2/3, Dataset: mmlu, KV_Len: 1024, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:29,506 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,507 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:29,507 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,507 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:29,507 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:29,507 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:29,801 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:29,831 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -242056806: [-242056806]
+2025-06-08 12:47:29,831 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep1_20250608_124729: Trying to create tensor with negative dimension -242056806: [-242056806]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -242056806: [-242056806]
+2025-06-08 12:47:29,833 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -242056806: [-242056806]
+2025-06-08 12:47:29,833 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,834 - __main__ - INFO - Running CAKE: Rep 2/3, Dataset: mmlu, KV_Len: 1024, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:29,834 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,834 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:29,834 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:29,835 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:29,835 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:29,835 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:30,230 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:30,252 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:30,252 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep1_20250608_124729: Trying to create tensor with negative dimension -214902374: [-214902374]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:30,254 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -214902374: [-214902374]
+2025-06-08 12:47:30,307 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep1_20250608_124729
+2025-06-08 12:47:30,307 - __main__ - INFO - Running CAKE: Rep 3/3, Dataset: mmlu, KV_Len: 512, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:30,317 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep2_20250608_124730
+2025-06-08 12:47:30,317 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:30,317 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep2_20250608_124730
+2025-06-08 12:47:30,317 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:30,317 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:30,317 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:30,617 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:33,940 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-06-08 12:47:33,940 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-08 12:47:34,629 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-08 12:47:34,629 - hace_core.models.model_loader - INFO - 模型类型 'llama' 被CAKE支持。
+2025-06-08 12:47:34,629 - hace_core.models.model_loader - INFO - Preparing model for CAKE testing with experiment config: {'layer_allocation_strategies': ['adaptive'], 'cache_budgets': [0.7], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}} and model specific config: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:47:34,630 - hace_core.models.cake_converter - ERROR - CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确
+2025-06-08 12:47:34,630 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep2_20250608_124730: CAKE核心功能不可用
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 168, in run_cake_experiment
+    model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 207, in prepare_model_for_cake
+    model = convert_model_to_cake(
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 288, in convert_model_to_cake
+    return apply_cake_to_model(model, model_config_hf, cake_exp_config, cake_model_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 245, in apply_cake_to_model
+    raise ImportError("CAKE核心功能不可用")
+ImportError: CAKE核心功能不可用
+2025-06-08 12:47:34,630 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: CAKE核心功能不可用
+2025-06-08 12:47:34,633 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs1_stratadaptive_bud0.7_rep2_20250608_124730
+2025-06-08 12:47:34,634 - __main__ - INFO - Running CAKE: Rep 3/3, Dataset: mmlu, KV_Len: 512, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:34,643 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep2_20250608_124734
+2025-06-08 12:47:34,643 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:34,643 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep2_20250608_124734
+2025-06-08 12:47:34,643 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:34,644 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:34,644 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:34,949 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:35,475 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-06-08 12:47:35,476 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-08 12:47:36,110 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-08 12:47:36,111 - hace_core.models.model_loader - INFO - 模型类型 'llama' 被CAKE支持。
+2025-06-08 12:47:36,111 - hace_core.models.model_loader - INFO - Preparing model for CAKE testing with experiment config: {'layer_allocation_strategies': ['adaptive'], 'cache_budgets': [0.7], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}} and model specific config: {'default_allocation_strategy': 'adaptive', 'default_cache_budget': 0.8, 'supported_models_cake': ['llama', 'mistral', 'qwen2'], 'dynamic_allocation_default': True, 'layer_analysis_default': {'attention_pattern_analysis': True, 'layer_importance_scoring': True}}
+2025-06-08 12:47:36,111 - hace_core.models.cake_converter - ERROR - CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确
+2025-06-08 12:47:36,111 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep2_20250608_124734: CAKE核心功能不可用
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 168, in run_cake_experiment
+    model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 207, in prepare_model_for_cake
+    model = convert_model_to_cake(
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 288, in convert_model_to_cake
+    return apply_cake_to_model(model, model_config_hf, cake_exp_config, cake_model_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\cake_converter.py", line 245, in apply_cake_to_model
+    raise ImportError("CAKE核心功能不可用")
+ImportError: CAKE核心功能不可用
+2025-06-08 12:47:36,112 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: CAKE核心功能不可用
+2025-06-08 12:47:36,115 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs4_stratadaptive_bud0.7_rep2_20250608_124734
+2025-06-08 12:47:36,115 - __main__ - INFO - Running CAKE: Rep 3/3, Dataset: mmlu, KV_Len: 512, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:36,116 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,116 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:36,116 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,116 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:36,116 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:36,116 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:36,406 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:36,429 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -223706726: [-223706726]
+2025-06-08 12:47:36,430 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep2_20250608_124736: Trying to create tensor with negative dimension -223706726: [-223706726]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -223706726: [-223706726]
+2025-06-08 12:47:36,431 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -223706726: [-223706726]
+2025-06-08 12:47:36,432 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv512_bs8_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,432 - __main__ - INFO - Running CAKE: Rep 3/3, Dataset: mmlu, KV_Len: 1024, Batch: 1, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:36,432 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,433 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:36,433 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,433 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:36,433 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:36,433 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:36,744 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:36,768 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -209659494: [-209659494]
+2025-06-08 12:47:36,769 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep2_20250608_124736: Trying to create tensor with negative dimension -209659494: [-209659494]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -209659494: [-209659494]
+2025-06-08 12:47:36,770 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -209659494: [-209659494]
+2025-06-08 12:47:36,771 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs1_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,771 - __main__ - INFO - Running CAKE: Rep 3/3, Dataset: mmlu, KV_Len: 1024, Batch: 4, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:36,772 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,772 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:36,772 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:36,772 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:36,772 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:36,772 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:37,073 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:37,094 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -226229862: [-226229862]
+2025-06-08 12:47:37,094 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep2_20250608_124736: Trying to create tensor with negative dimension -226229862: [-226229862]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -226229862: [-226229862]
+2025-06-08 12:47:37,096 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -226229862: [-226229862]
+2025-06-08 12:47:37,096 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs4_stratadaptive_bud0.7_rep2_20250608_124736
+2025-06-08 12:47:37,097 - __main__ - INFO - Running CAKE: Rep 3/3, Dataset: mmlu, KV_Len: 1024, Batch: 8, Strategy: adaptive, Budget: 0.7
+2025-06-08 12:47:37,097 - __main__ - INFO - Starting CAKE experiment: cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep2_20250608_124737
+2025-06-08 12:47:37,097 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-08 12:47:37,098 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep2_20250608_124737
+2025-06-08 12:47:37,098 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-08 12:47:37,098 - __main__ - INFO - Loading model and tokenizer...
+2025-06-08 12:47:37,098 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-08 12:47:37,400 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-06-08 12:47:37,427 - hace_core.models.model_loader - ERROR - Error loading model: Trying to create tensor with negative dimension -209659494: [-209659494]
+2025-06-08 12:47:37,428 - __main__ - ERROR - Error during CAKE experiment cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep2_20250608_124737: Trying to create tensor with negative dimension -209659494: [-209659494]
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\cake_main.py", line 145, in run_cake_experiment
+    model, tokenizer = load_model_and_tokenizer(current_model_config)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\hace_core\models\model_loader.py", line 31, in load_model_and_tokenizer
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\models\auto\auto_factory.py", line 571, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 282, in _wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4471, in from_pretrained
+    ) = cls._load_pretrained_model(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 4870, in _load_pretrained_model
+    caching_allocator_warmup(model_to_load, expanded_device_map, factor=2 if hf_quantizer is None else 4)
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\transformers\modeling_utils.py", line 5894, in caching_allocator_warmup
+    _ = torch.empty(byte_count // factor, dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to create tensor with negative dimension -209659494: [-209659494]
+2025-06-08 12:47:37,429 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: Trying to create tensor with negative dimension -209659494: [-209659494]
+2025-06-08 12:47:37,430 - __main__ - INFO - Cleaned up resources for experiment cake_mmlu_kv1024_bs8_stratadaptive_bud0.7_rep2_20250608_124737
+2025-06-08 12:47:37,433 - __main__ - INFO - All CAKE experiment summaries saved to ./results/cake\cake_run_20250608_124720\all_cake_experiments_summary.csv
+2025-06-08 12:47:37,433 - __main__ - INFO - CAKE experiment suite finished.
