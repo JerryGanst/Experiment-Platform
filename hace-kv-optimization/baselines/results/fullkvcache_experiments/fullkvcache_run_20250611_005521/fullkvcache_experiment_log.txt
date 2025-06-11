@@ -1,0 +1,60 @@
+2025-06-11 00:55:21,504 - __main__ - INFO - Starting FullKVCache experiment suite with run name: fullkvcache_run_20250611_005521
+2025-06-11 00:55:21,504 - __main__ - INFO - Arguments: Namespace(model_name='NousResearch/Llama-2-7b-hf', datasets='hotpotqa', kv_cache_lengths='512', batch_sizes='1', max_new_tokens=10, repetitions=1, output_dir='results\\fullkvcache_experiments', log_level='INFO', seed=42, run_name='fullkvcache_run_20250611_005521', enable_scoring=True, is_baseline_run=True)
+2025-06-11 00:55:21,505 - __main__ - INFO - Global EXPERIMENT_CONFIG being used: {'model_name_or_path': 'NousResearch/Llama-2-7b-hf', 'precision': 'fp16', 'multi_model_experiments': True, 'experiment_models': ['NousResearch/Llama-2-7b-hf', 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'mistralai/Mistral-7B-Instruct-v0.3'], 'memory_management': {'auto_max_memory': True, 'manual_max_memory': {0: '23000MB'}, 'memory_buffer_ratio': 0.05, 'force_no_cpu_offload': True}, 'datasets': ['mmlu', 'gsm8k', 'winogrande', 'arc_challenge', 'hellaswag', 'truthful_qa_mc'], 'dataset_subset_size': {'mmlu': 100, 'gsm8k': 100, 'winogrande': None, 'arc_challenge': None, 'hellaswag': None, 'truthful_qa_mc': None, 'pubmed_qa': 100, 'cais/mmlu-zh': 50}, 'kv_cache_lengths': [128, 256, 512, 1024, 2048], 'batch_sizes': [1, 4, 8], 'max_new_tokens': 256, 'repetitions': 3, 'h2o_enabled': True, 'h2o_ratios': [0.1, 0.2, 0.3], 'eviction_strategies': ['attention', 'time_decay', 'hybrid'], 'h2o_kv_cache_lengths': [128, 256, 512, 1024, 2048], 'cake_enabled': True, 'layer_allocation_strategies': ['uniform', 'adaptive', 'attention_based'], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}, 'cache_budgets': [0.5, 0.7, 0.9], 'cake_kv_cache_lengths': [128, 256, 512, 1024, 2048], 'head_level_optimization': False, 'head_analysis_enabled': False, 'head_selection_strategy': 'top_k', 'head_k_value': 10, 'output_base_dir': 'results', 'enable_monitoring': True, 'monitor_interval': 0.5}
+2025-06-11 00:55:21,542 - __main__ - INFO - Random seed set to 42
+2025-06-11 00:55:21,543 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-11 00:55:21,549 - __main__ - INFO - Running FullKVCache: Rep 1/1, Dataset: hotpotqa, KV_Len: 512, Batch: 1
+2025-06-11 00:55:21,978 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521
+2025-06-11 00:55:22,088 - __main__ - INFO - 实验前内存清理完成
+2025-06-11 00:55:22,089 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-11 00:55:22,090 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521
+2025-06-11 00:55:22,090 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-11 00:55:22,090 - __main__ - INFO - Loading model and tokenizer...
+2025-06-11 00:55:22,091 - hace_core.models.model_loader - INFO - Loading model: NousResearch/Llama-2-7b-hf
+2025-06-11 00:55:22,092 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-11 00:55:22,092 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-11 00:55:57,871 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-11 00:55:57,872 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 12.55GB, 已保留 12.55GB
+2025-06-11 00:56:08,064 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-11 00:56:08,065 - __main__ - INFO - 模型加载后GPU内存: 13.48GB
+2025-06-11 00:56:08,066 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-11 00:56:08,066 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 4096 to 4096
+2025-06-11 00:56:08,067 - hace_core.models.model_loader - WARNING - Could not fully configure KV cache length: 'LlamaRotaryEmbedding' object has no attribute 'max_position_embeddings'
+2025-06-11 00:56:08,067 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-11 00:56:08,068 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-11 00:56:08,069 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-11 00:56:08,515 - __main__ - INFO - ✅ 从本地加载 hotpotqa，共 7405 条样本
+2025-06-11 00:56:08,516 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-11 00:56:08,517 - hace_core.data.dataset_loader - INFO - Preparing 1 samples from hotpotqa
+2025-06-11 00:56:08,517 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-11 00:56:08,518 - __main__ - INFO - Preparing batch with size 1, max_length 512...
+2025-06-11 00:56:08,689 - __main__ - INFO - 输入数据验证通过
+2025-06-11 00:56:08,690 - __main__ - INFO - Warming up FullKVCache model...
+2025-06-11 00:56:10,517 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-11 00:56:10,518 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-11 00:56:10,520 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-11 00:56:10,521 - __main__ - INFO - Starting FullKVCache performance measurement...
+2025-06-11 00:56:10,525 - hace_core.utils.unified_monitor - INFO - 开始生成计时
+2025-06-11 00:56:10,787 - hace_core.utils.unified_monitor - INFO - 记录第一个令牌生成
+2025-06-11 00:56:12,112 - hace_core.utils.unified_monitor - INFO - 结束生成计时，总时间: 1.59秒
+2025-06-11 00:56:12,112 - __main__ - INFO - 开始自动评分...
+2025-06-11 00:56:12,114 - __main__ - INFO - 样本 1 评分: 0.000
+2025-06-11 00:56:12,114 - __main__ - WARNING - ⚠️ 发现 1 个样本的ground truth为Unknown，评分可能无效
+2025-06-11 00:56:12,115 - __main__ - WARNING - 请检查数据集格式和答案提取逻辑
+2025-06-11 00:56:12,115 - __main__ - INFO - ✅ 评分完成! 平均分数: 0.000 (1/1 个样本)
+2025-06-11 00:56:12,115 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-11 00:56:12,116 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=12860.7MB, 最终峰值=13215.2MB
+2025-06-11 00:56:12,135 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=13215.2MB, 平均=13091.4MB, 样本=15
+2025-06-11 00:56:12,135 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 13215.2MB
+2025-06-11 00:56:12,137 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=13215.2MB, 平均=13091.4MB, 样本=15
+2025-06-11 00:56:12,137 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 13215.2MB
+2025-06-11 00:56:12,139 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results\fullkvcache_experiments\fullkvcache_run_20250611_005521\ds_hotpotqa_kv512_bs1_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521.json
+2025-06-11 00:56:12,142 - __main__ - INFO - 评分结果已保存到: results\fullkvcache_experiments\fullkvcache_run_20250611_005521\ds_hotpotqa_kv512_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521.json
+2025-06-11 00:56:12,143 - __main__ - INFO - FullKVCache Experiment fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521 completed. Metrics: {'experiment_id': 'fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521', 'timestamp': '2025-06-11T00:56:12.137067', 'performance': {'success': True, 'ttft_ms': 261.58857345581055, 'tpot_ms': 146.8137370215522, 'throughput_tokens_per_sec': 6.3020213387744555, 'total_time_sec': 1.5867924690246582, 'tokens_generated': 10, 'model_name': 'NousResearch/Llama-2-7b-hf', 'precision': 'fp16', 'batch_size': 1, 'kv_cache_length': 512, 'max_new_tokens': 10, 'use_fullkvcache': True, 'dataset': 'hotpotqa', 'repetition': 0}, 'gpu': {'total_devices': 1, 'device_0': {'peak_memory_mb': 13215.1787109375, 'average_memory_mb': 13091.445670572917, 'sample_count': 15}, 'total_peak_memory_mb': 13215.1787109375}, 'system': {'peak_cpu_percent': 41.9, 'average_cpu_percent': 40.45, 'peak_memory_percent': 23.6, 'peak_memory_used_gb': 15.115882873535156, 'sample_count': 2}, 'monitoring_duration': 1.6190423965454102}
+2025-06-11 00:56:12,144 - __main__ - INFO - 开始清理实验 fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521 的资源...
+2025-06-11 00:56:12,818 - __main__ - INFO - 实验 fullkvcache_hotpotqa_kv512_bs1_rep0_20250611_005521 资源清理完成
+2025-06-11 00:56:12,834 - __main__ - INFO - ✓ 实验成功完成: ds_hotpotqa_kv512_bs1_rep0
+2025-06-11 00:56:13,018 - __main__ - INFO - All FullKVCache experiment summaries saved to results\fullkvcache_experiments\fullkvcache_run_20250611_005521\all_fullkvcache_experiments_summary.csv
+2025-06-11 00:56:13,019 - __main__ - INFO - 开始处理基线评分...
+2025-06-11 00:56:13,019 - __main__ - WARNING - 未找到有效的评分结果，无法建立基线
+2025-06-11 00:56:13,020 - __main__ - INFO - FullKVCache experiment suite finished.

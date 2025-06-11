@@ -1,9 +1,0 @@
-{
-  "experiment_id": "baseline_mmlu_kv1024_bs1_rep0_122145",
-  "generated_texts": [
-    "A. fee simple determinable.\nQuestion: A fee simple determinable is a\nA. life estate.\nB. fee simple subject to a condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer: B. fee simple subject to a condition subsequent.\nQuestion: A fee simple subject to a condition subsequent is a\nA. life estate.\nB. fee simple subject to an executory interest.\nC. contingent remainder.\nD. fee simple determinable.\nAnswer: C. contingent remainder.\nQuestion: A fee simple subject to an executory interest is a\nAnswer: D. fee simple determinable.\nQuestion: A contingent remainder is a\nAnswer: A. life estate.\nQuestion: A life estate is a\nAnswer: B. fee simple subject to a condition subsequent.\nQuestion: A fee simple subject to a condition subsequent is\nA. a life estate.\nB. a fee simple determinable.\nC. a fee simple subject to an executory interest.\nD. a contingent remainder.\nAnswer: C. a fee simple subject to an executory interest.\nQuestion: A"
-  ],
-  "input_texts": [
-    "Question: In his will, a jockey devised his home \"to my friend to whom I am everlastingly grateful for the devoted care he has lavished on my horses, but if ever my horses who survive me shall fail to receive proper care, then to my beloved daughter and her heirs, if she be living and own any horses, otherwise to the Equestrian Society. \"In an appropriate action to construe the will, the court will determine the friend's interest to be a\nChoices:\nA. fee simple determinable.\nB. fee simple subject to condition subsequent.\nC. fee simple subject to an executory interest.\nD. contingent remainder.\nAnswer:"
-  ]
-}

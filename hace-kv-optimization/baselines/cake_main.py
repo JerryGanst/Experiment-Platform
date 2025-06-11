@@ -36,6 +36,20 @@ OUTPUT_CONFIG = config.OUTPUT_CONFIG
 MONITORING_CONFIG = config.MONITORING_CONFIG
 CAKE_MODEL_CONFIG = config.CAKE_MODEL_CONFIG # 新增CAKE模型配置
 
+# 导入基线评分工具
+try:
+    from eval_utils import (
+        score_dataset,
+        calculate_relative_score,
+        aggregate_scores,
+        format_score_report
+    )
+    BASELINE_SCORING_AVAILABLE = True
+    print("[OK] CAKE基线评分工具加载成功")
+except ImportError as e:
+    print(f"[WARNING] CAKE基线评分工具加载失败: {e}")
+    BASELINE_SCORING_AVAILABLE = False
+
 # 修改导入语句以匹配新的目录结构
 from hace_core.models.model_loader import (
     load_model_and_tokenizer,
@@ -45,6 +59,82 @@ from hace_core.models.model_loader import (
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
 from hace_core.utils.unified_monitor import UnifiedMonitor
+
+
+def load_local_jsonl(dataset_name, data_dir="../../data"):
+    """
+    从本地JSONL文件加载数据集
+    
+    Args:
+        dataset_name: 数据集名称
+        data_dir: 数据目录路径
+        
+    Returns:
+        dataset: 数据列表
+    """
+    file_path = os.path.join(data_dir, f"{dataset_name}.jsonl")
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"❌ 本地文件不存在: {file_path}")
+
+    data = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:  # 跳过空行
+                try:
+                    data.append(json.loads(line))
+                except json.JSONDecodeError as e:
+                    logger.warning(f"跳过无效的JSON行: {line[:100]}... 错误: {e}")
+    
+    logger.info(f"✅ 从本地加载 {dataset_name}，共 {len(data)} 条样本")
+    return data
+
+
+def load_dataset_with_fallback(dataset_name, dataset_options, split="test"):
+    """
+    加载数据集，优先使用Hugging Face，失败时回退到本地JSONL文件
+    
+    Args:
+        dataset_name: 数据集名称
+        dataset_options: 数据集配置选项
+        split: 数据分割名称
+        
+    Returns:
+        dataset: 加载的数据集
+    """
+    # 首先尝试从本地JSONL文件加载（优先级更高，确保使用带答案的验证集）
+    try:
+        logger.info(f"尝试从本地JSONL文件加载数据集: {dataset_name}")
+        local_data = load_local_jsonl(dataset_name)
+        
+        # 创建一个简单的数据集对象，模拟datasets库的格式
+        class SimpleDataset:
+            def __init__(self, data):
+                self.data = data
+                
+            def __len__(self):
+                return len(self.data)
+                
+            def __getitem__(self, idx):
+                return self.data[idx]
+                
+            def __iter__(self):
+                return iter(self.data)
+        
+        dataset = SimpleDataset(local_data)
+        logger.info(f"✅ 成功从本地JSONL文件加载 {dataset_name} (来源: local)")
+        return dataset
+    except Exception as local_error:
+        logger.warning(f"⚠️ 无法从本地加载 {dataset_name}: {local_error}")
+        logger.info(f"回退到从Hugging Face加载数据集: {dataset_name}")
+        try:
+            # 回退到Hugging Face加载
+            dataset = load_dataset_split(dataset_options, split=split)
+            logger.info(f"✅ 成功从Hugging Face加载 {dataset_name} (来源: huggingface)")
+            return dataset
+        except Exception as hf_error:
+            logger.error(f"❌ 无法从Hugging Face加载 {dataset_name}: {hf_error}")
+            raise Exception(f"无法从任何来源加载数据集 {dataset_name}。本地错误: {local_error}. Hugging Face错误: {hf_error}")
 
 
 # 设置日志 (与h2o_main.py相同)
@@ -167,10 +257,9 @@ def run_cake_experiment(experiment_main_config, dataset_name, dataset_options,
         }
         model = prepare_model_for_cake(model, cake_specific_exp_config, CAKE_MODEL_CONFIG)
 
-        # 加载数据集
+        # 加载数据集，使用新的回退机制
         logger.info(f"Loading dataset {dataset_name}...")
-        # dataset_options是从DATASET_CONFIG[dataset_name]获取的
-        dataset = load_dataset_split(dataset_options, split="validation") # 使用validation分片，因为MMLU没有train分片
+        dataset = load_dataset_with_fallback(dataset_name, dataset_options, split="test")
 
         # 准备评估样本
         # dataset_subset_size 应从 experiment_main_config 获取
@@ -329,6 +418,7 @@ def main():
     parser.add_argument("--log_level", type=str, default="INFO", help="Logging level (DEBUG, INFO, WARNING, ERROR)")
     parser.add_argument("--seed", type=int, default=config.EXPERIMENT_CONFIG.get("random_seed", 42), help="Random seed for reproducibility.")
     parser.add_argument("--run_name", type=str, default=f"cake_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}", help="A specific name for this run/sweep of experiments.")
+    parser.add_argument("--enable_scoring", action="store_true", help="Enable relative scoring against Full KV baseline")
 
     args = parser.parse_args()
 
@@ -424,6 +514,79 @@ def main():
         except Exception as json_e:
             logger.error(f"Could not save summary as JSON: {json_e}")
 
+    # 处理相对评分（如果启用）
+    if args.enable_scoring and BASELINE_SCORING_AVAILABLE:
+        try:
+            logger.info("开始处理CAKE相对评分...")
+            
+            # 收集所有实验的评分结果，计算相对于基线的分数
+            relative_scores = []
+            
+            for result in all_results_summary:
+                if isinstance(result, dict) and 'experiment_id' in result:
+                    # 查找对应的评分文件
+                    experiment_id = result['experiment_id']
+                    
+                    # 从实验ID中提取数据集名称
+                    if 'cake_' in experiment_id:
+                        parts = experiment_id.split('_')
+                        if len(parts) > 1:
+                            dataset_part = parts[1]  # cake_datasetname_...
+                            
+                            # 查找评分结果文件
+                            for root, dirs, files in os.walk(main_output_dir):
+                                for file in files:
+                                    if file.startswith(f"evaluation_results_") and experiment_id in file:
+                                        eval_file_path = os.path.join(root, file)
+                                        try:
+                                            with open(eval_file_path, 'r', encoding='utf-8') as f:
+                                                eval_data = json.load(f)
+                                                if eval_data.get("average_score") is not None:
+                                                    score_result = calculate_relative_score(
+                                                        dataset_name=dataset_part,
+                                                        raw_score=eval_data["average_score"],
+                                                        is_full_kv=False
+                                                    )
+                                                    # 添加策略信息
+                                                    score_result["strategy"] = "CAKE"
+                                                    score_result["experiment_id"] = experiment_id
+                                                    relative_scores.append(score_result)
+                                                    logger.info(f"CAKE相对分数: {dataset_part} = {score_result['relative_score']:.2f}/100")
+                                        except Exception as e:
+                                            logger.warning(f"处理CAKE评分文件时出错 {eval_file_path}: {e}")
+            
+            if relative_scores:
+                # 生成CAKE相对评分报告
+                aggregated = aggregate_scores(relative_scores)
+                report = format_score_report(aggregated, "CAKE")
+                
+                # 保存CAKE评分报告
+                cake_report_path = os.path.join(main_output_dir, "cake_relative_scoring_report.txt")
+                with open(cake_report_path, 'w', encoding='utf-8') as f:
+                    f.write(report)
+                
+                logger.info(f"CAKE相对评分报告已保存到: {cake_report_path}")
+                print(report)
+                
+                # 保存详细相对评分数据
+                detailed_scores_path = os.path.join(main_output_dir, "cake_detailed_relative_scores.json")
+                with open(detailed_scores_path, 'w', encoding='utf-8') as f:
+                    json.dump({
+                        "strategy": "CAKE",
+                        "summary": aggregated,
+                        "detailed_scores": relative_scores
+                    }, f, indent=2, ensure_ascii=False)
+                
+                logger.info(f"CAKE详细相对评分数据已保存到: {detailed_scores_path}")
+            else:
+                logger.warning("未找到有效的CAKE评分结果，无法计算相对分数")
+                
+        except Exception as scoring_error:
+            logger.error(f"处理CAKE相对评分时出错: {scoring_error}")
+    
+    elif args.enable_scoring and not BASELINE_SCORING_AVAILABLE:
+        logger.warning("相对评分已启用，但基线评分工具不可用")
+    
     logger.info("CAKE experiment suite finished.")
 
 if __name__ == "__main__":
