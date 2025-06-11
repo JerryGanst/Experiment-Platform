@@ -1,0 +1,11 @@
+[
+  {
+    "experiment_id": "optimized_hotpotqa_kv512_205709",
+    "dataset": "hotpotqa",
+    "kv_length": 512,
+    "num_samples": 10,
+    "raw_score": 0.0,
+    "relative_score": 100.0,
+    "baseline_score": 0.0
+  }
+]
