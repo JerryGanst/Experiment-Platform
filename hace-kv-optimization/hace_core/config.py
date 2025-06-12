@@ -11,14 +11,14 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "facebook/opt-1.3b",  # 可以根据实际使用的模型更改
+    "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",  # 使用你已经下载的本地模型
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "NousResearch/Llama-2-7b-hf",
+    "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",
     "precision": "fp16",  # or "bf16", "fp32"
     
     # 多模型实验配置
