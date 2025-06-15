@@ -1,2 +1,0 @@
-experiment_id,timestamp,performance,gpu,system,monitoring_duration
-fullkvcache_hotpotqa_kv128_bs1_rep0_20250612_220558,2025-06-12T22:06:00.533894,"{'success': False, 'error_message': 'Failed to import transformers.models.mistral.modeling_mistral because of the following error (look up to see its traceback):\noperator torchvision::nms does not exist'}","{'total_devices': 0, 'message': 'No GPU devices'}",{'message': 'No system data collected'},0

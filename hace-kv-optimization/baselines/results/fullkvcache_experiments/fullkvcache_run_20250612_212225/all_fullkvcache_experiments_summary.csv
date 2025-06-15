@@ -1,2 +1,0 @@
-experiment_id,timestamp,performance,gpu,system,monitoring_duration
-fullkvcache_hotpotqa_kv512_bs1_rep0_20250612_212225,2025-06-12T21:22:30.317850,"{'success': False, 'error_message': 'Error no file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt.index or flax_model.msgpack found in directory C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3.'}","{'total_devices': 1, 'device_0': {'peak_memory_mb': 0, 'average_memory_mb': 0, 'sample_count': 0}, 'total_peak_memory_mb': 0}",{'message': 'No system data collected'},0
