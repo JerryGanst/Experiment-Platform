@@ -1,0 +1,13 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_012416",
+  "dataset": "hotpotqa",
+  "average_score": 0.2608695652173913,
+  "results": [
+    {
+      "sample_id": 0,
+      "prediction": "\n\nGates v. Collier was brought to court first in 1968, while Miller v. California was brought to court in 1",
+      "ground_truth": "['Miller v. California']",
+      "score": 0.2608695652173913
+    }
+  ]
+}

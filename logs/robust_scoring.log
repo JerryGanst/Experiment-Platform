@@ -1,0 +1,40 @@
+2025-06-17 16:32:00,882 - INFO - Note: NumExpr detected 24 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-06-17 16:32:00,882 - INFO - NumExpr defaulting to 8 threads.
+2025-06-17 16:32:01,334 - INFO - PyTorch version 2.7.1+cu118 available.
+2025-06-17 16:32:01,513 - INFO - 🔍 检查LongBench数据集可用性...
+2025-06-17 16:32:04,877 - INFO - ✅ LongBench可用，样本数: 200
+2025-06-17 16:32:04,877 - INFO - 📊 开始加载LongBench数据集...
+2025-06-17 16:32:04,877 - INFO - 加载数据集: hotpotqa
+2025-06-17 16:32:06,599 - INFO - ✅ 成功加载 hotpotqa, 样本数: 50
+2025-06-17 16:32:06,609 - INFO - 加载数据集: multi_news
+2025-06-17 16:32:09,656 - INFO - ✅ 成功加载 multi_news, 样本数: 50
+2025-06-17 16:32:09,656 - INFO - 加载数据集: narrativeqa
+2025-06-17 16:32:12,410 - INFO - ✅ 成功加载 narrativeqa, 样本数: 50
+2025-06-17 16:32:12,410 - INFO - 🎯 开始计算基线分数...
+2025-06-17 16:32:12,410 - INFO - 📊 评估数据集: hotpotqa
+2025-06-17 16:32:12,414 - INFO - ✅ hotpotqa 基线分数: 0.262 ± 0.138
+2025-06-17 16:32:12,414 - INFO - 📊 评估数据集: multi_news
+2025-06-17 16:32:12,416 - INFO - ✅ multi_news 基线分数: 0.800 ± 0.000
+2025-06-17 16:32:12,416 - INFO - 📊 评估数据集: narrativeqa
+2025-06-17 16:32:12,419 - INFO - ✅ narrativeqa 基线分数: 0.500 ± 0.141
+2025-06-17 16:32:12,419 - INFO - 📊 评分完成: 3/3 个数据集成功
+2025-06-17 16:32:12,419 - INFO - 📁 详细结果已保存到: C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\results\robust_baseline_results.json
+2025-06-17 16:32:12,420 - INFO - 📁 基线分数已保存到: C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\baseline_fullkv.json
+2025-06-17 16:32:12,420 - INFO - 
+🎯 鲁棒基线评分系统报告
+==================================================
+时间: 2025-06-17 16:32:12
+用户: JerryGanst
+LongBench可用: 是
+
+📊 评分结果:
+  ✅ hotpotqa: 0.262 (20 样本)
+  ✅ multi_news: 0.800 (20 样本)
+  ✅ narrativeqa: 0.500 (20 样本)
+
+📈 总结:
+  成功数据集: 3/3
+  平均分数: 0.521
+  系统状态: 正常
+==================================================
+2025-06-17 16:32:12,421 - INFO - 📄 报告已保存到: C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\results\baseline_scoring_report.txt

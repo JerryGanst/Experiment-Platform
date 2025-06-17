@@ -1,0 +1,799 @@
+2025-06-16 21:04:41,221 - __main__ - INFO - Starting FullKVCache experiment suite with run name: fullkvcache_run_20250616_210441
+2025-06-16 21:04:41,222 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', datasets='mmlu,gsm8k,winogrande,arc_challenge,hellaswag,truthful_qa_mc', kv_cache_lengths='128,256,512,1024,2048', batch_sizes='1,4,8', max_new_tokens=256, repetitions=3, output_dir='results\\fullkvcache_experiments', log_level='INFO', seed=42, run_name='fullkvcache_run_20250616_210441', enable_scoring=False, is_baseline_run=False)
+2025-06-16 21:04:41,222 - __main__ - INFO - Global EXPERIMENT_CONFIG being used: {'model_name_or_path': 'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', 'precision': 'fp16', 'multi_model_experiments': True, 'experiment_models': ['NousResearch/Llama-2-7b-hf', 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'mistralai/Mistral-7B-Instruct-v0.3'], 'memory_management': {'auto_max_memory': True, 'manual_max_memory': {0: '23000MB'}, 'memory_buffer_ratio': 0.05, 'force_no_cpu_offload': True}, 'datasets': ['mmlu', 'gsm8k', 'winogrande', 'arc_challenge', 'hellaswag', 'truthful_qa_mc'], 'dataset_subset_size': {'mmlu': 100, 'gsm8k': 100, 'winogrande': None, 'arc_challenge': None, 'hellaswag': None, 'truthful_qa_mc': None, 'pubmed_qa': 100, 'cais/mmlu-zh': 50}, 'kv_cache_lengths': [128, 256, 512, 1024, 2048], 'batch_sizes': [1, 4, 8], 'max_new_tokens': 256, 'repetitions': 3, 'h2o_enabled': True, 'h2o_ratios': [0.1, 0.2, 0.3], 'eviction_strategies': ['attention', 'time_decay', 'hybrid'], 'h2o_kv_cache_lengths': [128, 256, 512, 1024, 2048], 'cake_enabled': True, 'layer_allocation_strategies': ['uniform', 'adaptive', 'attention_based'], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}, 'cache_budgets': [0.5, 0.7, 0.9], 'cake_kv_cache_lengths': [128, 256, 512, 1024, 2048], 'head_level_optimization': False, 'head_analysis_enabled': False, 'head_selection_strategy': 'top_k', 'head_k_value': 10, 'output_base_dir': 'results', 'enable_monitoring': True, 'monitor_interval': 0.5}
+2025-06-16 21:04:41,237 - __main__ - INFO - Random seed set to 42
+2025-06-16 21:04:41,237 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 270
+2025-06-16 21:04:41,238 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 128, Batch: 1
+2025-06-16 21:04:41,383 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv128_bs1_rep0_20250616_210441
+2025-06-16 21:04:41,430 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:04:41,430 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:04:41,431 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv128_bs1_rep0_20250616_210441
+2025-06-16 21:04:41,431 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:04:41,431 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:04:41,431 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:04:41,432 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:04:41,432 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:04:46,183 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:04:46,184 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:04:46,184 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:04:46,514 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:04:46,514 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:04:46,514 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-16 21:04:46,514 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:04:46,514 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-16 21:04:46,514 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:04:46,514 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:04:46,515 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:04:46,515 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:04:46,515 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:04:46,515 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:04:57,631 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:04:57,632 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:04:59,809 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv128_bs1_rep0_20250616_210441: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:04:59,811 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:04:59,812 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:04:59,812 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:04:59,812 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv128_bs1_rep0_20250616_210441 的资源...
+2025-06-16 21:05:00,294 - __main__ - INFO - 实验 fullkvcache_mmlu_kv128_bs1_rep0_20250616_210441 资源清理完成
+2025-06-16 21:05:00,294 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv128_bs1_rep0
+2025-06-16 21:05:00,369 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 128, Batch: 4
+2025-06-16 21:05:00,452 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv128_bs4_rep0_20250616_210500
+2025-06-16 21:05:00,525 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:05:00,526 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:05:00,526 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv128_bs4_rep0_20250616_210500
+2025-06-16 21:05:00,526 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:05:00,526 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:05:00,526 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:05:00,526 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:05:00,526 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:05:03,619 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:05:03,620 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:05:03,620 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:05:03,845 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:05:03,845 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:05:03,845 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-16 21:05:03,845 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:05:03,846 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-16 21:05:03,846 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:05:03,846 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:05:03,846 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:05:03,846 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:05:03,846 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:05:03,846 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:05:11,105 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:05:11,105 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:05:13,245 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv128_bs4_rep0_20250616_210500: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:13,246 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:13,246 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:05:13,246 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:05:13,246 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv128_bs4_rep0_20250616_210500 的资源...
+2025-06-16 21:05:13,724 - __main__ - INFO - 实验 fullkvcache_mmlu_kv128_bs4_rep0_20250616_210500 资源清理完成
+2025-06-16 21:05:13,724 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv128_bs4_rep0
+2025-06-16 21:05:13,797 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 128, Batch: 8
+2025-06-16 21:05:13,869 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv128_bs8_rep0_20250616_210513
+2025-06-16 21:05:13,939 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:05:13,939 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:05:13,939 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv128_bs8_rep0_20250616_210513
+2025-06-16 21:05:13,939 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:05:13,940 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:05:13,940 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:05:13,940 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:05:13,940 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:05:17,230 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:05:17,230 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:05:17,230 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:05:17,452 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:05:17,453 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:05:17,453 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-16 21:05:17,453 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:05:17,453 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-16 21:05:17,453 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:05:17,454 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:05:17,454 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:05:17,454 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:05:17,454 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:05:17,454 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:05:25,959 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:05:25,959 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:05:27,926 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv128_bs8_rep0_20250616_210513: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:27,927 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:27,927 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:05:27,927 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:05:27,928 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv128_bs8_rep0_20250616_210513 的资源...
+2025-06-16 21:05:28,400 - __main__ - INFO - 实验 fullkvcache_mmlu_kv128_bs8_rep0_20250616_210513 资源清理完成
+2025-06-16 21:05:28,400 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv128_bs8_rep0
+2025-06-16 21:05:28,474 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 256, Batch: 1
+2025-06-16 21:05:28,547 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv256_bs1_rep0_20250616_210528
+2025-06-16 21:05:28,618 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:05:28,618 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:05:28,618 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv256_bs1_rep0_20250616_210528
+2025-06-16 21:05:28,618 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:05:28,618 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:05:28,619 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:05:28,619 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:05:28,619 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:05:31,826 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:05:31,826 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:05:31,827 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:05:32,050 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:05:32,051 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:05:32,051 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-16 21:05:32,051 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:05:32,051 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 256
+2025-06-16 21:05:32,051 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:05:32,051 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:05:32,051 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:05:32,051 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:05:32,051 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:05:32,052 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:05:38,858 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:05:38,858 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:05:40,887 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv256_bs1_rep0_20250616_210528: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:40,888 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:40,888 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:05:40,888 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:05:40,889 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv256_bs1_rep0_20250616_210528 的资源...
+2025-06-16 21:05:41,355 - __main__ - INFO - 实验 fullkvcache_mmlu_kv256_bs1_rep0_20250616_210528 资源清理完成
+2025-06-16 21:05:41,355 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv256_bs1_rep0
+2025-06-16 21:05:41,429 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 256, Batch: 4
+2025-06-16 21:05:41,504 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv256_bs4_rep0_20250616_210541
+2025-06-16 21:05:41,579 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:05:41,579 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:05:41,579 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv256_bs4_rep0_20250616_210541
+2025-06-16 21:05:41,580 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:05:41,580 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:05:41,580 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:05:41,580 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:05:41,580 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:05:44,861 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:05:44,861 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:05:44,862 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:05:45,096 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:05:45,096 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:05:45,096 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-16 21:05:45,096 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:05:45,097 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 256
+2025-06-16 21:05:45,097 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:05:45,097 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:05:45,097 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:05:45,097 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:05:45,097 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:05:45,097 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:05:52,421 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:05:52,422 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:05:55,041 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv256_bs4_rep0_20250616_210541: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:55,042 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:05:55,042 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:05:55,043 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:05:55,043 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv256_bs4_rep0_20250616_210541 的资源...
+2025-06-16 21:05:55,487 - __main__ - INFO - 实验 fullkvcache_mmlu_kv256_bs4_rep0_20250616_210541 资源清理完成
+2025-06-16 21:05:55,487 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv256_bs4_rep0
+2025-06-16 21:05:55,561 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 256, Batch: 8
+2025-06-16 21:05:55,635 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv256_bs8_rep0_20250616_210555
+2025-06-16 21:05:55,706 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:05:55,707 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:05:55,707 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv256_bs8_rep0_20250616_210555
+2025-06-16 21:05:55,707 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:05:55,707 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:05:55,707 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:05:55,707 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:05:55,707 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:05:59,007 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:05:59,007 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:05:59,007 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:05:59,225 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:05:59,226 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:05:59,226 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 256
+2025-06-16 21:05:59,226 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:05:59,226 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 256
+2025-06-16 21:05:59,226 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:05:59,226 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:05:59,226 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:05:59,227 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:05:59,227 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:05:59,227 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:06:07,729 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:06:07,730 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:06:10,145 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv256_bs8_rep0_20250616_210555: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:10,146 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:10,146 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:06:10,147 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:06:10,147 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv256_bs8_rep0_20250616_210555 的资源...
+2025-06-16 21:06:10,579 - __main__ - INFO - 实验 fullkvcache_mmlu_kv256_bs8_rep0_20250616_210555 资源清理完成
+2025-06-16 21:06:10,580 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv256_bs8_rep0
+2025-06-16 21:06:10,653 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 1
+2025-06-16 21:06:10,726 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv512_bs1_rep0_20250616_210610
+2025-06-16 21:06:10,802 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:06:10,802 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:06:10,802 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv512_bs1_rep0_20250616_210610
+2025-06-16 21:06:10,802 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:06:10,802 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:06:10,803 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:06:10,803 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:06:10,803 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:06:14,085 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:06:14,086 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:06:14,086 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:06:14,301 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:06:14,301 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:06:14,301 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-16 21:06:14,301 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:06:14,301 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 512
+2025-06-16 21:06:14,302 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:06:14,302 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:06:14,302 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:06:14,302 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:06:14,302 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:06:14,302 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:06:19,222 - datasets.load - WARNING - Using the latest cached version of the dataset since cais/mmlu couldn't be found on the Hugging Face Hub
+2025-06-16 21:06:19,223 - datasets.packaged_modules.cache.cache - WARNING - Found the latest cached dataset configuration 'all' at C:\Users\JerryGanst\.cache\huggingface\datasets\cais___mmlu\all\0.0.0\c30699e8356da336a370243923dbaf21066bb9fe (last modified on Fri May  9 16:31:56 2025).
+2025-06-16 21:06:19,227 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:06:19,228 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:06:20,735 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv512_bs1_rep0_20250616_210610: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:20,737 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:20,737 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:06:20,737 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:06:20,738 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv512_bs1_rep0_20250616_210610 的资源...
+2025-06-16 21:06:21,188 - __main__ - INFO - 实验 fullkvcache_mmlu_kv512_bs1_rep0_20250616_210610 资源清理完成
+2025-06-16 21:06:21,189 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv512_bs1_rep0
+2025-06-16 21:06:21,364 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 4
+2025-06-16 21:06:21,436 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv512_bs4_rep0_20250616_210621
+2025-06-16 21:06:21,509 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:06:21,509 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:06:21,509 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv512_bs4_rep0_20250616_210621
+2025-06-16 21:06:21,509 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:06:21,509 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:06:21,510 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:06:21,510 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:06:21,510 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:06:24,611 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:06:24,611 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:06:24,612 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:06:24,830 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:06:24,830 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:06:24,830 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-16 21:06:24,830 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:06:24,830 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 512
+2025-06-16 21:06:24,831 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:06:24,831 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:06:24,831 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:06:24,831 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:06:24,831 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:06:24,831 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:06:30,632 - datasets.load - WARNING - Using the latest cached version of the dataset since cais/mmlu couldn't be found on the Hugging Face Hub
+2025-06-16 21:06:30,634 - datasets.packaged_modules.cache.cache - WARNING - Found the latest cached dataset configuration 'all' at C:\Users\JerryGanst\.cache\huggingface\datasets\cais___mmlu\all\0.0.0\c30699e8356da336a370243923dbaf21066bb9fe (last modified on Fri May  9 16:31:56 2025).
+2025-06-16 21:06:30,637 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:06:30,638 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:06:32,516 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv512_bs4_rep0_20250616_210621: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:32,517 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:32,518 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:06:32,518 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:06:32,518 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv512_bs4_rep0_20250616_210621 的资源...
+2025-06-16 21:06:32,954 - __main__ - INFO - 实验 fullkvcache_mmlu_kv512_bs4_rep0_20250616_210621 资源清理完成
+2025-06-16 21:06:32,954 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv512_bs4_rep0
+2025-06-16 21:06:33,028 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 512, Batch: 8
+2025-06-16 21:06:33,105 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv512_bs8_rep0_20250616_210633
+2025-06-16 21:06:33,178 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:06:33,179 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:06:33,179 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv512_bs8_rep0_20250616_210633
+2025-06-16 21:06:33,179 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:06:33,179 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:06:33,179 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:06:33,179 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:06:33,180 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:06:36,368 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:06:36,368 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:06:36,369 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:06:36,585 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:06:36,586 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:06:36,586 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 512
+2025-06-16 21:06:36,586 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:06:36,586 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 512
+2025-06-16 21:06:36,586 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:06:36,586 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:06:36,586 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:06:36,586 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:06:36,586 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:06:36,586 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:06:44,069 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:06:44,069 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:06:46,043 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv512_bs8_rep0_20250616_210633: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:46,044 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:46,045 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:06:46,045 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:06:46,045 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv512_bs8_rep0_20250616_210633 的资源...
+2025-06-16 21:06:46,548 - __main__ - INFO - 实验 fullkvcache_mmlu_kv512_bs8_rep0_20250616_210633 资源清理完成
+2025-06-16 21:06:46,548 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv512_bs8_rep0
+2025-06-16 21:06:46,625 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 1024, Batch: 1
+2025-06-16 21:06:46,700 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv1024_bs1_rep0_20250616_210646
+2025-06-16 21:06:46,774 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:06:46,774 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:06:46,774 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv1024_bs1_rep0_20250616_210646
+2025-06-16 21:06:46,774 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:06:46,774 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:06:46,774 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:06:46,775 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:06:46,775 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:06:49,979 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:06:49,979 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:06:49,979 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:06:50,201 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:06:50,202 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:06:50,202 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-16 21:06:50,202 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:06:50,202 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 1024
+2025-06-16 21:06:50,202 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:06:50,202 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:06:50,202 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:06:50,203 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:06:50,203 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:06:50,203 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:06:57,829 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:06:57,829 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:06:59,814 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv1024_bs1_rep0_20250616_210646: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:59,816 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:06:59,816 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:06:59,816 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:06:59,816 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv1024_bs1_rep0_20250616_210646 的资源...
+2025-06-16 21:07:00,269 - __main__ - INFO - 实验 fullkvcache_mmlu_kv1024_bs1_rep0_20250616_210646 资源清理完成
+2025-06-16 21:07:00,269 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv1024_bs1_rep0
+2025-06-16 21:07:00,445 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 1024, Batch: 4
+2025-06-16 21:07:00,520 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv1024_bs4_rep0_20250616_210700
+2025-06-16 21:07:00,599 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:07:00,599 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:07:00,599 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv1024_bs4_rep0_20250616_210700
+2025-06-16 21:07:00,599 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:07:00,599 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:07:00,600 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:07:00,600 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:07:00,600 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:07:03,915 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:07:03,915 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:07:03,915 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:07:04,138 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:07:04,138 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:07:04,138 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-16 21:07:04,138 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:07:04,138 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 1024
+2025-06-16 21:07:04,139 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:07:04,139 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:07:04,139 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:07:04,139 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:07:04,139 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:07:04,139 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:07:11,432 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:07:11,433 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:07:13,402 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv1024_bs4_rep0_20250616_210700: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:13,403 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:13,403 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:07:13,403 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:07:13,404 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv1024_bs4_rep0_20250616_210700 的资源...
+2025-06-16 21:07:13,829 - __main__ - INFO - 实验 fullkvcache_mmlu_kv1024_bs4_rep0_20250616_210700 资源清理完成
+2025-06-16 21:07:13,829 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv1024_bs4_rep0
+2025-06-16 21:07:13,906 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 1024, Batch: 8
+2025-06-16 21:07:13,983 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv1024_bs8_rep0_20250616_210713
+2025-06-16 21:07:14,060 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:07:14,060 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:07:14,060 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv1024_bs8_rep0_20250616_210713
+2025-06-16 21:07:14,060 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:07:14,060 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:07:14,061 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:07:14,061 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:07:14,061 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:07:17,377 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:07:17,378 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:07:17,378 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:07:17,595 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:07:17,595 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:07:17,595 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-16 21:07:17,595 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:07:17,595 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 1024
+2025-06-16 21:07:17,595 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:07:17,595 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:07:17,596 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:07:17,596 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:07:17,596 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:07:17,596 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:07:24,560 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:07:24,560 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:07:27,304 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv1024_bs8_rep0_20250616_210713: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:27,305 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:27,305 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:07:27,305 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:07:27,306 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv1024_bs8_rep0_20250616_210713 的资源...
+2025-06-16 21:07:27,768 - __main__ - INFO - 实验 fullkvcache_mmlu_kv1024_bs8_rep0_20250616_210713 资源清理完成
+2025-06-16 21:07:27,769 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv1024_bs8_rep0
+2025-06-16 21:07:27,847 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 2048, Batch: 1
+2025-06-16 21:07:27,923 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv2048_bs1_rep0_20250616_210727
+2025-06-16 21:07:28,000 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:07:28,000 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:07:28,000 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv2048_bs1_rep0_20250616_210727
+2025-06-16 21:07:28,001 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:07:28,001 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:07:28,001 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:07:28,001 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:07:28,001 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:07:31,274 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:07:31,274 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:07:31,274 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:07:31,491 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:07:31,491 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:07:31,491 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 2048
+2025-06-16 21:07:31,491 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:07:31,491 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 2048
+2025-06-16 21:07:31,491 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:07:31,491 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:07:31,492 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:07:31,492 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:07:31,492 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:07:31,492 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:07:38,812 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:07:38,812 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:07:42,072 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv2048_bs1_rep0_20250616_210727: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:42,074 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:42,074 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:07:42,074 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:07:42,075 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv2048_bs1_rep0_20250616_210727 的资源...
+2025-06-16 21:07:42,536 - __main__ - INFO - 实验 fullkvcache_mmlu_kv2048_bs1_rep0_20250616_210727 资源清理完成
+2025-06-16 21:07:42,536 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv2048_bs1_rep0
+2025-06-16 21:07:42,613 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 2048, Batch: 4
+2025-06-16 21:07:42,690 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv2048_bs4_rep0_20250616_210742
+2025-06-16 21:07:42,766 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:07:42,766 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:07:42,766 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv2048_bs4_rep0_20250616_210742
+2025-06-16 21:07:42,766 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:07:42,766 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:07:42,767 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:07:42,767 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:07:42,767 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:07:46,082 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:07:46,083 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:07:46,083 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:07:46,298 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:07:46,299 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:07:46,299 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 2048
+2025-06-16 21:07:46,299 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:07:46,299 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 2048
+2025-06-16 21:07:46,299 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:07:46,299 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:07:46,299 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:07:46,299 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:07:46,299 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:07:46,299 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:07:53,248 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:07:53,248 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:07:55,213 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv2048_bs4_rep0_20250616_210742: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:55,214 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:07:55,214 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:07:55,214 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:07:55,214 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv2048_bs4_rep0_20250616_210742 的资源...
+2025-06-16 21:07:55,652 - __main__ - INFO - 实验 fullkvcache_mmlu_kv2048_bs4_rep0_20250616_210742 资源清理完成
+2025-06-16 21:07:55,653 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv2048_bs4_rep0
+2025-06-16 21:07:55,733 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: mmlu, KV_Len: 2048, Batch: 8
+2025-06-16 21:07:55,813 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_mmlu_kv2048_bs8_rep0_20250616_210755
+2025-06-16 21:07:55,892 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:07:55,892 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:07:55,892 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_mmlu_kv2048_bs8_rep0_20250616_210755
+2025-06-16 21:07:55,892 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:07:55,892 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:07:55,892 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:07:55,893 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:07:55,893 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-16 21:07:58,951 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-16 21:07:58,951 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-16 21:07:58,952 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-16 21:07:59,172 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-16 21:07:59,172 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-16 21:07:59,172 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 2048
+2025-06-16 21:07:59,172 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-16 21:07:59,173 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 2048
+2025-06-16 21:07:59,173 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-16 21:07:59,173 - __main__ - INFO - Loading dataset mmlu...
+2025-06-16 21:07:59,173 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: mmlu
+2025-06-16 21:07:59,173 - __main__ - WARNING - ⚠️ 无法从本地加载 mmlu: ❌ 本地文件不存在: ../../data\mmlu.jsonl
+2025-06-16 21:07:59,173 - __main__ - INFO - 回退到从Hugging Face加载数据集: mmlu
+2025-06-16 21:07:59,173 - hace_core.data.dataset_loader - INFO - Loading dataset: cais/mmlu (subset: all) - split: test
+2025-06-16 21:08:05,630 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 14042 samples
+2025-06-16 21:08:05,630 - __main__ - INFO - ✅ 成功从Hugging Face加载 mmlu (来源: huggingface)
+2025-06-16 21:08:06,965 - __main__ - ERROR - Error during FullKVCache experiment fullkvcache_mmlu_kv2048_bs8_rep0_20250616_210755: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+Traceback (most recent call last):
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 545, in run_fullkvcache_experiment
+    longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\fullkvcache_main.py", line 144, in load_longbench_official_data
+    dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\JerryGanst\anaconda3\Lib\site-packages\datasets\builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:08:06,967 - hace_core.utils.unified_monitor - ERROR - 实验标记为失败: BuilderConfig 'mmlu' not found. Available: ['2wikimqa', '2wikimqa_e', 'dureader', 'gov_report', 'gov_report_e', 'hotpotqa', 'hotpotqa_e', 'lcc', 'lcc_e', 'lsht', 'multi_news', 'multi_news_e', 'multifieldqa_en', 'multifieldqa_en_e', 'multifieldqa_zh', 'musique', 'narrativeqa', 'passage_count', 'passage_count_e', 'passage_retrieval_en', 'passage_retrieval_en_e', 'passage_retrieval_zh', 'qasper', 'qasper_e', 'qmsum', 'repobench-p', 'repobench-p_e', 'samsum', 'samsum_e', 'trec', 'trec_e', 'triviaqa', 'triviaqa_e', 'vcsum']
+2025-06-16 21:08:06,967 - hace_core.utils.unified_monitor - WARNING - 设备 0 没有收集到GPU内存数据
+2025-06-16 21:08:06,968 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-06-16 21:08:06,968 - __main__ - INFO - 开始清理实验 fullkvcache_mmlu_kv2048_bs8_rep0_20250616_210755 的资源...
+2025-06-16 21:08:07,414 - __main__ - INFO - 实验 fullkvcache_mmlu_kv2048_bs8_rep0_20250616_210755 资源清理完成
+2025-06-16 21:08:07,414 - __main__ - INFO - ✓ 实验成功完成: ds_mmlu_kv2048_bs8_rep0
+2025-06-16 21:08:07,493 - __main__ - INFO - Running FullKVCache: Rep 1/3, Dataset: gsm8k, KV_Len: 128, Batch: 1
+2025-06-16 21:08:07,570 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_gsm8k_kv128_bs1_rep0_20250616_210807
+2025-06-16 21:08:07,647 - __main__ - INFO - 实验前内存清理完成
+2025-06-16 21:08:07,647 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-16 21:08:07,647 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_gsm8k_kv128_bs1_rep0_20250616_210807
+2025-06-16 21:08:07,647 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-16 21:08:07,647 - __main__ - INFO - Loading model and tokenizer...
+2025-06-16 21:08:07,648 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-16 21:08:07,648 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-16 21:08:07,648 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}

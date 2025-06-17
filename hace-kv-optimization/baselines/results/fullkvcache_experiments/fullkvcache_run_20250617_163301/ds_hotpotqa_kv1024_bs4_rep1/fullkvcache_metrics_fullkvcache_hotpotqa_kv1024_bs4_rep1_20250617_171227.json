@@ -1,0 +1,37 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs4_rep1_20250617_171227",
+  "timestamp": "2025-06-17T17:14:26.675943",
+  "performance": {
+    "success": true,
+    "ttft_ms": 10936.646461486816,
+    "tpot_ms": 1619.6856547375114,
+    "throughput_tokens_per_sec": 0.553696117196843,
+    "total_time_sec": 90.30224061012268,
+    "tokens_generated": 50,
+    "model_name": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 4,
+    "kv_cache_length": 1024,
+    "max_new_tokens": 50,
+    "use_fullkvcache": true,
+    "dataset": "hotpotqa",
+    "repetition": 1
+  },
+  "gpu": {
+    "total_devices": 1,
+    "device_0": {
+      "peak_memory_mb": 10888.6513671875,
+      "average_memory_mb": 10496.412302856445,
+      "sample_count": 800
+    },
+    "total_peak_memory_mb": 10888.6513671875
+  },
+  "system": {
+    "peak_cpu_percent": 12.8,
+    "average_cpu_percent": 6.092134831460674,
+    "peak_memory_percent": 43.4,
+    "peak_memory_used_gb": 27.709678649902344,
+    "sample_count": 89
+  },
+  "monitoring_duration": 90.31523537635803
+}

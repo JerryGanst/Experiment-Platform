@@ -35,3 +35,23 @@
 2025-06-16 01:15:39,449 - __main__ - INFO - Starting FullKVCache performance measurement...
 2025-06-16 01:15:39,450 - hace_core.utils.unified_monitor - INFO - 开始生成计时
 2025-06-16 01:15:41,272 - hace_core.utils.unified_monitor - INFO - 记录第一个令牌生成
+2025-06-16 01:16:25,297 - hace_core.utils.unified_monitor - INFO - 结束生成计时，总时间: 45.85秒
+2025-06-16 01:16:25,297 - __main__ - INFO - 开始自动评分...
+2025-06-16 01:16:25,298 - __main__ - INFO - 样本 1 评分: 0.261
+2025-06-16 01:16:25,299 - __main__ - INFO - ✅ 评分完成! 平均分数: 0.261 (1/1 个样本)
+2025-06-16 01:16:25,299 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-16 01:16:25,299 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=9832.5MB, 最终峰值=10364.5MB
+2025-06-16 01:16:25,324 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10364.5MB, 平均=9964.4MB, 样本=354
+2025-06-16 01:16:25,324 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10364.5MB
+2025-06-16 01:16:25,325 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10364.5MB, 平均=9964.4MB, 样本=354
+2025-06-16 01:16:25,325 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10364.5MB
+2025-06-16 01:16:25,325 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results\fullkvcache_experiments\fullkvcache_run_20250616_011518\ds_hotpotqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_011518.json
+2025-06-16 01:16:25,326 - __main__ - INFO - 评分结果已保存到: results\fullkvcache_experiments\fullkvcache_run_20250616_011518\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_011518.json
+2025-06-16 01:16:25,326 - __main__ - INFO - FullKVCache Experiment fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_011518 completed. Metrics: {'experiment_id': 'fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_011518', 'timestamp': '2025-06-16T01:16:25.325423', 'performance': {'success': True, 'ttft_ms': 1821.5720653533936, 'tpot_ms': 1420.1719299439462, 'throughput_tokens_per_sec': 0.6979751886889454, 'total_time_sec': 45.84690189361572, 'tokens_generated': 32, 'model_name': 'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', 'precision': 'fp16', 'batch_size': 1, 'kv_cache_length': 128, 'max_new_tokens': 32, 'use_fullkvcache': True, 'dataset': 'hotpotqa', 'repetition': 0}, 'gpu': {'total_devices': 1, 'device_0': {'peak_memory_mb': 10364.50341796875, 'average_memory_mb': 9964.389252571063, 'sample_count': 354}, 'total_peak_memory_mb': 10364.50341796875}, 'system': {'peak_cpu_percent': 15.3, 'average_cpu_percent': 9.495555555555557, 'peak_memory_percent': 38.7, 'peak_memory_used_gb': 24.689998626708984, 'sample_count': 45}, 'monitoring_duration': 45.87692904472351}
+2025-06-16 01:16:25,327 - __main__ - INFO - 开始清理实验 fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_011518 的资源...
+2025-06-16 01:16:25,764 - __main__ - INFO - 实验 fullkvcache_hotpotqa_kv128_bs1_rep0_20250616_011518 资源清理完成
+2025-06-16 01:16:25,769 - __main__ - INFO - ✓ 实验成功完成: ds_hotpotqa_kv128_bs1_rep0
+2025-06-16 01:16:26,000 - __main__ - INFO - All FullKVCache experiment summaries saved to results\fullkvcache_experiments\fullkvcache_run_20250616_011518\all_fullkvcache_experiments_summary.csv
+2025-06-16 01:16:26,000 - __main__ - INFO - 开始处理基线评分...
+2025-06-16 01:16:26,000 - __main__ - WARNING - 未找到有效的评分结果，无法建立基线
+2025-06-16 01:16:26,000 - __main__ - INFO - FullKVCache experiment suite finished.

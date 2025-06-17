@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-06-17T16:32:12.419806",
+  "baseline_type": "robust_fullkv_simulation",
+  "environment": {
+    "user": "JerryGanst",
+    "project_root": "C:\\Users\\JerryGanst\\PycharmProjects\\Experiment-Platform",
+    "longbench_available": true
+  },
+  "results": {
+    "hotpotqa": {
+      "mean_score": 0.26150000000000007,
+      "std_score": 0.13795923310891517,
+      "count": 20,
+      "status": "success",
+      "scores": [
+        0.30000000000000004,
+        0.29000000000000004,
+        0.16,
+        0.13,
+        0.30000000000000004
+      ]
+    },
+    "multi_news": {
+      "mean_score": 0.8000000000000002,
+      "std_score": 1.1102230246251565e-16,
+      "count": 20,
+      "status": "success",
+      "scores": [
+        0.8,
+        0.8,
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "narrativeqa": {
+      "mean_score": 0.4999999999999999,
+      "std_score": 0.1414213562373095,
+      "count": 20,
+      "status": "success",
+      "scores": [
+        0.3,
+        0.4,
+        0.5,
+        0.6000000000000001,
+        0.7
+      ]
+    }
+  },
+  "summary": {
+    "total_datasets": 3,
+    "successful_datasets": 3,
+    "overall_status": "success",
+    "average_score": 0.5205000000000001
+  }
+}
