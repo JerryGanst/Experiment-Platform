@@ -40,6 +40,24 @@ from transformers import LogitsProcessor, LogitsProcessorList
 # 导入项目模块
 from hace_core import config
 
+# 导入基线评分工具
+try:
+    eval_utils_path = os.path.join(os.path.dirname(__file__), '..')
+    if eval_utils_path not in sys.path:
+        sys.path.append(eval_utils_path)
+
+    from eval_utils import (
+        score_dataset,
+        calculate_relative_score,
+        aggregate_scores,
+        format_score_report
+    )
+    BASELINE_SCORING_AVAILABLE = True
+    print("[OK] 基线评分工具加载成功")
+except ImportError as e:
+    print(f"[WARNING] 基线评分工具加载失败: {e}")
+    BASELINE_SCORING_AVAILABLE = False
+
 MODEL_CONFIG = config.MODEL_CONFIG
 EXPERIMENT_CONFIG = config.EXPERIMENT_CONFIG
 DATASET_CONFIG = config.DATASET_CONFIG
@@ -73,23 +91,37 @@ try:
 except ImportError as e:
     print(f"[WARNING] 评分模块加载失败: {e}")
     SCORING_AVAILABLE = False
-    
+
+
     # 定义占位符函数，避免NameError
     def qa_f1_score(*args, **kwargs):
         return None
+
+
     def rouge_score(*args, **kwargs):
         return None
+
+
     def classification_score(*args, **kwargs):
         return None
+
+
     def retrieval_score(*args, **kwargs):
         return None
+
+
     def count_score(*args, **kwargs):
         return None
+
+
     def code_sim_score(*args, **kwargs):
         return None
+
+
     def normalize_answer(*args, **kwargs):
         return None
-    
+
+
     print("[INFO] 已定义占位符评分函数")
 
 # 导入新的基线评分工具
@@ -335,7 +367,7 @@ def extract_ground_truth_from_sample(sample, dataset_source):
     return []
 
 
-def load_local_jsonl(dataset_name, data_dir="../../data"):
+def load_local_jsonl(dataset_name, data_dir=None):
     """
     从本地JSONL文件加载数据集
 
@@ -346,6 +378,33 @@ def load_local_jsonl(dataset_name, data_dir="../../data"):
     Returns:
         dataset: 数据列表
     """
+    # 动态确定数据目录路径
+    if data_dir is None:
+        # 获取脚本所在目录
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # 尝试多个可能的数据路径
+        possible_data_dirs = [
+            os.path.join(script_dir, "data"),  # 当前baselines/data/
+            os.path.join(script_dir, "..", "..", "data"),  # 项目根目录的data/
+            os.path.join(script_dir, "..", "data"),  # hace-kv-optimization/data/
+        ]
+        
+        data_dir = None
+        for possible_dir in possible_data_dirs:
+            test_file = os.path.join(possible_dir, f"{dataset_name}.jsonl")
+            if os.path.exists(test_file):
+                data_dir = possible_dir
+                logger.info(f"找到数据文件: {test_file}")
+                break
+        
+        if data_dir is None:
+            # 如果都找不到，使用默认路径并提供详细错误信息
+            data_dir = possible_data_dirs[0]  # 使用第一个作为默认
+            logger.warning(f"在以下路径中未找到 {dataset_name}.jsonl:")
+            for path in possible_data_dirs:
+                logger.warning(f"  - {os.path.join(path, f'{dataset_name}.jsonl')}")
+    
     file_path = os.path.join(data_dir, f"{dataset_name}.jsonl")
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"❌ 本地文件不存在: {file_path}")
@@ -972,6 +1031,64 @@ def main():
                                                 baseline_scores.append(score_result)
                                                 logger.info(
                                                     f"基线分数已记录: {dataset_part} = {eval_data['average_score']:.4f}")
+                                    except Exception as e:
+                                        logger.warning(f"处理评分文件时出错 {eval_file_path}: {e}")
+
+            if baseline_scores:
+                # 生成基线报告
+                aggregated = aggregate_scores(baseline_scores)
+                report = format_score_report(aggregated, "Full KV (基线)")
+
+                # 保存基线报告
+                baseline_report_path = os.path.join(main_output_dir, "baseline_scoring_report.txt")
+                with open(baseline_report_path, 'w', encoding='utf-8') as f:
+                    f.write(report)
+
+                logger.info(f"基线评分报告已保存到: {baseline_report_path}")
+                print(report)
+            else:
+                logger.warning("未找到有效的评分结果，无法建立基线")
+
+        except Exception as baseline_error:
+            logger.error(f"处理基线评分时出错: {baseline_error}")
+
+    elif args.enable_scoring and not args.is_baseline_run:
+        logger.info("评分已启用，但这不是基线运行，跳过基线建立")
+
+    
+    # 处理基线评分（如果启用）
+    if args.enable_scoring and args.is_baseline_run and BASELINE_SCORING_AVAILABLE:
+        try:
+            logger.info("开始处理基线评分...")
+
+            # 收集所有实验的评分结果，建立基线
+            baseline_scores = []
+
+            for result in all_results_summary:
+                if isinstance(result, dict) and 'experiment_id' in result:
+                    # 查找对应的评分文件
+                    experiment_id = result['experiment_id']
+
+                    # 从实验ID中提取数据集名称
+                    if 'ds_' in experiment_id:
+                        dataset_part = experiment_id.split('ds_')[1].split('_')[0]
+
+                        # 查找评分结果文件
+                        for root, dirs, files in os.walk(main_output_dir):
+                            for file in files:
+                                if file.startswith(f"evaluation_results_") and experiment_id in file:
+                                    eval_file_path = os.path.join(root, file)
+                                    try:
+                                        with open(eval_file_path, 'r', encoding='utf-8') as f:
+                                            eval_data = json.load(f)
+                                            if eval_data.get("average_score") is not None:
+                                                score_result = calculate_relative_score(
+                                                    dataset_name=dataset_part,
+                                                    raw_score=eval_data["average_score"],
+                                                    is_full_kv=True
+                                                )
+                                                baseline_scores.append(score_result)
+                                                logger.info(f"基线分数已记录: {dataset_part} = {eval_data['average_score']:.4f}")
                                     except Exception as e:
                                         logger.warning(f"处理评分文件时出错 {eval_file_path}: {e}")
 

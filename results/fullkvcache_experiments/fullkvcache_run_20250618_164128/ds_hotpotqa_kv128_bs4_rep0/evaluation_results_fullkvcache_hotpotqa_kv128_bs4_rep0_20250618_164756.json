@@ -1,0 +1,31 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756",
+  "dataset": "hotpotqa",
+  "average_score": 0.00967741935483871,
+  "results": [
+    {
+      "sample_id": 0,
+      "prediction": "\n\nGates v. Collier was brought to court first in 1968, while Miller v. California was brought to court in 1973.\n\nMiller v. California is a landmark case in the United States that established the three-pronged Miller test for determining whether material is obscene and thus not protected by the First Amendment. The case was brought by Marvin Miller, a bookstore owner, after his store was raided and his books were seized under California's obscenity laws.\n\nGates v. Collier, on the other hand, was ",
+      "ground_truth": "['Miller v. California']",
+      "score": 0.03870967741935484
+    },
+    {
+      "sample_id": 1,
+      "prediction": "\n\nJules Verne\n\nJules Verne was a French author who wrote science fiction novels, including \"Around the World in 80 Days\" and \"Twenty Thousand Leagues Under the Sea\". The 1939 film adaptation of \"Around the World in 80 Days\" starring David Niven as Phileas Fogg was directed by Michael Anderson and produced by John F. Kennedy. The film was nominated for six Academy Awards, including Best Picture.",
+      "ground_truth": "['Charles L. Clifford']",
+      "score": 0
+    },
+    {
+      "sample_id": 2,
+      "prediction": "\n\nAnswer: University of Wyoming\n\nKeith Nichol played for the University of Wyoming Cowboys from 1998 to 2001. He was a quarterback for the team and was named the Mountain West Conference Offensive Player of the Year in 2001. After graduating from Wyoming, he played for the Detroit Lions from 2005 to 2007.\n\nIn 2008, he joined the Michigan State Spartans as a quarterbacks coach and was promoted to offensive coordinator in 2011. He left Michigan State in 2013 to join the University of Houston as an",
+      "ground_truth": "['Norman']",
+      "score": 0
+    },
+    {
+      "sample_id": 3,
+      "prediction": "\n\nA. Mars\nB. Jupiter\nC. Venus\nD. Saturn\n\nAnswer: A. Mars\n\nGary L. Bennett was a part of the Mars Pathfinder mission, which was the first mission to land a robotic rover on Mars. The mission was launched on December 4, 1996, and the lander, which included the Sojourner rover, touched down on Mars on July 4, 1997.\n\nThe Mars Pathfinder mission was a part of NASA's Mars Exploration Program and was designed to test new technologies for future Mars missions, including the use of a solar-powered rover.",
+      "ground_truth": "['Sun']",
+      "score": 0
+    }
+  ]
+}

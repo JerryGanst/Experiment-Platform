@@ -63,7 +63,7 @@ run_cake_experiments.bat     # 运行CAKE实验
 
 **测试验证**:
 ```bash
-python test_baseline_system.py
+python debug_eval_utils.py
 ```
 
 ### 📈 预期输出

@@ -1,0 +1,168 @@
+2025-06-18 16:41:28,640 - __main__ - INFO - Starting FullKVCache experiment suite with run name: fullkvcache_run_20250618_164128
+2025-06-18 16:41:28,640 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa', kv_cache_lengths='128', batch_sizes='1,4,8', max_new_tokens=256, repetitions=1, output_dir='results\\fullkvcache_experiments', log_level='INFO', seed=42, run_name='fullkvcache_run_20250618_164128', enable_scoring=True, is_baseline_run=True)
+2025-06-18 16:41:28,640 - __main__ - INFO - Global EXPERIMENT_CONFIG being used: {'model_name_or_path': 'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', 'precision': 'fp16', 'multi_model_experiments': True, 'experiment_models': ['NousResearch/Llama-2-7b-hf', 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'mistralai/Mistral-7B-Instruct-v0.3'], 'memory_management': {'auto_max_memory': True, 'manual_max_memory': {0: '23000MB'}, 'memory_buffer_ratio': 0.05, 'force_no_cpu_offload': True}, 'datasets': ['mmlu', 'gsm8k', 'winogrande', 'arc_challenge', 'hellaswag', 'truthful_qa_mc'], 'dataset_subset_size': {'mmlu': 100, 'gsm8k': 100, 'winogrande': None, 'arc_challenge': None, 'hellaswag': None, 'truthful_qa_mc': None, 'pubmed_qa': 100, 'cais/mmlu-zh': 50}, 'kv_cache_lengths': [128, 256, 512, 1024, 2048], 'batch_sizes': [1, 4, 8], 'max_new_tokens': 256, 'repetitions': 3, 'h2o_enabled': True, 'h2o_ratios': [0.1, 0.2, 0.3], 'eviction_strategies': ['attention', 'time_decay', 'hybrid'], 'h2o_kv_cache_lengths': [128, 256, 512, 1024, 2048], 'cake_enabled': True, 'layer_allocation_strategies': ['uniform', 'adaptive', 'attention_based'], 'layer_analysis_configs': {'attention_pattern_analysis': True, 'layer_importance_scoring': True, 'dynamic_allocation': True}, 'cache_budgets': [0.5, 0.7, 0.9], 'cake_kv_cache_lengths': [128, 256, 512, 1024, 2048], 'head_level_optimization': False, 'head_analysis_enabled': False, 'head_selection_strategy': 'top_k', 'head_k_value': 10, 'output_base_dir': 'results', 'enable_monitoring': True, 'monitor_interval': 0.5}
+2025-06-18 16:41:28,662 - __main__ - INFO - Random seed set to 42
+2025-06-18 16:41:28,662 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-18 16:41:28,663 - __main__ - INFO - Running FullKVCache: Rep 1/1, Dataset: hotpotqa, KV_Len: 128, Batch: 1
+2025-06-18 16:41:28,813 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128
+2025-06-18 16:41:28,862 - __main__ - INFO - 实验前内存清理完成
+2025-06-18 16:41:28,862 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-18 16:41:28,862 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128
+2025-06-18 16:41:28,862 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-18 16:41:28,862 - __main__ - INFO - Loading model and tokenizer...
+2025-06-18 16:41:28,863 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-18 16:41:28,863 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-18 16:41:28,863 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-18 16:41:33,379 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-18 16:41:33,379 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-18 16:41:33,380 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.59GB, 已保留 9.69GB
+2025-06-18 16:41:33,709 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-18 16:41:33,709 - __main__ - INFO - 模型加载后GPU内存: 10.30GB
+2025-06-18 16:41:33,709 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-18 16:41:33,709 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-18 16:41:33,709 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-18 16:41:33,710 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-18 16:41:33,710 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-18 16:41:33,710 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-18 16:41:33,710 - __main__ - INFO - 找到数据文件: C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\data\hotpotqa.jsonl
+2025-06-18 16:41:33,907 - __main__ - INFO - ✅ 从本地加载 hotpotqa，共 7405 条样本
+2025-06-18 16:41:33,907 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-18 16:41:40,180 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-18 16:41:40,245 - __main__ - INFO - 输入数据验证通过
+2025-06-18 16:41:40,245 - __main__ - INFO - Warming up FullKVCache model...
+2025-06-18 16:41:50,688 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-18 16:41:50,688 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-18 16:41:50,688 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-18 16:41:50,689 - __main__ - INFO - Starting FullKVCache performance measurement...
+2025-06-18 16:41:50,689 - hace_core.utils.unified_monitor - INFO - 开始生成计时
+2025-06-18 16:41:52,500 - hace_core.utils.unified_monitor - INFO - 记录第一个令牌生成
+2025-06-18 16:47:56,028 - hace_core.utils.unified_monitor - INFO - 结束生成计时，总时间: 365.34秒
+2025-06-18 16:47:56,029 - __main__ - INFO - 开始自动评分...
+2025-06-18 16:47:56,031 - __main__ - INFO - 样本 1 评分: 0.039
+2025-06-18 16:47:56,031 - __main__ - INFO - ✅ 评分完成! 平均分数: 0.039 (1/1 个样本)
+2025-06-18 16:47:56,031 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-18 16:47:56,031 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=9832.5MB, 最终峰值=10390.6MB
+2025-06-18 16:47:56,066 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10390.6MB, 平均=9989.2MB, 样本=3232
+2025-06-18 16:47:56,066 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10390.6MB
+2025-06-18 16:47:56,067 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10390.6MB, 平均=9989.2MB, 样本=3232
+2025-06-18 16:47:56,067 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10390.6MB
+2025-06-18 16:47:56,068 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results\fullkvcache_experiments\fullkvcache_run_20250618_164128\ds_hotpotqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128.json
+2025-06-18 16:47:56,068 - __main__ - INFO - 评分结果已保存到: results\fullkvcache_experiments\fullkvcache_run_20250618_164128\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128.json
+2025-06-18 16:47:56,068 - __main__ - INFO - FullKVCache Experiment fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128 completed. Metrics: {'experiment_id': 'fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128', 'timestamp': '2025-06-18T16:47:56.066447', 'performance': {'success': True, 'ttft_ms': 1809.9918365478516, 'tpot_ms': 1514.702985684077, 'throughput_tokens_per_sec': 0.659661827390204, 'total_time_sec': 365.3387084007263, 'tokens_generated': 241, 'model_name': 'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', 'precision': 'fp16', 'batch_size': 1, 'kv_cache_length': 128, 'max_new_tokens': 256, 'use_fullkvcache': True, 'dataset': 'hotpotqa', 'repetition': 0}, 'gpu': {'total_devices': 1, 'device_0': {'peak_memory_mb': 10390.63134765625, 'average_memory_mb': 9989.175311400159, 'sample_count': 3232}, 'total_peak_memory_mb': 10390.63134765625}, 'system': {'peak_cpu_percent': 33.3, 'average_cpu_percent': 10.594428969359331, 'peak_memory_percent': 49.1, 'peak_memory_used_gb': 31.320880889892578, 'sample_count': 359}, 'monitoring_duration': 365.3781235218048}
+2025-06-18 16:47:56,068 - __main__ - INFO - 开始清理实验 fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128 的资源...
+2025-06-18 16:47:56,495 - __main__ - INFO - 实验 fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128 资源清理完成
+2025-06-18 16:47:56,503 - __main__ - INFO - ✓ 实验成功完成: ds_hotpotqa_kv128_bs1_rep0
+2025-06-18 16:47:56,575 - __main__ - INFO - Running FullKVCache: Rep 1/1, Dataset: hotpotqa, KV_Len: 128, Batch: 4
+2025-06-18 16:47:56,799 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756
+2025-06-18 16:47:56,872 - __main__ - INFO - 实验前内存清理完成
+2025-06-18 16:47:56,872 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-18 16:47:56,873 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756
+2025-06-18 16:47:56,873 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-18 16:47:56,873 - __main__ - INFO - Loading model and tokenizer...
+2025-06-18 16:47:56,947 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-18 16:47:56,948 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-18 16:47:56,948 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-18 16:48:00,131 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-18 16:48:00,131 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-18 16:48:00,132 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.60GB, 已保留 9.71GB
+2025-06-18 16:48:00,360 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-18 16:48:00,360 - __main__ - INFO - 模型加载后GPU内存: 10.31GB
+2025-06-18 16:48:00,360 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-18 16:48:00,360 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-18 16:48:00,360 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-18 16:48:00,360 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-18 16:48:00,360 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-18 16:48:00,360 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-18 16:48:00,361 - __main__ - INFO - 找到数据文件: C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\data\hotpotqa.jsonl
+2025-06-18 16:48:00,544 - __main__ - INFO - ✅ 从本地加载 hotpotqa，共 7405 条样本
+2025-06-18 16:48:00,544 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-18 16:48:03,232 - __main__ - INFO - Preparing batch with size 4, max_length 128...
+2025-06-18 16:48:03,234 - __main__ - INFO - 输入数据验证通过
+2025-06-18 16:48:03,235 - __main__ - INFO - Warming up FullKVCache model...
+2025-06-18 16:48:14,850 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-18 16:48:14,850 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-18 16:48:14,850 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-18 16:48:14,850 - __main__ - INFO - Starting FullKVCache performance measurement...
+2025-06-18 16:48:14,851 - hace_core.utils.unified_monitor - INFO - 开始生成计时
+2025-06-18 16:48:16,656 - hace_core.utils.unified_monitor - INFO - 记录第一个令牌生成
+2025-06-18 16:54:40,222 - hace_core.utils.unified_monitor - INFO - 结束生成计时，总时间: 385.37秒
+2025-06-18 16:54:40,222 - __main__ - INFO - 开始自动评分...
+2025-06-18 16:54:40,223 - __main__ - INFO - 样本 1 评分: 0.039
+2025-06-18 16:54:40,223 - __main__ - INFO - 样本 2 评分: 0.000
+2025-06-18 16:54:40,224 - __main__ - INFO - 样本 3 评分: 0.000
+2025-06-18 16:54:40,224 - __main__ - INFO - 样本 4 评分: 0.000
+2025-06-18 16:54:40,224 - __main__ - INFO - ✅ 评分完成! 平均分数: 0.010 (4/4 个样本)
+2025-06-18 16:54:40,224 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-18 16:54:40,225 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=9832.5MB, 最终峰值=10537.6MB
+2025-06-18 16:54:40,262 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10537.6MB, 平均=10096.0MB, 样本=3409
+2025-06-18 16:54:40,262 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10537.6MB
+2025-06-18 16:54:40,262 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10537.6MB, 平均=10096.0MB, 样本=3409
+2025-06-18 16:54:40,263 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10537.6MB
+2025-06-18 16:54:40,263 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results\fullkvcache_experiments\fullkvcache_run_20250618_164128\ds_hotpotqa_kv128_bs4_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756.json
+2025-06-18 16:54:40,273 - __main__ - INFO - 评分结果已保存到: results\fullkvcache_experiments\fullkvcache_run_20250618_164128\ds_hotpotqa_kv128_bs4_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756.json
+2025-06-18 16:54:40,273 - __main__ - INFO - FullKVCache Experiment fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756 completed. Metrics: {'experiment_id': 'fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756', 'timestamp': '2025-06-18T16:54:40.262389', 'performance': {'success': True, 'ttft_ms': 1804.5315742492676, 'tpot_ms': 1504.1763361762553, 'throughput_tokens_per_sec': 0.6642957994355273, 'total_time_sec': 385.3704934120178, 'tokens_generated': 256, 'model_name': 'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', 'precision': 'fp16', 'batch_size': 4, 'kv_cache_length': 128, 'max_new_tokens': 256, 'use_fullkvcache': True, 'dataset': 'hotpotqa', 'repetition': 0}, 'gpu': {'total_devices': 1, 'device_0': {'peak_memory_mb': 10537.56396484375, 'average_memory_mb': 10096.049706572905, 'sample_count': 3409}, 'total_peak_memory_mb': 10537.56396484375}, 'system': {'peak_cpu_percent': 22.4, 'average_cpu_percent': 9.39604221635884, 'peak_memory_percent': 48.5, 'peak_memory_used_gb': 30.979293823242188, 'sample_count': 379}, 'monitoring_duration': 385.4114947319031}
+2025-06-18 16:54:40,273 - __main__ - INFO - 开始清理实验 fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756 的资源...
+2025-06-18 16:54:40,703 - __main__ - INFO - 实验 fullkvcache_hotpotqa_kv128_bs4_rep0_20250618_164756 资源清理完成
+2025-06-18 16:54:40,710 - __main__ - INFO - ✓ 实验成功完成: ds_hotpotqa_kv128_bs4_rep0
+2025-06-18 16:54:40,779 - __main__ - INFO - Running FullKVCache: Rep 1/1, Dataset: hotpotqa, KV_Len: 128, Batch: 8
+2025-06-18 16:54:40,920 - __main__ - INFO - Starting FullKVCache experiment: fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440
+2025-06-18 16:54:40,989 - __main__ - INFO - 实验前内存清理完成
+2025-06-18 16:54:40,989 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-18 16:54:40,990 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440
+2025-06-18 16:54:40,990 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-06-18 16:54:40,990 - __main__ - INFO - Loading model and tokenizer...
+2025-06-18 16:54:41,069 - hace_core.models.model_loader - INFO - Loading model: C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3
+2025-06-18 16:54:41,069 - hace_core.models.model_loader - INFO - GPU 0: 总显存 12281MB, 自动设置上限 11000MB (缓冲比例: 5.0%)
+2025-06-18 16:54:41,069 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '11000MB'}
+2025-06-18 16:54:44,123 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the disk.
+2025-06-18 16:54:44,123 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-18 16:54:44,123 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 9.60GB, 已保留 9.71GB
+2025-06-18 16:54:44,352 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-18 16:54:44,353 - __main__ - INFO - 模型加载后GPU内存: 10.31GB
+2025-06-18 16:54:44,353 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-18 16:54:44,353 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-18 16:54:44,353 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-18 16:54:44,353 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-18 16:54:44,353 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-18 16:54:44,353 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-18 16:54:44,354 - __main__ - INFO - 找到数据文件: C:\Users\JerryGanst\PycharmProjects\Experiment-Platform\hace-kv-optimization\baselines\data\hotpotqa.jsonl
+2025-06-18 16:54:44,531 - __main__ - INFO - ✅ 从本地加载 hotpotqa，共 7405 条样本
+2025-06-18 16:54:44,531 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-18 16:54:49,697 - __main__ - INFO - Preparing batch with size 8, max_length 128...
+2025-06-18 16:54:49,704 - __main__ - INFO - 输入数据验证通过
+2025-06-18 16:54:49,704 - __main__ - INFO - Warming up FullKVCache model...
+2025-06-18 16:55:01,840 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-18 16:55:01,840 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-18 16:55:01,840 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-18 16:55:01,840 - __main__ - INFO - Starting FullKVCache performance measurement...
+2025-06-18 16:55:01,841 - hace_core.utils.unified_monitor - INFO - 开始生成计时
+2025-06-18 16:55:03,526 - hace_core.utils.unified_monitor - INFO - 记录第一个令牌生成
+2025-06-18 17:04:02,155 - hace_core.utils.unified_monitor - INFO - 结束生成计时，总时间: 540.31秒
+2025-06-18 17:04:02,155 - __main__ - INFO - 开始自动评分...
+2025-06-18 17:04:02,156 - __main__ - INFO - 样本 1 评分: 0.039
+2025-06-18 17:04:02,156 - __main__ - INFO - 样本 2 评分: 0.000
+2025-06-18 17:04:02,157 - __main__ - INFO - 样本 3 评分: 0.000
+2025-06-18 17:04:02,157 - __main__ - INFO - 样本 4 评分: 0.000
+2025-06-18 17:04:02,158 - __main__ - INFO - 样本 5 评分: 0.023
+2025-06-18 17:04:02,158 - __main__ - INFO - 样本 6 评分: 0.018
+2025-06-18 17:04:02,158 - __main__ - INFO - 样本 7 评分: 0.000
+2025-06-18 17:04:02,159 - __main__ - INFO - 样本 8 评分: 0.037
+2025-06-18 17:04:02,159 - __main__ - INFO - ✅ 评分完成! 平均分数: 0.015 (8/8 个样本)
+2025-06-18 17:04:02,159 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-18 17:04:02,159 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=9832.5MB, 最终峰值=10728.9MB
+2025-06-18 17:04:02,206 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10728.9MB, 平均=10347.4MB, 样本=4782
+2025-06-18 17:04:02,206 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10728.9MB
+2025-06-18 17:04:02,207 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=10728.9MB, 平均=10347.4MB, 样本=4782
+2025-06-18 17:04:02,207 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 10728.9MB
+2025-06-18 17:04:02,207 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results\fullkvcache_experiments\fullkvcache_run_20250618_164128\ds_hotpotqa_kv128_bs8_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440.json
+2025-06-18 17:04:02,208 - __main__ - INFO - 评分结果已保存到: results\fullkvcache_experiments\fullkvcache_run_20250618_164128\ds_hotpotqa_kv128_bs8_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440.json
+2025-06-18 17:04:02,208 - __main__ - INFO - FullKVCache Experiment fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440 completed. Metrics: {'experiment_id': 'fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440', 'timestamp': '2025-06-18T17:04:02.207585', 'performance': {'success': True, 'ttft_ms': 1685.4181289672852, 'tpot_ms': 2112.2660795847573, 'throughput_tokens_per_sec': 0.47379833659206333, 'total_time_sec': 540.3142650127411, 'tokens_generated': 256, 'model_name': 'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3', 'precision': 'fp16', 'batch_size': 8, 'kv_cache_length': 128, 'max_new_tokens': 256, 'use_fullkvcache': True, 'dataset': 'hotpotqa', 'repetition': 0}, 'gpu': {'total_devices': 1, 'device_0': {'peak_memory_mb': 10728.90380859375, 'average_memory_mb': 10347.419953936964, 'sample_count': 4782}, 'total_peak_memory_mb': 10728.90380859375}, 'system': {'peak_cpu_percent': 23.9, 'average_cpu_percent': 8.209586466165414, 'peak_memory_percent': 47.1, 'peak_memory_used_gb': 30.064449310302734, 'sample_count': 532}, 'monitoring_duration': 540.3670892715454}
+2025-06-18 17:04:02,209 - __main__ - INFO - 开始清理实验 fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440 的资源...
+2025-06-18 17:04:02,604 - __main__ - INFO - 实验 fullkvcache_hotpotqa_kv128_bs8_rep0_20250618_165440 资源清理完成
+2025-06-18 17:04:02,612 - __main__ - INFO - ✓ 实验成功完成: ds_hotpotqa_kv128_bs8_rep0
+2025-06-18 17:04:02,693 - __main__ - INFO - All FullKVCache experiment summaries saved to results\fullkvcache_experiments\fullkvcache_run_20250618_164128\all_fullkvcache_experiments_summary.csv
+2025-06-18 17:04:02,693 - __main__ - INFO - 开始处理基线评分...
+2025-06-18 17:04:02,693 - __main__ - WARNING - 未找到有效的评分结果，无法建立基线
+2025-06-18 17:04:02,693 - __main__ - INFO - 开始处理基线评分...
+2025-06-18 17:04:02,693 - __main__ - WARNING - 未找到有效的评分结果，无法建立基线
+2025-06-18 17:04:02,693 - __main__ - INFO - FullKVCache experiment suite finished.

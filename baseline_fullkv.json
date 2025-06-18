@@ -1,8 +1,7 @@
 {
-  "timestamp": "2025-06-17T16:32:12.420802",
-  "baseline_scores": {
-    "hotpotqa": 0.26150000000000007,
-    "multi_news": 0.8000000000000002,
-    "narrativeqa": 0.4999999999999999
+  "hotpotqa": 0.11694278652814842,
+  "_metadata": {
+    "created_at": "2025-06-18",
+    "source": "collected_from_experiments"
   }
 }

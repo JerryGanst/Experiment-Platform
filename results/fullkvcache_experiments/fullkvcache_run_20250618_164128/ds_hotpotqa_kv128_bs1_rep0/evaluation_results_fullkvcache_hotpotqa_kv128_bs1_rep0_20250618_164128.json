@@ -1,0 +1,13 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250618_164128",
+  "dataset": "hotpotqa",
+  "average_score": 0.03870967741935484,
+  "results": [
+    {
+      "sample_id": 0,
+      "prediction": "\n\nGates v. Collier was brought to court first in 1968, while Miller v. California was brought to court in 1973.\n\nMiller v. California is a landmark case in the United States that established the three-pronged Miller test for determining whether material is obscene and thus not protected by the First Amendment. The case was brought by Marvin Miller, a bookstore owner, after his store was raided and his books were seized under California's obscenity laws.\n\nGates v. Collier, on the other hand, was ",
+      "ground_truth": "['Miller v. California']",
+      "score": 0.03870967741935484
+    }
+  ]
+}

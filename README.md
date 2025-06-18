@@ -41,7 +41,7 @@ Experiment-Platform/
 
 ```bash
 # 验证基线评分系统是否正常工作
-python test_baseline_system.py
+python debug_eval_utils.py
 ```
 
 ### 2. 运行完整实验

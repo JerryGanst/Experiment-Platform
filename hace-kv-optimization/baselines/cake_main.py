@@ -61,7 +61,7 @@ from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_fo
 from hace_core.utils.unified_monitor import UnifiedMonitor
 
 
-def load_local_jsonl(dataset_name, data_dir="../../data"):
+def load_local_jsonl(dataset_name, data_dir=None):
     """
     从本地JSONL文件加载数据集
     
@@ -72,6 +72,33 @@ def load_local_jsonl(dataset_name, data_dir="../../data"):
     Returns:
         dataset: 数据列表
     """
+    # 动态确定数据目录路径
+    if data_dir is None:
+        # 获取脚本所在目录
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # 尝试多个可能的数据路径
+        possible_data_dirs = [
+            os.path.join(script_dir, "data"),  # 当前baselines/data/
+            os.path.join(script_dir, "..", "..", "data"),  # 项目根目录的data/
+            os.path.join(script_dir, "..", "data"),  # hace-kv-optimization/data/
+        ]
+        
+        data_dir = None
+        for possible_dir in possible_data_dirs:
+            test_file = os.path.join(possible_dir, f"{dataset_name}.jsonl")
+            if os.path.exists(test_file):
+                data_dir = possible_dir
+                logger.info(f"找到数据文件: {test_file}")
+                break
+        
+        if data_dir is None:
+            # 如果都找不到，使用默认路径并提供详细错误信息
+            data_dir = possible_data_dirs[0]  # 使用第一个作为默认
+            logger.warning(f"在以下路径中未找到 {dataset_name}.jsonl:")
+            for path in possible_data_dirs:
+                logger.warning(f"  - {os.path.join(path, f'{dataset_name}.jsonl')}")
+    
     file_path = os.path.join(data_dir, f"{dataset_name}.jsonl")
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"❌ 本地文件不存在: {file_path}")

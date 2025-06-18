@@ -128,7 +128,7 @@ Experiment-Platform/
 
 ```bash
 # 测试基线评分系统
-python test_baseline_system.py
+python debug_eval_utils.py
 ```
 
 ## 技术特性
