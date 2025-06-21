@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Research Framework for Optimizing Head-level KV Cache Based on CAKE" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/hace-kv-optimization" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="h2o-env" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Experiment-Platform" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

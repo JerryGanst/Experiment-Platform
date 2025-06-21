@@ -4,7 +4,7 @@
 
 # 硬件配置信息
 HARDWARE_CONFIG = {
-    "gpu": "NVIDIA RTX 4070 SUPER",
+    "gpu": "NVIDIA RTX 4090",
     "cpu": "Intel Core i7-13700KF",
     "memory": "64GB DDR5-6000MHz"
 }
@@ -20,11 +20,19 @@ MODEL_CONFIG = {
 EXPERIMENT_CONFIG = {
     "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",
     "precision": "fp16",  # or "bf16", "fp32"
-    
+# 在这里添加这几行 ↓↓↓
+    "use_relative_paths": True,        # 新增：强制使用相对路径
+    "auto_create_dirs": True,          # 新增：自动创建目录
+    "baseline_search_patterns": [      # 新增：基线文件搜索模式
+        "./**/evaluation_results_*.json",
+        "./fullkvcache_run_*/ds_*/evaluation_results_*.json",
+        "./results/**/evaluation_results_*.json"
+    ],
+    # 添加结束 ↑↑↑
     # 多模型实验配置
     "multi_model_experiments": True,
     "experiment_models": [
-        "NousResearch/Llama-2-7b-hf",           # 默认主模型
+        "meta-llama/Llama-2-7b-chat",           # 默认主模型
         "meta-llama/Meta-Llama-3.1-8B-Instruct",  # Llama 3.1 8B
         "mistralai/Mistral-7B-Instruct-v0.3"      # Mistral 7B v0.3
     ],
@@ -79,7 +87,7 @@ EXPERIMENT_CONFIG = {
     "head_selection_strategy": "top_k", # e.g., top_k, threshold-based
     "head_k_value": 10, # Number of heads to keep if strategy is top_k
     
-    "output_base_dir": "results",
+    "output_base_dir": "./results",
     "enable_monitoring": True,
     "monitor_interval": 0.5 # seconds
 }

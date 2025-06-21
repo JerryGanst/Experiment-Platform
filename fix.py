@@ -1,4 +1,7 @@
-# utilities/path_config.py
+
+# fix_path_config.py - 修复path_config.py文件
+def fix_path_config():
+    content = '''# utilities/path_config.py
 from pathlib import Path
 import json
 import os
@@ -158,10 +161,10 @@ class PathManager:
 
     def print_config(self):
         """打印当前配置"""
-        print("\n📋 当前路径配置:")
+        print("\\n📋 当前路径配置:")
         print("=" * 50)
         for section, settings in self.paths.items():
-            print(f"\n[{section}]")
+            print(f"\\n[{section}]")
             for key, value in settings.items():
                 print(f"  {key}: {value}")
         print("=" * 50)
@@ -211,3 +214,14 @@ class EnhancedScriptResolver:
 
         except Exception as e:
             return False, f"脚本验证失败: {e}"
+'''
+
+    with open('utilities/path_config.py', 'w', encoding='utf-8') as f:
+        f.write(content)
+
+    print("✅ 已修复utilities/path_config.py文件")
+    print("📋 文件已包含完整的PathManager和EnhancedScriptResolver类")
+
+
+if __name__ == "__main__":
+    fix_path_config()

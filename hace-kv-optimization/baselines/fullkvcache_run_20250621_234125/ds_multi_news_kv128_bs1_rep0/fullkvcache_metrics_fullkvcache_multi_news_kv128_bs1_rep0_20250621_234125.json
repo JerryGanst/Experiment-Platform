@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125",
+  "timestamp": "2025-06-21T23:42:03.061800",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 139.67866994896713,
+    "throughput_tokens_per_sec": 7.148724379245441,
+    "total_time_sec": 6.99425482749939,
+    "tokens_generated": 50,
+    "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 128,
+    "max_new_tokens": 50,
+    "use_fullkvcache": true,
+    "dataset": "multi_news",
+    "repetition": 0
+  },
+  "monitoring": null
+}

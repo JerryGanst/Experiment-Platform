@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125",
+  "timestamp": "2025-06-21T23:42:21.372186",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 148.42616003386826,
+    "throughput_tokens_per_sec": 6.735928318215209,
+    "total_time_sec": 7.422881841659546,
+    "tokens_generated": 50,
+    "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 128,
+    "max_new_tokens": 50,
+    "use_fullkvcache": true,
+    "dataset": "narrativeqa",
+    "repetition": 0
+  },
+  "monitoring": null
+}

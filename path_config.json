@@ -1,14 +1,14 @@
 {
   "model_paths": {
-    "local_models": "C:\\Users\\JerryGanst\\mistral_models",
-    "cache_dir": "C:\\Users\\JerryGanst\\.cache\\huggingface",
+    "local_models": "C:/Users/Administrator/mistral_models",
+    "cache_dir": "C:\\Users\\Administrator\\.cache\\huggingface",
     "default_model": "7B-Instruct-v0.3"
   },
   "data_paths": {
-    "datasets_cache": "C:\\Users\\JerryGanst\\.cache\\datasets",
-    "longbench_cache": "C:\\Users\\JerryGanst\\.cache\\longbench",
-    "results_dir": "C:\\Users\\JerryGanst\\PycharmProjects\\Experiment-Platform\\results",
-    "logs_dir": "C:\\Users\\JerryGanst\\PycharmProjects\\Experiment-Platform\\logs"
+    "datasets_cache": "C:\\Users\\Administrator\\.cache\\datasets",
+    "longbench_cache": "C:\\Users\\Administrator\\.cache\\longbench",
+    "results_dir": "C:\\Users\\Administrator\\PycharmProjects\\Experiment-Platform\\results",
+    "logs_dir": "C:\\Users\\Administrator\\PycharmProjects\\Experiment-Platform\\logs"
   },
   "script_mappings": {
     "baseline": "fullkvcache_main.py",
@@ -17,8 +17,8 @@
     "h2o": "h2o_main.py"
   },
   "evaluation": {
-    "eval_utils_path": "C:\\Users\\JerryGanst\\PycharmProjects\\Experiment-Platform\\eval_utils.py",
-    "baseline_scores_file": "C:\\Users\\JerryGanst\\PycharmProjects\\Experiment-Platform\\baseline_fullkv.json",
+    "eval_utils_path": "C:\\Users\\Administrator\\PycharmProjects\\Experiment-Platform\\eval_utils.py",
+    "baseline_scores_file": "C:\\Users\\Administrator\\PycharmProjects\\Experiment-Platform\\baseline_fullkv.json",
     "enable_scoring": true
   }
 }

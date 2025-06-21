@@ -1,7 +1,9 @@
 {
-  "hotpotqa": 0.11694278652814842,
+  "hotpotqa": 0,
   "_metadata": {
     "created_at": "2025-06-18",
     "source": "collected_from_experiments"
-  }
+  },
+  "narrativeqa": 0,
+  "multi_news": 0.0
 }

@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="h2o-env" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="h2o-env" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Experiment-Platform" project-jdk-type="Python SDK" />
 </project>

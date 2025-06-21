@@ -1,0 +1,896 @@
+2025-06-21 22:55:49,323 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 22:55:49,324 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 22:55:49,344 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 22:55:49,347 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_225549
+2025-06-21 22:55:49,349 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 22:55:49,349 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 22:55:49,354 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 22:55:49,354 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 22:56:00,234 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 22:56:00,235 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 22:56:02,290 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 22:56:02,291 - __main__ - INFO - Model loaded in 12.94 seconds
+2025-06-21 22:56:02,291 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 22:56:02,291 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 22:56:02,292 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 22:56:02,292 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 22:56:02,292 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 22:56:02,292 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 22:56:02,294 - __main__ - ERROR - Experiment failed: No module named 'jsonlines'
+2025-06-21 22:56:02,449 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_225549
+2025-06-21 22:56:02,451 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 22:56:02,451 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 22:56:02,451 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 22:56:02,451 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 22:56:10,673 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 22:56:10,675 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 22:56:12,305 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 22:56:12,311 - __main__ - INFO - Model loaded in 9.86 seconds
+2025-06-21 22:56:12,311 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 22:56:12,312 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 22:56:12,312 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 22:56:12,312 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 22:56:12,312 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 22:56:12,312 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 22:56:12,314 - __main__ - ERROR - Experiment failed: No module named 'jsonlines'
+2025-06-21 22:56:12,686 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_225549
+2025-06-21 22:56:12,687 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 22:56:12,687 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 22:56:12,687 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 22:56:12,688 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 22:56:20,044 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 22:56:20,045 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 22:56:21,742 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 22:56:21,748 - __main__ - INFO - Model loaded in 9.06 seconds
+2025-06-21 22:56:21,749 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 22:56:21,749 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 22:56:21,749 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 22:56:21,750 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 22:56:21,750 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 22:56:21,750 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 22:56:21,752 - __main__ - ERROR - Experiment failed: No module named 'jsonlines'
+2025-06-21 22:56:22,618 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-21 22:56:22,650 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250621_173611.json
+2025-06-21 22:56:22,652 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,652 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 22:56:22,652 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 22:56:22,652 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_173550.json
+2025-06-21 22:56:22,654 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,654 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 22:56:22,654 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 22:56:22,655 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250621_173527.json
+2025-06-21 22:56:22,656 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,656 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 22:56:22,657 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 22:56:22,657 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_173506.json
+2025-06-21 22:56:22,658 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,658 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 22:56:22,658 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 22:56:22,658 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250621_173442.json
+2025-06-21 22:56:22,659 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,660 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 22:56:22,660 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 22:56:22,660 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_173414.json
+2025-06-21 22:56:22,662 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,662 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 22:56:22,663 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 22:56:22,663 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_172809\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_172810.json
+2025-06-21 22:56:22,664 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 22:56:22,664 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 22:56:22,665 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 22:56:22,665 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-21 22:56:22,666 - __main__ - INFO - ✅ 基线评分报告已保存到: .\fullkvcache_run_20250621_225549\baseline_scoring_report.txt
+2025-06-21 22:56:22,667 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-21 23:03:01,749 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:03:01,749 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:03:01,774 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:03:01,778 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_230301
+2025-06-21 23:03:01,779 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:03:01,780 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:03:01,786 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:03:01,786 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:03:13,124 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:03:13,125 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:03:14,744 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:03:14,745 - __main__ - INFO - Model loaded in 12.97 seconds
+2025-06-21 23:03:14,745 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:03:14,745 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:03:14,746 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:03:14,746 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:03:14,746 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:03:14,747 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:03:14,748 - __main__ - ERROR - Experiment failed: No module named 'jsonlines'
+2025-06-21 23:03:14,876 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_230301
+2025-06-21 23:03:14,877 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:03:14,877 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:03:14,877 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:03:14,878 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:03:24,106 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:03:24,106 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 23:03:25,790 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:03:25,798 - __main__ - INFO - Model loaded in 10.92 seconds
+2025-06-21 23:03:25,798 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:03:25,798 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:03:25,798 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:03:25,799 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:03:25,799 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:03:25,799 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:03:25,801 - __main__ - ERROR - Experiment failed: No module named 'jsonlines'
+2025-06-21 23:03:26,170 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_230301
+2025-06-21 23:03:26,171 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:03:26,172 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:03:26,172 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:03:26,172 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:03:33,570 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:03:33,571 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 23:03:36,066 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:03:36,072 - __main__ - INFO - Model loaded in 9.90 seconds
+2025-06-21 23:03:36,073 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:03:36,073 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:03:36,073 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:03:36,073 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:03:36,074 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 23:03:36,074 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 23:03:36,075 - __main__ - ERROR - Experiment failed: No module named 'jsonlines'
+2025-06-21 23:03:36,833 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-21 23:03:36,864 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250621_173611.json
+2025-06-21 23:03:36,866 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,866 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:03:36,867 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:03:36,867 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_173550.json
+2025-06-21 23:03:36,868 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,869 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:03:36,869 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:03:36,869 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250621_173527.json
+2025-06-21 23:03:36,870 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,870 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:03:36,870 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:03:36,870 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_173506.json
+2025-06-21 23:03:36,873 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,873 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:03:36,873 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:03:36,873 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250621_173442.json
+2025-06-21 23:03:36,875 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,875 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:03:36,875 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:03:36,876 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_173414.json
+2025-06-21 23:03:36,878 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,878 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:03:36,878 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:03:36,879 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_172809\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_172810.json
+2025-06-21 23:03:36,880 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:03:36,880 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:03:36,881 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:03:36,881 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-21 23:03:36,882 - __main__ - INFO - ✅ 基线评分报告已保存到: .\fullkvcache_run_20250621_230301\baseline_scoring_report.txt
+2025-06-21 23:03:36,883 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-21 23:14:18,487 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:14:18,488 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:14:18,513 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:14:18,517 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_231418
+2025-06-21 23:14:18,518 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:14:18,518 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:14:18,524 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:14:18,524 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:14:28,459 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:14:28,460 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:14:30,161 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:14:30,162 - __main__ - INFO - Model loaded in 11.64 seconds
+2025-06-21 23:14:30,162 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:14:30,163 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:14:30,163 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:14:30,164 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:14:30,164 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:14:30,164 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:14:30,190 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-21 23:14:30,191 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'hotpotqa', 'description': '多跳推理问答'}
+2025-06-21 23:14:30,191 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:14:30,191 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:14:30,192 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:14:30,192 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:14:30,192 - __main__ - ERROR - Experiment failed: 'int' object is not callable
+2025-06-21 23:14:30,342 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_231418
+2025-06-21 23:14:30,343 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:14:30,343 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:14:30,343 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:14:30,343 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:14:39,088 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:14:39,089 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 23:14:40,811 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:14:40,818 - __main__ - INFO - Model loaded in 10.48 seconds
+2025-06-21 23:14:40,819 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:14:40,819 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:14:40,819 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:14:40,820 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:14:40,820 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:14:40,820 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:14:40,821 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-21 23:14:40,822 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-21 23:14:40,822 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:14:40,822 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:14:40,822 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:14:40,823 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:14:40,823 - __main__ - ERROR - Experiment failed: 'int' object is not callable
+2025-06-21 23:14:41,194 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_231418
+2025-06-21 23:14:41,195 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:14:41,195 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:14:41,195 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:14:41,195 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:14:48,402 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:14:48,403 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 23:14:50,126 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:14:50,132 - __main__ - INFO - Model loaded in 8.94 seconds
+2025-06-21 23:14:50,132 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:14:50,133 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:14:50,133 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:14:50,133 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:14:50,133 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 23:14:50,133 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 23:14:50,136 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 narrativeqa (来源: local)
+2025-06-21 23:14:50,136 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'narrativeqa', 'description': '基于小说和电影剧本的问答'}
+2025-06-21 23:14:50,137 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:14:50,137 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:14:50,137 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:14:50,137 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:14:50,137 - __main__ - ERROR - Experiment failed: 'int' object is not callable
+2025-06-21 23:14:51,038 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-21 23:14:51,053 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250621_173611.json
+2025-06-21 23:14:51,055 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,055 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:14:51,055 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:14:51,056 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_173550.json
+2025-06-21 23:14:51,057 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,057 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:14:51,057 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:14:51,058 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250621_173527.json
+2025-06-21 23:14:51,060 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,060 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:14:51,060 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:14:51,060 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_173506.json
+2025-06-21 23:14:51,062 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,062 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:14:51,062 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:14:51,062 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250621_173442.json
+2025-06-21 23:14:51,063 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,064 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:14:51,064 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:14:51,064 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_173414.json
+2025-06-21 23:14:51,065 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,065 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:14:51,066 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:14:51,066 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_172809\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_172810.json
+2025-06-21 23:14:51,067 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:14:51,068 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:14:51,068 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:14:51,068 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-21 23:14:51,069 - __main__ - INFO - ✅ 基线评分报告已保存到: .\fullkvcache_run_20250621_231418\baseline_scoring_report.txt
+2025-06-21 23:14:51,070 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-21 23:21:03,717 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:21:03,717 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:21:03,740 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:21:03,745 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_232103
+2025-06-21 23:21:03,746 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:21:03,746 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:21:03,753 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:21:03,753 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:21:14,855 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:21:14,856 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:21:16,848 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:21:16,849 - __main__ - INFO - Model loaded in 13.10 seconds
+2025-06-21 23:21:16,849 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:21:16,849 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:21:16,849 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:21:16,849 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:21:16,849 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:21:16,850 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:21:16,862 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-21 23:21:16,862 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'hotpotqa', 'description': '多跳推理问答'}
+2025-06-21 23:21:16,863 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:21:16,863 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:21:16,863 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:21:16,863 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:21:16,863 - __main__ - ERROR - Experiment failed: 'int' object is not callable
+2025-06-21 23:21:17,023 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_232103
+2025-06-21 23:21:17,024 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:21:17,024 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:21:17,024 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:21:17,024 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:21:24,562 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:21:24,563 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 23:21:26,264 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:21:26,269 - __main__ - INFO - Model loaded in 9.25 seconds
+2025-06-21 23:21:26,270 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:21:26,270 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:21:26,270 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:21:26,270 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:21:26,271 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:21:26,271 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:21:26,273 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-21 23:21:26,273 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-21 23:21:26,273 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:21:26,273 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:21:26,273 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:21:26,273 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:21:26,275 - __main__ - ERROR - Experiment failed: 'int' object is not callable
+2025-06-21 23:21:26,642 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_232103
+2025-06-21 23:21:26,645 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:21:26,645 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:21:26,645 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:21:26,645 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:21:34,526 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:21:34,527 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.00GB, 已保留 27.25GB
+2025-06-21 23:21:36,269 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:21:36,277 - __main__ - INFO - Model loaded in 9.63 seconds
+2025-06-21 23:21:36,278 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:21:36,278 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:21:36,279 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:21:36,279 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:21:36,279 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 23:21:36,279 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 23:21:36,281 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 narrativeqa (来源: local)
+2025-06-21 23:21:36,282 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'narrativeqa', 'description': '基于小说和电影剧本的问答'}
+2025-06-21 23:21:36,282 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:21:36,282 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:21:36,282 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:21:36,282 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:21:36,282 - __main__ - ERROR - Experiment failed: 'int' object is not callable
+2025-06-21 23:21:37,165 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-21 23:21:37,180 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250621_173611.json
+2025-06-21 23:21:37,182 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,182 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:21:37,182 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:21:37,182 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_173550.json
+2025-06-21 23:21:37,184 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,184 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:21:37,184 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:21:37,185 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250621_173527.json
+2025-06-21 23:21:37,186 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,186 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:21:37,187 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:21:37,187 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_173506.json
+2025-06-21 23:21:37,188 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,188 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:21:37,189 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:21:37,189 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250621_173442.json
+2025-06-21 23:21:37,190 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,191 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:21:37,191 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:21:37,191 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_173414.json
+2025-06-21 23:21:37,192 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,192 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:21:37,193 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:21:37,193 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_172809\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_172810.json
+2025-06-21 23:21:37,194 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:21:37,194 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:21:37,194 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:21:37,195 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-21 23:21:37,195 - __main__ - INFO - ✅ 基线评分报告已保存到: .\fullkvcache_run_20250621_232103\baseline_scoring_report.txt
+2025-06-21 23:21:37,197 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-21 23:26:58,328 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:26:58,328 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:26:58,348 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:26:58,352 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_232658
+2025-06-21 23:26:58,353 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:26:58,353 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:26:58,358 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:26:58,358 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:27:10,446 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:27:10,447 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:27:12,225 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:27:12,226 - __main__ - INFO - Model loaded in 13.87 seconds
+2025-06-21 23:27:12,226 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:27:12,226 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:27:12,227 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:27:12,227 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:27:12,227 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:27:12,227 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:27:12,240 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-21 23:27:12,240 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'hotpotqa', 'description': '多跳推理问答'}
+2025-06-21 23:27:12,240 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:27:12,240 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:27:12,241 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:27:12,241 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:27:12,243 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:27:12,243 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_232712
+2025-06-21 23:27:12,243 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:27:12,244 - __main__ - INFO - 开始实验: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_232658
+2025-06-21 23:27:12,244 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:27:12,245 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:27:12,245 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:27:12,246 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:27:19,742 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:27:19,743 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:27:19,792 - __main__ - ERROR - 实验失败: tuple index out of range
+2025-06-21 23:27:19,938 - __main__ - ERROR - Experiment failed: tuple index out of range
+2025-06-21 23:27:20,085 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_232658
+2025-06-21 23:27:20,086 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:27:20,086 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:27:20,086 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:27:20,087 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:27:27,972 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:27:27,973 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.01GB, 已保留 27.27GB
+2025-06-21 23:27:30,149 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:27:30,155 - __main__ - INFO - Model loaded in 10.07 seconds
+2025-06-21 23:27:30,156 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:27:30,156 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:27:30,157 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:27:30,157 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:27:30,157 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:27:30,157 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:27:30,158 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-21 23:27:30,158 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-21 23:27:30,158 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:27:30,159 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:27:30,159 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:27:30,159 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:27:30,160 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:27:30,160 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_232730
+2025-06-21 23:27:30,160 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:27:30,161 - __main__ - INFO - 开始实验: fullkvcache_multi_news_kv128_bs1_rep0_20250621_232658
+2025-06-21 23:27:30,162 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-21 23:27:30,162 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:27:30,163 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:27:30,164 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:33:59,228 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:33:59,228 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:33:59,249 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:33:59,253 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233359
+2025-06-21 23:33:59,254 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:33:59,254 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:33:59,259 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:33:59,259 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:34:10,804 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:34:10,805 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:34:12,596 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:34:12,597 - __main__ - INFO - Model loaded in 13.34 seconds
+2025-06-21 23:34:12,597 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:34:12,597 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:34:12,597 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:34:12,598 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:34:12,598 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:34:12,598 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:34:12,612 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-21 23:34:12,612 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'hotpotqa', 'description': '多跳推理问答'}
+2025-06-21 23:34:12,612 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:34:12,613 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:34:12,613 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:34:12,613 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:34:12,615 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:34:12,616 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_233412
+2025-06-21 23:34:12,616 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:34:12,616 - __main__ - INFO - 开始实验: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233359
+2025-06-21 23:34:12,619 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 8]), attention_mask=torch.Size([1, 8])
+2025-06-21 23:34:12,620 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:34:12,620 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:34:12,620 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:34:12,621 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:34:12,621 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 8]), max_new_tokens=50
+2025-06-21 23:34:20,532 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:34:20,693 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:34:20,694 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:34:20,743 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 58])
+2025-06-21 23:34:20,743 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 58]), input_length=8
+2025-06-21 23:34:20,744 - __main__ - INFO - 性能计算: total_tokens=58, input_tokens=8, new_tokens=50
+2025-06-21 23:34:20,902 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_233359\ds_hotpotqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:34:20,903 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:34:20,907 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_233359\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:34:20,907 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:34:20,907 - __main__ - ERROR - Experiment failed: 'NoneType' object has no attribute 'get'
+2025-06-21 23:34:21,096 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_233359
+2025-06-21 23:34:21,097 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:34:21,097 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:34:21,098 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:34:21,098 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:34:29,720 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:34:29,721 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.01GB, 已保留 27.27GB
+2025-06-21 23:34:31,605 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:34:31,612 - __main__ - INFO - Model loaded in 10.52 seconds
+2025-06-21 23:34:31,612 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:34:31,612 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:34:31,612 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:34:31,613 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:34:31,613 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:34:31,613 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:34:31,614 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-21 23:34:31,615 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-21 23:34:31,615 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:34:31,615 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:34:31,615 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:34:31,615 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:34:31,616 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:34:31,616 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_233431
+2025-06-21 23:34:31,616 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:34:31,617 - __main__ - INFO - 开始实验: fullkvcache_multi_news_kv128_bs1_rep0_20250621_233359
+2025-06-21 23:34:31,618 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-21 23:34:31,619 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-21 23:34:31,619 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:34:31,619 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:34:31,620 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:34:31,620 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-21 23:35:36,081 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:35:36,441 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:35:36,442 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-21 23:35:36,492 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-21 23:35:36,492 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-21 23:35:36,493 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-21 23:35:36,703 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_233359\ds_multi_news_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_multi_news_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:36,703 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:35:36,705 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_233359\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:36,705 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:35:36,705 - __main__ - ERROR - Experiment failed: 'NoneType' object has no attribute 'get'
+2025-06-21 23:35:36,859 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233359
+2025-06-21 23:35:36,860 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:35:36,861 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:35:36,861 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:35:36,861 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:35:44,987 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:35:44,988 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 27.01GB, 已保留 27.27GB
+2025-06-21 23:35:46,856 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:35:46,865 - __main__ - INFO - Model loaded in 10.00 seconds
+2025-06-21 23:35:46,865 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:35:46,866 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:35:46,866 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:35:46,868 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:35:46,868 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 23:35:46,868 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 23:35:46,871 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 narrativeqa (来源: local)
+2025-06-21 23:35:46,871 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'narrativeqa', 'description': '基于小说和电影剧本的问答'}
+2025-06-21 23:35:46,871 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:35:46,871 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:35:46,871 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:35:46,872 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:35:46,872 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:35:46,872 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_233546
+2025-06-21 23:35:46,872 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:35:46,872 - __main__ - INFO - 开始实验: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233359
+2025-06-21 23:35:46,873 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 8]), attention_mask=torch.Size([1, 8])
+2025-06-21 23:35:46,874 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:35:46,874 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:35:46,874 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:35:46,875 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:35:46,876 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 8]), max_new_tokens=50
+2025-06-21 23:35:54,926 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:35:55,723 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:35:55,724 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:35:55,874 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 58])
+2025-06-21 23:35:55,874 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 58]), input_length=8
+2025-06-21 23:35:55,875 - __main__ - INFO - 性能计算: total_tokens=58, input_tokens=8, new_tokens=50
+2025-06-21 23:35:56,036 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_233359\ds_narrativeqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:56,036 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:35:56,038 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_233359\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:56,038 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:35:56,038 - __main__ - ERROR - Experiment failed: 'NoneType' object has no attribute 'get'
+2025-06-21 23:35:56,197 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-21 23:35:56,217 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_233359\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:56,219 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,219 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-21 23:35:56,219 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-21 23:35:56,219 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_233359\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:56,221 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,221 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:35:56,221 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:35:56,222 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_233359\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233359.json
+2025-06-21 23:35:56,224 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,224 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-21 23:35:56,224 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-21 23:35:56,225 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250621_173611.json
+2025-06-21 23:35:56,226 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,226 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:35:56,227 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:35:56,227 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_173550.json
+2025-06-21 23:35:56,228 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,228 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.2162
+2025-06-21 23:35:56,228 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.2162
+2025-06-21 23:35:56,229 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250621_173527.json
+2025-06-21 23:35:56,230 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,230 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:35:56,230 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:35:56,230 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_173506.json
+2025-06-21 23:35:56,231 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,231 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:35:56,232 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:35:56,232 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250621_173442.json
+2025-06-21 23:35:56,233 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,233 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:35:56,234 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:35:56,234 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_173414\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_173414.json
+2025-06-21 23:35:56,235 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,237 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:35:56,237 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:35:56,237 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_172809\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_172810.json
+2025-06-21 23:35:56,239 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:35:56,239 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.2000
+2025-06-21 23:35:56,239 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.2000
+2025-06-21 23:35:56,240 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-21 23:35:56,242 - __main__ - INFO - ✅ 基线评分报告已保存到: .\fullkvcache_run_20250621_233359\baseline_scoring_report.txt
+2025-06-21 23:35:56,244 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-21 23:36:29,318 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:36:29,319 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:36:29,342 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:36:29,346 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233629
+2025-06-21 23:36:29,346 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:36:29,346 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:36:29,351 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:36:29,351 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:36:40,199 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:36:40,201 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:36:41,948 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:36:41,949 - __main__ - INFO - Model loaded in 12.60 seconds
+2025-06-21 23:36:41,951 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:36:41,951 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:36:41,951 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:36:41,952 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:36:41,952 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:36:41,952 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:36:41,965 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-21 23:36:41,965 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'hotpotqa', 'description': '多跳推理问答'}
+2025-06-21 23:36:41,965 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:36:41,966 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:36:41,966 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:36:41,966 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:36:41,968 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:36:41,968 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_233641
+2025-06-21 23:36:41,968 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:36:41,968 - __main__ - INFO - 开始实验: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233629
+2025-06-21 23:36:41,971 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 8]), attention_mask=torch.Size([1, 8])
+2025-06-21 23:36:41,971 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:36:41,972 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:36:41,972 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:36:41,972 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:36:41,973 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 8]), max_new_tokens=50
+2025-06-21 23:36:49,554 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:36:49,764 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:36:49,766 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:36:49,815 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 58])
+2025-06-21 23:36:49,815 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 58]), input_length=8
+2025-06-21 23:36:49,816 - __main__ - INFO - 性能计算: total_tokens=58, input_tokens=8, new_tokens=50
+2025-06-21 23:36:49,976 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_233629\ds_hotpotqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:36:49,976 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:36:49,977 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_233629\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:36:49,978 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:36:50,355 - __main__ - INFO - Experiment fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233629 completed successfully
+2025-06-21 23:36:50,356 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629
+2025-06-21 23:36:50,357 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:36:50,357 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:36:50,357 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:36:50,357 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:36:59,125 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:36:59,126 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-21 23:37:00,837 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:37:00,837 - __main__ - INFO - Model loaded in 10.48 seconds
+2025-06-21 23:37:00,838 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:37:00,838 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:37:00,838 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:37:00,838 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:37:00,838 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:37:00,839 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:37:00,840 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-21 23:37:00,840 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-21 23:37:00,841 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:37:00,841 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:37:00,841 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:37:00,841 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:37:00,842 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:37:00,842 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_233700
+2025-06-21 23:37:00,843 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:37:00,843 - __main__ - INFO - 开始实验: fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629
+2025-06-21 23:37:00,844 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-21 23:37:00,844 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-21 23:37:00,845 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:37:00,845 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:37:00,847 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:37:00,847 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-21 23:37:07,604 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:37:07,759 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:37:07,761 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-21 23:37:07,810 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-21 23:37:07,810 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-21 23:37:07,812 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-21 23:37:07,982 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_233629\ds_multi_news_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:37:07,982 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:37:07,984 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_233629\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:37:07,984 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:37:08,432 - __main__ - INFO - Experiment fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629 completed successfully
+2025-06-21 23:37:08,434 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233629
+2025-06-21 23:37:08,435 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:37:08,435 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:37:08,436 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:37:08,436 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:37:16,920 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:37:16,921 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-21 23:37:18,612 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:37:18,612 - __main__ - INFO - Model loaded in 10.18 seconds
+2025-06-21 23:37:18,612 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:37:18,612 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:37:18,613 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:37:18,613 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:37:18,613 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 23:37:18,613 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 23:37:18,617 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 narrativeqa (来源: local)
+2025-06-21 23:37:18,617 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'narrativeqa', 'description': '基于小说和电影剧本的问答'}
+2025-06-21 23:37:18,617 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:37:18,617 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:37:18,617 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:37:18,618 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:37:18,619 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:37:18,620 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_233718
+2025-06-21 23:37:18,620 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:37:18,620 - __main__ - INFO - 开始实验: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233629
+2025-06-21 23:37:18,621 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 8]), attention_mask=torch.Size([1, 8])
+2025-06-21 23:37:18,621 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:37:18,621 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:37:18,622 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:37:18,623 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:37:18,623 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 8]), max_new_tokens=50
+2025-06-21 23:37:24,836 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:37:24,989 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:37:24,990 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:37:25,040 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 58])
+2025-06-21 23:37:25,041 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 58]), input_length=8
+2025-06-21 23:37:25,042 - __main__ - INFO - 性能计算: total_tokens=58, input_tokens=8, new_tokens=50
+2025-06-21 23:37:25,195 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_233629\ds_narrativeqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:37:25,195 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:37:25,198 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_233629\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:37:25,198 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:37:25,545 - __main__ - INFO - Experiment fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233629 completed successfully
+2025-06-21 23:37:25,551 - __main__ - INFO - All FullKVCache experiment summaries saved to .\fullkvcache_run_20250621_233629\all_fullkvcache_experiments_summary.csv as CSV.
+2025-06-21 23:41:25,219 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-21 23:41:25,220 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa,multi_news,narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='.', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-21 23:41:25,241 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-21 23:41:25,245 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125
+2025-06-21 23:41:25,246 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:41:25,246 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:41:25,252 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:41:25,252 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:41:36,569 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:41:36,570 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-21 23:41:38,328 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:41:38,329 - __main__ - INFO - Model loaded in 13.08 seconds
+2025-06-21 23:41:38,329 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:41:38,329 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:41:38,331 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:41:38,331 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:41:38,331 - __main__ - INFO - Loading dataset hotpotqa...
+2025-06-21 23:41:38,331 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: hotpotqa
+2025-06-21 23:41:38,343 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 hotpotqa (来源: local)
+2025-06-21 23:41:38,343 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'hotpotqa', 'description': '多跳推理问答'}
+2025-06-21 23:41:38,343 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:41:38,344 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:41:38,344 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:41:38,344 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:41:38,347 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:41:38,347 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_234138
+2025-06-21 23:41:38,347 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:41:38,348 - __main__ - INFO - 开始实验: fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125
+2025-06-21 23:41:38,349 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 8]), attention_mask=torch.Size([1, 8])
+2025-06-21 23:41:38,349 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:41:38,349 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:41:38,349 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:41:38,350 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:41:38,350 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 8]), max_new_tokens=50
+2025-06-21 23:41:45,443 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:41:45,633 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:41:45,635 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:41:45,785 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 58])
+2025-06-21 23:41:45,785 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 58]), input_length=8
+2025-06-21 23:41:45,786 - __main__ - INFO - 性能计算: total_tokens=58, input_tokens=8, new_tokens=50
+2025-06-21 23:41:45,948 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_234125\ds_hotpotqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:41:45,949 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:41:45,952 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_234125\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:41:45,952 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:41:46,354 - __main__ - INFO - Experiment fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125 completed successfully
+2025-06-21 23:41:46,356 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125
+2025-06-21 23:41:46,356 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:41:46,356 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:41:46,356 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:41:46,357 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:41:54,183 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:41:54,184 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-21 23:41:55,836 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:41:55,837 - __main__ - INFO - Model loaded in 9.48 seconds
+2025-06-21 23:41:55,837 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:41:55,837 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:41:55,837 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:41:55,838 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:41:55,838 - __main__ - INFO - Loading dataset multi_news...
+2025-06-21 23:41:55,838 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-21 23:41:55,839 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-21 23:41:55,839 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-21 23:41:55,839 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:41:55,840 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:41:55,840 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:41:55,840 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:41:55,841 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:41:55,841 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_234155
+2025-06-21 23:41:55,841 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:41:55,841 - __main__ - INFO - 开始实验: fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125
+2025-06-21 23:41:55,842 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-21 23:41:55,843 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-21 23:41:55,843 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:41:55,844 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:41:55,844 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:41:55,845 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-21 23:42:02,664 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:42:02,839 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:42:02,840 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-21 23:42:02,890 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-21 23:42:02,890 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-21 23:42:02,891 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-21 23:42:03,062 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_234125\ds_multi_news_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:03,063 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:42:03,065 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_234125\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:03,065 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:42:03,425 - __main__ - INFO - Experiment fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125 completed successfully
+2025-06-21 23:42:03,425 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125
+2025-06-21 23:42:03,427 - __main__ - INFO - Loading model and tokenizer...
+2025-06-21 23:42:03,427 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-21 23:42:03,427 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-21 23:42:03,427 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-21 23:42:12,004 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-21 23:42:12,005 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-21 23:42:13,714 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-21 23:42:13,715 - __main__ - INFO - Model loaded in 10.29 seconds
+2025-06-21 23:42:13,715 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-21 23:42:13,715 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-21 23:42:13,715 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-21 23:42:13,715 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-21 23:42:13,716 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-21 23:42:13,716 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-21 23:42:13,717 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 narrativeqa (来源: local)
+2025-06-21 23:42:13,718 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'narrativeqa', 'description': '基于小说和电影剧本的问答'}
+2025-06-21 23:42:13,718 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-21 23:42:13,718 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-21 23:42:13,718 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-21 23:42:13,719 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-21 23:42:13,719 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-21 23:42:13,719 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250621_234213
+2025-06-21 23:42:13,720 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-21 23:42:13,720 - __main__ - INFO - 开始实验: fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125
+2025-06-21 23:42:13,721 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 8]), attention_mask=torch.Size([1, 8])
+2025-06-21 23:42:13,721 - __main__ - INFO - 输入长度: 8 tokens
+2025-06-21 23:42:13,723 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-21 23:42:13,723 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-21 23:42:13,724 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-21 23:42:13,725 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 8]), max_new_tokens=50
+2025-06-21 23:42:20,981 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-21 23:42:21,147 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-21 23:42:21,148 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13840.8MB
+2025-06-21 23:42:21,198 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 58])
+2025-06-21 23:42:21,198 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 58]), input_length=8
+2025-06-21 23:42:21,199 - __main__ - INFO - 性能计算: total_tokens=58, input_tokens=8, new_tokens=50
+2025-06-21 23:42:21,373 - __main__ - INFO - 性能指标已保存到: .\fullkvcache_run_20250621_234125\ds_narrativeqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:21,373 - __main__ - INFO - Performing evaluation scoring...
+2025-06-21 23:42:21,375 - __main__ - INFO - 评估结果已保存到: .\fullkvcache_run_20250621_234125\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:21,375 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-21 23:42:21,774 - __main__ - INFO - Experiment fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125 completed successfully
+2025-06-21 23:42:21,780 - __main__ - INFO - All FullKVCache experiment summaries saved to .\fullkvcache_run_20250621_234125\all_fullkvcache_experiments_summary.csv as CSV.
+2025-06-21 23:42:21,781 - __main__ - INFO - Summary shape: (3, 6)
+2025-06-21 23:42:21,782 - __main__ - INFO - All FullKVCache experiment summaries saved to .\fullkvcache_run_20250621_234125\all_fullkvcache_experiments_summary.json as JSON.
+2025-06-21 23:42:21,782 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-21 23:42:21,792 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_234125\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:21,793 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:42:21,794 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-21 23:42:21,795 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-21 23:42:21,795 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_234125\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:21,796 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:42:21,796 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:42:21,797 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:42:21,797 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_234125\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125.json
+2025-06-21 23:42:21,799 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:42:21,799 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-21 23:42:21,799 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-21 23:42:21,799 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_233629\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:42:21,801 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:42:21,801 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-21 23:42:21,801 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-21 23:42:21,802 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_233629\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:42:21,803 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:42:21,803 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-21 23:42:21,803 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-21 23:42:21,804 - __main__ - INFO - 🔄 处理文件: .\fullkvcache_run_20250621_233629\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_233629.json
+2025-06-21 23:42:21,805 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects\Experiment-Platformnew\hace-kv-optimization\baseline_fullkv.json
+2025-06-21 23:42:21,805 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-21 23:42:21,805 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-21 23:42:21,806 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-21 23:42:21,807 - __main__ - INFO - ✅ 基线评分报告已保存到: .\fullkvcache_run_20250621_234125\baseline_scoring_report.txt
+2025-06-21 23:42:21,809 - __main__ - INFO - FullKVCache experiment suite finished.

@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250621_234125",
+  "dataset": "hotpotqa",
+  "generated_text": "\n\nThe given equation is a quadratic equation in the form ax^2 + bx + c = 0.\n\nTo find the roots of the equation, we can use the quadratic formula:\n\nx = (-b ±",
+  "ground_truth": "",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-21T23:41:45.950410"
+}

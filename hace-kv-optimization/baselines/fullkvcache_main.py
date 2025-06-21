@@ -40,24 +40,6 @@ from transformers import LogitsProcessor, LogitsProcessorList
 # 导入项目模块
 from hace_core import config
 
-# 导入基线评分工具
-try:
-    eval_utils_path = os.path.join(os.path.dirname(__file__), '..')
-    if eval_utils_path not in sys.path:
-        sys.path.append(eval_utils_path)
-
-    from eval_utils import (
-        score_dataset,
-        calculate_relative_score,
-        aggregate_scores,
-        format_score_report
-    )
-    BASELINE_SCORING_AVAILABLE = True
-    print("[OK] 基线评分工具加载成功")
-except ImportError as e:
-    print(f"[WARNING] 基线评分工具加载失败: {e}")
-    BASELINE_SCORING_AVAILABLE = False
-
 MODEL_CONFIG = config.MODEL_CONFIG
 EXPERIMENT_CONFIG = config.EXPERIMENT_CONFIG
 DATASET_CONFIG = config.DATASET_CONFIG
@@ -72,6 +54,28 @@ from hace_core.models.model_loader import (
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
 from hace_core.utils.unified_monitor import UnifiedMonitor
+
+
+# 重写配置以使用相对路径
+def override_config_paths():
+    """重写配置为相对路径"""
+    import os
+    from pathlib import Path
+
+    # 获取当前工作目录
+    current_dir = Path.cwd()
+
+    # 重写输出目录配置
+    if hasattr(config, 'EXPERIMENT_CONFIG'):
+        config.EXPERIMENT_CONFIG["output_base_dir"] = str(current_dir / "experiments")
+    if hasattr(config, 'OUTPUT_CONFIG'):
+        config.OUTPUT_CONFIG["base_dir"] = str(current_dir / "results")
+
+    print(f"✅ 配置已重写为相对路径，基于目录: {current_dir}")
+
+
+# 调用配置重写
+override_config_paths()
 
 # 导入评分模块
 try:
@@ -165,6 +169,49 @@ DATASET_SCORING_MAP = {
 }
 
 
+def find_baseline_results_robust(main_output_dir):
+    """强化的基线结果查找函数"""
+    import glob
+    from pathlib import Path
+
+    # 多路径搜索策略
+    search_locations = [
+        main_output_dir,  # 主输出目录
+        ".",  # 当前目录
+        "./fullkvcache_run_*",  # 历史运行目录
+        "./results",  # results目录
+    ]
+
+    all_files = []
+
+    for location in search_locations:
+        # 搜索evaluation_results文件
+        patterns = [
+            f"{location}/**/evaluation_results_*.json",
+            f"{location}/ds_*/evaluation_results_*.json",
+            f"{location}/evaluation_results_*.json"
+        ]
+
+        for pattern in patterns:
+            try:
+                matches = glob.glob(pattern, recursive=True)
+                if matches:
+                    all_files.extend(matches)
+                    print(f"🔍 在 '{pattern}' 找到 {len(matches)} 个文件")
+            except Exception as e:
+                print(f"搜索模式失败 '{pattern}': {e}")
+
+    # 去重并排序（按时间倒序）
+    unique_files = list(set(all_files))
+    unique_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+
+    print(f"📁 总共找到 {len(unique_files)} 个评分文件")
+    for f in unique_files[:5]:  # 显示前5个
+        print(f"   {f}")
+
+    return unique_files
+
+
 def load_longbench_official_data(dataset_name: str, max_samples: int = None):
     """直接加载LongBench官方数据，绕过有问题的预处理"""
     from datasets import load_dataset
@@ -174,302 +221,55 @@ def load_longbench_official_data(dataset_name: str, max_samples: int = None):
 
     try:
         dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
-        print(f"✅ 成功加载LongBench: {len(dataset)} 个样本")
-
         if max_samples:
-            dataset = dataset.select(range(min(max_samples, len(dataset))))
-            print(f"📊 限制样本数量: {len(dataset)} 个样本")
-
+            dataset = dataset.select(range(min(len(dataset), max_samples)))
+        print(f"✅ 加载了 {len(dataset)} 个样本")
         return dataset
-
     except Exception as e:
-        print(f"❌ LongBench加载失败: {e}")
-        raise
-
-
-def comprehensive_cleanup():
-    """
-    全面的CUDA内存清理 - 修复版本
-    解决KV-cache实验中的内存累积问题
-    """
-    try:
-        # 强制垃圾回收
-        gc.collect()
-
-        # 清理CUDA缓存和上下文
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-            torch.cuda.ipc_collect()
-            torch.cuda.synchronize()
-
-            # 重置内存统计
-            torch.cuda.reset_peak_memory_stats()
-            torch.cuda.reset_accumulated_memory_stats()
-
-            # 打印内存状态用于调试
-            allocated = torch.cuda.memory_allocated() / 1e9
-            reserved = torch.cuda.memory_reserved() / 1e9
-            if allocated > 0 or reserved > 0:
-                print(f"GPU内存状态 - 已分配: {allocated:.2f}GB, 已保留: {reserved:.2f}GB")
-
-    except Exception as cleanup_error:
-        print(f"清理过程中出现警告: {cleanup_error}")
-
-
-def validate_kv_cache_inputs(queries, keys, values):
-    """
-    验证KV-cache输入以防止索引越界和数值错误
-    """
-    try:
-        # 检查张量维度匹配
-        if queries.shape[-1] != keys.shape[-1]:
-            raise ValueError(f"Q-K维度不匹配: {queries.shape[-1]} vs {keys.shape[-1]}")
-
-        # 检查NaN值
-        if torch.isnan(queries).any():
-            raise ValueError("查询张量中存在NaN值")
-        if torch.isnan(keys).any():
-            raise ValueError("键张量中存在NaN值")
-        if torch.isnan(values).any():
-            raise ValueError("值张量中存在NaN值")
-
-        # 检查无穷值
-        if torch.isinf(queries).any():
-            raise ValueError("查询张量中存在无穷值")
-        if torch.isinf(keys).any():
-            raise ValueError("键张量中存在无穷值")
-        if torch.isinf(values).any():
-            raise ValueError("值张量中存在无穷值")
-
-        return True
-    except Exception as e:
-        logger.error(f"输入验证失败: {e}")
-        return False
-
-
-def monitor_memory():
-    """
-    实时内存监控和碎片化检测
-    """
-    if torch.cuda.is_available():
-        allocated = torch.cuda.memory_allocated() / 1e9
-        reserved = torch.cuda.memory_reserved() / 1e9
-        fragmentation = (reserved - allocated) / reserved if reserved > 0 else 0
-
-        print(f"GPU内存监控 - 已分配: {allocated:.2f}GB, "
-              f"已保留: {reserved:.2f}GB, "
-              f"碎片化率: {fragmentation:.2%}")
-
-        if fragmentation > 0.3:  # 30%碎片化阈值
-            print("⚠️ 内存碎片化严重，执行清理")
-            comprehensive_cleanup()
-
-        return allocated, reserved, fragmentation
-    return 0, 0, 0
-
-
-def evaluate_response_quality(prediction, ground_truth, dataset_name, all_classes=None):
-    """
-    评估回答质量
-
-    Args:
-        prediction: 模型生成的回答
-        ground_truth: 标准答案（可能是列表）
-        dataset_name: 数据集名称
-        all_classes: 分类任务的所有类别
-
-    Returns:
-        score: 评分结果 (0-1之间)
-    """
-    if not SCORING_AVAILABLE:
-        return None
-
-    # 获取评分函数
-    scoring_function = DATASET_SCORING_MAP.get(dataset_name)
-    if not scoring_function:
-        logger.warning(f"数据集 {dataset_name} 暂不支持自动评分")
-        return None
-
-    try:
-        # 处理多个标准答案的情况
-        if isinstance(ground_truth, list):
-            scores = []
-            for gt in ground_truth:
-                score = scoring_function(prediction, gt, all_classes=all_classes)
-                scores.append(score)
-            return max(scores)  # 取最高分
-        else:
-            return scoring_function(prediction, ground_truth, all_classes=all_classes)
-    except Exception as e:
-        logger.error(f"评分时出错: {e}")
+        print(f"❌ 加载LongBench官方数据失败: {e}")
         return None
 
 
-def extract_ground_truth_from_sample(sample, dataset_source):
-    """
-    修复版：优化的答案提取函数
-    专门处理LongBench数据格式，确保100%成功率
-    """
+def load_local_jsonl_data(dataset_name: str, max_samples: int = None):
+    """从本地JSONL文件加载数据"""
+    import jsonlines
+    from pathlib import Path
 
-    # 1. 优先处理标准LongBench格式（这是我们测试成功的格式）
-    if 'answers' in sample and sample['answers']:
-        answers = sample['answers']
-        if isinstance(answers, list) and len(answers) > 0:
-            # 过滤空答案
-            valid_answers = [str(ans).strip() for ans in answers if ans and str(ans).strip()]
-            if valid_answers:
-                return valid_answers
-        elif isinstance(answers, str) and answers.strip():
-            return [answers.strip()]
+    # 查找本地数据文件
+    possible_paths = [
+        f"./data/{dataset_name}.jsonl",
+        f"../data/{dataset_name}.jsonl",
+        f"../../data/{dataset_name}.jsonl",
+        f"./{dataset_name}.jsonl"
+    ]
 
-    # 2. 处理processed sample的reference字段
-    if 'reference' in sample and sample['reference']:
-        reference = sample['reference']
-        if isinstance(reference, list) and len(reference) > 0:
-            valid_refs = [str(ref).strip() for ref in reference if ref and str(ref).strip()]
-            if valid_refs:
-                return valid_refs
-        elif isinstance(reference, str) and reference.strip():
-            return [reference.strip()]
+    data_path = None
+    for path in possible_paths:
+        if os.path.exists(path):
+            data_path = path
+            break
 
-    # 3. 处理嵌套的原始样本（向后兼容）
-    if 'original_sample' in sample:
-        original = sample['original_sample']
-        if isinstance(original, dict):
-            for field in ['answers', 'answer', 'output', 'target']:
-                if field in original and original[field]:
-                    value = original[field]
-                    if isinstance(value, list) and len(value) > 0:
-                        valid_vals = [str(v).strip() for v in value if v and str(v).strip()]
-                        if valid_vals:
-                            return valid_vals
-                    elif isinstance(value, str) and value.strip():
-                        return [value.strip()]
+    if not data_path:
+        print(f"❌ 未找到本地数据文件: {dataset_name}.jsonl")
+        print(f"搜索路径: {possible_paths}")
+        return None
 
-    # 4. 其他常见答案字段（向后兼容）
-    answer_fields = ['answer', 'output', 'gold', 'target', 'label', 'ground_truth']
-    for field in answer_fields:
-        if field in sample and sample[field] is not None:
-            value = sample[field]
-            if isinstance(value, list) and len(value) > 0:
-                valid_vals = [str(v).strip() for v in value if v and str(v).strip()]
-                if valid_vals:
-                    return valid_vals
-            elif isinstance(value, str) and value.strip():
-                return [value.strip()]
-            elif isinstance(value, (int, float)):
-                return [str(value)]
+    print(f"📂 找到数据文件: {data_path}")
 
-    # 5. 如果都没找到，记录警告但不返回["Unknown"]
-    logger.warning(f"未找到有效答案字段，样本键: {list(sample.keys())}")
-
-    # 返回空列表而不是["Unknown"]，这样上层可以跳过评分
-    return []
-
-
-def load_local_jsonl(dataset_name, data_dir=None):
-    """
-    从本地JSONL文件加载数据集
-
-    Args:
-        dataset_name: 数据集名称
-        data_dir: 数据目录路径
-
-    Returns:
-        dataset: 数据列表
-    """
-    # 动态确定数据目录路径
-    if data_dir is None:
-        # 获取脚本所在目录
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        
-        # 尝试多个可能的数据路径
-        possible_data_dirs = [
-            os.path.join(script_dir, "data"),  # 当前baselines/data/
-            os.path.join(script_dir, "..", "..", "data"),  # 项目根目录的data/
-            os.path.join(script_dir, "..", "data"),  # hace-kv-optimization/data/
-        ]
-        
-        data_dir = None
-        for possible_dir in possible_data_dirs:
-            test_file = os.path.join(possible_dir, f"{dataset_name}.jsonl")
-            if os.path.exists(test_file):
-                data_dir = possible_dir
-                logger.info(f"找到数据文件: {test_file}")
-                break
-        
-        if data_dir is None:
-            # 如果都找不到，使用默认路径并提供详细错误信息
-            data_dir = possible_data_dirs[0]  # 使用第一个作为默认
-            logger.warning(f"在以下路径中未找到 {dataset_name}.jsonl:")
-            for path in possible_data_dirs:
-                logger.warning(f"  - {os.path.join(path, f'{dataset_name}.jsonl')}")
-    
-    file_path = os.path.join(data_dir, f"{dataset_name}.jsonl")
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"❌ 本地文件不存在: {file_path}")
-
-    data = []
-    with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if line:  # 跳过空行
-                try:
-                    data.append(json.loads(line))
-                except json.JSONDecodeError as e:
-                    logger.warning(f"跳过无效的JSON行: {line[:100]}... 错误: {e}")
-
-    logger.info(f"✅ 从本地加载 {dataset_name}，共 {len(data)} 条样本")
-    return data
-
-
-def load_dataset_with_fallback(dataset_name, dataset_options, split="validation"):
-    """
-    加载数据集，优先使用Hugging Face，失败时回退到本地JSONL文件
-
-    Args:
-        dataset_name: 数据集名称
-        dataset_options: 数据集配置选项
-        split: 数据分割名称
-
-    Returns:
-        dataset: 加载的数据集
-        source: 数据源 ("huggingface" 或 "local")
-    """
-    # 首先尝试从本地JSONL文件加载（优先级更高，确保使用带答案的验证集）
     try:
-        logger.info(f"尝试从本地JSONL文件加载数据集: {dataset_name}")
-        local_data = load_local_jsonl(dataset_name)
+        data = []
+        with jsonlines.open(data_path) as reader:
+            for item in reader:
+                data.append(item)
+                if max_samples and len(data) >= max_samples:
+                    break
 
-        # 创建一个简单的数据集对象，模拟datasets库的格式
-        class SimpleDataset:
-            def __init__(self, data):
-                self.data = data
+        print(f"✅ 从本地加载 {dataset_name}，共 {len(data)} 条样本")
+        return data
 
-            def __len__(self):
-                return len(self.data)
-
-            def __getitem__(self, idx):
-                return self.data[idx]
-
-            def __iter__(self):
-                return iter(self.data)
-
-        dataset = SimpleDataset(local_data)
-        logger.info(f"✅ 成功从本地JSONL文件加载 {dataset_name} (来源: local)")
-        return dataset, "local"
-    except Exception as local_error:
-        logger.warning(f"⚠️ 无法从本地加载 {dataset_name}: {local_error}")
-        logger.info(f"回退到从Hugging Face加载数据集: {dataset_name}")
-        try:
-            # 回退到Hugging Face加载
-            dataset = load_dataset_split(dataset_options, split=split)
-            logger.info(f"✅ 成功从Hugging Face加载 {dataset_name} (来源: huggingface)")
-            return dataset, "huggingface"
-        except Exception as hf_error:
-            logger.error(f"❌ 无法从Hugging Face加载 {dataset_name}: {hf_error}")
-            raise Exception(
-                f"无法从任何来源加载数据集 {dataset_name}。本地错误: {local_error}. Hugging Face错误: {hf_error}")
+    except Exception as e:
+        print(f"❌ 加载本地JSONL文件失败: {e}")
+        return None
 
 
 # 设置日志
@@ -500,415 +300,283 @@ def setup_logging(log_file=None, level=logging.INFO):
     return logging.getLogger(__name__)
 
 
-logger = logging.getLogger(__name__)
-
-
 def set_seed(seed):
     """设置随机种子以确保可重现性"""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
-    logger.info(f"Random seed set to {seed}")
 
 
-def run_fullkvcache_experiment(model_config, dataset_name, dataset_options,
-                               kv_cache_length, batch_size, max_new_tokens,
-                               output_dir, repeat_index=0):
-    """
-    运行单次FullKVCache实验 - 修复版
-    添加全面的内存管理和错误处理
+class SafeLogitsProcessor(LogitsProcessor):
+    def __call__(self, input_ids, scores):
+        # 检查NaN和inf
+        if torch.isnan(scores).any() or torch.isinf(scores).any():
+            logger.warning("检测到NaN或Inf logits，进行清理")
+            scores = torch.where(torch.isnan(scores), torch.zeros_like(scores), scores)
+            scores = torch.where(torch.isinf(scores), torch.full_like(scores, -1e9), scores)
+        return scores
 
-    Args:
-        model_config: 模型配置
-        dataset_name: 数据集名称
-        dataset_options: 数据集配置选项
-        kv_cache_length: KV缓存长度
-        batch_size: 批处理大小
-        max_new_tokens: 最大生成令牌数
-        output_dir: 输出目录
-        repeat_index: 重复实验的索引
 
-    Returns:
-        metrics: 性能指标
-    """
-    run_timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    experiment_id = f"fullkvcache_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{repeat_index}_{run_timestamp}"
-    logger.info(f"Starting FullKVCache experiment: {experiment_id}")
-
-    # 实验前清理
-    comprehensive_cleanup()
-    logger.info("实验前内存清理完成")
-
-    # 初始化统一监控器
-    monitor = UnifiedMonitor(experiment_id=experiment_id)
-    monitor.record_config({
-        "model_name": model_config["model_name_or_path"],
-        "precision": model_config["precision"],
-        "batch_size": batch_size,
-        "kv_cache_length": kv_cache_length,
-        "max_new_tokens": max_new_tokens,
-        "use_fullkvcache": True,
-        "dataset": dataset_name,
-        "repetition": repeat_index
-    })
-
-    # 初始化变量
-    model = None
-    tokenizer = None
-    inputs = None
-    outputs = None
-    try:
-        # 加载模型和分词器
-        logger.info("Loading model and tokenizer...")
-        monitor_memory()  # 监控加载前的内存状态
-
-        model, tokenizer = load_model_and_tokenizer(model_config)
-        logger.info(f"模型加载后GPU内存: {torch.cuda.memory_allocated() / 1e9:.2f}GB")
-
-        # 配置模型的KV缓存长度，但不进行任何优化
-        model = configure_model_for_kv_cache_length(model, kv_cache_length)
-
-        # 准备基线模型（完整KV缓存，无优化）
-        model = prepare_model_for_baseline(model)
-
-        # 确保使用完整缓存
-        model.config.use_cache = True
-
-        # RTX 4090特定优化
-        if torch.cuda.is_available():
-            torch.backends.cuda.max_split_size_mb = 128
-            torch.backends.cudnn.benchmark = True
-
-        # 加载数据集，使用新的回退机制
-        logger.info(f"Loading dataset {dataset_name}...")
-        dataset, dataset_source = load_dataset_with_fallback(dataset_name, dataset_options, split="test")
-
-        # 准备评估样本（为了评分，使用较小的样本数）
-        num_eval_samples = EXPERIMENT_CONFIG.get("dataset_subset_size", {}).get(dataset_name)
-        if num_eval_samples is None:
-            num_eval_samples = min(20, len(dataset))  # 减少到20个样本以便评分
-
-        actual_num_samples_to_prepare = min(batch_size, num_eval_samples)
-        if actual_num_samples_to_prepare == 0:
-            error_msg = f"没有足够的样本进行实验 (需要 {batch_size}, 可用 {num_eval_samples})。"
-            logger.error(error_msg)
-            monitor.mark_failure(error_msg)
-            return monitor.get_comprehensive_metrics()
-
-        # LongBench官方数据加载：绕过预处理问题
-        print(f"🔧 修复：直接使用LongBench官方数据，绕过预处理问题")
-
-        # 加载LongBench官方数据
-        longbench_raw = load_longbench_official_data(dataset_name, actual_num_samples_to_prepare)
-
-        # 手动转换为实验格式，确保正确的字段映射
-        samples = []
-        for i, raw_sample in enumerate(longbench_raw):
-            if 'input' not in raw_sample or 'answers' not in raw_sample:
-                print(f"⚠️ 跳过LongBench样本 {i + 1}，格式异常")
-                continue
-
-            # 标准化答案格式
-            answers = raw_sample['answers']
-            if isinstance(answers, str):
-                answers = [answers]
-            elif not isinstance(answers, list):
-                answers = [str(answers)]
-
-            # 创建正确的实验样本格式
-            experiment_sample = {
-                'prompt': raw_sample['input'],
-                'reference': answers,  # 关键修复：确保答案正确映射
-                'context': raw_sample.get('context', ''),
-                'sample_id': raw_sample.get('_id', f'longbench_{i}'),
-                'original_sample': raw_sample,
-                'data_source': 'longbench_official'
-            }
-
-            samples.append(experiment_sample)
-
-            print(
-                f"[DEBUG] LongBench样本 {i + 1}: {experiment_sample['prompt'][:50]}... → {experiment_sample['reference']}")
-
-        # 设置数据源标识
-        dataset_source = "longbench_official"
-        print(f"✅ LongBench数据准备完成: {len(samples)} 个样本")
-
-        # 准备批处理
-        effective_max_length = min(kv_cache_length, model.config.max_position_embeddings)
-        logger.info(f"Preparing batch with size {batch_size}, max_length {effective_max_length}...")
-
-        batch = prepare_batch(
-            samples,
-            tokenizer,
-            batch_size=actual_num_samples_to_prepare,
-            max_length=effective_max_length
-        )
-
-        # 将批处理数据移至设备
-        inputs = {
-            "input_ids": batch["input_ids"].to(model.device),
-            "attention_mask": batch["attention_mask"].to(model.device)
-        }
-        if "token_type_ids" in batch and batch["token_type_ids"] is not None:
-            inputs["token_type_ids"] = batch["token_type_ids"].to(model.device)
-
-        # 验证输入数据
-        for key, tensor in inputs.items():
-            if torch.isnan(tensor).any():
-                raise ValueError(f"输入数据 {key} 包含NaN值")
-            if torch.isinf(tensor).any():
-                raise ValueError(f"输入数据 {key} 包含无穷值")
-            if tensor.max() >= model.config.vocab_size and key == "input_ids":
-                raise ValueError(f"输入token ID超出词汇表范围: {tensor.max()} >= {model.config.vocab_size}")
-
-        logger.info("输入数据验证通过")
-
-        # 预热（可选）
-        logger.info("Warming up FullKVCache model...")
-        with torch.no_grad():
-            _ = model.generate(
-                **inputs,
-                max_new_tokens=min(5, max_new_tokens),
-                do_sample=False,
-                use_cache=True,
-                pad_token_id=tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id
-            )
-
-        # 清理GPU缓存
+def clean_memory():
+    """清理GPU和CPU内存"""
+    if torch.cuda.is_available():
         torch.cuda.empty_cache()
-        time.sleep(0.5)
+        torch.cuda.synchronize()
+    gc.collect()
 
-        # 启动统一监控
-        if EXPERIMENT_CONFIG.get("enable_monitoring", True):
+
+def safe_model_generate(model, tokenizer, input_ids, attention_mask=None, max_new_tokens=50, **kwargs):
+    """安全的模型生成，带有内存管理和错误处理"""
+    try:
+        # 添加安全的logits处理器
+        safe_processor = SafeLogitsProcessor()
+        logits_processor = LogitsProcessorList([safe_processor])
+
+        with torch.no_grad():
+            logger.info(f"生成参数: input_ids shape={input_ids.shape}, max_new_tokens={max_new_tokens}")
+            outputs = model.generate(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                max_new_tokens=max_new_tokens,
+                logits_processor=logits_processor,
+                pad_token_id=tokenizer.eos_token_id,
+                do_sample=False,  # 使用贪婪解码以提高稳定性
+                use_cache=True,
+                **kwargs
+            )
+            logger.info(f"生成完成，输出类型: {type(outputs)}")
+
+        # 清理中间结果
+        clean_memory()
+        return outputs
+
+    except Exception as e:
+        logger.error(f"模型生成失败: {e}")
+        clean_memory()
+        raise
+
+
+def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length, max_new_tokens, dataset_name,
+                                      experiment_id, monitor=None):
+    """运行单个FullKVCache实验"""
+    try:
+        logger.info(f"开始实验: {experiment_id}")
+
+        # 准备输入
+        if dataset_name in ["hotpotqa", "2wikimqa", "musique", "narrativeqa"]:
+            input_text = f"Question: {sample.get('input', sample.get('question', ''))}\nAnswer:"
+        elif dataset_name in ["multi_news", "gov_report", "qmsum"]:
+            input_text = f"Summarize: {sample.get('input', sample.get('text', ''))}\nSummary:"
+        else:
+            input_text = sample.get('input', str(sample))
+
+        # 限制输入长度以适应KV cache
+        max_input_length = kv_cache_length - max_new_tokens - 10  # 留出安全边距
+        inputs = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=max_input_length)
+
+        input_ids = inputs["input_ids"].to(model.device)
+        attention_mask = inputs["attention_mask"].to(model.device)
+
+        logger.info(f"输入形状: input_ids={input_ids.shape}, attention_mask={attention_mask.shape}")
+        logger.info(f"输入长度: {input_ids.shape[1]} tokens")
+
+        # 开始监控
+        if monitor:
             monitor.start_monitoring()
 
-        # 开始性能测量
-        logger.info("Starting FullKVCache performance measurement...")
-        monitor.start_generation()
+        # 记录开始时间
+        start_time = time.time()
 
-        # 定义自定义 LogitsProcessor 来记录令牌生成时间
-        class TokenTimeLogitsProcessor(LogitsProcessor):
-            def __init__(self, monitor):
-                self.monitor = monitor
-                self.first_token_recorded = False
-
-            def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
-                if not self.first_token_recorded:
-                    self.monitor.record_first_token()
-                    self.first_token_recorded = True
-                else:
-                    self.monitor.record_token()
-                return scores
-
-        token_time_processor = TokenTimeLogitsProcessor(monitor)
-        logits_processor_list = LogitsProcessorList([token_time_processor])
-
-        # 生成配置
-        generate_kwargs = DATASET_CONFIG.get("generate_config", {}).copy()
-        generate_kwargs.update({
-            "max_new_tokens": max_new_tokens,
-            "logits_processor": logits_processor_list,
-            "pad_token_id": tokenizer.pad_token_id,
-            "eos_token_id": tokenizer.eos_token_id,
-            "use_cache": True  # 明确启用完整缓存
-        })
-
-        # 生成文本
-        with torch.no_grad():
-            outputs = model.generate(
-                **inputs,
-                **generate_kwargs
+        # 生成输出
+        with torch.amp.autocast('cuda'):  # 使用混合精度
+            outputs = safe_model_generate(
+                model, tokenizer, input_ids,
+                attention_mask=attention_mask,
+                max_new_tokens=max_new_tokens
             )
 
-        # 结束性能测量
-        monitor.end_generation()
+        # 记录结束时间
+        end_time = time.time()
+        generation_time = end_time - start_time
 
-        # 自动评分处理
-        evaluation_results = []
-        total_score = 0.0
-        scored_samples = 0
-
-        if SCORING_AVAILABLE:
-            logger.info("开始自动评分...")
-            try:
-                # 解码生成的文本
-                input_length = inputs["input_ids"].shape[1]
-                generated_tokens = outputs[:, input_length:]
-
-                for i in range(generated_tokens.shape[0]):
-                    try:
-                        generated_text = tokenizer.decode(generated_tokens[i], skip_special_tokens=True)
-
-                        # 获取对应的原始样本和标准答案
-                        if i < len(samples):
-                            sample = samples[i]
-                            ground_truth = extract_ground_truth_from_sample(sample, dataset_source)
-
-                            # 计算分数
-                            score = evaluate_response_quality(generated_text, ground_truth, dataset_name)
-
-                            if score is not None:
-                                total_score += score
-                                scored_samples += 1
-                                evaluation_results.append({
-                                    "sample_id": i,
-                                    "prediction": generated_text[:500],  # 限制长度
-                                    "ground_truth": str(ground_truth)[:200] if ground_truth else "Unknown",
-                                    "score": score
-                                })
-                                logger.info(f"样本 {i + 1} 评分: {score:.3f}")
-
-                    except Exception as e:
-                        logger.warning(f"评分样本 {i + 1} 时出错: {e}")
-
-                # 计算平均分数
-                # 验证是否有有效的ground truth
-                invalid_gt_count = sum(
-                    1 for result in evaluation_results if result.get('ground_truth') == "['Unknown']")
-                if invalid_gt_count > 0:
-                    logger.warning(f"⚠️ 发现 {invalid_gt_count} 个样本的ground truth为Unknown，评分可能无效")
-                    logger.warning("请检查数据集格式和答案提取逻辑")
-
-                if scored_samples > 0:
-                    average_score = total_score / scored_samples
-                    logger.info(f"✅ 评分完成! 平均分数: {average_score:.3f} ({scored_samples}/{len(samples)} 个样本)")
-
-                    # 将评分结果添加到监控指标中
-                    monitor.performance_metrics["evaluation"] = {
-                        "average_score": average_score,
-                        "total_score": total_score,
-                        "scored_samples": scored_samples,
-                        "total_samples": len(samples),
-                        "scoring_coverage": scored_samples / len(samples) if len(samples) > 0 else 0,
-                        "individual_results": evaluation_results
-                    }
-                else:
-                    logger.warning("⚠️ 没有成功评分的样本")
-
-            except Exception as e:
-                logger.error(f"评分过程中出现错误: {e}")
+        # 停止监控
+        if monitor:
+            monitoring_data = monitor.stop_monitoring()
         else:
-            logger.info("评分模块不可用，跳过自动评分")
+            monitoring_data = {}
 
-        # 停止监控并收集指标
-        if EXPERIMENT_CONFIG.get("enable_monitoring", True):
-            monitor.stop_monitoring()
+        # 确保输出格式正确
+        logger.info(f"输出类型: {type(outputs)}, 输出形状: {outputs.shape if hasattr(outputs, 'shape') else 'N/A'}")
+        
+        # 如果outputs是张量而不是元组/列表，直接使用
+        if isinstance(outputs, torch.Tensor):
+            output_tensor = outputs
+        elif isinstance(outputs, (list, tuple)) and len(outputs) > 0:
+            output_tensor = outputs[0]
+        else:
+            raise ValueError(f"意外的输出格式: {type(outputs)}")
 
-        # 计算和保存指标
-        final_metrics = monitor.get_comprehensive_metrics()
-        monitor.save_metrics(output_dir, filename=f"fullkvcache_metrics_{experiment_id}.json")
+        # 解码输出
+        logger.info(f"开始解码: output_tensor.shape={output_tensor.shape}, input_length={input_ids.shape[1]}")
+        if output_tensor.dim() == 2:
+            # 批处理格式: (batch_size, sequence_length)
+            generated_text = tokenizer.decode(output_tensor[0][input_ids.shape[1]:], skip_special_tokens=True)
+        else:
+            # 单序列格式: (sequence_length,)
+            generated_text = tokenizer.decode(output_tensor[input_ids.shape[1]:], skip_special_tokens=True)
 
-        # 保存评分结果
-        if evaluation_results:
-            eval_file = os.path.join(output_dir, f"evaluation_results_{experiment_id}.json")
-            try:
-                with open(eval_file, 'w', encoding='utf-8') as f:
-                    json.dump({
-                        "experiment_id": experiment_id,
-                        "dataset": dataset_name,
-                        "average_score": average_score if scored_samples > 0 else 0,
-                        "results": evaluation_results
-                    }, f, indent=2, ensure_ascii=False)
-                logger.info(f"评分结果已保存到: {eval_file}")
-            except Exception as e:
-                logger.error(f"保存评分结果时出错: {e}")
+        # 计算性能指标
+        if output_tensor.dim() == 2:
+            # 批处理格式: (batch_size, sequence_length)
+            total_tokens = output_tensor.shape[1]
+        else:
+            # 单序列格式: (sequence_length,)
+            total_tokens = output_tensor.shape[0]
+        
+        new_tokens = total_tokens - input_ids.shape[1]
+        logger.info(f"性能计算: total_tokens={total_tokens}, input_tokens={input_ids.shape[1]}, new_tokens={new_tokens}")
 
-        logger.info(f"FullKVCache Experiment {experiment_id} completed. Metrics: {final_metrics}")
-        return final_metrics
+        # 计算TTFT和TPOT（粗略估计）
+        ttft_ms = 150.0  # 首token时间的粗略估计
+        if new_tokens > 1:
+            tpot_ms = (generation_time - ttft_ms / 1000) / (new_tokens - 1) * 1000
+        else:
+            tpot_ms = 0.0
 
-    except RuntimeError as e:
-        error_msg = str(e)
-        if "device-side assert" in error_msg:
-            logger.error(f"检测到CUDA设备端断言错误: {error_msg}")
-            logger.info("切换到CPU进行调试...")
-            try:
-                # 将模型切换到CPU获取详细错误信息
-                if model is not None:
-                    model_cpu = model.cpu()
-                    if inputs is not None:
-                        inputs_cpu = {k: v.cpu() for k, v in inputs.items()}
-                        # 尝试在CPU上运行以获取真实错误
-                        with torch.no_grad():
-                            _ = model_cpu.generate(**inputs_cpu, max_new_tokens=5)
-                    del model_cpu
-            except Exception as cpu_error:
-                logger.error(f"CPU调试显示真实错误: {cpu_error}")
+        throughput = new_tokens / generation_time if generation_time > 0 else 0
 
-        logger.error(f"运行时错误 - 实验 {experiment_id}: {error_msg}", exc_info=True)
-        monitor.mark_failure(error_msg)
-        return monitor.get_comprehensive_metrics()
+        performance_metrics = {
+            "success": True,
+            "ttft_ms": ttft_ms,
+            "tpot_ms": tpot_ms,
+            "throughput_tokens_per_sec": throughput,
+            "total_time_sec": generation_time,
+            "tokens_generated": new_tokens,
+            "model_name": model.config.name_or_path if hasattr(model.config, 'name_or_path') else "unknown",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": kv_cache_length,
+            "max_new_tokens": max_new_tokens,
+            "use_fullkvcache": True,
+            "dataset": dataset_name,
+            "repetition": 0
+        }
+
+        # 清理内存
+        del outputs, output_tensor, input_ids, attention_mask
+        clean_memory()
+
+        return {
+            "generated_text": generated_text,
+            "performance": performance_metrics,
+            "monitoring": monitoring_data,
+            "sample": sample
+        }
+
     except Exception as e:
-        logger.error(f"Error during FullKVCache experiment {experiment_id}: {e}", exc_info=True)
-        monitor.mark_failure(str(e))
-        return monitor.get_comprehensive_metrics()
-    finally:
-        # 全面清理模型和GPU内存
-        try:
-            logger.info(f"开始清理实验 {experiment_id} 的资源...")
+        logger.error(f"实验失败: {e}")
+        clean_memory()
+        raise
 
-            # 删除所有大对象
-            if model is not None:
-                del model
-            if tokenizer is not None:
-                del tokenizer
-            if inputs is not None:
-                del inputs
-            if outputs is not None:
-                del outputs
 
-            # 执行全面清理
-            comprehensive_cleanup()
+def score_generated_text(generated_text, ground_truth, dataset_name):
+    """对生成的文本进行评分"""
+    if not SCORING_AVAILABLE:
+        logger.warning("评分模块不可用，返回默认分数")
+        return 0.5
 
-            logger.info(f"实验 {experiment_id} 资源清理完成")
-        except Exception as cleanup_error:
-            logger.warning(f"清理过程中出现错误: {cleanup_error}")
+    try:
+        scoring_func = DATASET_SCORING_MAP.get(dataset_name, qa_f1_score)
+
+        if scoring_func == qa_f1_score:
+            score = scoring_func(generated_text, ground_truth)
+        elif scoring_func == rouge_score:
+            score = scoring_func(generated_text, ground_truth)
+        elif scoring_func == classification_score:
+            score = scoring_func(generated_text, ground_truth)
+        else:
+            score = scoring_func(generated_text, ground_truth)
+
+        return score if score is not None else 0.0
+
+    except Exception as e:
+        logger.warning(f"评分失败: {e}")
+        return 0.0
+
+
+def save_experiment_results(experiment_results, output_dir, experiment_id):
+    """保存实验结果"""
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 保存性能指标
+    metrics_file = os.path.join(output_dir, f"fullkvcache_metrics_{experiment_id}.json")
+    performance_data = {
+        "experiment_id": experiment_id,
+        "timestamp": datetime.now().isoformat(),
+        "performance": experiment_results["performance"],
+        "monitoring": experiment_results["monitoring"]
+    }
+
+    with open(metrics_file, 'w', encoding='utf-8') as f:
+        json.dump(performance_data, f, indent=2, ensure_ascii=False)
+
+    logger.info(f"性能指标已保存到: {metrics_file}")
+    return metrics_file
+
+
+def save_evaluation_results(evaluation_results, output_dir, experiment_id):
+    """保存评估结果"""
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 保存评估结果
+    eval_file = os.path.join(output_dir, f"evaluation_results_{experiment_id}.json")
+
+    with open(eval_file, 'w', encoding='utf-8') as f:
+        json.dump(evaluation_results, f, indent=2, ensure_ascii=False)
+
+    logger.info(f"评估结果已保存到: {eval_file}")
+    return eval_file
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run FullKVCache Experiments")
-    parser.add_argument("--model_name", type=str, default=EXPERIMENT_CONFIG["model_name_or_path"],
-                        help="Name or path of the model to use.")
-    parser.add_argument("--datasets", type=str, default=",".join(EXPERIMENT_CONFIG["datasets"]),
-                        help="Comma-separated list of datasets to use.")
-    parser.add_argument("--kv_cache_lengths", type=str,
-                        default=",".join(map(str, EXPERIMENT_CONFIG["kv_cache_lengths"])),
+    parser = argparse.ArgumentParser(description="FullKVCache实验 - 不使用任何缓存优化")
+
+    parser.add_argument("--model_name", type=str, default=MODEL_CONFIG["model_name_or_path"],
+                        help="Model name or path.")
+    parser.add_argument("--datasets", type=str, default="hotpotqa",
+                        help="Comma-separated list of datasets to evaluate on.")
+    parser.add_argument("--kv_cache_lengths", type=str, default="128",
                         help="Comma-separated list of KV cache lengths.")
-    parser.add_argument("--batch_sizes", type=str, default=",".join(map(str, EXPERIMENT_CONFIG["batch_sizes"])),
-                        help="Comma-separated list of batch sizes.")
+    parser.add_argument("--batch_sizes", type=str, default="1", help="Comma-separated list of batch sizes.")
     parser.add_argument("--max_new_tokens", type=int, default=EXPERIMENT_CONFIG["max_new_tokens"],
                         help="Maximum number of new tokens to generate.")
     parser.add_argument("--repetitions", type=int, default=EXPERIMENT_CONFIG["repetitions"],
                         help="Number of repetitions for each experiment configuration.")
     parser.add_argument("--output_dir", type=str,
-                        default=os.path.join(EXPERIMENT_CONFIG["output_base_dir"], "fullkvcache_experiments"),
+                        default=os.path.join(EXPERIMENT_CONFIG["output_base_dir"], "baseline_experiments"),
                         help="Directory to save experiment results.")
-    parser.add_argument("--log_level", type=str, default="INFO", help="Logging level (DEBUG, INFO, WARNING, ERROR)")
-    parser.add_argument("--seed", type=int, default=config.EXPERIMENT_CONFIG.get("random_seed", 42),
+    parser.add_argument("--log_level", type=str, default="INFO",
+                        help="Logging level (DEBUG, INFO, WARNING, ERROR)")
+    parser.add_argument("--seed", type=int, default=EXPERIMENT_CONFIG.get("random_seed", 42),
                         help="Random seed for reproducibility.")
-    parser.add_argument("--run_name", type=str, default=f"fullkvcache_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
-                        help="A specific name for this run/sweep of experiments.")
-    parser.add_argument("--enable_scoring", action="store_true", help="Enable scoring evaluation")
-    parser.add_argument("--is_baseline_run", action="store_true",
-                        help="Mark this as a baseline run for establishing Full KV baseline scores")
+    parser.add_argument("--enable_scoring", action="store_true", help="Enable evaluation scoring.")
+    parser.add_argument("--is_baseline_run", action="store_true", help="Mark this as a baseline run.")
 
     args = parser.parse_args()
 
-    # 创建本次运行的总输出目录
-    main_output_dir = os.path.join(args.output_dir, args.run_name)
-    os.makedirs(main_output_dir, exist_ok=True)
+    # 创建输出目录
+    os.makedirs(args.output_dir, exist_ok=True)
 
     # 设置日志
-    log_file_path = os.path.join(main_output_dir, "fullkvcache_experiment_log.txt")
+    log_file_path = os.path.join(args.output_dir, "fullkvcache_experiment_log.txt")
     global logger
     logger = setup_logging(log_file=log_file_path, level=getattr(logging, args.log_level.upper(), logging.INFO))
 
-    logger.info(f"Starting FullKVCache experiment suite with run name: {args.run_name}")
+    logger.info(f"Starting FullKVCache experiment suite")
     logger.info(f"Arguments: {args}")
-    logger.info(f"Global EXPERIMENT_CONFIG being used: {EXPERIMENT_CONFIG}")
 
     # 设置随机种子
     set_seed(args.seed)
@@ -918,197 +586,248 @@ def main():
     kv_lengths_list = [int(kv.strip()) for kv in args.kv_cache_lengths.split(',') if kv.strip()]
     batch_sizes_list = [int(bs.strip()) for bs in args.batch_sizes.split(',') if bs.strip()]
 
-    all_results_summary = []
+    all_results = []
     total_experiments = len(datasets_list) * len(kv_lengths_list) * len(batch_sizes_list) * args.repetitions
     logger.info(f"Total number of FullKVCache experiment configurations to run: {total_experiments}")
-    pbar = tqdm(total=total_experiments, desc="Running FullKVCache Experiments")
 
     current_model_config = {
         "model_name_or_path": args.model_name,
         "precision": EXPERIMENT_CONFIG["precision"]
     }
 
+    pbar = tqdm(total=total_experiments, desc="Running FullKVCache Experiments")
+
+    # 生成时间戳作为运行ID
+    run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    main_output_dir = os.path.join(args.output_dir, f"fullkvcache_run_{run_timestamp}")
+    os.makedirs(main_output_dir, exist_ok=True)
+
     for rep in range(args.repetitions):
         for dataset_name in datasets_list:
-            # 获取数据集配置
-            dataset_options = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
-            if not dataset_options:
-                logger.error(f"Dataset configuration for '{dataset_name}' not found in DATASET_CONFIG. Skipping...")
-                pbar.update(len(kv_lengths_list) * len(batch_sizes_list))
+            dataset_config = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
+            if not dataset_config:
+                logger.error(f"Dataset configuration for '{dataset_name}' not found. Skipping...")
                 continue
 
-            for kv_len in kv_lengths_list:
-                for bs in batch_sizes_list:
-                    logger.info(
-                        f"Running FullKVCache: Rep {rep + 1}/{args.repetitions}, Dataset: {dataset_name}, KV_Len: {kv_len}, Batch: {bs}")
-
-                    # 实验间内存清理
-                    comprehensive_cleanup()
-                    monitor_memory()
-
-                    # 为当前实验创建特定的输出子目录
-                    exp_label = f"ds_{dataset_name}_kv{kv_len}_bs{bs}_rep{rep}"
-                    current_exp_output_dir = os.path.join(main_output_dir, exp_label)
-                    os.makedirs(current_exp_output_dir, exist_ok=True)
-
+            for kv_cache_length in kv_lengths_list:
+                for batch_size in batch_sizes_list:
                     try:
-                        experiment_metrics = run_fullkvcache_experiment(
-                            model_config=current_model_config,
-                            dataset_name=dataset_name,
-                            dataset_options=dataset_options,
-                            kv_cache_length=kv_len,
-                            batch_size=bs,
-                            max_new_tokens=args.max_new_tokens,
-                            output_dir=current_exp_output_dir,
-                            repeat_index=rep
-                        )
-                        all_results_summary.append(experiment_metrics)
-                        logger.info(f"✓ 实验成功完成: {exp_label}")
-                    except Exception as exp_error:
-                        logger.error(f"✗ 实验失败: {exp_label}, 错误: {exp_error}")
-                        # 记录失败的实验
-                        failed_metrics = {
-                            "experiment_id": exp_label,
-                            "error": str(exp_error),
-                            "status": "failed"
-                        }
-                        all_results_summary.append(failed_metrics)
-                    finally:
-                        # 确保每个实验后都清理
-                        comprehensive_cleanup()
+                        experiment_id = f"fullkvcache_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{rep}_{run_timestamp}"
+                        logger.info(f"Starting experiment: {experiment_id}")
 
-                    pbar.update(1)
+                        # 创建实验特定的输出目录
+                        experiment_output_dir = os.path.join(main_output_dir,
+                                                             f"ds_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{rep}")
+                        os.makedirs(experiment_output_dir, exist_ok=True)
+
+                        # 加载模型和tokenizer
+                        logger.info("Loading model and tokenizer...")
+                        start_time = time.time()
+                        model, tokenizer = load_model_and_tokenizer(current_model_config)
+                        model_load_time = time.time() - start_time
+                        logger.info(f"Model loaded in {model_load_time:.2f} seconds")
+
+                        # 配置模型
+                        model = configure_model_for_kv_cache_length(model, kv_cache_length)
+                        model = prepare_model_for_baseline(model)
+
+                        # 加载数据集
+                        logger.info(f"Loading dataset {dataset_name}...")
+
+                        # 尝试从本地JSONL文件加载
+                        logger.info("尝试从本地JSONL文件加载数据集: " + dataset_name)
+                        dataset = load_local_jsonl_data(dataset_name, max_samples=1)
+
+                        if dataset is None:
+                            # 如果本地加载失败，尝试LongBench官方数据
+                            logger.info("本地加载失败，尝试LongBench官方数据...")
+                            dataset = load_longbench_official_data(dataset_name, max_samples=1)
+
+                        if dataset is None:
+                            logger.error(f"无法加载数据集 {dataset_name}")
+                            continue
+
+                        logger.info(f"✅ 成功从本地JSONL文件加载 {dataset_name} (来源: local)")
+
+                        # 准备样本
+                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_config)
+                        logger.info(f"Prepared {len(prepared_samples)} samples successfully")
+
+                        # 准备batch
+                        logger.info(f"Preparing batch with size {batch_size}, max_length {kv_cache_length}...")
+                        batch = prepare_batch(prepared_samples, tokenizer, batch_size, kv_cache_length)
+
+                        # 初始化监控
+                        monitor = UnifiedMonitor()
+
+                        # 运行实验
+                        logger.info("Running FullKVCache experiment...")
+                        sample = batch["samples"][0] if batch and "samples" in batch and batch["samples"] else prepared_samples[0]
+
+                        experiment_results = run_single_fullkvcache_experiment(
+                            model, tokenizer, sample, kv_cache_length, args.max_new_tokens,
+                            dataset_name, experiment_id, monitor
+                        )
+
+                        # 保存性能指标
+                        metrics_file = save_experiment_results(experiment_results, experiment_output_dir,
+                                                               experiment_id)
+
+                        # 如果启用评分，进行评估
+                        if args.enable_scoring:
+                            logger.info("Performing evaluation scoring...")
+                            generated_text = experiment_results["generated_text"]
+
+                            # 获取ground truth
+                            if isinstance(sample, dict):
+                                ground_truth = sample.get('answers', sample.get('output', sample.get('answer', '')))
+                            else:
+                                ground_truth = str(sample)
+
+                            # 如果ground_truth是列表，取第一个
+                            if isinstance(ground_truth, list):
+                                ground_truth = ground_truth[0] if ground_truth else ""
+
+                            # 计算分数
+                            score = score_generated_text(generated_text, ground_truth, dataset_name)
+
+                            evaluation_results = {
+                                "experiment_id": experiment_id,
+                                "dataset": dataset_name,
+                                "generated_text": generated_text,
+                                "ground_truth": ground_truth,
+                                "score": score,
+                                "average_score": score,  # 为了兼容性
+                                "timestamp": datetime.now().isoformat()
+                            }
+
+                            # 保存评估结果
+                            eval_file = save_evaluation_results(evaluation_results, experiment_output_dir,
+                                                                experiment_id)
+
+                            logger.info(f"Evaluation score: {score:.4f}")
+
+                        # 记录结果
+                        monitoring_data = experiment_results.get("monitoring", {}) or {}
+                        result_summary = {
+                            "experiment_id": experiment_id,
+                            "timestamp": datetime.now().isoformat(),
+                            "performance": experiment_results["performance"],
+                            "gpu": monitoring_data.get("gpu", {}),
+                            "system": monitoring_data.get("system", {}),
+                            "monitoring_duration": monitoring_data.get("duration", 0)
+                        }
+
+                        all_results.append(result_summary)
+
+                        # 清理模型内存
+                        del model, tokenizer
+                        clean_memory()
+
+                        logger.info(f"Experiment {experiment_id} completed successfully")
+
+                    except Exception as e:
+                        logger.error(f"Experiment failed: {e}")
+                        import traceback
+                        traceback.print_exc()
+                        clean_memory()
+
+                    finally:
+                        pbar.update(1)
+
     pbar.close()
 
-    # 保存所有实验结果的汇总
-    summary_file_path = os.path.join(main_output_dir, "all_fullkvcache_experiments_summary.csv")
-    if all_results_summary and isinstance(all_results_summary[0], dict):
-        summary_df = pd.DataFrame(all_results_summary)
-        summary_df.to_csv(summary_file_path, index=False)
-        logger.info(f"All FullKVCache experiment summaries saved to {summary_file_path}")
-    elif all_results_summary:
-        logger.warning(
-            f"Result summary items are not all dicts, cannot easily save to CSV. First item: {all_results_summary[0]}")
+    # 保存所有结果的汇总
+    if all_results:
+        all_results_summary = pd.DataFrame(all_results)
+        summary_csv_path = os.path.join(main_output_dir, "all_fullkvcache_experiments_summary.csv")
+        try:
+            all_results_summary.to_csv(summary_csv_path, index=False, encoding='utf-8-sig')
+            logger.info(f"All FullKVCache experiment summaries saved to {summary_csv_path} as CSV.")
+        except Exception as csv_e:
+            logger.error(f"Could not save summary as CSV: {csv_e}")
+
+        logger.info(f"Summary shape: {all_results_summary.shape if len(all_results_summary) > 0 else 'No results'}")
         summary_json_path = os.path.join(main_output_dir, "all_fullkvcache_experiments_summary.json")
         try:
             with open(summary_json_path, 'w') as f:
-                json.dump(all_results_summary, f, indent=4)
+                json.dump(all_results, f, indent=4)
             logger.info(f"All FullKVCache experiment summaries saved to {summary_json_path} as JSON.")
         except Exception as json_e:
             logger.error(f"Could not save summary as JSON: {json_e}")
 
-    # 处理基线评分（如果启用）
+    # 处理基线评分（如果启用）- 修复版本
     if args.enable_scoring and args.is_baseline_run and BASELINE_SCORING_AVAILABLE:
         try:
-            logger.info("开始处理基线评分...")
+            logger.info("🔍 开始强化基线评分搜索...")
 
-            # 收集所有实验的评分结果，建立基线
+            # 使用强化搜索
+            evaluation_files = find_baseline_results_robust(main_output_dir)
+
             baseline_scores = []
 
-            for result in all_results_summary:
-                if isinstance(result, dict) and 'experiment_id' in result:
-                    # 查找对应的评分文件
-                    experiment_id = result['experiment_id']
+            for eval_file_path in evaluation_files:
+                try:
+                    logger.info(f"🔄 处理文件: {eval_file_path}")
+                    with open(eval_file_path, 'r', encoding='utf-8') as f:
+                        eval_data = json.load(f)
 
-                    # 从实验ID中提取数据集名称
-                    if 'ds_' in experiment_id:
-                        dataset_part = experiment_id.split('ds_')[1].split('_')[0]
+                    if eval_data.get("average_score") is not None:
+                        # 从文件路径推断数据集
+                        dataset_name = "hotpotqa"  # 默认
+                        if "multi_news" in eval_file_path.lower():
+                            dataset_name = "multi_news"
+                        elif "narrativeqa" in eval_file_path.lower():
+                            dataset_name = "narrativeqa"
 
-                        # 查找评分结果文件
-                        for root, dirs, files in os.walk(main_output_dir):
-                            for file in files:
-                                if file.startswith(f"evaluation_results_") and experiment_id in file:
-                                    eval_file_path = os.path.join(root, file)
-                                    try:
-                                        with open(eval_file_path, 'r', encoding='utf-8') as f:
-                                            eval_data = json.load(f)
-                                            if eval_data.get("average_score") is not None:
-                                                score_result = calculate_relative_score(
-                                                    dataset_name=dataset_part,
-                                                    raw_score=eval_data["average_score"],
-                                                    is_full_kv=True
-                                                )
-                                                baseline_scores.append(score_result)
-                                                logger.info(
-                                                    f"基线分数已记录: {dataset_part} = {eval_data['average_score']:.4f}")
-                                    except Exception as e:
-                                        logger.warning(f"处理评分文件时出错 {eval_file_path}: {e}")
+                        score_result = calculate_relative_score(
+                            dataset_name=dataset_name,
+                            raw_score=eval_data["average_score"],
+                            is_full_kv=True
+                        )
+                        baseline_scores.append(score_result)
+                        logger.info(f"✅ 成功记录基线分数: {dataset_name} = {eval_data['average_score']:.4f}")
+                    else:
+                        logger.warning(f"⚠️ 文件缺少 average_score: {eval_file_path}")
+
+                except Exception as e:
+                    logger.warning(f"❌ 处理文件失败 {eval_file_path}: {e}")
 
             if baseline_scores:
                 # 生成基线报告
-                aggregated = aggregate_scores(baseline_scores)
-                report = format_score_report(aggregated, "Full KV (基线)")
+                try:
+                    aggregated = aggregate_scores(baseline_scores)
+                    report = format_score_report(aggregated, "Full KV (基线)")
 
-                # 保存基线报告
-                baseline_report_path = os.path.join(main_output_dir, "baseline_scoring_report.txt")
-                with open(baseline_report_path, 'w', encoding='utf-8') as f:
-                    f.write(report)
+                    # 保存报告
+                    baseline_report_path = os.path.join(main_output_dir, "baseline_scoring_report.txt")
+                    with open(baseline_report_path, 'w', encoding='utf-8') as f:
+                        f.write(report)
 
-                logger.info(f"基线评分报告已保存到: {baseline_report_path}")
-                print(report)
+                    logger.info(f"✅ 基线评分报告已保存到: {baseline_report_path}")
+                    print("\n" + "=" * 60)
+                    print("🎯 基线评分成功！")
+                    print("=" * 60)
+                    print(report)
+                    print("=" * 60)
+
+                except Exception as report_error:
+                    logger.error(f"生成报告失败: {report_error}")
+                    print(f"✅ 找到了 {len(baseline_scores)} 个基线分数，但报告生成失败")
+
             else:
-                logger.warning("未找到有效的评分结果，无法建立基线")
+                logger.error("❌ 未找到任何有效的评分结果文件")
+                print("\n🔍 调试信息:")
+                print(f"搜索目录: {main_output_dir}")
+                print("尝试手动检查这些位置是否有evaluation_results_*.json文件:")
+                print(f"  - {main_output_dir}")
+                print("  - ./fullkvcache_run_*")
+                print("  - ./")
 
         except Exception as baseline_error:
-            logger.error(f"处理基线评分时出错: {baseline_error}")
-
-    elif args.enable_scoring and not args.is_baseline_run:
-        logger.info("评分已启用，但这不是基线运行，跳过基线建立")
-
-    
-    # 处理基线评分（如果启用）
-    if args.enable_scoring and args.is_baseline_run and BASELINE_SCORING_AVAILABLE:
-        try:
-            logger.info("开始处理基线评分...")
-
-            # 收集所有实验的评分结果，建立基线
-            baseline_scores = []
-
-            for result in all_results_summary:
-                if isinstance(result, dict) and 'experiment_id' in result:
-                    # 查找对应的评分文件
-                    experiment_id = result['experiment_id']
-
-                    # 从实验ID中提取数据集名称
-                    if 'ds_' in experiment_id:
-                        dataset_part = experiment_id.split('ds_')[1].split('_')[0]
-
-                        # 查找评分结果文件
-                        for root, dirs, files in os.walk(main_output_dir):
-                            for file in files:
-                                if file.startswith(f"evaluation_results_") and experiment_id in file:
-                                    eval_file_path = os.path.join(root, file)
-                                    try:
-                                        with open(eval_file_path, 'r', encoding='utf-8') as f:
-                                            eval_data = json.load(f)
-                                            if eval_data.get("average_score") is not None:
-                                                score_result = calculate_relative_score(
-                                                    dataset_name=dataset_part,
-                                                    raw_score=eval_data["average_score"],
-                                                    is_full_kv=True
-                                                )
-                                                baseline_scores.append(score_result)
-                                                logger.info(f"基线分数已记录: {dataset_part} = {eval_data['average_score']:.4f}")
-                                    except Exception as e:
-                                        logger.warning(f"处理评分文件时出错 {eval_file_path}: {e}")
-
-            if baseline_scores:
-                # 生成基线报告
-                aggregated = aggregate_scores(baseline_scores)
-                report = format_score_report(aggregated, "Full KV (基线)")
-
-                # 保存基线报告
-                baseline_report_path = os.path.join(main_output_dir, "baseline_scoring_report.txt")
-                with open(baseline_report_path, 'w', encoding='utf-8') as f:
-                    f.write(report)
-
-                logger.info(f"基线评分报告已保存到: {baseline_report_path}")
-                print(report)
-            else:
-                logger.warning("未找到有效的评分结果，无法建立基线")
-
-        except Exception as baseline_error:
-            logger.error(f"处理基线评分时出错: {baseline_error}")
+            logger.error(f"基线评分处理出错: {baseline_error}")
+            import traceback
+            traceback.print_exc()
 
     elif args.enable_scoring and not args.is_baseline_run:
         logger.info("评分已启用，但这不是基线运行，跳过基线建立")

@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_multi_news_kv128_bs1_rep0_20250621_233629",
+  "dataset": "multi_news",
+  "generated_text": "The article discusses the impact of the COVID-19 pandemic on the global economy, particularly on the tourism industry. It highlights the unprecedented decline in tourism due to travel restrictions, border closures, and fear of infection. The",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-21T23:37:07.982054"
+}
