@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep2_20250622_103727",
+  "dataset": "qasper",
+  "generated_text": "\n\nThe ground truth for fake news is typically established through a combination of fact-checking, journalistic investigation, and expert analysis. Here's a simplified breakdown:\n\n1. Fact-checking: This involves verifying",
+  "ground_truth": "",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-22T10:44:26.351367"
+}

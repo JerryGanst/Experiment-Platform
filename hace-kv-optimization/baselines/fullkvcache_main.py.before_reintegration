@@ -1,5 +1,3 @@
-# FullKVCache实验主脚本 - 完全不使用任何缓存优化
-
 import sys
 import os
 

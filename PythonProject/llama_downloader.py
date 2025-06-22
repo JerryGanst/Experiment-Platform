@@ -19,7 +19,6 @@ files_to_download = [
     "tokenizer.model",
     "checklist.chk",
 ]
-
 # ▶ ③ 下载到哪里
 target_dir = r"C:\Users\Administrator\llama_models\Llama-2-7b-chat"
 
