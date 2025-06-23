@@ -8,6 +8,7 @@ import os
 import sys
 from pathlib import Path
 import argparse
+from utilities.path_config import PathManager
 
 def install_requirements():
     """安装必要的依赖"""
@@ -75,8 +76,10 @@ def main():
     parser = argparse.ArgumentParser(description="Hugging Face 模型下载器")
     parser.add_argument("--model", "-m", default="meta-llama/Llama-2-7b-chat-hf", 
                         help="模型名称")
-    parser.add_argument("--save-dir", "-s", 
-                        default=r"C:\Users\Administrator\llama_models",
+    pm = PathManager()
+    default_dir = pm.paths["model_paths"]["local_models"]
+    parser.add_argument("--save-dir", "-s",
+                        default=default_dir,
                         help="保存目录")
     parser.add_argument("--cache-only", action="store_true",
                         help="只缓存到默认位置")

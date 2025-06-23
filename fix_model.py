@@ -21,15 +21,13 @@ def find_model_directories():
 
     # 可能的模型路径
     possible_paths = [
-        Path(f"C:/Users/{current_user}/mistral_models"),
-        Path(f"C:/Users/{current_user}/models"),
-        Path(f"C:/Users/{current_user}/huggingface"),
-        Path(f"C:/Users/{current_user}/.cache/huggingface"),
+        pm.home_dir / "mistral_models",
+        pm.home_dir / "models",
+        pm.home_dir / "huggingface",
+        pm.home_dir / ".cache" / "huggingface",
         Path("C:/models"),
         Path("D:/models"),
         Path("E:/models"),
-        # 检查是否模型在旧路径但可以移动
-        Path("C:/Users/JerryGanst/mistral_models")
     ]
 
     found_models = []
@@ -111,7 +109,9 @@ def update_experiment_configs():
                 # 替换旧的用户路径
                 old_patterns = [
                     'C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3',
-                    'C:\\Users\\JerryGanst\\mistral_models\\7B-Instruct-v0.3',
+                    'C:/Users/Administrator/mistral_models/7B-Instruct-v0.3',
+                    'C\\Users\\JerryGanst\\mistral_models\\7B-Instruct-v0.3',
+                    'C\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3',
                     '/Users/JerryGanst/mistral_models/7B-Instruct-v0.3'
                 ]
 

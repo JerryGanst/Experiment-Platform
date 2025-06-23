@@ -76,20 +76,23 @@ class PathManager:
         for section, settings in config.items():
             adapted[section] = {}
             for key, path in settings.items():
-                if isinstance(path, str) and 'Users' in path:
-                    path_obj = Path(path)
-                    parts = path_obj.parts
-                    user_idx = None
-                    for i, part in enumerate(parts):
-                        if part == 'Users' and i + 1 < len(parts):
-                            user_idx = i + 1
-                            break
+                if isinstance(path, str):
+                    expanded = Path(os.path.expandvars(path)).expanduser()
+                    if 'Users' in expanded.parts:
+                        parts = expanded.parts
+                        user_idx = None
+                        for i, part in enumerate(parts):
+                            if part == 'Users' and i + 1 < len(parts):
+                                user_idx = i + 1
+                                break
 
-                    if user_idx:
-                        new_parts = parts[:user_idx] + (current_user,) + parts[user_idx+1:]
-                        adapted[section][key] = str(Path(*new_parts))
+                        if user_idx:
+                            new_parts = parts[:user_idx] + (current_user,) + parts[user_idx+1:]
+                            adapted[section][key] = str(Path(*new_parts))
+                        else:
+                            adapted[section][key] = str(expanded)
                     else:
-                        adapted[section][key] = path
+                        adapted[section][key] = str(expanded)
                 else:
                     adapted[section][key] = path
 

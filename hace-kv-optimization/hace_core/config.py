@@ -2,6 +2,10 @@
 配置文件，存储实验的所有参数设置
 """
 
+from utilities.path_config import PathManager
+pm = PathManager()
+default_model_path = pm.get_model_path()
+
 # 硬件配置信息
 HARDWARE_CONFIG = {
     "gpu": "NVIDIA RTX 4090",
@@ -11,14 +15,14 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",  # 使用你已经下载的本地模型
+    "model_name_or_path": default_model_path,  # 使用本地或配置的模型路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",
+    "model_name_or_path": default_model_path,
     "precision": "fp16",  # or "bf16", "fp32"
 # 在这里添加这几行 ↓↓↓
     "use_relative_paths": True,        # 新增：强制使用相对路径

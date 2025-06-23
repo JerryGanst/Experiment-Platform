@@ -4,6 +4,7 @@ from urllib.parse import urlparse, parse_qs
 import urllib3
 from tqdm import tqdm
 import time
+from pathlib import Path
 
 # 禁用 SSL 警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -20,7 +21,7 @@ files_to_download = [
     "checklist.chk",
 ]
 # ▶ ③ 下载到哪里
-target_dir = r"C:\Users\Administrator\llama_models\Llama-2-7b-chat"
+target_dir = str(Path.home() / "llama_models" / "Llama-2-7b-chat")
 
 # 统一配置
 CHUNK_SIZE  = 64 * 1024       # 64 KB
