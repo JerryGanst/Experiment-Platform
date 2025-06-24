@@ -203,7 +203,7 @@ if __name__ == "__main__":
             print("\n🎉 基线评分系统重新集成成功！")
             print("\n📋 现在可以测试:")
             print(
-                "python hace-kv-optimization/baselines/fullkvcache_main.py --enable_scoring --is_baseline_run --datasets hotpotqa --kv_cache_lengths 128 --repetitions 1")
+                "python hace-kv-optimization/run_result/fullkvcache_main.py --enable_scoring --is_baseline_run --datasets hotpotqa --kv_cache_lengths 128 --repetitions 1")
         else:
             print("\n⚠️ 集成完成但可能有问题，请检查")
     else:

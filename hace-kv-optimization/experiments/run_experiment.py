@@ -104,7 +104,7 @@ def parse_args():
 
 def run_single_experiment_script(script_name:str, common_params:list, specific_params:list, run_output_dir:str, log_level:str, run_env:dict):
     """辅助函数运行单个实验脚本 (如 h2o_main.py, cake_main.py)"""
-    cmd = [sys.executable, os.path.join(pkg_dir, 'baselines', script_name)] + \
+    cmd = [sys.executable, os.path.join(pkg_dir, 'run_result', script_name)] + \
           ["--output_dir", run_output_dir, "--log_level", log_level] + \
           common_params + specific_params
     

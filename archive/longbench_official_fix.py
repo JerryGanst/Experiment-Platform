@@ -31,7 +31,7 @@ def verify_longbench_access():
 
 def create_backup():
     """创建备份文件"""
-    target_file = "hace-kv-optimization/baselines/fullkvcache_main.py"
+    target_file = "hace-kv-optimization/run_result/fullkvcache_main.py"
     if os.path.exists(target_file):
         backup_name = target_file + ".before_longbench_fix"
         shutil.copy2(target_file, backup_name)
@@ -42,7 +42,7 @@ def create_backup():
 def apply_longbench_fix():
     """应用LongBench官方数据修复"""
     
-    target_file = "hace-kv-optimization/baselines/fullkvcache_main.py"
+    target_file = "hace-kv-optimization/run_result/fullkvcache_main.py"
     
     with open(target_file, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -200,7 +200,7 @@ def load_longbench_official_data(dataset_name: str, max_samples: int = None):
 def test_fix():
     """提供测试建议"""
     print("\n🧪 建议测试命令:")
-    print("cd hace-kv-optimization/baselines")
+    print("cd hace-kv-optimization/run_result")
     print("python fullkvcache_main.py --datasets hotpotqa --kv_cache_lengths 512 --batch_sizes 1 --max_new_tokens 10 --repetitions 1 --enable_scoring --is_baseline_run")
 
 def main():
@@ -227,7 +227,7 @@ def main():
         
     except Exception as e:
         print(f"❌ 修复失败: {e}")
-        print("可从备份恢复: cp hace-kv-optimization/baselines/fullkvcache_main.py.before_longbench_fix hace-kv-optimization/baselines/fullkvcache_main.py")
+        print("可从备份恢复: cp hace-kv-optimization/run_result/fullkvcache_main.py.before_longbench_fix hace-kv-optimization/run_result/fullkvcache_main.py")
 
 if __name__ == "__main__":
     main() 

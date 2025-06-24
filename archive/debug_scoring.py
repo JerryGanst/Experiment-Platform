@@ -16,7 +16,7 @@ try:
         print("✅ 评分模块导入成功 (hace_core.evaluation)")
     except ImportError:
         # 尝试从baselines目录导入
-        sys.path.append('hace-kv-optimization/baselines')
+        sys.path.append('hace-kv-optimization/run_result')
         from fullkvcache_main import qa_f1_score
         print("✅ 评分模块导入成功 (fullkvcache_main)")
 except ImportError as e:

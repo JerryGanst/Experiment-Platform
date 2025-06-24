@@ -1,5 +1,5 @@
 
-# 将此函数替换到 hace-kv-optimization/baselines/fullkvcache_main.py 中
+# 将此函数替换到 hace-kv-optimization/run_result/fullkvcache_main.py 中
 
 def extract_ground_truth_from_sample(sample, dataset_source):
     """

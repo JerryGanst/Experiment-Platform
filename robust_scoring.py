@@ -401,7 +401,7 @@ if __name__ == "__main__":
     if success:
         print("\n✅ 现在可以运行基线实验了！")
         print("建议命令:")
-        print("cd hace-kv-optimization/baselines")
+        print("cd hace-kv-optimization/run_result")
         print("python fullkvcache_main.py --enable_scoring --is_baseline_run --datasets hotpotqa --max_new_tokens 50")
     else:
         print("\n❌ 请检查错误信息并重试")

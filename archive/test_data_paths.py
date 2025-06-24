@@ -29,7 +29,7 @@ def test_data_path_resolution():
             
             # 尝试多个可能的数据路径
             possible_data_dirs = [
-                os.path.join(script_dir, "hace-kv-optimization", "baselines", "data"),  # baselines/data/
+                os.path.join(script_dir, "hace-kv-optimization", "run_result", "data"),  # run_result/data/
                 os.path.join(script_dir, "data"),  # 项目根目录的data/
                 os.path.join(script_dir, "hace-kv-optimization", "data"),  # hace-kv-optimization/data/
             ]
@@ -133,10 +133,10 @@ def show_current_project_structure():
     key_paths = [
         "data/",
         "hace-kv-optimization/",
-        "hace-kv-optimization/baselines/",
-        "hace-kv-optimization/baselines/data/",
-        "hace-kv-optimization/baselines/fullkvcache_main.py",
-        "hace-kv-optimization/baselines/cake_main.py",
+        "hace-kv-optimization/run_result/",
+        "hace-kv-optimization/run_result/data/",
+        "hace-kv-optimization/run_result/fullkvcache_main.py",
+        "hace-kv-optimization/run_result/cake_main.py",
         "utilities/",
         "path_config.json"
     ]
