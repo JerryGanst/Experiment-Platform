@@ -3,6 +3,30 @@ import pandas as pd
 import glob
 import json
 import os
+import re
+
+
+def extract_kv_length(file_path):
+    """
+    从文件路径中提取KV缓存长度
+    
+    Args:
+        file_path (str): 文件路径
+        
+    Returns:
+        int or None: KV缓存长度，如果无法提取则返回None
+    """
+    # 使用正则表达式匹配kv后跟数字的模式
+    kv_pattern = r'kv(\d+)'
+    match = re.search(kv_pattern, file_path, re.IGNORECASE)
+    
+    if match:
+        kv_length = int(match.group(1))
+        return kv_length
+    else:
+        # 如果无法提取KV长度，返回None或者记录警告
+        print(f"⚠️ 无法从路径中提取KV长度: {file_path}")
+        return None
 
 
 def collect_all_results():
@@ -42,13 +66,15 @@ def collect_all_results():
                 score = data['average_score']
 
                 # 从文件路径提取KV cache长度
-                kv_length = 128 if 'kv128' in file_path else 1024
-
-                all_results.append({
-                    'Dataset': dataset_names.get(dataset, dataset),
-                    'KV_Length': kv_length,
-                    'Score': score
-                })
+                kv_length = extract_kv_length(file_path)
+                
+                # 只有成功提取到KV长度时才添加结果
+                if kv_length is not None:
+                    all_results.append({
+                        'Dataset': dataset_names.get(dataset, dataset),
+                        'KV_Length': kv_length,
+                        'Score': score
+                    })
 
         except Exception as e:
             print(f"处理文件失败 {file_path}: {e}")
