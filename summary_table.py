@@ -53,6 +53,26 @@ def collect_all_results():
         except Exception as e:
             print(f"处理文件失败 {file_path}: {e}")
 
+    # 加载baseline数据（如果存在）
+    try:
+        baseline_file = 'baseline_fullkv.json'
+        if os.path.exists(baseline_file):
+            with open(baseline_file, 'r', encoding='utf-8') as f:
+                baseline_data = json.load(f)
+            
+            # 添加baseline数据到结果中
+            for dataset, score in baseline_data.items():
+                if not dataset.startswith('_'):  # 跳过元数据字段
+                    formatted_name = dataset_names.get(dataset, dataset)
+                    all_results.append({
+                        'Dataset': formatted_name,
+                        'KV_Length': 'baseline',  # 使用'baseline'作为标识
+                        'Score': score
+                    })
+                    print(f"已加载baseline数据: {formatted_name} = {score:.4f}")
+    except Exception as e:
+        print(f"加载baseline数据失败: {e}")
+
     return all_results
 
 
@@ -69,8 +89,21 @@ def create_summary_table():
         aggfunc='mean'
     )
 
-    # 添加平均分列
-    pivot_table['Avg.'] = pivot_table.mean(axis=1)
+    # 获取非baseline列（仅包含数值型的KV长度列）
+    numeric_columns = [col for col in pivot_table.columns if col != 'baseline' and isinstance(col, (int, float))]
+    
+    # 添加平均分列（仅计算KV缓存实验的平均值，排除baseline）
+    if numeric_columns:
+        pivot_table['Avg.'] = pivot_table[numeric_columns].mean(axis=1)
+        print(f"✅ 平均值计算基于列: {numeric_columns} (已排除baseline)")
+    else:
+        # 如果没有数值列，则使用所有非baseline列
+        non_baseline_columns = [col for col in pivot_table.columns if col != 'baseline']
+        if non_baseline_columns:
+            pivot_table['Avg.'] = pivot_table[non_baseline_columns].mean(axis=1)
+            print(f"✅ 平均值计算基于列: {non_baseline_columns} (已排除baseline)")
+        else:
+            print("⚠️ 没有可用于计算平均值的列")
 
     # 格式化输出
     pivot_table = pivot_table.round(3)
