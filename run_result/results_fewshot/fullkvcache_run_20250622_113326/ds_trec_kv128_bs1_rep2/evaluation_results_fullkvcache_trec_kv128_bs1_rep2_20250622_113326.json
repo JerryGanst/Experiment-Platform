@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_trec_kv128_bs1_rep2_20250622_113326",
+  "dataset": "trec",
+  "generated_text": "\n\nAnswer: The first golf course in the United States was located in Scotland, Massachusetts, in 1893. However, the first golf club in the U.S. was the St. Andrew's Golf Club in Y",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-22T11:36:48.477614"
+}

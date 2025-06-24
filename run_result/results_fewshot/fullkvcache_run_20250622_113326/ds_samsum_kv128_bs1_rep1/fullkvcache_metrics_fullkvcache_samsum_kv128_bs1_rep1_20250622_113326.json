@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_samsum_kv128_bs1_rep1_20250622_113326",
+  "timestamp": "2025-06-22T11:36:19.774795",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 124.63074366251628,
+    "throughput_tokens_per_sec": 7.922905553730865,
+    "total_time_sec": 2.019461154937744,
+    "tokens_generated": 16,
+    "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 128,
+    "max_new_tokens": 50,
+    "use_fullkvcache": true,
+    "dataset": "samsum",
+    "repetition": 1
+  },
+  "monitoring": null
+}

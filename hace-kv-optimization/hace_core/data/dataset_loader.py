@@ -38,7 +38,7 @@ def load_dataset_split(dataset_config, split="validation", trust_remote_code=Fal
 
 def prepare_samples_for_evaluation(dataset, dataset_name, num_samples=100, random_seed=42):
     """
-    准备用于评估的样本
+    准备用于评估的样本 - 修复版本，支持LongBench标准格式
     
     Args:
         dataset: 加载的数据集
@@ -52,117 +52,178 @@ def prepare_samples_for_evaluation(dataset, dataset_name, num_samples=100, rando
     random.seed(random_seed)
     logger.info(f"Preparing {num_samples} samples from {dataset_name}")
     
+    # 处理不同的数据格式
+    if hasattr(dataset, '__len__'):
+        # 标准dataset对象
+        dataset_items = dataset
+    elif isinstance(dataset, list):
+        # 直接的列表格式
+        dataset_items = dataset
+    else:
+        logger.error(f"未知的数据集格式: {type(dataset)}")
+        return []
+    
     # 如果数据集样本数少于请求的样本数，使用所有样本
-    if len(dataset) < num_samples:
-        num_samples = len(dataset)
+    num_available = len(dataset_items)
+    if num_available < num_samples:
+        num_samples = num_available
         logger.warning(f"Dataset contains only {num_samples} samples")
     
     # 随机选择样本索引
-    indices = random.sample(range(len(dataset)), num_samples)
+    indices = random.sample(range(num_available), num_samples)
     samples = []
     
     for idx in indices:
-        sample = dataset[idx]
+        item = dataset_items[idx]
         processed_sample = {}
         
-        # 根据不同数据集格式处理样本
-        # 英文数据集
-        if dataset_name == "mmlu":
+        # 特殊数据集优先处理
+        if dataset_name == "multi_news":
+            # multi_news特殊处理 - input为空，使用context
+            if "context" in item and "answers" in item:
+                processed_sample["prompt"] = f"Summarize the following articles:\n{item['context']}\nSummary:"
+                if isinstance(item["answers"], list):
+                    processed_sample["reference"] = item["answers"][0] if item["answers"] else ""
+                else:
+                    processed_sample["reference"] = item["answers"]
+            else:
+                processed_sample["prompt"] = ""
+                processed_sample["reference"] = ""
+                
+        elif dataset_name == "gov_report":
+            # gov_report特殊处理 - input为空，使用context
+            if "context" in item and "answers" in item:
+                processed_sample["prompt"] = f"Summarize the following government report:\n{item['context']}\nSummary:"
+                if isinstance(item["answers"], list):
+                    processed_sample["reference"] = item["answers"][0] if item["answers"] else ""
+                else:
+                    processed_sample["reference"] = item["answers"]
+            else:
+                processed_sample["prompt"] = ""
+                processed_sample["reference"] = ""
+                
+        elif dataset_name == "qmsum":
+            # qmsum特殊处理 - 使用input作为问题，context作为会议内容
+            if "input" in item and item["input"].strip() and "context" in item:
+                query = item["input"].strip()
+                processed_sample["prompt"] = f"Context: {item['context']}\nQuestion: {query}\nAnswer:"
+            elif "context" in item:
+                processed_sample["prompt"] = f"Summarize the following meeting:\n{item['context']}\nSummary:"
+            else:
+                processed_sample["prompt"] = ""
+            
+            if "answers" in item:
+                if isinstance(item["answers"], list):
+                    processed_sample["reference"] = item["answers"][0] if item["answers"] else ""
+                else:
+                    processed_sample["reference"] = item["answers"]
+            else:
+                processed_sample["reference"] = ""
+        
+        # LongBench标准格式优先处理
+        elif "input" in item and "answers" in item and item["input"].strip():
+            processed_sample["prompt"] = item["input"]
+            
+            # 处理答案 - LongBench的答案可能是列表
+            if isinstance(item["answers"], list):
+                processed_sample["reference"] = item["answers"][0] if item["answers"] else ""
+            else:
+                processed_sample["reference"] = item["answers"]
+                
+        elif "context" in item and "question" in item:
+            # 问答格式
+            processed_sample["prompt"] = f"Context: {item['context']}\nQuestion: {item['question']}\nAnswer:"
+            if "answers" in item:
+                answers = item["answers"]
+                if isinstance(answers, list):
+                    processed_sample["reference"] = answers[0] if answers else ""
+                else:
+                    processed_sample["reference"] = answers
+            else:
+                processed_sample["reference"] = item.get("answer", "")
+                
+        elif "dialogue" in item and "summary" in item:
+            # 摘要格式（如samsum）
+            processed_sample["prompt"] = f"Summarize the following dialogue:\n{item['dialogue']}\nSummary:"
+            processed_sample["reference"] = item["summary"]
+            
+        elif "text" in item:
+            # 通用文本格式
+            processed_sample["prompt"] = item["text"]
+            processed_sample["reference"] = item.get("summary", item.get("answer", ""))
+            
+        # 兼容旧格式处理
+        elif dataset_name == "mmlu":
             # MMLU格式处理
-            processed_sample["prompt"] = f"Question: {sample['question']}\nChoices:\nA. {sample['choices'][0]}\nB. {sample['choices'][1]}\nC. {sample['choices'][2]}\nD. {sample['choices'][3]}\nAnswer:"
-            processed_sample["reference"] = sample["answer"]
+            processed_sample["prompt"] = f"Question: {item['question']}\nChoices:\nA. {item['choices'][0]}\nB. {item['choices'][1]}\nC. {item['choices'][2]}\nD. {item['choices'][3]}\nAnswer:"
+            processed_sample["reference"] = item["answer"]
         
         elif dataset_name == "hellaswag":
             # HellaSwag格式处理
-            processed_sample["prompt"] = f"Context: {sample['ctx']}\nComplete this with the most appropriate ending:"
-            processed_sample["reference"] = sample["endings"][sample["label"]]
-        
-        elif dataset_name == "longbench":
-            # LongBench格式处理
-            if "input" in sample and "answer" in sample:
-                processed_sample["prompt"] = sample["input"]
-                processed_sample["reference"] = sample["answer"]
-            elif "question" in sample and "answers" in sample:
-                processed_sample["prompt"] = sample["question"]
-                processed_sample["reference"] = sample["answers"][0] if isinstance(sample["answers"], list) else sample["answers"]
-            else:
-                # 处理其他格式的LongBench样本
-                for key in sample:
-                    if isinstance(sample[key], str) and len(sample[key]) > 20:
-                        processed_sample["prompt"] = sample[key]
-                        break
-                processed_sample["reference"] = ""
+            processed_sample["prompt"] = f"Context: {item['ctx']}\nComplete this with the most appropriate ending:"
+            processed_sample["reference"] = item["endings"][item["label"]]
         
         elif dataset_name == "squad2":
             # SQuAD 2.0格式处理
-            if "question" in sample and "context" in sample:
-                processed_sample["prompt"] = f"Context: {sample['context']}\nQuestion: {sample['question']}\nAnswer:"
-                processed_sample["reference"] = sample.get("answers", {}).get("text", [""])[0] if "answers" in sample else ""
+            if "question" in item and "context" in item:
+                processed_sample["prompt"] = f"Context: {item['context']}\nQuestion: {item['question']}\nAnswer:"
+                processed_sample["reference"] = item.get("answers", {}).get("text", [""])[0] if "answers" in item else ""
             else:
-                # 兼容不同版本的SQuAD
-                processed_sample["prompt"] = f"Question: {sample.get('question', '')}\nContext: {sample.get('context', '')}\nAnswer:"
-                answers = sample.get("answers", [])
+                processed_sample["prompt"] = f"Question: {item.get('question', '')}\nContext: {item.get('context', '')}\nAnswer:"
+                answers = item.get("answers", [])
                 processed_sample["reference"] = answers[0]["text"] if answers else ""
-        
-        # 中文数据集
-        elif dataset_name == "cluewsc2020":
-            # CLUEWSC2020格式处理
-            if "text" in sample and "target" in sample:
-                processed_sample["prompt"] = f"句子: {sample['text']}\n指代问题: {sample.get('target', {}).get('span1_text', '')}和{sample.get('target', {}).get('span2_text', '')}是否指代相同实体？"
-                processed_sample["reference"] = "是" if sample.get("label") == 1 else "否"
-            else:
-                processed_sample["prompt"] = sample.get("text", "")
-                processed_sample["reference"] = "是" if sample.get("label") == 1 else "否"
         
         elif dataset_name == "ceval":
             # C-Eval格式处理
-            processed_sample["prompt"] = f"题目: {sample['question']}\n选项:\nA. {sample['choices'][0]}\nB. {sample['choices'][1]}\nC. {sample['choices'][2]}\nD. {sample['choices'][3]}\n答案:"
-            processed_sample["reference"] = sample["answer"]
+            processed_sample["prompt"] = f"题目: {item['question']}\n选项:\nA. {item['choices'][0]}\nB. {item['choices'][1]}\nC. {item['choices'][2]}\nD. {item['choices'][3]}\n答案:"
+            processed_sample["reference"] = item["answer"]
         
         elif dataset_name == "race":
             # RACE格式处理
-            if "article" in sample and "question" in sample and "options" in sample:
-                processed_sample["prompt"] = f"文章: {sample['article']}\n问题: {sample['question']}\n选项:\n"
-                for i, option in enumerate(sample['options']):
+            if "article" in item and "question" in item and "options" in item:
+                processed_sample["prompt"] = f"文章: {item['article']}\n问题: {item['question']}\n选项:\n"
+                for i, option in enumerate(item['options']):
                     processed_sample["prompt"] += f"{chr(65+i)}. {option}\n"
                 processed_sample["prompt"] += "答案:"
                 
                 answers = {"0": "A", "1": "B", "2": "C", "3": "D"}
-                processed_sample["reference"] = answers.get(str(sample.get("answer")), "")
+                processed_sample["reference"] = answers.get(str(item.get("answer")), "")
             else:
-                processed_sample["prompt"] = sample.get("question", "")
+                processed_sample["prompt"] = item.get("question", "")
                 processed_sample["reference"] = ""
         
-        elif dataset_name == "openeval":
-            # OpenEval格式处理
-            if "question" in sample and "answer" in sample:
-                processed_sample["prompt"] = sample["question"]
-                processed_sample["reference"] = sample["answer"]
-            else:
-                processed_sample["prompt"] = next((sample[k] for k in sample if isinstance(sample[k], str) and len(sample[k]) > 20), "")
-                processed_sample["reference"] = ""
-        
-        # 默认处理方式
         else:
-            if "text" in sample:
-                processed_sample["prompt"] = sample["text"]
-            elif "question" in sample:
-                processed_sample["prompt"] = sample["question"]
+            # 未知格式 - 记录并使用备用方案
+            logger.warning(f"未知的数据格式，数据集: {dataset_name}, 可用字段: {list(item.keys())}")
+            # 使用第一个看起来像输入的字段
+            for key in ["input", "question", "text", "context", "dialogue"]:
+                if key in item:
+                    processed_sample["prompt"] = str(item[key])
+                    break
             else:
-                # 使用第一个非特殊字段作为提示
-                for key, value in sample.items():
-                    if key != "label" and key != "idx" and isinstance(value, str):
-                        processed_sample["prompt"] = value
-                        break
-            
-            # 设置参考答案
-            if "label" in sample:
-                processed_sample["reference"] = str(sample["label"])
-            elif "answer" in sample:
-                processed_sample["reference"] = sample["answer"]
+                processed_sample["prompt"] = str(item)
+                
+            # 尝试找到答案
+            for key in ["answers", "answer", "summary", "output"]:
+                if key in item:
+                    ref = item[key]
+                    if isinstance(ref, list):
+                        processed_sample["reference"] = ref[0] if ref else ""
+                    else:
+                        processed_sample["reference"] = str(ref)
+                    break
             else:
                 processed_sample["reference"] = ""
         
+        # 验证处理结果
+        if not processed_sample.get("reference"):
+            logger.warning(f"样本 {idx} 没有找到参考答案，数据集: {dataset_name}")
+        
+        # 确保都有内容
+        if not processed_sample.get("prompt"):
+            logger.warning(f"样本 {idx} 没有找到输入提示，数据集: {dataset_name}")
+            processed_sample["prompt"] = ""
+            
         samples.append(processed_sample)
     
     logger.info(f"Prepared {len(samples)} samples successfully")

@@ -11,7 +11,7 @@ def fix_scoring_integration():
     print("=" * 50)
 
     # 1. 检查文件路径
-    script_path = Path("hace-kv-optimization/baselines/fullkvcache_main.py")
+    script_path = Path("hace-kv-optimization/run_result/fullkvcache_main.py")
 
     if not script_path.exists():
         print(f"❌ 文件不存在: {script_path}")
@@ -296,7 +296,7 @@ DATASET_SCORING_MAP = {
 def test_fix():
     """测试修复效果"""
     print("\n🧪 建议测试命令:")
-    print("cd hace-kv-optimization/baselines")
+    print("cd hace-kv-optimization/run_result")
     print(
         "python fullkvcache_main.py --enable_scoring --is_baseline_run --datasets hotpotqa --kv_cache_lengths 512 --batch_sizes 1 --max_new_tokens 10 --repetitions 1")
 

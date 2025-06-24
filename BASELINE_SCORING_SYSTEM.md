@@ -37,12 +37,12 @@ run_cake_experiments.bat     # 运行CAKE实验
 
 ```bash
 # 1. 建立Full KV基线
-python hace-kv-optimization/baselines/fullkvcache_main.py \
+python hace-kv-optimization/run_result/fullkvcache_main.py \
     --enable_scoring --is_baseline_run \
     --datasets hotpotqa,multi_news
 
 # 2. 运行CAKE实验
-python hace-kv-optimization/baselines/cake_main.py \
+python hace-kv-optimization/run_result/cake_main.py \
     --enable_scoring \
     --datasets hotpotqa,multi_news
 ```

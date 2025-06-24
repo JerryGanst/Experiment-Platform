@@ -150,7 +150,7 @@ if __name__ == "__main__":
             print("\n📋 下一步操作:")
             print("1. 重新运行基线实验:")
             print(
-                "   python hace-kv-optimization/baselines/fullkvcache_main.py --enable_scoring --is_baseline_run --datasets hotpotqa")
+                "   python hace-kv-optimization/run_result/fullkvcache_main.py --enable_scoring --is_baseline_run --datasets hotpotqa")
             print("\n2. 或者运行你的诊断脚本:")
             print("   python test_baseline_system.py")
         else:

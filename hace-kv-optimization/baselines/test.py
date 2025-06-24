@@ -201,7 +201,7 @@ def create_test_fix_script():
     """创建用于修复fullkvcache_main.py的代码片段"""
 
     fix_code = '''
-# 将此函数替换到 hace-kv-optimization/baselines/fullkvcache_main.py 中
+# 将此函数替换到 hace-kv-optimization/run_result/fullkvcache_main.py 中
 
 def extract_ground_truth_from_sample(sample, dataset_source):
     """
@@ -272,7 +272,7 @@ def extract_ground_truth_from_sample(sample, dataset_source):
         f.write(fix_code)
 
     print(f"\n📝 修复代码已保存到: fixed_extract_function.py")
-    print("请将此函数复制到 hace-kv-optimization/baselines/fullkvcache_main.py 中")
+    print("请将此函数复制到 hace-kv-optimization/run_result/fullkvcache_main.py 中")
 
 
 def main():
