@@ -73,6 +73,8 @@ def collect_all_results():
     except Exception as e:
         print(f"加载baseline数据失败: {e}")
 
+=======
+
     return all_results
 
 
@@ -104,6 +106,9 @@ def create_summary_table():
             print(f"✅ 平均值计算基于列: {non_baseline_columns} (已排除baseline)")
         else:
             print("⚠️ 没有可用于计算平均值的列")
+=======
+    # 添加平均分列
+    pivot_table['Avg.'] = pivot_table.mean(axis=1)
 
     # 格式化输出
     pivot_table = pivot_table.round(3)
