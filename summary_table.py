@@ -72,7 +72,6 @@ def collect_all_results():
                     print(f"已加载baseline数据: {formatted_name} = {score:.4f}")
     except Exception as e:
         print(f"加载baseline数据失败: {e}")
-
     return all_results
 
 
