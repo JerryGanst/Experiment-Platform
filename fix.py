@@ -143,7 +143,7 @@ class PathManager:
 
         if script_type in script_mappings:
             script_name = script_mappings[script_type]
-            script_path = self.project_root / "hace-kv-optimization" / "run_result" / script_name
+            script_path = self.project_root / "hace-kv-optimization" / "baselines" / script_name
 
             if script_path.exists():
                 return str(script_path)
@@ -152,7 +152,7 @@ class PathManager:
                 if script_type == "baseline":
                     alt_script = script_mappings.get("baseline_alias")
                     if alt_script:
-                        alt_path = self.project_root / "hace-kv-optimization" / "run_result" / alt_script
+                        alt_path = self.project_root / "hace-kv-optimization" / "baselines" / alt_script
                         if alt_path.exists():
                             print(f"🔄 使用备选脚本: {alt_path}")
                             return str(alt_path)
@@ -173,7 +173,7 @@ class PathManager:
 class EnhancedScriptResolver:
     def __init__(self, base_dir=None):
         self.path_manager = PathManager()
-        self.base_dir = Path(base_dir) if base_dir else self.path_manager.project_root / "hace-kv-optimization" / "run_result"
+        self.base_dir = Path(base_dir) if base_dir else self.path_manager.project_root / "hace-kv-optimization" / "baselines"
 
     def get_baseline_script(self):
         """获取正确的基线脚本路径"""

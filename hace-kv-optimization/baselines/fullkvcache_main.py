@@ -360,7 +360,7 @@ def safe_model_generate(model, tokenizer, input_ids, attention_mask=None, max_ne
 
 
 def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length, max_new_tokens, dataset_name,
-                                      experiment_id, monitor=None):
+                                      experiment_id, monitor=None, repetition=0):
     """运行单个FullKVCache实验"""
     try:
         logger.info(f"开始实验: {experiment_id}")
@@ -462,7 +462,7 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
             "max_new_tokens": max_new_tokens,
             "use_fullkvcache": True,
             "dataset": dataset_name,
-            "repetition": 0
+            "repetition": repetition
         }
 
         # 清理内存
@@ -666,7 +666,7 @@ def main():
 
                         experiment_results = run_single_fullkvcache_experiment(
                             model, tokenizer, sample, kv_cache_length, args.max_new_tokens,
-                            dataset_name, experiment_id, monitor
+                            dataset_name, experiment_id, monitor, repetition=rep
                         )
 
                         # 保存性能指标
