@@ -1,9 +1,0 @@
-{
-  "experiment_id": "fullkvcache_samsum_kv1024_bs1_rep2_20250622_113326",
-  "dataset": "samsum",
-  "generated_text": "\n\n Summary: William expresses concern as Emilia is still angry.",
-  "ground_truth": "",
-  "score": 0.0,
-  "average_score": 0.0,
-  "timestamp": "2025-06-22T11:38:05.225602"
-}
