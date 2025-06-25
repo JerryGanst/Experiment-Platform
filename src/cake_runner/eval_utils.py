@@ -32,6 +32,7 @@ DATASET_SCORERS = {
     "multi_news": rouge_score,   # 摘要任务，ROUGE-L F1
 }
 
+
 # 基线文件路径 - 修复指向evaluation目录
 _PROJECT_ROOT = Path(__file__).parents[2]  # 回到项目根目录
 _BASELINE_FILE = _PROJECT_ROOT / "evaluation" / "baseline_fullkv.json"
