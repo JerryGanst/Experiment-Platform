@@ -1,9 +1,0 @@
-{
-  "experiment_id": "fullkvcache_narrativeqa_kv128_bs1_rep0_20250622_103727",
-  "dataset": "narrativeqa",
-  "generated_text": "\n\nThe given equation is a quadratic equation in the form ax^2 + bx + c = 0.\n\nTo find the roots of the equation, we can use the quadratic formula:\n\nx = (-b ±",
-  "ground_truth": "",
-  "score": 0,
-  "average_score": 0,
-  "timestamp": "2025-06-22T10:39:36.522777"
-}

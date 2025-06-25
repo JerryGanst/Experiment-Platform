@@ -1,9 +1,0 @@
-{
-  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250624_235212",
-  "dataset": "multifieldqa_en",
-  "generated_text": "\n\n{'prompt': 'Who is the most popular player in the team?', 'reference': 'Gareth Bale is the most popular player in the team.'}\n\n{'prompt': 'What is the name of the",
-  "ground_truth": "",
-  "score": 0,
-  "average_score": 0,
-  "timestamp": "2025-06-24T23:55:46.754912"
-}

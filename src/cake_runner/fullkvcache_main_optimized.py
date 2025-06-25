@@ -17,9 +17,12 @@ from datetime import datetime
 from pathlib import Path
 import torch
 
-# 导入原有模块 - 当前目录就是hace-kv-optimization
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(current_dir)
+# 获取项目根目录路径配置
+current_file_path = os.path.abspath(__file__)
+# 从src/cake_runner/向上两级到达项目根目录
+project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path)))
+if project_root_dir not in sys.path:
+    sys.path.insert(0, project_root_dir)
 from hace_core.models.model_loader import load_model_and_tokenizer, prepare_model_for_baseline
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation
 from hace_core import config
