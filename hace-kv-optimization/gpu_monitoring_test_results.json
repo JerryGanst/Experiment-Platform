@@ -1,0 +1,78 @@
+{
+  "cuda_available": true,
+  "device_count": 1,
+  "memory_samples": [
+    {
+      "iteration": 0,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 1,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 2,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 3,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 4,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 5,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 6,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 7,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 8,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    },
+    {
+      "iteration": 9,
+      "allocated_mb": 9.50927734375,
+      "reserved_mb": 22.0,
+      "peak_allocated_mb": 20.0,
+      "peak_reserved_mb": 22.0
+    }
+  ],
+  "final_peak_allocated": 20.0,
+  "final_peak_reserved": 22.0
+}

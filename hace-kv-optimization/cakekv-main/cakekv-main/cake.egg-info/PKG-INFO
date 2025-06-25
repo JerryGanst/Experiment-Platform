@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: cake
+Version: 0.0.1
+Requires-Dist: rouge
+Requires-Dist: tokenizers
+Requires-Dist: rouge_score
+Requires-Dist: numpy
+Requires-Dist: fuzzywuzzy
+Requires-Dist: jieba==0.42.1
+Requires-Dist: jinja2==3.1.0
+Requires-Dist: datasets
+Requires-Dist: accelerate
+Requires-Dist: tqdm==4.66.1
+Requires-Dist: icetk==0.0.7
+Requires-Dist: transformers==4.43.3
