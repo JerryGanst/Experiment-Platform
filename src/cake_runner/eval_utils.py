@@ -32,8 +32,10 @@ DATASET_SCORERS = {
     "multi_news": rouge_score,   # 摘要任务，ROUGE-L F1
 }
 
-# 基线文件路径
+# 基线文件路径 (优先当前目录，否则回退到evaluation目录)
 _BASELINE_FILE = Path(__file__).parent / "baseline_fullkv.json"
+if not _BASELINE_FILE.exists():
+    _BASELINE_FILE = Path(__file__).resolve().parents[2] / "evaluation" / "baseline_fullkv.json"
 
 def score_dataset(dataset_name: str,
                   predictions: list,
