@@ -1,0 +1,8 @@
+strategy,budget
+fullkv,1.0
+uniform,0.5
+uniform,0.7
+uniform,0.9
+adaptive,0.5
+adaptive,0.7
+adaptive,0.9 

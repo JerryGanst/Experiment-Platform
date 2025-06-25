@@ -1,0 +1,14 @@
+dataset,task_type,max_context
+hotpotqa,qa,4000
+2wikimqa,qa,4000
+musique,qa,4000
+narrativeqa,qa,8000
+qasper,qa,8000
+multi_news,summarization,4000
+gov_report,summarization,8000
+qmsum,summarization,8000
+trec,fewshot,2000
+samsum,fewshot,2000
+triviaqa,fewshot,2000
+multifieldqa_en,qa,8000
+passage_count,synthetic,2000 

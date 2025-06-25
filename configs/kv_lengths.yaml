@@ -1,0 +1,7 @@
+# KV Cache 长度配置
+kv_lengths:
+  - 128
+  - 1024
+
+# 默认设置
+default_kv_length: 128 
