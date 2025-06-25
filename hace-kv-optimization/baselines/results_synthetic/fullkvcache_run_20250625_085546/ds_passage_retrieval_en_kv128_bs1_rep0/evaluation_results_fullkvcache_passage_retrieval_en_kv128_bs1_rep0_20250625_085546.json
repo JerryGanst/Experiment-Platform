@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_passage_retrieval_en_kv128_bs1_rep0_20250625_085546",
+  "dataset": "passage_retrieval_en",
+  "generated_text": ". He also struggles with alcoholism and depression. Despite these challenges, he continues to work as a police officer and strives to make a positive impact in his community.',\n 'completion': 'Sipowicz, the protagonist of",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T08:56:40.800687"
+}

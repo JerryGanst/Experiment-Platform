@@ -1,0 +1,140 @@
+[
+    {
+        "experiment_id": "fullkvcache_trec_kv128_bs1_rep0_20250625_085355",
+        "timestamp": "2025-06-25T08:54:14.767535",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 130.08243891657614,
+            "throughput_tokens_per_sec": 7.663963399826888,
+            "total_time_sec": 6.5240395069122314,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 128,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "trec",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_trec_kv1024_bs1_rep0_20250625_085355",
+        "timestamp": "2025-06-25T08:54:31.525219",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 122.75428382717833,
+            "throughput_tokens_per_sec": 8.110352824665567,
+            "total_time_sec": 6.164959907531738,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 1024,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "trec",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_triviaqa_kv128_bs1_rep0_20250625_085355",
+        "timestamp": "2025-06-25T08:54:48.555858",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 127.47817331430863,
+            "throughput_tokens_per_sec": 7.81685974066307,
+            "total_time_sec": 6.396430492401123,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 128,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "triviaqa",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_triviaqa_kv1024_bs1_rep0_20250625_085355",
+        "timestamp": "2025-06-25T08:55:05.300578",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 118.30141787626305,
+            "throughput_tokens_per_sec": 8.407926387986093,
+            "total_time_sec": 5.94676947593689,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 1024,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "triviaqa",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_samsum_kv128_bs1_rep0_20250625_085355",
+        "timestamp": "2025-06-25T08:55:22.757671",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 127.73684774126326,
+            "throughput_tokens_per_sec": 7.801400631216651,
+            "total_time_sec": 6.409105539321899,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 128,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "samsum",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_samsum_kv1024_bs1_rep0_20250625_085355",
+        "timestamp": "2025-06-25T08:55:39.519699",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 120.82890783037458,
+            "throughput_tokens_per_sec": 8.236395781935684,
+            "total_time_sec": 6.0706164836883545,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 1024,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "samsum",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    }
+]

@@ -1,0 +1,8 @@
+2025-06-25 09:21:59,113 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-25 09:21:59,114 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='hotpotqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=256, repetitions=3, output_dir='C:\\Users\\Administrator\\PycharmProjects3\\hace-kv-optimization\\baselines\\experiments\\baseline_experiments', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-25 09:21:59,139 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 3
+2025-06-25 09:21:59,144 - __main__ - INFO - Starting experiment: fullkvcache_hotpotqa_kv128_bs1_rep0_20250625_092159
+2025-06-25 09:21:59,145 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 09:21:59,145 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 09:21:59,149 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 09:21:59,149 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}

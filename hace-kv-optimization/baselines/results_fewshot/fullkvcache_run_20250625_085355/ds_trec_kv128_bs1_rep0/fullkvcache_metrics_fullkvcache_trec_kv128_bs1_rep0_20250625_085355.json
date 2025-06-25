@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_trec_kv128_bs1_rep0_20250625_085355",
+  "timestamp": "2025-06-25T08:54:14.764514",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 130.08243891657614,
+    "throughput_tokens_per_sec": 7.663963399826888,
+    "total_time_sec": 6.5240395069122314,
+    "tokens_generated": 50,
+    "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 128,
+    "max_new_tokens": 50,
+    "use_fullkvcache": true,
+    "dataset": "trec",
+    "repetition": 0
+  },
+  "monitoring": null
+}

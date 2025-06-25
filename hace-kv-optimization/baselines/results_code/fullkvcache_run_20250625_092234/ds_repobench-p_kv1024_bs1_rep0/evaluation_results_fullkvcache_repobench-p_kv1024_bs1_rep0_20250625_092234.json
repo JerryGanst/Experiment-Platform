@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_repobench-p_kv1024_bs1_rep0_20250625_092234",
+  "dataset": "repobench-p",
+  "generated_text": "\n{'prompt': '    private transient KademliaRoutingTable routingTable;'}\n{'prompt': '    private transient KademliaRoutingTable routingTable;'}\n{'prompt': '    private transient",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T09:23:47.083661"
+}

@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_triviaqa_kv128_bs1_rep0_20250625_085355",
+  "dataset": "triviaqa",
+  "generated_text": "er Light Show, and more.\\n\\nQuestion: What activities can be done at Grand Coulee Dam?\\n\\nAnswer: Activities at Grand Coulee Dam include visiting the dam, taking part in the D3 Geoc",
+  "ground_truth": "",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-25T08:54:48.553304"
+}

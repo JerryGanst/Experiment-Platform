@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_triviaqa_kv1024_bs1_rep0_20250625_085355",
+  "dataset": "triviaqa",
+  "generated_text": "\n\n{'prompt': 'Passage:\\nVisit Grand Coulee Dam| Bureau of Reclamation\\nVisit Grand Coulee Dam| Bureau of Reclamation\\nContact Us\\nVisit the Dam\\nEx",
+  "ground_truth": "",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-25T08:55:05.298499"
+}

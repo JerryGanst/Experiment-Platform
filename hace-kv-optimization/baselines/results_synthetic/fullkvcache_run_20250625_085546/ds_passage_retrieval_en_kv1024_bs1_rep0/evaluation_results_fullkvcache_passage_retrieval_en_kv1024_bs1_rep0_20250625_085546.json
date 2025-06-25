@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_passage_retrieval_en_kv1024_bs1_rep0_20250625_085546",
+  "dataset": "passage_retrieval_en",
+  "generated_text": "\n\nThe text describes the life of a character named Sipowicz, who works to improve himself throughout his career as a police officer. He faces personal challenges, including bigotry, homophobia, and personal tragedies such as",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T08:56:57.212747"
+}

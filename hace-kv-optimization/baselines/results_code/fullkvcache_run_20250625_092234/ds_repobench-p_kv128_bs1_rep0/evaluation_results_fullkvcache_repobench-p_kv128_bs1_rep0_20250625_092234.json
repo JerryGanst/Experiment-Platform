@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_repobench-p_kv128_bs1_rep0_20250625_092234",
+  "dataset": "repobench-p",
+  "generated_text": ".io.IOException;\\nimport java.net.InetSocketAddress;\\nimport java.nio.charset.StandardCharsets;\\nimport java.security.MessageDigest;\\nimport java.security.NoSuchAlgorithmException;\\",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T09:23:29.960923"
+}

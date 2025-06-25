@@ -1,0 +1,94 @@
+[
+    {
+        "experiment_id": "fullkvcache_lcc_kv128_bs1_rep0_20250625_092234",
+        "timestamp": "2025-06-25T09:22:54.829701",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 132.89408489149443,
+            "throughput_tokens_per_sec": 7.505467553338014,
+            "total_time_sec": 6.6618101596832275,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 128,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "lcc",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_lcc_kv1024_bs1_rep0_20250625_092234",
+        "timestamp": "2025-06-25T09:23:12.135236",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 123.01943934693628,
+            "throughput_tokens_per_sec": 8.093296245542305,
+            "total_time_sec": 6.177952527999878,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 1024,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "lcc",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_repobench-p_kv128_bs1_rep0_20250625_092234",
+        "timestamp": "2025-06-25T09:23:29.961930",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 127.27056912013462,
+            "throughput_tokens_per_sec": 7.8293111373828035,
+            "total_time_sec": 6.386257886886597,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 128,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "repobench-p",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    },
+    {
+        "experiment_id": "fullkvcache_repobench-p_kv1024_bs1_rep0_20250625_092234",
+        "timestamp": "2025-06-25T09:23:47.085715",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 122.52156783123405,
+            "throughput_tokens_per_sec": 8.125382024129667,
+            "total_time_sec": 6.153556823730469,
+            "tokens_generated": 50,
+            "model_name": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 1024,
+            "max_new_tokens": 50,
+            "use_fullkvcache": true,
+            "dataset": "repobench-p",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0
+    }
+]

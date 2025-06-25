@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_lcc_kv1024_bs1_rep0_20250625_092234",
+  "dataset": "lcc",
+  "generated_text": "\n\n{'prompt': 'Get the name of the participant at index i', 'reference': 'p.getName();'}\n\n{'prompt': 'Get the age of the participant at index i', 'reference': 'p.get",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T09:23:12.133155"
+}

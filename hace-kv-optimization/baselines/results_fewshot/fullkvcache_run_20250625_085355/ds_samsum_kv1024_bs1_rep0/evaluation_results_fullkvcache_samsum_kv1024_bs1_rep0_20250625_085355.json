@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_samsum_kv1024_bs1_rep0_20250625_085355",
+  "dataset": "samsum",
+  "generated_text": "\n\n {'prompt': 'Dialogue: William: I am sorry for what I did.\\r\\nEmilia: I don\\'t want to hear it.\\r\\nWilliam: But I really am.\\r\\nEm",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T08:55:39.517626"
+}

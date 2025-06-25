@@ -2202,3 +2202,705 @@
 2025-06-22 11:55:27,293 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
 2025-06-22 11:55:27,294 - __main__ - INFO - ✅ 基线评分报告已保存到: ./results_summarization\fullkvcache_run_20250622_115026\baseline_scoring_report.txt
 2025-06-22 11:55:27,304 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-25 08:52:05,349 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-25 08:52:05,350 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='gov_report,qmsum,multi_news', kv_cache_lengths='128,1024', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir='./results_summarization', log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=True)
+2025-06-25 08:52:05,400 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 6
+2025-06-25 08:52:05,406 - __main__ - INFO - Starting experiment: fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205
+2025-06-25 08:52:05,407 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 08:52:05,407 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 08:52:05,411 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 08:52:05,411 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-25 08:52:16,635 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-25 08:52:16,636 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-25 08:52:18,328 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-25 08:52:18,329 - __main__ - INFO - Model loaded in 12.92 seconds
+2025-06-25 08:52:18,329 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-25 08:52:18,329 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-25 08:52:18,329 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-25 08:52:18,330 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-25 08:52:18,330 - __main__ - INFO - Loading dataset gov_report...
+2025-06-25 08:52:18,330 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: gov_report
+2025-06-25 08:52:18,347 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 gov_report (来源: local)
+2025-06-25 08:52:18,347 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'gov_report', 'description': '政府报告摘要'}
+2025-06-25 08:52:18,347 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-25 08:52:18,348 - hace_core.data.dataset_loader - WARNING - 未知的数据格式，数据集: {'path': 'THUDM/longbench', 'subset': 'gov_report', 'description': '政府报告摘要'}, 可用字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-25 08:52:18,348 - hace_core.data.dataset_loader - WARNING - 样本 0 没有找到输入提示，数据集: {'path': 'THUDM/longbench', 'subset': 'gov_report', 'description': '政府报告摘要'}
+2025-06-25 08:52:18,348 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-25 08:52:18,348 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-25 08:52:18,348 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-25 08:52:18,350 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-25 08:52:18,350 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250625_085218
+2025-06-25 08:52:18,350 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-25 08:52:18,350 - __main__ - INFO - 开始实验: fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205
+2025-06-25 08:52:18,351 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-25 08:52:18,352 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-25 08:52:18,352 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-25 08:52:18,352 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-25 08:52:18,354 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-25 08:52:18,354 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-25 08:52:25,038 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-25 08:52:25,200 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-25 08:52:25,201 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-25 08:52:25,250 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-25 08:52:25,250 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-25 08:52:25,251 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-25 08:52:25,485 - __main__ - INFO - 性能指标已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:52:25,487 - __main__ - INFO - Performing evaluation scoring...
+2025-06-25 08:52:25,488 - __main__ - INFO - 评估结果已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv128_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:52:25,488 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-25 08:52:25,845 - __main__ - INFO - Experiment fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205 completed successfully
+2025-06-25 08:52:25,846 - __main__ - INFO - Starting experiment: fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205
+2025-06-25 08:52:25,847 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 08:52:25,847 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 08:52:25,847 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 08:52:25,848 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-25 08:52:34,549 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-25 08:52:34,550 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-25 08:52:36,236 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-25 08:52:36,236 - __main__ - INFO - Model loaded in 10.39 seconds
+2025-06-25 08:52:36,236 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-25 08:52:36,236 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-25 08:52:36,238 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 1024
+2025-06-25 08:52:36,238 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-25 08:52:36,238 - __main__ - INFO - Loading dataset gov_report...
+2025-06-25 08:52:36,238 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: gov_report
+2025-06-25 08:52:36,239 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 gov_report (来源: local)
+2025-06-25 08:52:36,239 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'gov_report', 'description': '政府报告摘要'}
+2025-06-25 08:52:36,240 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-25 08:52:36,240 - hace_core.data.dataset_loader - WARNING - 未知的数据格式，数据集: {'path': 'THUDM/longbench', 'subset': 'gov_report', 'description': '政府报告摘要'}, 可用字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-25 08:52:36,240 - hace_core.data.dataset_loader - WARNING - 样本 0 没有找到输入提示，数据集: {'path': 'THUDM/longbench', 'subset': 'gov_report', 'description': '政府报告摘要'}
+2025-06-25 08:52:36,240 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-25 08:52:36,240 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-25 08:52:36,240 - __main__ - INFO - Preparing batch with size 1, max_length 1024...
+2025-06-25 08:52:36,241 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-25 08:52:36,241 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250625_085236
+2025-06-25 08:52:36,243 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-25 08:52:36,243 - __main__ - INFO - 开始实验: fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205
+2025-06-25 08:52:36,244 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-25 08:52:36,244 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-25 08:52:36,244 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-25 08:52:36,244 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-25 08:52:36,245 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-25 08:52:36,245 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-25 08:52:42,173 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-25 08:52:42,334 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-25 08:52:42,336 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-25 08:52:42,385 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-25 08:52:42,385 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-25 08:52:42,386 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-25 08:52:42,545 - __main__ - INFO - 性能指标已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv1024_bs1_rep0\fullkvcache_metrics_fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:52:42,546 - __main__ - INFO - Performing evaluation scoring...
+2025-06-25 08:52:42,547 - __main__ - INFO - 评估结果已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv1024_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:52:42,547 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-25 08:52:42,904 - __main__ - INFO - Experiment fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205 completed successfully
+2025-06-25 08:52:42,904 - __main__ - INFO - Starting experiment: fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205
+2025-06-25 08:52:42,906 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 08:52:42,906 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 08:52:42,906 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 08:52:42,906 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-25 08:52:51,074 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-25 08:52:51,075 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-25 08:52:52,708 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-25 08:52:52,709 - __main__ - INFO - Model loaded in 9.80 seconds
+2025-06-25 08:52:52,709 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-25 08:52:52,709 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-25 08:52:52,709 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-25 08:52:52,710 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-25 08:52:52,710 - __main__ - INFO - Loading dataset qmsum...
+2025-06-25 08:52:52,710 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: qmsum
+2025-06-25 08:52:52,715 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 qmsum (来源: local)
+2025-06-25 08:52:52,715 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'qmsum', 'description': '会议摘要'}
+2025-06-25 08:52:52,716 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-25 08:52:52,716 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-25 08:52:52,716 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-25 08:52:52,717 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-25 08:52:52,718 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-25 08:52:52,718 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250625_085252
+2025-06-25 08:52:52,718 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-25 08:52:52,718 - __main__ - INFO - 开始实验: fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205
+2025-06-25 08:52:52,719 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-25 08:52:52,719 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-25 08:52:52,720 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-25 08:52:52,720 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-25 08:52:52,721 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-25 08:52:52,721 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-25 08:52:58,756 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-25 08:52:58,911 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-25 08:52:58,913 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-25 08:52:59,062 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-25 08:52:59,062 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-25 08:52:59,063 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-25 08:52:59,251 - __main__ - INFO - 性能指标已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:52:59,252 - __main__ - INFO - Performing evaluation scoring...
+2025-06-25 08:52:59,253 - __main__ - INFO - 评估结果已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv128_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:52:59,255 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-25 08:52:59,595 - __main__ - INFO - Experiment fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205 completed successfully
+2025-06-25 08:52:59,596 - __main__ - INFO - Starting experiment: fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205
+2025-06-25 08:52:59,596 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 08:52:59,597 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 08:52:59,597 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 08:52:59,597 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-25 08:53:08,306 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-25 08:53:08,306 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-25 08:53:10,041 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-25 08:53:10,042 - __main__ - INFO - Model loaded in 10.44 seconds
+2025-06-25 08:53:10,042 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-25 08:53:10,042 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-25 08:53:10,042 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 1024
+2025-06-25 08:53:10,043 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-25 08:53:10,043 - __main__ - INFO - Loading dataset qmsum...
+2025-06-25 08:53:10,043 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: qmsum
+2025-06-25 08:53:10,044 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 qmsum (来源: local)
+2025-06-25 08:53:10,044 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'qmsum', 'description': '会议摘要'}
+2025-06-25 08:53:10,045 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-25 08:53:10,045 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-25 08:53:10,045 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-25 08:53:10,045 - __main__ - INFO - Preparing batch with size 1, max_length 1024...
+2025-06-25 08:53:10,046 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-25 08:53:10,046 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250625_085310
+2025-06-25 08:53:10,047 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-25 08:53:10,047 - __main__ - INFO - 开始实验: fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205
+2025-06-25 08:53:10,048 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-25 08:53:10,048 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-25 08:53:10,048 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-25 08:53:10,049 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-25 08:53:10,050 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-25 08:53:10,050 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-25 08:53:15,867 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-25 08:53:16,027 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-25 08:53:16,028 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-25 08:53:16,078 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-25 08:53:16,078 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-25 08:53:16,079 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-25 08:53:16,246 - __main__ - INFO - 性能指标已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv1024_bs1_rep0\fullkvcache_metrics_fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:16,246 - __main__ - INFO - Performing evaluation scoring...
+2025-06-25 08:53:16,248 - __main__ - INFO - 评估结果已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv1024_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:16,248 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-25 08:53:16,605 - __main__ - INFO - Experiment fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205 completed successfully
+2025-06-25 08:53:16,606 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205
+2025-06-25 08:53:16,606 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 08:53:16,607 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 08:53:16,607 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 08:53:16,607 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-25 08:53:24,198 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-25 08:53:24,198 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-25 08:53:25,824 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-25 08:53:25,825 - __main__ - INFO - Model loaded in 9.22 seconds
+2025-06-25 08:53:25,825 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-25 08:53:25,825 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-25 08:53:25,825 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-25 08:53:25,826 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-25 08:53:25,826 - __main__ - INFO - Loading dataset multi_news...
+2025-06-25 08:53:25,826 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-25 08:53:25,835 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-25 08:53:25,835 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-25 08:53:25,836 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-25 08:53:25,836 - hace_core.data.dataset_loader - WARNING - 未知的数据格式，数据集: {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}, 可用字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-25 08:53:25,836 - hace_core.data.dataset_loader - WARNING - 样本 0 没有找到输入提示，数据集: {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-25 08:53:25,836 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-25 08:53:25,837 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-25 08:53:25,837 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-25 08:53:25,838 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-25 08:53:25,838 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250625_085325
+2025-06-25 08:53:25,838 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-25 08:53:25,838 - __main__ - INFO - 开始实验: fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205
+2025-06-25 08:53:25,839 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-25 08:53:25,840 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-25 08:53:25,840 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-25 08:53:25,840 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-25 08:53:25,841 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-25 08:53:25,841 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-25 08:53:31,709 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-25 08:53:31,863 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-25 08:53:31,864 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-25 08:53:31,914 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-25 08:53:31,914 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-25 08:53:31,915 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-25 08:53:32,069 - __main__ - INFO - 性能指标已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:32,069 - __main__ - INFO - Performing evaluation scoring...
+2025-06-25 08:53:32,070 - __main__ - INFO - 评估结果已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:32,070 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-25 08:53:32,413 - __main__ - INFO - Experiment fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205 completed successfully
+2025-06-25 08:53:32,414 - __main__ - INFO - Starting experiment: fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205
+2025-06-25 08:53:32,415 - __main__ - INFO - Loading model and tokenizer...
+2025-06-25 08:53:32,415 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-25 08:53:32,416 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-25 08:53:32,416 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-25 08:53:40,074 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-25 08:53:40,075 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.51GB, 已保留 13.65GB
+2025-06-25 08:53:41,718 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-25 08:53:41,718 - __main__ - INFO - Model loaded in 9.30 seconds
+2025-06-25 08:53:41,719 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 1024
+2025-06-25 08:53:41,719 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-25 08:53:41,719 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 1024
+2025-06-25 08:53:41,719 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-25 08:53:41,719 - __main__ - INFO - Loading dataset multi_news...
+2025-06-25 08:53:41,720 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: multi_news
+2025-06-25 08:53:41,721 - __main__ - INFO - ✅ 成功从本地JSONL文件加载 multi_news (来源: local)
+2025-06-25 08:53:41,721 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-25 08:53:41,721 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-25 08:53:41,721 - hace_core.data.dataset_loader - WARNING - 未知的数据格式，数据集: {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}, 可用字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-25 08:53:41,721 - hace_core.data.dataset_loader - WARNING - 样本 0 没有找到输入提示，数据集: {'path': 'THUDM/LongBench', 'subset': 'multi_news', 'description': '多新闻摘要'}
+2025-06-25 08:53:41,722 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-25 08:53:41,722 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-25 08:53:41,722 - __main__ - INFO - Preparing batch with size 1, max_length 1024...
+2025-06-25 08:53:41,723 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-06-25 08:53:41,723 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250625_085341
+2025-06-25 08:53:41,723 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-25 08:53:41,724 - __main__ - INFO - 开始实验: fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205
+2025-06-25 08:53:41,724 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 9]), attention_mask=torch.Size([1, 9])
+2025-06-25 08:53:41,725 - __main__ - INFO - 输入长度: 9 tokens
+2025-06-25 08:53:41,725 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-06-25 08:53:41,725 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-25 08:53:41,726 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-06-25 08:53:41,726 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 9]), max_new_tokens=50
+2025-06-25 08:53:47,870 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-25 08:53:48,026 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-06-25 08:53:48,027 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.6MB, 最终峰值=13841.0MB
+2025-06-25 08:53:48,077 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 59])
+2025-06-25 08:53:48,077 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 59]), input_length=9
+2025-06-25 08:53:48,078 - __main__ - INFO - 性能计算: total_tokens=59, input_tokens=9, new_tokens=50
+2025-06-25 08:53:48,233 - __main__ - INFO - 性能指标已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv1024_bs1_rep0\fullkvcache_metrics_fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,233 - __main__ - INFO - Performing evaluation scoring...
+2025-06-25 08:53:48,235 - __main__ - INFO - 评估结果已保存到: ./results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,235 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-25 08:53:48,575 - __main__ - INFO - Experiment fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205 completed successfully
+2025-06-25 08:53:48,581 - __main__ - INFO - All FullKVCache experiment summaries saved to ./results_summarization\fullkvcache_run_20250625_085205\all_fullkvcache_experiments_summary.csv as CSV.
+2025-06-25 08:53:48,581 - __main__ - INFO - Summary shape: (6, 6)
+2025-06-25 08:53:48,583 - __main__ - INFO - All FullKVCache experiment summaries saved to ./results_summarization\fullkvcache_run_20250625_085205\all_fullkvcache_experiments_summary.json as JSON.
+2025-06-25 08:53:48,583 - __main__ - INFO - 🔍 开始强化基线评分搜索...
+2025-06-25 08:53:48,604 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,606 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,606 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,606 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,606 - __main__ - INFO - 🔄 处理文件: ./results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,608 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,608 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,609 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,609 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,610 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,610 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,611 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,611 - __main__ - INFO - 🔄 处理文件: ./results_summarization\fullkvcache_run_20250625_085205\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,613 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,613 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,615 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,615 - __main__ - INFO - 🔄 处理文件: ./results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv1024_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,617 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,617 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,617 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,617 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv1024_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,619 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,619 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,619 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,619 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv128_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,621 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,622 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,622 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,622 - __main__ - INFO - 🔄 处理文件: ./results_summarization\fullkvcache_run_20250625_085205\ds_qmsum_kv128_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,623 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,623 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,624 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,624 - __main__ - INFO - 🔄 处理文件: ./results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv1024_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,626 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,626 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,626 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,626 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv1024_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,628 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,628 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,628 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,628 - __main__ - INFO - 🔄 处理文件: ./results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv128_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,631 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,631 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,631 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,631 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250625_085205\ds_gov_report_kv128_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep0_20250625_085205.json
+2025-06-25 08:53:48,632 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,633 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,633 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,633 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250625_084824\ds_musique_kv1024_bs1_rep0\evaluation_results_fullkvcache_musique_kv1024_bs1_rep0_20250625_084824.json
+2025-06-25 08:53:48,634 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,634 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,635 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,635 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250625_084824\ds_musique_kv128_bs1_rep0\evaluation_results_fullkvcache_musique_kv128_bs1_rep0_20250625_084824.json
+2025-06-25 08:53:48,636 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,636 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,636 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,636 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250625_084824\ds_2wikimqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_2wikimqa_kv1024_bs1_rep0_20250625_084824.json
+2025-06-25 08:53:48,638 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,638 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,638 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,638 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250625_084824\ds_2wikimqa_kv128_bs1_rep0\evaluation_results_fullkvcache_2wikimqa_kv128_bs1_rep0_20250625_084824.json
+2025-06-25 08:53:48,639 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,640 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,640 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,640 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250625_084824\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250625_084824.json
+2025-06-25 08:53:48,641 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,641 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,641 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,641 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250625_084824\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250625_084824.json
+2025-06-25 08:53:48,642 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,643 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,643 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,643 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250624_235212\ds_multifieldqa_en_kv1024_bs1_rep0\evaluation_results_fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250624_235212.json
+2025-06-25 08:53:48,644 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,644 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,644 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,645 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250624_235212\ds_multifieldqa_en_kv128_bs1_rep0\evaluation_results_fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250624_235212.json
+2025-06-25 08:53:48,646 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,646 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,646 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,646 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250624_235212\ds_qasper_kv1024_bs1_rep0\evaluation_results_fullkvcache_qasper_kv1024_bs1_rep0_20250624_235212.json
+2025-06-25 08:53:48,647 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,648 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,648 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,648 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250624_235212\ds_qasper_kv128_bs1_rep0\evaluation_results_fullkvcache_qasper_kv128_bs1_rep0_20250624_235212.json
+2025-06-25 08:53:48,649 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,649 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,649 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,650 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250624_235212\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250624_235212.json
+2025-06-25 08:53:48,651 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,651 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,652 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,652 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250624_235212\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250624_235212.json
+2025-06-25 08:53:48,653 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,653 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,653 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,654 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_qmsum_kv128_bs1_rep2\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep2_20250622_115026.json
+2025-06-25 08:53:48,655 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,655 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,655 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,655 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_qmsum_kv128_bs1_rep1\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep1_20250622_115026.json
+2025-06-25 08:53:48,656 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,657 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,657 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,657 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_qmsum_kv128_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep0_20250622_115026.json
+2025-06-25 08:53:48,658 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,659 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,659 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,659 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_qmsum_kv1024_bs1_rep2\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep2_20250622_115026.json
+2025-06-25 08:53:48,660 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,660 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,661 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,661 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_qmsum_kv1024_bs1_rep1\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep1_20250622_115026.json
+2025-06-25 08:53:48,662 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,662 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,662 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,662 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_qmsum_kv1024_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep0_20250622_115026.json
+2025-06-25 08:53:48,664 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,664 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,664 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,664 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_multi_news_kv128_bs1_rep2\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep2_20250622_115026.json
+2025-06-25 08:53:48,666 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,666 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,666 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,666 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_multi_news_kv128_bs1_rep1\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep1_20250622_115026.json
+2025-06-25 08:53:48,667 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,667 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,668 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,668 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250622_115026.json
+2025-06-25 08:53:48,669 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,669 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,669 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,669 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_multi_news_kv1024_bs1_rep2\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep2_20250622_115026.json
+2025-06-25 08:53:48,671 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,671 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,671 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,671 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_multi_news_kv1024_bs1_rep1\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep1_20250622_115026.json
+2025-06-25 08:53:48,673 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,673 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,673 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,673 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250622_115026.json
+2025-06-25 08:53:48,675 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,676 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,676 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,676 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_gov_report_kv128_bs1_rep2\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep2_20250622_115026.json
+2025-06-25 08:53:48,677 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,677 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,678 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,678 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_gov_report_kv128_bs1_rep1\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep1_20250622_115026.json
+2025-06-25 08:53:48,679 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,679 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,679 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,679 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_gov_report_kv128_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep0_20250622_115026.json
+2025-06-25 08:53:48,681 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,681 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,681 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,681 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_gov_report_kv1024_bs1_rep2\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep2_20250622_115026.json
+2025-06-25 08:53:48,682 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,683 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,683 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,683 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_gov_report_kv1024_bs1_rep1\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep1_20250622_115026.json
+2025-06-25 08:53:48,684 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,684 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,684 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,685 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_115026\ds_gov_report_kv1024_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep0_20250622_115026.json
+2025-06-25 08:53:48,686 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,686 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,686 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,686 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_qmsum_kv128_bs1_rep2\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep2_20250622_112818.json
+2025-06-25 08:53:48,687 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,687 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,688 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,688 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_qmsum_kv128_bs1_rep1\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep1_20250622_112818.json
+2025-06-25 08:53:48,689 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,689 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,689 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,690 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_qmsum_kv128_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv128_bs1_rep0_20250622_112818.json
+2025-06-25 08:53:48,691 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,691 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,691 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,691 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_qmsum_kv1024_bs1_rep2\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep2_20250622_112818.json
+2025-06-25 08:53:48,693 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,693 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,693 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,693 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_qmsum_kv1024_bs1_rep1\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep1_20250622_112818.json
+2025-06-25 08:53:48,695 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,695 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,695 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,696 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_qmsum_kv1024_bs1_rep0\evaluation_results_fullkvcache_qmsum_kv1024_bs1_rep0_20250622_112818.json
+2025-06-25 08:53:48,697 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,697 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,697 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,697 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_multi_news_kv128_bs1_rep2\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep2_20250622_112818.json
+2025-06-25 08:53:48,699 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,699 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,699 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,699 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_multi_news_kv128_bs1_rep1\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep1_20250622_112818.json
+2025-06-25 08:53:48,700 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,700 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,701 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,701 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_multi_news_kv128_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv128_bs1_rep0_20250622_112818.json
+2025-06-25 08:53:48,702 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,702 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,702 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,703 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_multi_news_kv1024_bs1_rep2\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep2_20250622_112818.json
+2025-06-25 08:53:48,704 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,704 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,704 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,705 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_multi_news_kv1024_bs1_rep1\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep1_20250622_112818.json
+2025-06-25 08:53:48,706 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,706 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,707 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,707 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_multi_news_kv1024_bs1_rep0\evaluation_results_fullkvcache_multi_news_kv1024_bs1_rep0_20250622_112818.json
+2025-06-25 08:53:48,708 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,708 - eval_utils - INFO - Full KV基线已更新: multi_news = 0.0000
+2025-06-25 08:53:48,708 - __main__ - INFO - ✅ 成功记录基线分数: multi_news = 0.0000
+2025-06-25 08:53:48,708 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_gov_report_kv128_bs1_rep2\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep2_20250622_112818.json
+2025-06-25 08:53:48,710 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,710 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,710 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,710 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_gov_report_kv128_bs1_rep1\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep1_20250622_112818.json
+2025-06-25 08:53:48,711 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,712 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,712 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,712 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_gov_report_kv128_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv128_bs1_rep0_20250622_112818.json
+2025-06-25 08:53:48,713 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,713 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,714 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,714 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_gov_report_kv1024_bs1_rep2\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep2_20250622_112818.json
+2025-06-25 08:53:48,715 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,715 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,715 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,716 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_gov_report_kv1024_bs1_rep1\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep1_20250622_112818.json
+2025-06-25 08:53:48,717 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,717 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,717 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,718 - __main__ - INFO - 🔄 处理文件: .\results_summarization\fullkvcache_run_20250622_112818\ds_gov_report_kv1024_bs1_rep0\evaluation_results_fullkvcache_gov_report_kv1024_bs1_rep0_20250622_112818.json
+2025-06-25 08:53:48,719 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,719 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,720 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,720 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_qasper_kv128_bs1_rep2\evaluation_results_fullkvcache_qasper_kv128_bs1_rep2_20250622_103727.json
+2025-06-25 08:53:48,721 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,721 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,721 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,721 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_qasper_kv128_bs1_rep1\evaluation_results_fullkvcache_qasper_kv128_bs1_rep1_20250622_103727.json
+2025-06-25 08:53:48,723 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,723 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,723 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,723 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_qasper_kv128_bs1_rep0\evaluation_results_fullkvcache_qasper_kv128_bs1_rep0_20250622_103727.json
+2025-06-25 08:53:48,725 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,725 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,725 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,725 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_qasper_kv1024_bs1_rep2\evaluation_results_fullkvcache_qasper_kv1024_bs1_rep2_20250622_103727.json
+2025-06-25 08:53:48,726 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,726 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,727 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,727 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_qasper_kv1024_bs1_rep1\evaluation_results_fullkvcache_qasper_kv1024_bs1_rep1_20250622_103727.json
+2025-06-25 08:53:48,729 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,729 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,729 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,730 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_qasper_kv1024_bs1_rep0\evaluation_results_fullkvcache_qasper_kv1024_bs1_rep0_20250622_103727.json
+2025-06-25 08:53:48,730 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,731 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,731 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,731 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_narrativeqa_kv128_bs1_rep2\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep2_20250622_103727.json
+2025-06-25 08:53:48,732 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,733 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,733 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,733 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_narrativeqa_kv128_bs1_rep1\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep1_20250622_103727.json
+2025-06-25 08:53:48,734 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,734 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,734 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,735 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_narrativeqa_kv128_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv128_bs1_rep0_20250622_103727.json
+2025-06-25 08:53:48,737 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,737 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,737 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,737 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_narrativeqa_kv1024_bs1_rep2\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep2_20250622_103727.json
+2025-06-25 08:53:48,738 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,739 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,739 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,739 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_narrativeqa_kv1024_bs1_rep1\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep1_20250622_103727.json
+2025-06-25 08:53:48,739 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,740 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,740 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,740 - __main__ - INFO - 🔄 处理文件: .\results_single_doc\fullkvcache_run_20250622_103727\ds_narrativeqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_narrativeqa_kv1024_bs1_rep0_20250622_103727.json
+2025-06-25 08:53:48,741 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,742 - eval_utils - INFO - Full KV基线已更新: narrativeqa = 0.0000
+2025-06-25 08:53:48,742 - __main__ - INFO - ✅ 成功记录基线分数: narrativeqa = 0.0000
+2025-06-25 08:53:48,742 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_musique_kv128_bs1_rep1\evaluation_results_fullkvcache_musique_kv128_bs1_rep1_20250622_112105.json
+2025-06-25 08:53:48,743 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,744 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,744 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,744 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_musique_kv128_bs1_rep0\evaluation_results_fullkvcache_musique_kv128_bs1_rep0_20250622_112105.json
+2025-06-25 08:53:48,745 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,745 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,746 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,746 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_musique_kv1024_bs1_rep1\evaluation_results_fullkvcache_musique_kv1024_bs1_rep1_20250622_112105.json
+2025-06-25 08:53:48,747 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,747 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,747 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,747 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_musique_kv1024_bs1_rep0\evaluation_results_fullkvcache_musique_kv1024_bs1_rep0_20250622_112105.json
+2025-06-25 08:53:48,748 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,749 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,749 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,749 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_hotpotqa_kv128_bs1_rep1\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep1_20250622_112105.json
+2025-06-25 08:53:48,750 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,750 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,750 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,751 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250622_112105.json
+2025-06-25 08:53:48,752 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,752 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,753 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,753 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_hotpotqa_kv1024_bs1_rep1\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep1_20250622_112105.json
+2025-06-25 08:53:48,754 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,754 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,754 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,755 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250622_112105.json
+2025-06-25 08:53:48,756 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,756 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,756 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,756 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_2wikimqa_kv128_bs1_rep1\evaluation_results_fullkvcache_2wikimqa_kv128_bs1_rep1_20250622_112105.json
+2025-06-25 08:53:48,757 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,758 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,758 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,758 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_2wikimqa_kv128_bs1_rep0\evaluation_results_fullkvcache_2wikimqa_kv128_bs1_rep0_20250622_112105.json
+2025-06-25 08:53:48,759 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,759 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,759 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,760 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_2wikimqa_kv1024_bs1_rep1\evaluation_results_fullkvcache_2wikimqa_kv1024_bs1_rep1_20250622_112105.json
+2025-06-25 08:53:48,761 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,761 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,761 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,761 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_112105\ds_2wikimqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_2wikimqa_kv1024_bs1_rep0_20250622_112105.json
+2025-06-25 08:53:48,762 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,763 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,763 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,763 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_105918\ds_musique_kv128_bs1_rep0\evaluation_results_fullkvcache_musique_kv128_bs1_rep0_20250622_105918.json
+2025-06-25 08:53:48,764 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,764 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,764 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,764 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_105918\ds_musique_kv1024_bs1_rep0\evaluation_results_fullkvcache_musique_kv1024_bs1_rep0_20250622_105918.json
+2025-06-25 08:53:48,765 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,766 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,766 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,766 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_105918\ds_hotpotqa_kv128_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv128_bs1_rep0_20250622_105918.json
+2025-06-25 08:53:48,768 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,768 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,768 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,769 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_105918\ds_hotpotqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_hotpotqa_kv1024_bs1_rep0_20250622_105918.json
+2025-06-25 08:53:48,770 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,770 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,770 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,770 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_105918\ds_2wikimqa_kv128_bs1_rep0\evaluation_results_fullkvcache_2wikimqa_kv128_bs1_rep0_20250622_105918.json
+2025-06-25 08:53:48,772 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,772 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,772 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,772 - __main__ - INFO - 🔄 处理文件: .\results_multi_doc\fullkvcache_run_20250622_105918\ds_2wikimqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_2wikimqa_kv1024_bs1_rep0_20250622_105918.json
+2025-06-25 08:53:48,773 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,774 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,774 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,774 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_triviaqa_kv128_bs1_rep2\evaluation_results_fullkvcache_triviaqa_kv128_bs1_rep2_20250622_113326.json
+2025-06-25 08:53:48,775 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,775 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,775 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,775 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_triviaqa_kv128_bs1_rep1\evaluation_results_fullkvcache_triviaqa_kv128_bs1_rep1_20250622_113326.json
+2025-06-25 08:53:48,776 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,777 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,777 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,777 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_triviaqa_kv128_bs1_rep0\evaluation_results_fullkvcache_triviaqa_kv128_bs1_rep0_20250622_113326.json
+2025-06-25 08:53:48,778 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,778 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,778 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,779 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_triviaqa_kv1024_bs1_rep2\evaluation_results_fullkvcache_triviaqa_kv1024_bs1_rep2_20250622_113326.json
+2025-06-25 08:53:48,780 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,780 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,780 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,780 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_triviaqa_kv1024_bs1_rep1\evaluation_results_fullkvcache_triviaqa_kv1024_bs1_rep1_20250622_113326.json
+2025-06-25 08:53:48,781 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,782 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,782 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,782 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_triviaqa_kv1024_bs1_rep0\evaluation_results_fullkvcache_triviaqa_kv1024_bs1_rep0_20250622_113326.json
+2025-06-25 08:53:48,783 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,784 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,784 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,784 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_trec_kv128_bs1_rep2\evaluation_results_fullkvcache_trec_kv128_bs1_rep2_20250622_113326.json
+2025-06-25 08:53:48,785 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,785 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,786 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,786 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_trec_kv128_bs1_rep1\evaluation_results_fullkvcache_trec_kv128_bs1_rep1_20250622_113326.json
+2025-06-25 08:53:48,787 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,788 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,788 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,788 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_trec_kv128_bs1_rep0\evaluation_results_fullkvcache_trec_kv128_bs1_rep0_20250622_113326.json
+2025-06-25 08:53:48,789 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,789 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,789 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,789 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_trec_kv1024_bs1_rep2\evaluation_results_fullkvcache_trec_kv1024_bs1_rep2_20250622_113326.json
+2025-06-25 08:53:48,792 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,792 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,792 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,792 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_trec_kv1024_bs1_rep1\evaluation_results_fullkvcache_trec_kv1024_bs1_rep1_20250622_113326.json
+2025-06-25 08:53:48,794 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,794 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,794 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,794 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_trec_kv1024_bs1_rep0\evaluation_results_fullkvcache_trec_kv1024_bs1_rep0_20250622_113326.json
+2025-06-25 08:53:48,795 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,796 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,796 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,796 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_samsum_kv128_bs1_rep2\evaluation_results_fullkvcache_samsum_kv128_bs1_rep2_20250622_113326.json
+2025-06-25 08:53:48,798 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,798 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,798 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,798 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_samsum_kv128_bs1_rep1\evaluation_results_fullkvcache_samsum_kv128_bs1_rep1_20250622_113326.json
+2025-06-25 08:53:48,799 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,800 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,800 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,800 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_samsum_kv128_bs1_rep0\evaluation_results_fullkvcache_samsum_kv128_bs1_rep0_20250622_113326.json
+2025-06-25 08:53:48,801 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,801 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,802 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,802 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_samsum_kv1024_bs1_rep2\evaluation_results_fullkvcache_samsum_kv1024_bs1_rep2_20250622_113326.json
+2025-06-25 08:53:48,803 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,803 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,804 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,804 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_samsum_kv1024_bs1_rep1\evaluation_results_fullkvcache_samsum_kv1024_bs1_rep1_20250622_113326.json
+2025-06-25 08:53:48,805 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,805 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,805 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,806 - __main__ - INFO - 🔄 处理文件: .\results_fewshot\fullkvcache_run_20250622_113326\ds_samsum_kv1024_bs1_rep0\evaluation_results_fullkvcache_samsum_kv1024_bs1_rep0_20250622_113326.json
+2025-06-25 08:53:48,806 - eval_utils - INFO - 基线分数已保存到 C:\Users\Administrator\PycharmProjects3\hace-kv-optimization\baseline_fullkv.json
+2025-06-25 08:53:48,806 - eval_utils - INFO - Full KV基线已更新: hotpotqa = 0.0000
+2025-06-25 08:53:48,807 - __main__ - INFO - ✅ 成功记录基线分数: hotpotqa = 0.0000
+2025-06-25 08:53:48,807 - eval_utils - INFO - 聚合分数: 平均相对分数 = 100.00
+2025-06-25 08:53:48,809 - __main__ - INFO - ✅ 基线评分报告已保存到: ./results_summarization\fullkvcache_run_20250625_085205\baseline_scoring_report.txt
+2025-06-25 08:53:48,813 - __main__ - INFO - FullKVCache experiment suite finished.

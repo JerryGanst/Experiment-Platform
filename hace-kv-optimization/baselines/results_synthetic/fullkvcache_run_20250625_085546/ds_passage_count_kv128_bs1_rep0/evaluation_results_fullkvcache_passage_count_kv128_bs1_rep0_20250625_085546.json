@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_passage_count_kv128_bs1_rep0_20250625_085546",
+  "dataset": "passage_count",
+  "generated_text": "\n\n{'prompt': 'What is the atomic number of Oxygen?', 'reference': '8'}\n\n{'prompt': 'What is the atomic number of Oxygen?', 'answer': '8'}\n\n{'prom",
+  "ground_truth": "",
+  "score": 0.0,
+  "average_score": 0.0,
+  "timestamp": "2025-06-25T08:56:06.665446"
+}
