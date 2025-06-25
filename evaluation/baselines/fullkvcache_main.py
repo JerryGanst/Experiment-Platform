@@ -140,6 +140,7 @@ try:
     if str(eval_utils_path) not in sys.path:
         sys.path.append(str(eval_utils_path))
 
+
     from eval_utils import (
         score_dataset,
         calculate_relative_score,
@@ -148,6 +149,7 @@ try:
     )
 
     BASELINE_SCORING_AVAILABLE = True
+
     print(f"[OK] 基线评分工具加载成功，路径: {eval_utils_path}")
 except ImportError as e:
     print(f"[WARNING] 从src/cake_runner加载失败: {e}")
@@ -164,6 +166,7 @@ except ImportError as e:
     except ImportError as e2:
         print(f"[ERROR] 所有eval_utils导入尝试均失败: {e2}")
         BASELINE_SCORING_AVAILABLE = False
+
 
 # 数据集评分映射
 DATASET_SCORING_MAP = {
