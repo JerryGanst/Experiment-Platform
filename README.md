@@ -1,167 +1,270 @@
-# 🎯 CAKE实验平台 - 基线比较评分系统
+# 🎯 KV缓存优化实验平台
 
-这是一个专门用于运行CAKE (Cascading and Adaptive KV Cache Eviction) 实验的平台，实现了基于Full KV基线的相对评分系统，严格按照研究报告要求进行实验评估。
+这是一个专门用于KV缓存优化方法研究的实验平台，支持基线对比、CAKE优化、H2O优化等多种方法的性能评估。
 
 ## 📊 核心特性
 
-- **严格基线比较**: Full KV cache作为100分基准，其他策略相对评分
-- **标准化数据集**: hotpotqa (QA任务) + multi_news (摘要任务)
-- **精确评分指标**: qa_f1_score + rouge_score
-- **自动化实验流程**: 一键建立基线 → 运行实验 → 生成报告
+- **统一实验入口**: 一个脚本管理所有实验类型
+- **完整评估流程**: 基线 → 优化方法 → 对比分析 → 报告生成
+- **模块化设计**: 基线执行、方法实现、分析工具分离
+- **标准化评估**: 统一的评分指标和分析流程
 
 ## 🏗️ 项目结构
 
 ```
 Experiment-Platform/
-├── README.md                             # 项目说明文档
-├── BASELINE_SCORING_SYSTEM.md           # 基线评分系统详细说明
-├── SYSTEM_READY.md                      # 系统就绪状态
-├── shuoming.md                          # 研究报告规范
-├── test_baseline_system.py              # 基线评分系统测试
+├── README.md                    # 项目说明文档
+├── run_experiments.py           # 🚀 统一实验入口脚本
+├── configs/                     # 配置文件
+├── data/                        # 数据集
+├── runs/                        # 实验结果
 │
-├── run_fullkv_baseline.bat              # 建立Full KV基线
-├── run_cake_experiments.bat             # 运行CAKE实验
-├── run_complete_baseline_comparison.bat # 完整流程执行
+├── evaluation/                  # 📊 统一评估模块
+│   ├── baselines/              # 基线方法执行
+│   │   ├── fullkvcache_main.py # 完整KV缓存基线
+│   │   ├── baseline_main.py    # 标准基线
+│   │   └── data/               # 基线测试数据
+│   ├── analysis/               # 实验数据分析
+│   │   ├── statistical_tests.py # 统计分析器
+│   │   ├── tables.py           # 表格生成
+│   │   └── generate_report.py  # 报告生成
+│   └── experiments/            # 实验管理协调
+│       ├── run_experiment.py   # 主实验执行器
+│       └── run_comparison.py   # 对比分析器
 │
-└── hace-kv-optimization/                # 核心实验代码
-    ├── eval_utils.py                    # 评分工具模块
-    ├── baseline_fullkv.json             # 基线分数存储
-    ├── baselines/                       # 基线方法实现
-    │   ├── fullkvcache_main.py          # Full KV缓存主程序
-    │   ├── cake_main.py                 # CAKE主程序
-    │   └── ...
-    ├── cakekv-main/                     # CAKE算法实现
-    ├── data/                            # 数据集目录
-    └── ...
+├── src/                        # 源代码模块
+│   ├── methods/                # KV缓存优化方法
+│   │   ├── cake/              # CAKE层级感知优化
+│   │   ├── h2o/               # H2O Heavy-Hitter优化
+│   │   └── full_cache/        # 完整缓存相关
+│   ├── monitoring/            # 监控和可视化
+│   │   ├── unified_monitor.py # 统一监控器
+│   │   └── plotter.py         # 图表生成
+│   └── common/                # 通用工具
+│
+└── hace_core/                  # 核心模块
+    ├── models/                 # 模型加载器
+    ├── data/                   # 数据加载器
+    └── config.py               # 配置文件
 ```
 
 ## 🚀 快速开始
 
-### 1. 测试系统状态
-
-```bash
-# 验证基线评分系统是否正常工作
-python debug_eval_utils.py
-```
-
-### 2. 运行完整实验
-
-```bash
-# 一键运行完整流程 (推荐)
-run_complete_baseline_comparison.bat
-```
-
-### 3. 分步执行
-
-```bash
-# 步骤1: 建立Full KV基线 (100分标准)
-run_fullkv_baseline.bat
-
-# 步骤2: 运行CAKE实验 (相对评分)
-run_cake_experiments.bat
-```
-
-## 📈 实验配置
-
-### 🎯 数据集配置
-- **hotpotqa**: 多跳推理QA任务，使用 `qa_f1_score` 评分
-- **multi_news**: 新闻摘要任务，使用 `rouge_score` 评分
-
-### 🤖 模型配置
-- **基础模型**: NousResearch/Llama-2-7b-hf
-- **KV Cache长度**: 128, 256, 512, 1024, 2048 tokens
-- **批处理大小**: 1
-- **最大新令牌**: 100
-
-### 🔧 CAKE参数
-- **分配策略**: uniform（均匀分配）, adaptive（自适应分配）
-- **缓存预算**: 0.7, 0.8, 0.9（相对完整缓存的比例）
-- **窗口大小**: 32
-
-## 📊 结果示例
-
-### Full KV基线报告 (100分标准)
-```
-策略: Full KV (基线)
-平均相对分数: 100.00/100
-平均原始分数: 0.4964
-数据集列表: hotpotqa, multi_news
-
-详细分数:
-  hotpotqa: 100.00/100 (原始: 0.5533)
-  multi_news: 100.00/100 (原始: 0.4396)
-```
-
-### CAKE相对评分报告
-```
-策略: CAKE
-平均相对分数: 93.50/100
-平均原始分数: 0.4633
-数据集列表: hotpotqa, multi_news
-
-详细分数:
-  hotpotqa: 92.00/100 (原始: 0.5090)
-  multi_news: 95.00/100 (原始: 0.4176)
-```
-
-## 🎯 评分系统核心原理
-
-### 基线建立
-1. 使用Full KV cache运行所有数据集
-2. 记录每个数据集的原始分数到 `baseline_fullkv.json`
-3. Full KV cache 恒定为100分基准
-
-### 相对评分计算
-```python
-相对分数 = (策略原始分数 / Full KV基线分数) × 100
-```
-
-### 报告生成
-- **平均相对分数**: 所有数据集相对分数的平均值
-- **数据集详情**: 每个数据集的相对分数和原始分数
-- **性能分类**: 🟢优秀(≥95) 🟡良好(90-94) 🟠一般(80-89) 🔴较差(<80)
-
-## 📋 依赖要求
+### 1. 系统要求
 
 - Python 3.8+
 - PyTorch 1.10+
 - Transformers 4.20+
-- Datasets
-- Evaluate
 - CUDA (推荐)
+
+### 2. 安装依赖
+
+```bash
+pip install -r evaluation/requirements.txt
+```
+
+### 3. 运行实验
+
+#### 🎯 完整评估流程 (推荐)
+
+```bash
+# 运行完整评估：基线 → CAKE → 对比分析
+python run_experiments.py --experiment full_evaluation --tag production
+
+# 使用自定义参数
+python run_experiments.py \
+    --experiment full_evaluation \
+    --datasets hotpotqa,multi_news \
+    --kv_lengths 128,1024 \
+    --tag my_experiment
+```
+
+#### 🔵 只运行基线实验
+
+```bash
+# 运行基线实验
+python run_experiments.py --experiment baseline --tag baseline_test
+
+# 指定KV长度
+python run_experiments.py \
+    --experiment baseline \
+    --kv_lengths 128,1024 \
+    --datasets hotpotqa
+```
+
+#### 🟢 只运行CAKE实验
+
+```bash
+# 运行CAKE实验
+python run_experiments.py --experiment cake --tag cake_test
+
+# 自定义CAKE参数
+python run_experiments.py \
+    --experiment cake \
+    --allocation_strategies adaptive \
+    --cache_budgets 0.5,0.7,0.9
+```
+
+#### 📊 只运行对比分析
+
+```bash
+# 分析已有的实验结果
+python run_experiments.py --experiment comparison --tag analysis
+```
+
+#### 🔍 干运行 (查看将要执行的命令)
+
+```bash
+# 查看完整评估流程将要执行的命令
+python run_experiments.py --experiment full_evaluation --dry-run
+```
+
+## 📈 实验配置
+
+### 🎯 推荐配置
+
+- **数据集**: hotpotqa, multi_news
+- **KV长度**: 128, 1024 tokens (限制范围)
+- **批处理大小**: 1
+- **CAKE缓存预算**: 0.7
+- **分配策略**: adaptive
+
+### 🤖 模型配置
+
+- **基础模型**: NousResearch/Llama-2-7b-hf
+- **精度**: float16
+- **最大新令牌**: 100
+
+### 📋 完整参数列表
+
+```bash
+python run_experiments.py --help
+```
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `--experiment` | `full_evaluation` | 实验类型: baseline/cake/h2o/comparison/full_evaluation |
+| `--tag` | `default` | 运行标签，用于区分不同实验 |
+| `--datasets` | `hotpotqa,multi_news` | 数据集列表，逗号分隔 |
+| `--kv_lengths` | `128,1024` | KV缓存长度列表 (推荐: 128,1024) |
+| `--batch_sizes` | `1` | 批处理大小列表 |
+| `--allocation_strategies` | `adaptive` | CAKE分配策略 |
+| `--cache_budgets` | `0.7` | CAKE缓存预算 |
+| `--dry-run` | False | 仅显示将要运行的命令 |
+
+## 📊 结果解读
+
+### 实验结果目录结构
+
+```
+runs/20250625_172812_production/
+├── baseline_results/           # 基线实验结果
+├── cake_results/              # CAKE实验结果
+└── comparison_report/         # 对比分析报告
+    ├── visualizations/        # 图表文件
+    ├── statistical_analysis/  # 统计分析
+    └── summary_tables_*.json  # 汇总表格
+```
+
+### 关键指标
+
+- **TTFT** (Time to First Token): 首个令牌生成时间
+- **TPOT** (Time per Output Token): 每个输出令牌时间
+- **内存使用**: GPU内存占用
+- **准确性**: 任务特定评分 (F1/ROUGE)
+
+## 🔧 高级用法
+
+### 自定义实验流程
+
+```bash
+# 1. 先运行基线建立参考
+python run_experiments.py --experiment baseline --tag reference
+
+# 2. 运行多种CAKE配置
+python run_experiments.py \
+    --experiment cake \
+    --cache_budgets 0.5,0.6,0.7,0.8,0.9 \
+    --tag cake_sweep
+
+# 3. 生成对比报告
+python run_experiments.py --experiment comparison --tag final_report
+```
+
+### 批量实验
+
+```bash
+# 在不同数据集上运行实验
+for dataset in hotpotqa multi_news; do
+    python run_experiments.py \
+        --experiment full_evaluation \
+        --datasets $dataset \
+        --tag ${dataset}_experiment
+done
+```
 
 ## 🆘 故障排除
 
 ### 常见问题
 
-1. **GPU内存不足**
-   - 减少batch_size
-   - 降低KV cache长度
-   - 使用CPU模式
+1. **脚本文件不存在**
+   ```
+   ❌ 基线脚本不存在: evaluation/baselines/fullkvcache_main.py
+   ```
+   - 检查文件路径是否正确
+   - 确认目录结构完整
 
-2. **数据集加载失败**
-   - 检查 `hace-kv-optimization/data/` 目录
-   - 运行 `download_longbench.py` 重新下载
+2. **GPU内存不足**
+   - 使用较小的KV长度: `--kv_lengths 128`
+   - 确保batch_size为1
 
-3. **基线文件缺失**
-   - 先运行 `run_fullkv_baseline.bat` 建立基线
-   - 检查 `baseline_fullkv.json` 是否存在
+3. **导入模块失败**
+   - 检查Python路径配置
+   - 确认hace_core模块可访问
 
-## 📚 详细文档
+### 调试技巧
 
-- [基线评分系统详细说明](BASELINE_SCORING_SYSTEM.md)
-- [系统就绪状态](SYSTEM_READY.md)
-- [研究报告规范](shuoming.md)
+```bash
+# 使用dry-run查看将要执行的命令
+python run_experiments.py --experiment baseline --dry-run
+
+# 查看详细帮助
+python run_experiments.py --help
+
+# 运行单个数据集进行快速测试
+python run_experiments.py \
+    --experiment baseline \
+    --datasets hotpotqa \
+    --kv_lengths 128 \
+    --tag debug
+```
+
+## 📚 模块说明
+
+### evaluation/ - 统一评估模块
+- **baselines/**: 基线方法的执行和测试，为优化方法提供性能对比的参考标准
+- **analysis/**: 专门用于分析基线和优化方法的实验结果，包含统计分析、表格生成、报告生成
+- **experiments/**: 负责协调基线和优化方法的实验执行，连接基线执行、优化方法和结果分析
+
+### src/ - 源代码模块
+- **methods/**: 各种KV缓存优化技术的实现
+- **monitoring/**: 监控和可视化功能，与监控功能统一
+- **common/**: 通用工具和数据加载器
+
+### hace_core/ - 核心模块
+- **models/**: 模型加载和配置
+- **data/**: 数据集加载和处理
+- **config.py**: 全局配置管理
 
 ## 🏆 系统状态
 
-✅ **配置正确**: hotpotqa + multi_news  
-✅ **评分验证**: qa_f1_score + rouge_score  
-✅ **基线建立**: baseline_fullkv.json  
-✅ **测试通过**: 所有功能正常  
-✅ **文档完整**: 使用说明齐全  
+✅ **目录结构**: 模块化设计完成  
+✅ **统一入口**: run_experiments.py就绪  
+✅ **KV长度限制**: 128/1024 tokens  
+✅ **评估流程**: 基线→优化→分析完整  
+✅ **文档更新**: 使用说明齐全  
 
 ---
 
-**系统已准备就绪，可以开始运行CAKE实验！** 🎉
+**系统已准备就绪，开始你的KV缓存优化研究！** 🎉
 
