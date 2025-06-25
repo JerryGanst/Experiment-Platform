@@ -1,0 +1,9 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv128_bs1_rep0_20250624_235212",
+  "dataset": "qasper",
+  "generated_text": "\n\n{'prompt': 'What is the role of the fact-checking process in identifying fake news?', 'reference': 'The fact-checking process is crucial in identifying fake news by verifying the accuracy of information and debunk",
+  "ground_truth": "",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-24T23:54:54.652923"
+}
