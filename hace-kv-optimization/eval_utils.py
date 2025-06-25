@@ -80,8 +80,16 @@ def load_baseline():
 
 def save_baseline(baseline_dict):
     """保存基线分数"""
+    # 确保所有数值都是浮点数类型，避免整数/浮点数混合的问题
+    normalized_dict = {}
+    for key, value in baseline_dict.items():
+        if isinstance(value, (int, float)) and not key.startswith('_'):
+            normalized_dict[key] = float(value)  # 强制转换为浮点数
+        else:
+            normalized_dict[key] = value  # 保持metadata等其他字段不变
+    
     with open(_BASELINE_FILE, 'w', encoding='utf-8') as f:
-        json.dump(baseline_dict, f, indent=2, ensure_ascii=False)
+        json.dump(normalized_dict, f, indent=2, ensure_ascii=False)
     logger.info(f"基线分数已保存到 {_BASELINE_FILE}")
 
 def calculate_relative_score(dataset_name: str, raw_score: float, is_full_kv: bool = False) -> dict:
