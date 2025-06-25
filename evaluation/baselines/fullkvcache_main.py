@@ -131,15 +131,16 @@ except ImportError as e:
     print("[INFO] 已定义占位符评分函数")
 
 # 导入新的基线评分工具 - 修复路径指向src/cake_runner
+# 首先计算项目根目录路径，确保在所有导入尝试中都可用
+from pathlib import Path
+current_file = Path(__file__).resolve()
+project_root = current_file.parents[2]  # 回到项目根目录
+
 try:
-    from pathlib import Path
-    current_file = Path(__file__).resolve()
-    project_root = current_file.parents[2]  # 回到项目根目录
     eval_utils_path = project_root / "src" / "cake_runner"
     
     if str(eval_utils_path) not in sys.path:
         sys.path.append(str(eval_utils_path))
-
 
     from eval_utils import (
         score_dataset,
@@ -155,13 +156,18 @@ except ImportError as e:
     print(f"[WARNING] 从src/cake_runner加载失败: {e}")
     # 尝试从evaluation目录加载备用版本
     try:
+        # 添加evaluation目录到sys.path
+        evaluation_path = project_root / "evaluation"
+        if str(evaluation_path) not in sys.path:
+            sys.path.append(str(evaluation_path))
+        
         from eval_utils import (
             score_dataset,
             calculate_relative_score,
             aggregate_scores,
             format_score_report
         )
-        print("[OK] 使用evaluation目录下的eval_utils备用版本")
+        print(f"[OK] 使用evaluation目录下的eval_utils备用版本，路径: {evaluation_path}")
         BASELINE_SCORING_AVAILABLE = True
     except ImportError as e2:
         print(f"[ERROR] 所有eval_utils导入尝试均失败: {e2}")
