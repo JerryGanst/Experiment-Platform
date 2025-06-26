@@ -43,7 +43,16 @@ class UnifiedMonitor:
             config: 监控配置字典
             experiment_id: 实验ID
         """
-        from .. import config as global_config
+        try:
+            from .. import config as global_config
+        except ImportError:
+            # 回退到hace_core.config
+            import sys
+            import os
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+            if project_root not in sys.path:
+                sys.path.insert(0, project_root)
+            from hace_core import config as global_config
         
         self.config = config or global_config.MONITORING_CONFIG
         self.experiment_id = experiment_id or datetime.now().strftime("%Y%m%d_%H%M%S")

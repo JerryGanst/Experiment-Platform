@@ -42,7 +42,7 @@ def run_baseline_experiment(run_dir, args):
         sys.executable, str(baseline_script),
         "--output_dir", str(run_dir / "baseline_results"),
         "--datasets", args.datasets,
-        "--kv_lengths", args.kv_lengths,
+        "--kv_cache_lengths", args.kv_lengths,
         "--batch_sizes", args.batch_sizes
     ]
     
@@ -50,8 +50,12 @@ def run_baseline_experiment(run_dir, args):
         print(f"将执行命令: {' '.join(cmd)}")
         return True
     
+    # 设置环境变量以确保Python模块能够正确导入
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
+    
     print(f"执行: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=False)
+    result = subprocess.run(cmd, capture_output=False, env=env)
     return result.returncode == 0
 
 def run_cake_experiment(run_dir, args):
@@ -75,8 +79,12 @@ def run_cake_experiment(run_dir, args):
         print(f"将执行命令: {' '.join(cmd)}")
         return True
     
+    # 设置环境变量以确保Python模块能够正确导入
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
+    
     print(f"执行: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=False)
+    result = subprocess.run(cmd, capture_output=False, env=env)
     return result.returncode == 0
 
 def run_h2o_experiment(run_dir, args):
@@ -113,8 +121,12 @@ def run_comparison_analysis(run_dir, args):
         print(f"将执行命令: {' '.join(cmd)}")
         return True
     
+    # 设置环境变量以确保Python模块能够正确导入
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
+    
     print(f"执行: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=False)
+    result = subprocess.run(cmd, capture_output=False, env=env)
     return result.returncode == 0
 
 def run_full_evaluation(run_dir, args):
