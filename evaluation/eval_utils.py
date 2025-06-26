@@ -1,6 +1,6 @@
 """
-评分工具模块 - 实现相对于Full KV基线的百分制评分系统
-严格按照研究报告规范实现
+评分工具模块 - evaluation目录版本
+这是src/cake_runner/eval_utils.py的副本，用于在evaluation模块中直接导入
 """
 import json
 import os
@@ -9,9 +9,10 @@ import logging
 
 # 导入LongBench评分函数
 import sys
-longbench_metrics_path = os.path.join(os.path.dirname(__file__), 'cakekv-main', 'cakekv-main', 'experiments', 'LongBench')
-if longbench_metrics_path not in sys.path:
-    sys.path.append(longbench_metrics_path)
+project_root = Path(__file__).parents[1]
+longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench"
+if str(longbench_metrics_path) not in sys.path:
+    sys.path.append(str(longbench_metrics_path))
 
 try:
     from metrics import qa_f1_score, rouge_score
@@ -32,10 +33,8 @@ DATASET_SCORERS = {
     "multi_news": rouge_score,   # 摘要任务，ROUGE-L F1
 }
 
-
-# 基线文件路径 - 修复指向evaluation目录
-_PROJECT_ROOT = Path(__file__).parents[2]  # 回到项目根目录
-_BASELINE_FILE = _PROJECT_ROOT / "evaluation" / "baseline_fullkv.json"
+# 基线文件路径 - 在evaluation目录中
+_BASELINE_FILE = Path(__file__).parent / "baseline_fullkv.json"
 
 def score_dataset(dataset_name: str,
                   predictions: list,
