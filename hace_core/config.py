@@ -11,11 +11,19 @@ def get_model_path(model_name="mistral-7b-instruct-v0.3"):
     1. 环境变量 HACE_MODEL_PATH
     2. 项目本地 models 目录
     3. 用户主目录下的 models 目录
+    4. 对于HuggingFace格式的模型名（包含/），直接返回原始路径
     如果以上都不存在，将抛出错误提示用户配置
     """
+    # 如果是HuggingFace格式的路径（包含/），直接返回
+    if "/" in model_name and not model_name.startswith("./") and not model_name.startswith("../"):
+        return model_name
     # 优先使用环境变量指定的路径
     if "HACE_MODEL_PATH" in os.environ:
         model_path = os.environ["HACE_MODEL_PATH"]
+        # 如果是HuggingFace格式的路径（包含/），直接返回，不进行本地存在性检查
+        if "/" in model_path and not model_path.startswith("./") and not model_path.startswith("../"):
+            return model_path
+        # 对于本地路径，检查是否存在
         if not Path(model_path).exists():
             raise FileNotFoundError(f"环境变量指定的模型路径不存在: {model_path}")
         return model_path
@@ -39,6 +47,22 @@ def get_model_path(model_name="mistral-7b-instruct-v0.3"):
         f"运行 'python check_model_config.py' 获取详细配置指南"
     )
 
+def get_resolved_model_path(config_dict):
+    """
+    从配置字典中获取解析后的模型路径
+    
+    Args:
+        config_dict: 包含model_name_or_path键的配置字典
+        
+    Returns:
+        str: 解析后的模型路径
+    """
+    model_name = config_dict.get("model_name_or_path")
+    if not model_name:
+        raise ValueError("配置中未找到model_name_or_path字段")
+    
+    return get_model_path(model_name)
+
 # 硬件配置信息
 HARDWARE_CONFIG = {
     "gpu": "NVIDIA RTX 4090",
@@ -48,16 +72,15 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "mistral-7b-instruct-v0.3",  # 模型名称，实际路径由get_model_path()动态获取
+    "model_name_or_path": "mistral-7b-instruct-v0.3",  # 模型名称，使用get_resolved_model_path()获取实际路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "mistral-7b-instruct-v0.3",
+    "model_name_or_path": "mistral-7b-instruct-v0.3",  # 模型名称，使用get_resolved_model_path()获取实际路径
     "precision": "fp16",  # or "bf16", "fp32"
-# 在这里添加这几行 ↓↓↓
     "use_relative_paths": True,        # 新增：强制使用相对路径
     "auto_create_dirs": True,          # 新增：自动创建目录
     "baseline_search_patterns": [      # 新增：基线文件搜索模式
@@ -65,7 +88,6 @@ EXPERIMENT_CONFIG = {
         "./fullkvcache_run_*/ds_*/evaluation_results_*.json",
         "./results/**/evaluation_results_*.json"
     ],
-    # 添加结束 ↑↑↑
     # 多模型实验配置
     "multi_model_experiments": True,
     "experiment_models": [
@@ -291,4 +313,25 @@ CAKE_MODEL_CONFIG = {
         "attention_pattern_analysis": True,
         "layer_importance_scoring": True
     }
-} 
+}
+
+"""
+使用示例：
+--------
+
+# 在下游代码中使用时，需要解析实际路径：
+from hace_core.config import MODEL_CONFIG, get_resolved_model_path
+
+# 错误的用法（会收到模型名称而不是路径）：
+model_path = MODEL_CONFIG["model_name_or_path"]  # 'mistral-7b-instruct-v0.3'
+
+# 正确的用法（会收到解析后的完整路径）：
+model_path = get_resolved_model_path(MODEL_CONFIG)  # 实际路径，如 './models/mistral-7b-instruct-v0.3' 或 HuggingFace 路径
+
+# 对于多模型实验：
+from hace_core.config import EXPERIMENT_CONFIG, get_model_path
+
+for model_name in EXPERIMENT_CONFIG["experiment_models"]:
+    resolved_path = get_model_path(model_name)
+    # 使用 resolved_path 进行模型加载
+""" 
