@@ -384,3 +384,106 @@ The first golf course in the Un...', 标准答案='Other location', 分数=0.0
 2025-06-26 18:42:05,708 - __main__ - INFO - Summary shape: (1, 6)
 2025-06-26 18:42:05,710 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_184143\all_fullkvcache_experiments_summary.json as JSON.
 2025-06-26 18:42:05,710 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-26 19:02:14,932 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-26 19:02:14,933 - __main__ - INFO - Arguments: Namespace(model_name='q', datasets='trec', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=False)
+2025-06-26 19:02:14,961 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-26 19:02:14,966 - __main__ - INFO - Starting experiment: fullkvcache_trec_kv128_bs1_rep0_20250626_190214
+2025-06-26 19:02:14,967 - __main__ - INFO - Loading model and tokenizer...
+2025-06-26 19:02:14,968 - hace_core.models.model_loader - INFO - Loading model: q
+2025-06-26 19:02:14,973 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-26 19:02:14,974 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-26 19:02:15,570 - hace_core.models.model_loader - ERROR - Error loading model: q is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-06-26 19:02:15,571 - __main__ - ERROR - Experiment failed: q is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-06-26 19:02:15,887 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-26 19:03:17,190 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-26 19:03:17,190 - __main__ - INFO - Arguments: Namespace(model_name='q', datasets='trec', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=False)
+2025-06-26 19:03:17,216 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-26 19:03:17,220 - __main__ - INFO - Starting experiment: fullkvcache_trec_kv128_bs1_rep0_20250626_190317
+2025-06-26 19:03:17,221 - __main__ - INFO - Loading model and tokenizer...
+2025-06-26 19:03:17,221 - hace_core.models.model_loader - INFO - Loading model: q
+2025-06-26 19:03:17,225 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-26 19:03:17,227 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-26 19:03:17,806 - hace_core.models.model_loader - ERROR - Error loading model: q is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-06-26 19:03:17,808 - __main__ - ERROR - Experiment failed: q is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-06-26 19:03:18,124 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-26 19:04:58,649 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-26 19:04:58,650 - __main__ - INFO - Arguments: Namespace(model_name='dummy_model_path', datasets='trec', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=False)
+2025-06-26 19:04:58,681 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-26 19:04:58,686 - __main__ - INFO - Starting experiment: fullkvcache_trec_kv128_bs1_rep0_20250626_190458
+2025-06-26 19:04:58,687 - __main__ - INFO - Loading model and tokenizer...
+2025-06-26 19:04:58,687 - hace_core.models.model_loader - INFO - Loading model: dummy_model_path
+2025-06-26 19:04:58,692 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-26 19:04:58,693 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-26 19:04:59,259 - hace_core.models.model_loader - ERROR - Error loading model: dummy_model_path is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-06-26 19:04:59,260 - __main__ - ERROR - Experiment failed: dummy_model_path is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-06-26 19:04:59,519 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-26 19:05:58,793 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-26 19:05:58,794 - __main__ - INFO - Arguments: Namespace(model_name='C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3', datasets='trec', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=False)
+2025-06-26 19:05:58,820 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-26 19:05:58,825 - __main__ - INFO - Starting experiment: fullkvcache_trec_kv128_bs1_rep0_20250626_190558
+2025-06-26 19:05:58,825 - __main__ - INFO - Loading model and tokenizer...
+2025-06-26 19:05:58,826 - hace_core.models.model_loader - INFO - Loading model: C:\Users\Administrator\mistral_models\7B-Instruct-v0.3
+2025-06-26 19:05:58,830 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-26 19:05:58,831 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-26 19:06:10,069 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-26 19:06:10,070 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-26 19:06:12,082 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-26 19:06:12,083 - __main__ - INFO - Model loaded in 13.26 seconds
+2025-06-26 19:06:12,083 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-26 19:06:12,084 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-26 19:06:12,084 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-26 19:06:12,084 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-26 19:06:12,084 - __main__ - INFO - Loading dataset trec...
+2025-06-26 19:06:12,085 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: trec
+2025-06-26 19:06:12,085 - src.common.data_loader - INFO - 📂 找到数据文件: C:\Users\Administrator\PycharmProjects3\data\trec.jsonl
+2025-06-26 19:06:12,086 - src.common.data_loader - INFO - ✅ 从本地加载 trec，共 1 条样本
+2025-06-26 19:06:12,086 - __main__ - INFO - ✅ 成功加载 trec (来源: local, 样本数: 1)
+2025-06-26 19:06:12,086 - __main__ - INFO - 数据集 trec 的第一个样本字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-26 19:06:12,087 - __main__ - INFO - 数据集 trec 验证通过，继续执行实验
+2025-06-26 19:06:12,087 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'trec', 'description': '问题分类'}
+2025-06-26 19:06:12,087 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-26 19:06:12,087 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-26 19:06:12,087 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-26 19:06:12,088 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-26 19:06:12,091 - src.monitoring.unified_monitor - INFO - 发现1个GPU设备
+2025-06-26 19:06:12,091 - src.monitoring.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250626_190612
+2025-06-26 19:06:12,091 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-26 19:06:12,091 - __main__ - INFO - 开始实验: fullkvcache_trec_kv128_bs1_rep0_20250626_190558
+2025-06-26 19:06:12,092 - __main__ - INFO - 样本数据: {'prompt': 'Question: Where was the first golf course in the United States ?\nType:', 'reference': 'Other location'}
+2025-06-26 19:06:12,092 - __main__ - INFO - 样本类型: <class 'dict'>
+2025-06-26 19:06:12,092 - __main__ - INFO - 最终输入文本 (前200字符): Question: Where was the first golf course in the United States ?
+Type:...
+2025-06-26 19:06:12,093 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 17]), attention_mask=torch.Size([1, 17])
+2025-06-26 19:06:12,093 - __main__ - INFO - 输入长度: 17 tokens
+2025-06-26 19:06:12,095 - src.monitoring.unified_monitor - INFO - 启动统一监控
+2025-06-26 19:06:12,095 - src.monitoring.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-26 19:06:12,096 - src.monitoring.unified_monitor - INFO - 统一监控循环已启动
+2025-06-26 19:06:12,096 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 17]), max_new_tokens=50
+2025-06-26 19:06:18,751 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-26 19:06:18,973 - src.monitoring.unified_monitor - INFO - 停止统一监控
+2025-06-26 19:06:18,974 - src.monitoring.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.7MB, 最终峰值=13842.1MB
+2025-06-26 19:06:19,024 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 67])
+2025-06-26 19:06:19,024 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 67]), input_length=17
+2025-06-26 19:06:19,025 - __main__ - INFO - 生成的文本 (前200字符): General Knowledge
+
+The first golf course in the United States was located in South Carolina. It was established in 1786 at the Charleston Cricket Club, which is now known as the Harleston Green. The c...
+2025-06-26 19:06:19,025 - __main__ - INFO - 性能计算: total_tokens=67, input_tokens=17, new_tokens=50
+2025-06-26 19:06:19,236 - __main__ - INFO - 性能指标已保存到: C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_190558\ds_trec_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_trec_kv128_bs1_rep0_20250626_190558.json
+2025-06-26 19:06:19,236 - __main__ - INFO - Performing evaluation scoring...
+2025-06-26 19:06:19,237 - __main__ - INFO - 使用处理后的reference: Other location
+2025-06-26 19:06:19,237 - __main__ - INFO - 评分详情: 函数=classification_score, 生成文本='General Knowledge
+
+The first golf course in the Un...', 标准答案='Other location', 分数=0.0
+2025-06-26 19:06:19,238 - __main__ - INFO - 评估结果已保存到: C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_190558\ds_trec_kv128_bs1_rep0\evaluation_results_fullkvcache_trec_kv128_bs1_rep0_20250626_190558.json
+2025-06-26 19:06:19,238 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-26 19:06:19,631 - __main__ - INFO - Experiment fullkvcache_trec_kv128_bs1_rep0_20250626_190558 completed successfully
+2025-06-26 19:06:19,637 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_190558\all_fullkvcache_experiments_summary.csv as CSV.
+2025-06-26 19:06:19,638 - __main__ - INFO - Summary shape: (1, 6)
+2025-06-26 19:06:19,638 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_190558\all_fullkvcache_experiments_summary.json as JSON.
+2025-06-26 19:06:19,639 - __main__ - INFO - FullKVCache experiment suite finished.
