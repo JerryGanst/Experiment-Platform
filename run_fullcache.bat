@@ -54,6 +54,7 @@ if not defined HACE_MODEL_PATH (
             echo Assuming this is a Hugging Face model identifier and continuing...
         )
     )
+
 )
 
 echo Verifying path settings...
