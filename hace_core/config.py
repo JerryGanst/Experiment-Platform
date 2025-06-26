@@ -14,29 +14,66 @@ def get_model_path(model_name="mistral-7b-instruct-v0.3"):
     4. 对于HuggingFace格式的模型名（包含/），直接返回原始路径
     如果以上都不存在，将抛出错误提示用户配置
     """
-    # 如果是HuggingFace格式的路径（包含/），直接返回
-    if "/" in model_name and not model_name.startswith("./") and not model_name.startswith("../"):
-        return model_name
-    # 优先使用环境变量指定的路径
+    
+    def _is_huggingface_hub_path(path):
+        """
+        判断是否为HuggingFace Hub路径
+        HuggingFace Hub路径特征：
+        - 包含 '/' 
+        - 不以 './' 或 '../' 开头（本地相对路径）
+        - 不以 '/' 开头（绝对路径）
+        - 不包含常见的本地路径指示符如 ':' (Windows驱动器)
+        """
+        if not isinstance(path, str) or '/' not in path:
+            return False
+        
+        # 排除本地路径格式
+        if (path.startswith('./') or 
+            path.startswith('../') or 
+            path.startswith('/') or
+            ':' in path):  # Windows驱动器路径如C:/path
+            return False
+            
+        # HuggingFace Hub路径通常是 organization/model 格式
+        # 进一步验证：应该只有一个'/'，且不包含文件扩展名
+        parts = path.split('/')
+        if len(parts) == 2 and all(part.strip() for part in parts):
+            # 检查是否不包含常见的文件扩展名
+            if not any(part.endswith(ext) for part in parts 
+                      for ext in ['.bin', '.safetensors', '.json', '.txt', '.py']):
+                return True
+        
+        return False
+    
+    # 优先级1：检查环境变量 HACE_MODEL_PATH
     if "HACE_MODEL_PATH" in os.environ:
         model_path = os.environ["HACE_MODEL_PATH"]
-        # 如果是HuggingFace格式的路径（包含/），直接返回，不进行本地存在性检查
-        if "/" in model_path and not model_path.startswith("./") and not model_path.startswith("../"):
+        # 如果环境变量指定的是HuggingFace格式路径，直接返回，不进行本地存在性检查
+        if _is_huggingface_hub_path(model_path):
             return model_path
         # 对于本地路径，检查是否存在
-        if not Path(model_path).exists():
+        if Path(model_path).exists():
+            return model_path
+        else:
             raise FileNotFoundError(f"环境变量指定的模型路径不存在: {model_path}")
-        return model_path
     
-    # 检查项目本地models目录
+    # 优先级2：如果输入的model_name本身是HuggingFace Hub路径，直接返回
+    if _is_huggingface_hub_path(model_name):
+        return model_name
+    
+    # 优先级3：检查项目本地models目录
     local_model_path = Path("./models") / model_name
     if local_model_path.exists():
         return str(local_model_path)
     
-    # 检查用户主目录的models目录
-    home_model_path = Path.home() / "models" / model_name
-    if home_model_path.exists():
-        return str(home_model_path)
+    # 优先级4：检查用户主目录的models目录
+    try:
+        home_model_path = Path.home() / "models" / model_name
+        if home_model_path.exists():
+            return str(home_model_path)
+    except (OSError, RuntimeError):
+        # 无法确定用户主目录时跳过这个检查
+        pass
     
     # 如果都不存在，抛出错误提示用户配置
     raise FileNotFoundError(
@@ -72,14 +109,14 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "mistral-7b-instruct-v0.3",  # 模型名称，使用get_resolved_model_path()获取实际路径
+    "model_name_or_path": r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3",  # 本地模型路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "mistral-7b-instruct-v0.3",  # 模型名称，使用get_resolved_model_path()获取实际路径
+    "model_name_or_path": r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3",  # 本地模型路径
     "precision": "fp16",  # or "bf16", "fp32"
     "use_relative_paths": True,        # 新增：强制使用相对路径
     "auto_create_dirs": True,          # 新增：自动创建目录

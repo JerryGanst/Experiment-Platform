@@ -511,7 +511,8 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
         logger.info(f"最终输入文本 (前200字符): {input_text[:200]}...")
         
         # 限制输入长度以适应KV cache
-        max_input_length = kv_cache_length - max_new_tokens - 10  # 留出安全边距
+        # 计算输入限制，防止出现负值
+        max_input_length = max(kv_cache_length - max_new_tokens - 10, 16)
         inputs = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=max_input_length)
 
         input_ids = inputs["input_ids"].to(model.device)

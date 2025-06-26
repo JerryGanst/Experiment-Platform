@@ -36,7 +36,7 @@ CAKE_MODEL_CONFIG = config.CAKE_MODEL_CONFIG # 新增CAKE模型配置
 
 # 导入基线评分工具
 try:
-    from eval_utils import (
+    from evaluation.eval_utils import (
         score_dataset,
         calculate_relative_score,
         aggregate_scores,
@@ -72,14 +72,11 @@ def load_local_jsonl(dataset_name, data_dir=None):
     """
     # 动态确定数据目录路径
     if data_dir is None:
-        # 获取脚本所在目录
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        
-        # 尝试多个可能的数据路径
+        # 使用已经计算好的项目根目录路径
         possible_data_dirs = [
-            os.path.join(script_dir, "data"),  # 当前baselines/data/
-            os.path.join(script_dir, "..", "..", "data"),  # 项目根目录的data/
-            os.path.join(script_dir, "..", "data"),  # hace-kv-optimization/data/
+            os.path.join(project_root_dir, "data"),  # 项目根目录的data/
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"),  # 当前目录的data/
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "data"),  # 相对路径
         ]
         
         data_dir = None
