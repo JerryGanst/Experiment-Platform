@@ -1,6 +1,104 @@
 """
 配置文件，存储实验的所有参数设置
 """
+import os
+from pathlib import Path
+
+# 模型路径配置 - 支持环境变量和多种配置方式
+def get_model_path(model_name="mistral-7b-instruct-v0.3"):
+    """
+    获取模型路径，优先级：
+    1. 环境变量 HACE_MODEL_PATH
+    2. 项目本地 models 目录
+    3. 用户主目录下的 models 目录
+    4. 对于HuggingFace格式的模型名（包含/），直接返回原始路径
+    如果以上都不存在，将抛出错误提示用户配置
+    """
+    
+    def _is_huggingface_hub_path(path):
+        """
+        判断是否为HuggingFace Hub路径
+        HuggingFace Hub路径特征：
+        - 包含 '/' 
+        - 不以 './' 或 '../' 开头（本地相对路径）
+        - 不以 '/' 开头（绝对路径）
+        - 不包含常见的本地路径指示符如 ':' (Windows驱动器)
+        """
+        if not isinstance(path, str) or '/' not in path:
+            return False
+        
+        # 排除本地路径格式
+        if (path.startswith('./') or 
+            path.startswith('../') or 
+            path.startswith('/') or
+            ':' in path):  # Windows驱动器路径如C:/path
+            return False
+            
+        # HuggingFace Hub路径通常是 organization/model 格式
+        # 进一步验证：应该只有一个'/'，且不包含文件扩展名
+        parts = path.split('/')
+        if len(parts) == 2 and all(part.strip() for part in parts):
+            # 检查是否不包含常见的文件扩展名
+            if not any(part.endswith(ext) for part in parts 
+                      for ext in ['.bin', '.safetensors', '.json', '.txt', '.py']):
+                return True
+        
+        return False
+    
+    # 优先级1：检查环境变量 HACE_MODEL_PATH
+    if "HACE_MODEL_PATH" in os.environ:
+        model_path = os.environ["HACE_MODEL_PATH"]
+        # 如果环境变量指定的是HuggingFace格式路径，直接返回，不进行本地存在性检查
+        if _is_huggingface_hub_path(model_path):
+            return model_path
+        # 对于本地路径，检查是否存在
+        if Path(model_path).exists():
+            return model_path
+        else:
+            raise FileNotFoundError(f"环境变量指定的模型路径不存在: {model_path}")
+    
+    # 优先级2：如果输入的model_name本身是HuggingFace Hub路径，直接返回
+    if _is_huggingface_hub_path(model_name):
+        return model_name
+    
+    # 优先级3：检查项目本地models目录
+    local_model_path = Path("./models") / model_name
+    if local_model_path.exists():
+        return str(local_model_path)
+    
+    # 优先级4：检查用户主目录的models目录
+    try:
+        home_model_path = Path.home() / "models" / model_name
+        if home_model_path.exists():
+            return str(home_model_path)
+    except (OSError, RuntimeError):
+        # 无法确定用户主目录时跳过这个检查
+        pass
+    
+    # 如果都不存在，抛出错误提示用户配置
+    raise FileNotFoundError(
+        f"找不到模型 '{model_name}'，请使用以下方式之一配置模型路径：\n"
+        f"1. 设置环境变量: HACE_MODEL_PATH=你的模型路径\n"
+        f"2. 将模型放入: ./models/{model_name}/\n"
+        f"3. 将模型放入: ~/models/{model_name}/\n"
+        f"运行 'python check_model_config.py' 获取详细配置指南"
+    )
+
+def get_resolved_model_path(config_dict):
+    """
+    从配置字典中获取解析后的模型路径
+    
+    Args:
+        config_dict: 包含model_name_or_path键的配置字典
+        
+    Returns:
+        str: 解析后的模型路径
+    """
+    model_name = config_dict.get("model_name_or_path")
+    if not model_name:
+        raise ValueError("配置中未找到model_name_or_path字段")
+    
+    return get_model_path(model_name)
 
 # 硬件配置信息
 HARDWARE_CONFIG = {
@@ -11,16 +109,15 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",  # 本地Windows模型路径
+    "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "C:/Users/JerryGanst/mistral_models/7B-Instruct-v0.3",
+    "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # or "bf16", "fp32"
-# 在这里添加这几行 ↓↓↓
     "use_relative_paths": True,        # 新增：强制使用相对路径
     "auto_create_dirs": True,          # 新增：自动创建目录
     "baseline_search_patterns": [      # 新增：基线文件搜索模式
@@ -28,7 +125,6 @@ EXPERIMENT_CONFIG = {
         "./fullkvcache_run_*/ds_*/evaluation_results_*.json",
         "./results/**/evaluation_results_*.json"
     ],
-    # 添加结束 ↑↑↑
     # 多模型实验配置
     "multi_model_experiments": True,
     "experiment_models": [
@@ -254,4 +350,36 @@ CAKE_MODEL_CONFIG = {
         "attention_pattern_analysis": True,
         "layer_importance_scoring": True
     }
-} 
+}
+
+"""
+使用示例：
+--------
+
+# 在下游代码中使用时，需要解析实际路径：
+from hace_core.config import MODEL_CONFIG, get_resolved_model_path
+
+# 错误的用法（会收到模型名称而不是解析后的路径）：
+model_path = MODEL_CONFIG["model_name_or_path"]  # 'mistralai/Mistral-7B-Instruct-v0.3'
+
+# 正确的用法（会收到解析后的完整路径）：
+model_path = get_resolved_model_path(MODEL_CONFIG)  # 实际路径，如本地路径或HuggingFace Hub路径
+
+# 对于多模型实验：
+from hace_core.config import EXPERIMENT_CONFIG, get_model_path
+
+for model_name in EXPERIMENT_CONFIG["experiment_models"]:
+    resolved_path = get_model_path(model_name)
+    # 使用 resolved_path 进行模型加载
+
+# 模型路径解析优先级：
+# 1. 环境变量 HACE_MODEL_PATH（如果设置）
+# 2. HuggingFace Hub路径（如果是 organization/model 格式）
+# 3. 项目本地 ./models/模型名/ 目录
+# 4. 用户主目录 ~/models/模型名/ 目录
+# 
+# 示例配置方式：
+# - 环境变量：export HACE_MODEL_PATH="C:/Users/Administrator/mistral_models/7B-Instruct-v0.3"
+# - 本地目录：./models/mistralai--Mistral-7B-Instruct-v0.3/
+# - HuggingFace：直接使用 "mistralai/Mistral-7B-Instruct-v0.3"
+""" 
