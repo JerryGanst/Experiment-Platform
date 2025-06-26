@@ -79,12 +79,15 @@ override_config_paths()
 # 初始化logger（在任何使用logger的代码之前）
 logger = logging.getLogger(__name__)
 
-# 导入评分模块
+# 导入评分模块 - 修复路径
 try:
-    longbench_metrics_path = os.path.join(os.path.dirname(__file__), '..', 'cakekv-main', 'cakekv-main', 'experiments',
-                                          'LongBench')
-    if longbench_metrics_path not in sys.path:
-        sys.path.append(longbench_metrics_path)
+    # 修复：使用正确的相对路径到metrics.py
+    current_file = Path(__file__).resolve()
+    project_root = current_file.parents[2]  # 回到项目根目录
+    longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench"
+    
+    if str(longbench_metrics_path) not in sys.path:
+        sys.path.append(str(longbench_metrics_path))
 
     from metrics import (
         qa_f1_score, rouge_score, classification_score,
@@ -623,7 +626,7 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
         raise
 
 
-def score_generated_text(generated_text, ground_truth, dataset_name):
+def score_generated_text(generated_text, ground_truth, dataset_name, sample_data=None):
     """对生成的文本进行评分"""
     if not SCORING_AVAILABLE:
         logger.warning("评分模块不可用，返回默认分数")
@@ -632,19 +635,44 @@ def score_generated_text(generated_text, ground_truth, dataset_name):
     try:
         scoring_func = DATASET_SCORING_MAP.get(dataset_name, qa_f1_score)
 
-        if scoring_func == qa_f1_score:
-            score = scoring_func(generated_text, ground_truth)
-        elif scoring_func == rouge_score:
-            score = scoring_func(generated_text, ground_truth)
-        elif scoring_func == classification_score:
-            score = scoring_func(generated_text, ground_truth)
-        else:
-            score = scoring_func(generated_text, ground_truth)
+        # 准备评分参数
+        kwargs = {}
+        
+        # 对于分类任务，需要all_classes参数
+        if scoring_func == classification_score and sample_data:
+            if isinstance(sample_data, dict) and 'all_classes' in sample_data:
+                kwargs['all_classes'] = sample_data['all_classes']
+            else:
+                # 提供TREC数据集的默认分类
+                kwargs['all_classes'] = [
+                    'Food', 'Date', 'Order, rank', 'Speed', 'Disease and medicine', 
+                    'Word with a special property', 'Abbreviation', 'Language', 
+                    'Letter like a-z', 'Other entity', 'Animal', 'Expression abbreviated', 
+                    'Price', 'Techniques and method', 'Musical instrument', 'Mountain', 
+                    'Currency name', 'Event', 'Product', 'State', 'Individual', 
+                    'Organ of body', 'Reason', 'Manner of an action', 'City', 'Religion', 
+                    'Invention, book and other creative piece', 'Distance, linear measure', 
+                    'Temperature', 'Postcode or other code', 'Size, area and volume', 
+                    'Sport', 'Country', 'Other location', 'Lasting time of somethin', 
+                    'Equivalent term', 'Description of something', 'Weight', 'Vehicle', 
+                    'Color', 'Other number', 'Definition of something', 'Element and substance', 
+                    'Description of a person', 'Symbols and sign', 'Number of something', 
+                    'Plant', 'Percent, fraction', 'Group or organization of person', 
+                    'Title of a person'
+                ]
+                logger.info(f"使用默认TREC分类列表，共{len(kwargs['all_classes'])}个类别")
 
+        # 调用评分函数
+        score = scoring_func(generated_text, ground_truth, **kwargs)
+        
+        logger.info(f"评分详情: 函数={scoring_func.__name__}, 生成文本='{generated_text[:50]}...', 标准答案='{ground_truth}', 分数={score}")
+        
         return score if score is not None else 0.0
 
     except Exception as e:
         logger.warning(f"评分失败: {e}")
+        import traceback
+        traceback.print_exc()
         return 0.0
 
 
@@ -868,18 +896,33 @@ def main():
                             logger.info("Performing evaluation scoring...")
                             generated_text = experiment_results["generated_text"]
 
-                            # 获取ground truth
+                            # 获取ground truth - 修复版本，使用处理后样本的reference字段
+                            ground_truth = ""
                             if isinstance(sample, dict):
-                                ground_truth = sample.get('answers', sample.get('output', sample.get('answer', '')))
+                                # 优先使用处理后的reference字段
+                                if 'reference' in sample:
+                                    ground_truth = sample['reference']
+                                    logger.info(f"使用处理后的reference: {ground_truth}")
+                                else:
+                                    # 备用方案：从原始字段提取
+                                    ground_truth = sample.get('answers', sample.get('output', sample.get('answer', '')))
+                                    logger.info(f"使用原始字段提取: {ground_truth}")
                             else:
                                 ground_truth = str(sample)
 
                             # 如果ground_truth是列表，取第一个
                             if isinstance(ground_truth, list):
                                 ground_truth = ground_truth[0] if ground_truth else ""
+                                logger.info(f"从列表中提取第一个元素: {ground_truth}")
+                            
+                            # 验证ground truth不为空
+                            if not ground_truth or str(ground_truth).strip() == "":
+                                logger.warning(f"Ground truth为空！样本类型: {type(sample)}, 样本内容: {sample}")
+                                ground_truth = "Unknown"  # 提供默认值避免评分失败
 
-                            # 计算分数
-                            score = score_generated_text(generated_text, ground_truth, dataset_name)
+                            # 计算分数 - 传递原始数据集样本以获取all_classes等信息
+                            original_sample = dataset[0] if dataset and len(dataset) > 0 else {}
+                            score = score_generated_text(generated_text, ground_truth, dataset_name, original_sample)
 
                             evaluation_results = {
                                 "experiment_id": experiment_id,
@@ -1020,7 +1063,7 @@ def main():
             traceback.print_exc()
 
     elif args.enable_scoring and not args.is_baseline_run:
-        logger.info("评分已启用，但这不是基线运行，跳过基线建立")
+        pass  # 静默跳过基线建立，不显示提示
 
     logger.info("FullKVCache experiment suite finished.")
 

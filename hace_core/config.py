@@ -109,14 +109,14 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3",  # 本地模型路径
+    "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3",  # 本地模型路径
+    "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # or "bf16", "fp32"
     "use_relative_paths": True,        # 新增：强制使用相对路径
     "auto_create_dirs": True,          # 新增：自动创建目录
@@ -359,11 +359,11 @@ CAKE_MODEL_CONFIG = {
 # 在下游代码中使用时，需要解析实际路径：
 from hace_core.config import MODEL_CONFIG, get_resolved_model_path
 
-# 错误的用法（会收到模型名称而不是路径）：
-model_path = MODEL_CONFIG["model_name_or_path"]  # 'mistral-7b-instruct-v0.3'
+# 错误的用法（会收到模型名称而不是解析后的路径）：
+model_path = MODEL_CONFIG["model_name_or_path"]  # 'mistralai/Mistral-7B-Instruct-v0.3'
 
 # 正确的用法（会收到解析后的完整路径）：
-model_path = get_resolved_model_path(MODEL_CONFIG)  # 实际路径，如 './models/mistral-7b-instruct-v0.3' 或 HuggingFace 路径
+model_path = get_resolved_model_path(MODEL_CONFIG)  # 实际路径，如本地路径或HuggingFace Hub路径
 
 # 对于多模型实验：
 from hace_core.config import EXPERIMENT_CONFIG, get_model_path
@@ -371,4 +371,15 @@ from hace_core.config import EXPERIMENT_CONFIG, get_model_path
 for model_name in EXPERIMENT_CONFIG["experiment_models"]:
     resolved_path = get_model_path(model_name)
     # 使用 resolved_path 进行模型加载
+
+# 模型路径解析优先级：
+# 1. 环境变量 HACE_MODEL_PATH（如果设置）
+# 2. HuggingFace Hub路径（如果是 organization/model 格式）
+# 3. 项目本地 ./models/模型名/ 目录
+# 4. 用户主目录 ~/models/模型名/ 目录
+# 
+# 示例配置方式：
+# - 环境变量：export HACE_MODEL_PATH="C:/Users/Administrator/mistral_models/7B-Instruct-v0.3"
+# - 本地目录：./models/mistralai--Mistral-7B-Instruct-v0.3/
+# - HuggingFace：直接使用 "mistralai/Mistral-7B-Instruct-v0.3"
 """ 
