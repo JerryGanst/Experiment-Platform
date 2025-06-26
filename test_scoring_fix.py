@@ -5,7 +5,13 @@
 """
 
 import sys
+import json
 from pathlib import Path
+
+# 添加metrics路径
+project_root = Path(__file__).parent
+longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench"
+sys.path.append(str(longbench_metrics_path))
 
 def test_eval_utils_import():
     """测试eval_utils导入"""
@@ -111,6 +117,67 @@ def test_relative_scoring():
         print(f"❌ 相对评分计算失败: {e}")
         return False
 
+def test_scoring():
+    print("=== 测试评分功能 ===")
+    
+    try:
+        from metrics import classification_score, qa_f1_score, rouge_score
+        print("✅ 评分模块导入成功")
+        
+        # 加载TREC数据集获取all_classes
+        with open('data/trec.jsonl', 'r', encoding='utf-8') as f:
+            trec_data = json.loads(f.readline())
+        
+        all_classes = trec_data.get('all_classes', [])
+        print(f"✅ 加载TREC分类列表，共{len(all_classes)}个类别")
+        
+        # 测试TREC分类评分
+        print("\n--- 测试TREC分类评分 ---")
+        generated_text = "General Knowledge"
+        ground_truth = "Other location"
+        
+        print(f"生成文本: {generated_text}")
+        print(f"标准答案: {ground_truth}")
+        print(f"所有类别: {all_classes[:5]}... (共{len(all_classes)}个)")
+        
+        score = classification_score(generated_text, ground_truth, all_classes=all_classes)
+        print(f"分类评分结果: {score}")
+        
+        # 测试更精确的匹配
+        print("\n--- 测试精确匹配 ---")
+        exact_match_text = "Other location"
+        exact_score = classification_score(exact_match_text, ground_truth, all_classes=all_classes)
+        print(f"精确匹配评分: {exact_score}")
+        
+        # 测试包含多个分类的情况
+        print("\n--- 测试包含多个分类的情况 ---")
+        multi_class_text = "This is about Food and Other location"
+        multi_score = classification_score(multi_class_text, ground_truth, all_classes=all_classes)
+        print(f"多分类文本评分: {multi_score}")
+        
+        # 测试QA评分
+        print("\n--- 测试QA F1评分 ---")
+        qa_pred = "The first golf course was in South Carolina"
+        qa_ref = "South Carolina"
+        qa_score = qa_f1_score(qa_pred, qa_ref)
+        print(f"QA F1评分: {qa_score}")
+        
+        # 测试ROUGE评分
+        print("\n--- 测试ROUGE评分 ---")
+        rouge_pred = "The first golf course in the United States was located in South Carolina"
+        rouge_ref = "The first golf course was in South Carolina"
+        rouge_score_result = rouge_score(rouge_pred, rouge_ref)
+        print(f"ROUGE评分: {rouge_score_result}")
+        
+        print("\n✅ 所有评分测试完成！")
+        return True
+        
+    except Exception as e:
+        print(f"❌ 评分测试失败: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def main():
     """主测试函数"""
     print("🔧 评分系统修复验证测试")
@@ -130,6 +197,10 @@ def main():
     if import_success:
         scoring_success = test_relative_scoring()
         results.append(("相对评分", scoring_success))
+    
+    # 测试评分功能
+    scoring_success = test_scoring()
+    results.append(("评分功能", scoring_success))
     
     # 汇总结果
     print("\n📊 测试结果汇总:")

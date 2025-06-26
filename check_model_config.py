@@ -33,7 +33,7 @@ def check_model_config():
     
     # 检查当前配置
     try:
-        current_path = get_model_path("mistral-7b-instruct-v0.3")
+        current_path = get_model_path(MODEL_CONFIG["model_name_or_path"])
         print(f"\n📍 当前模型路径: {current_path}")
         
         # 检查路径类型

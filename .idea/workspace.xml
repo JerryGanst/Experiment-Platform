@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1a96ebc2-6caa-47b6-8612-247e647546cd" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hace_core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/hace_core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/run_experiments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monitoring/unified_monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/monitoring/unified_monitor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +44,8 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "newnewday",
+    "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "/Users/jerryganst/PycharmProjects/Experiment-Platform",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -66,8 +64,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
-        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
+        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
       </set>
     </attachedChunks>
   </component>
@@ -82,6 +80,7 @@
       <workItem from="1750660198983" duration="2000000" />
       <workItem from="1750753821450" duration="9637000" />
       <workItem from="1750810752043" duration="3473000" />
+      <workItem from="1750929528152" duration="3272000" />
     </task>
     <servers />
   </component>
