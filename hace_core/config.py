@@ -14,14 +14,47 @@ def get_model_path(model_name="mistral-7b-instruct-v0.3"):
     4. 对于HuggingFace格式的模型名（包含/），直接返回原始路径
     如果以上都不存在，将抛出错误提示用户配置
     """
-    # 如果是HuggingFace格式的路径（包含/），直接返回
-    if "/" in model_name and not model_name.startswith("./") and not model_name.startswith("../"):
+    # 检查是否为 HuggingFace Hub 路径的辅助函数
+    def is_huggingface_path(path):
+        """
+        判断是否为 HuggingFace Hub 路径
+        HuggingFace 路径格式：organization/model-name
+        - 包含恰好一个正斜杠
+        - 不以 / 开头（Unix绝对路径）
+        - 不包含反斜杠（Windows路径）
+        - 不匹配 Windows 驱动器路径模式（如 C:/）
+        """
+        if "/" not in path:
+            return False
+        
+        # 排除绝对路径
+        if path.startswith("/"):  # Unix绝对路径
+            return False
+        if len(path) >= 3 and path[1:3] == ":/":  # Windows驱动器路径（如 C:/）
+            return False
+        if "\\" in path:  # Windows路径分隔符
+            return False
+        if path.startswith("./") or path.startswith("../"):  # 相对路径
+            return False
+        
+        # 检查是否为典型的 HuggingFace 格式（organization/model-name）
+        parts = path.split("/")
+        if len(parts) == 2 and all(part.strip() for part in parts):
+            # 进一步检查：HuggingFace 路径通常不以常见的本地目录名开头
+            local_dir_names = {"models", "checkpoints", "weights", "data", "cache"}
+            if parts[0].lower() not in local_dir_names:
+                return True
+        
+        return False
+    
+    # 如果是HuggingFace格式的路径，直接返回
+    if is_huggingface_path(model_name):
         return model_name
     # 优先使用环境变量指定的路径
     if "HACE_MODEL_PATH" in os.environ:
         model_path = os.environ["HACE_MODEL_PATH"]
-        # 如果是HuggingFace格式的路径（包含/），直接返回，不进行本地存在性检查
-        if "/" in model_path and not model_path.startswith("./") and not model_path.startswith("../"):
+        # 如果是HuggingFace格式的路径，直接返回，不进行本地存在性检查
+        if is_huggingface_path(model_path):
             return model_path
         # 对于本地路径，检查是否存在
         if not Path(model_path).exists():
