@@ -198,10 +198,12 @@ def main():
         scoring_success = test_relative_scoring()
         results.append(("相对评分", scoring_success))
     
+
     # 测试评分功能
     scoring_success = test_scoring()
     results.append(("评分功能", scoring_success))
-    
+
+
     # 汇总结果
     print("\n📊 测试结果汇总:")
     print("=" * 50)

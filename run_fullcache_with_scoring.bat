@@ -1,4 +1,5 @@
 @echo off
+
 chcp 65001 >nul
 echo Setting environment variables...
 set PYTHONPATH=%CD%
@@ -17,5 +18,6 @@ echo HACE_MODEL_PATH=%HACE_MODEL_PATH%
 
 echo Running fullcache experiment with scoring...
 python evaluation/baselines/fullkvcache_main.py --model_name "%HACE_MODEL_PATH%" --datasets trec --kv_cache_lengths 128 --batch_sizes 1 --repetitions 1 --max_new_tokens 50 --enable_scoring
+
 
 pause 

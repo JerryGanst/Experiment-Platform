@@ -1,4 +1,5 @@
 @echo off
+
 chcp 65001 >nul
 echo Setting environment variables...
 set PYTHONPATH=%CD%
