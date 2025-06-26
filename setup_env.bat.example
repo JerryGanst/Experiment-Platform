@@ -1,0 +1,16 @@
+@echo off
+REM 复制此文件为 setup_env.bat 并修改路径以适应您的环境
+
+REM 设置模型路径 - 请修改为您的实际模型路径
+set HACE_MODEL_PATH=C:\path\to\your\model\7B-Instruct-v0.3
+
+REM 可选：设置其他环境变量
+REM set CUDA_VISIBLE_DEVICES=0
+REM set HF_HOME=C:\path\to\huggingface\cache
+
+echo 环境变量已设置:
+echo HACE_MODEL_PATH=%HACE_MODEL_PATH%
+
+REM 现在您可以运行实验脚本
+REM run_fullcache.bat
+REM run_fullcache_with_scoring.bat 
