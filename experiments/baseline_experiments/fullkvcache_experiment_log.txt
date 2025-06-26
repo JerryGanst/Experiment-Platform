@@ -487,3 +487,122 @@ The first golf course in the Un...', 标准答案='Other location', 分数=0.0
 2025-06-26 19:06:19,638 - __main__ - INFO - Summary shape: (1, 6)
 2025-06-26 19:06:19,638 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_190558\all_fullkvcache_experiments_summary.json as JSON.
 2025-06-26 19:06:19,639 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-26 22:20:33,799 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-26 22:20:33,799 - __main__ - INFO - Arguments: Namespace(model_name='C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3', datasets='trec', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=False)
+2025-06-26 22:20:33,839 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-26 22:20:33,844 - __main__ - INFO - Starting experiment: fullkvcache_trec_kv128_bs1_rep0_20250626_222033
+2025-06-26 22:20:33,845 - __main__ - INFO - Loading model and tokenizer...
+2025-06-26 22:20:33,846 - hace_core.models.model_loader - INFO - Loading model: C:\Users\Administrator\mistral_models\7B-Instruct-v0.3
+2025-06-26 22:20:33,850 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-26 22:20:33,851 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-26 22:22:34,359 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-26 22:22:34,360 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-26 22:22:36,348 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-26 22:22:36,349 - __main__ - INFO - Model loaded in 122.50 seconds
+2025-06-26 22:22:36,349 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-26 22:22:36,349 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-26 22:22:36,350 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-26 22:22:36,350 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-26 22:22:36,351 - __main__ - INFO - Loading dataset trec...
+2025-06-26 22:22:36,351 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: trec
+2025-06-26 22:22:36,352 - src.common.data_loader - INFO - 📂 找到数据文件: C:\Users\Administrator\PycharmProjects3\data\trec.jsonl
+2025-06-26 22:22:36,353 - src.common.data_loader - INFO - ✅ 从本地加载 trec，共 1 条样本
+2025-06-26 22:22:36,354 - __main__ - INFO - ✅ 成功加载 trec (来源: local, 样本数: 1)
+2025-06-26 22:22:36,354 - __main__ - INFO - 数据集 trec 的第一个样本字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-26 22:22:36,354 - __main__ - INFO - 数据集 trec 验证通过，继续执行实验
+2025-06-26 22:22:36,355 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'trec', 'description': '问题分类'}
+2025-06-26 22:22:36,355 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-26 22:22:36,355 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-26 22:22:36,356 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-26 22:22:36,356 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-26 22:22:36,359 - src.monitoring.unified_monitor - INFO - 发现1个GPU设备
+2025-06-26 22:22:36,359 - src.monitoring.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250626_222236
+2025-06-26 22:22:36,360 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-26 22:22:36,360 - __main__ - INFO - 开始实验: fullkvcache_trec_kv128_bs1_rep0_20250626_222033
+2025-06-26 22:22:36,360 - __main__ - INFO - 样本数据: {'prompt': 'Question: Where was the first golf course in the United States ?\nType:', 'reference': 'Other location'}
+2025-06-26 22:22:36,361 - __main__ - INFO - 样本类型: <class 'dict'>
+2025-06-26 22:22:36,361 - __main__ - INFO - 最终输入文本 (前200字符): Question: Where was the first golf course in the United States ?
+Type:...
+2025-06-26 22:22:36,362 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 17]), attention_mask=torch.Size([1, 17])
+2025-06-26 22:22:36,363 - __main__ - INFO - 输入长度: 17 tokens
+2025-06-26 22:22:36,363 - src.monitoring.unified_monitor - INFO - 启动统一监控
+2025-06-26 22:22:36,363 - src.monitoring.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-26 22:22:36,365 - src.monitoring.unified_monitor - INFO - 统一监控循环已启动
+2025-06-26 22:22:36,366 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 17]), max_new_tokens=50
+2025-06-26 22:22:43,361 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-26 22:22:43,582 - src.monitoring.unified_monitor - INFO - 停止统一监控
+2025-06-26 22:22:43,584 - src.monitoring.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.7MB, 最终峰值=13842.1MB
+2025-06-26 22:22:43,734 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 67])
+2025-06-26 22:22:43,735 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 67]), input_length=17
+2025-06-26 22:22:43,738 - __main__ - INFO - 生成的文本 (前200字符): General Knowledge
+
+The first golf course in the United States was located in South Carolina. It was established in 1786 at the Charleston Cricket Club, which is now known as the Harleston Green. The c...
+2025-06-26 22:22:43,739 - __main__ - INFO - 性能计算: total_tokens=67, input_tokens=17, new_tokens=50
+2025-06-26 22:22:43,956 - __main__ - INFO - 性能指标已保存到: C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_222033\ds_trec_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_trec_kv128_bs1_rep0_20250626_222033.json
+2025-06-26 22:22:43,957 - __main__ - INFO - Performing evaluation scoring...
+2025-06-26 22:22:43,958 - __main__ - INFO - 使用处理后的reference: Other location
+2025-06-26 22:22:43,958 - __main__ - INFO - 评分详情: 函数=classification_score, 生成文本='General Knowledge
+
+The first golf course in the Un...', 标准答案='Other location', 分数=0.0
+2025-06-26 22:22:43,960 - __main__ - INFO - 评估结果已保存到: C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_222033\ds_trec_kv128_bs1_rep0\evaluation_results_fullkvcache_trec_kv128_bs1_rep0_20250626_222033.json
+2025-06-26 22:22:43,961 - __main__ - INFO - Evaluation score: 0.0000
+2025-06-26 22:22:44,425 - __main__ - INFO - Experiment fullkvcache_trec_kv128_bs1_rep0_20250626_222033 completed successfully
+2025-06-26 22:22:44,433 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_222033\all_fullkvcache_experiments_summary.csv as CSV.
+2025-06-26 22:22:44,434 - __main__ - INFO - Summary shape: (1, 6)
+2025-06-26 22:22:44,437 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_222033\all_fullkvcache_experiments_summary.json as JSON.
+2025-06-26 22:22:44,437 - __main__ - INFO - FullKVCache experiment suite finished.
+2025-06-26 22:33:59,720 - __main__ - INFO - Starting FullKVCache experiment suite
+2025-06-26 22:33:59,720 - __main__ - INFO - Arguments: Namespace(model_name='C:/Users/Administrator/mistral_models/7B-Instruct-v0.3', datasets='narrativeqa', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=False, is_baseline_run=False)
+2025-06-26 22:33:59,750 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1
+2025-06-26 22:33:59,756 - __main__ - INFO - Starting experiment: fullkvcache_narrativeqa_kv128_bs1_rep0_20250626_223359
+2025-06-26 22:33:59,756 - __main__ - INFO - Loading model and tokenizer...
+2025-06-26 22:33:59,757 - hace_core.models.model_loader - INFO - Loading model: C:/Users/Administrator/mistral_models/7B-Instruct-v0.3
+2025-06-26 22:33:59,760 - hace_core.models.model_loader - INFO - GPU 0: 总显存 24563MB, 自动设置上限 23000MB (缓冲比例: 5.0%)
+2025-06-26 22:33:59,761 - hace_core.models.model_loader - INFO - 使用精细显存控制: {0: '23000MB'}
+2025-06-26 22:34:11,915 - hace_core.models.model_loader - INFO - Model loaded successfully with dtype: torch.float16
+2025-06-26 22:34:11,916 - hace_core.models.model_loader - INFO - GPU 0 显存使用: 已分配 13.50GB, 已保留 13.63GB
+2025-06-26 22:34:13,960 - hace_core.models.model_loader - INFO - Tokenizer loaded successfully
+2025-06-26 22:34:13,961 - __main__ - INFO - Model loaded in 14.20 seconds
+2025-06-26 22:34:13,961 - hace_core.models.model_loader - INFO - Configuring model for KV cache length: 128
+2025-06-26 22:34:13,962 - hace_core.models.model_loader - INFO - Updated max_position_embeddings from 32768 to 32768
+2025-06-26 22:34:13,962 - hace_core.models.model_loader - INFO - Model mistral configured successfully for KV cache length: 128
+2025-06-26 22:34:13,962 - hace_core.models.model_loader - INFO - Preparing model for baseline testing with default KV cache
+2025-06-26 22:34:13,963 - __main__ - INFO - Loading dataset narrativeqa...
+2025-06-26 22:34:13,963 - __main__ - INFO - 尝试从本地JSONL文件加载数据集: narrativeqa
+2025-06-26 22:34:13,964 - src.common.data_loader - INFO - 📂 找到数据文件: C:\Users\Administrator\PycharmProjects3\data\narrativeqa.jsonl
+2025-06-26 22:34:13,967 - src.common.data_loader - INFO - ✅ 从本地加载 narrativeqa，共 1 条样本
+2025-06-26 22:34:13,968 - __main__ - INFO - ✅ 成功加载 narrativeqa (来源: local, 样本数: 1)
+2025-06-26 22:34:13,968 - __main__ - INFO - 数据集 narrativeqa 的第一个样本字段: ['input', 'context', 'answers', 'length', 'dataset', 'language', 'all_classes', '_id']
+2025-06-26 22:34:13,969 - __main__ - INFO - 数据集 narrativeqa 验证通过，继续执行实验
+2025-06-26 22:34:13,969 - hace_core.data.dataset_loader - INFO - Preparing 100 samples from {'path': 'THUDM/longbench', 'subset': 'narrativeqa', 'description': '基于小说和电影剧本的问答'}
+2025-06-26 22:34:13,969 - hace_core.data.dataset_loader - WARNING - Dataset contains only 1 samples
+2025-06-26 22:34:13,970 - hace_core.data.dataset_loader - INFO - Prepared 1 samples successfully
+2025-06-26 22:34:13,970 - __main__ - INFO - Prepared 1 samples successfully
+2025-06-26 22:34:13,971 - __main__ - INFO - Preparing batch with size 1, max_length 128...
+2025-06-26 22:34:13,974 - src.monitoring.unified_monitor - INFO - 发现1个GPU设备
+2025-06-26 22:34:13,975 - src.monitoring.unified_monitor - INFO - 统一监控器初始化完成，实验ID: 20250626_223413
+2025-06-26 22:34:13,975 - __main__ - INFO - Running FullKVCache experiment...
+2025-06-26 22:34:13,976 - __main__ - INFO - 开始实验: fullkvcache_narrativeqa_kv128_bs1_rep0_20250626_223359
+2025-06-26 22:34:13,976 - __main__ - INFO - 样本数据: {'prompt': "What is Saltram's living situation?", 'reference': 'He is a guest in the home of the Mulvilles.'}
+2025-06-26 22:34:13,977 - __main__ - INFO - 样本类型: <class 'dict'>
+2025-06-26 22:34:13,977 - __main__ - INFO - 最终输入文本 (前200字符): Question: What is Saltram's living situation?
+Answer:...
+2025-06-26 22:34:13,979 - __main__ - INFO - 输入形状: input_ids=torch.Size([1, 17]), attention_mask=torch.Size([1, 17])
+2025-06-26 22:34:13,980 - __main__ - INFO - 输入长度: 17 tokens
+2025-06-26 22:34:13,980 - src.monitoring.unified_monitor - INFO - 启动统一监控
+2025-06-26 22:34:13,980 - src.monitoring.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-06-26 22:34:13,981 - src.monitoring.unified_monitor - INFO - 统一监控循环已启动
+2025-06-26 22:34:13,981 - __main__ - INFO - 生成参数: input_ids shape=torch.Size([1, 17]), max_new_tokens=50
+2025-06-26 22:34:21,319 - __main__ - INFO - 生成完成，输出类型: <class 'torch.Tensor'>
+2025-06-26 22:34:21,520 - src.monitoring.unified_monitor - INFO - 停止统一监控
+2025-06-26 22:34:21,522 - src.monitoring.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=13832.7MB, 最终峰值=13842.1MB
+2025-06-26 22:34:21,571 - __main__ - INFO - 输出类型: <class 'torch.Tensor'>, 输出形状: torch.Size([1, 67])
+2025-06-26 22:34:21,572 - __main__ - INFO - 开始解码: output_tensor.shape=torch.Size([1, 67]), input_length=17
+2025-06-26 22:34:21,572 - __main__ - INFO - 生成的文本 (前200字符): Saltram is a fictional character from the novel "Persuasion" by Jane Austen, and as such, he does not have a living situation in the real world. In the novel, Saltram is a naval captain who is...
+2025-06-26 22:34:21,573 - __main__ - INFO - 性能计算: total_tokens=67, input_tokens=17, new_tokens=50
+2025-06-26 22:34:21,795 - __main__ - INFO - 性能指标已保存到: C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_223359\ds_narrativeqa_kv128_bs1_rep0\fullkvcache_metrics_fullkvcache_narrativeqa_kv128_bs1_rep0_20250626_223359.json
+2025-06-26 22:34:22,270 - __main__ - INFO - Experiment fullkvcache_narrativeqa_kv128_bs1_rep0_20250626_223359 completed successfully
+2025-06-26 22:34:22,276 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_223359\all_fullkvcache_experiments_summary.csv as CSV.
+2025-06-26 22:34:22,277 - __main__ - INFO - Summary shape: (1, 6)
+2025-06-26 22:34:22,279 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_223359\all_fullkvcache_experiments_summary.json as JSON.
+2025-06-26 22:34:22,279 - __main__ - INFO - FullKVCache experiment suite finished.

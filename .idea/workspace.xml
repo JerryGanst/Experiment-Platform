@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a96ebc2-6caa-47b6-8612-247e647546cd" name="更改" comment="">
-
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-
+      <change beforePath="$PROJECT_DIR$/evaluation/baseline_fullkv.json" beforeDir="false" afterPath="$PROJECT_DIR$/evaluation/baseline_fullkv.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/baseline_experiments/fullkvcache_experiment_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/baseline_experiments/fullkvcache_experiment_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_fullcache.bat" beforeDir="false" afterPath="$PROJECT_DIR$/run_fullcache.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_fullcache_with_scoring.bat" beforeDir="false" afterPath="$PROJECT_DIR$/run_fullcache_with_scoring.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,21 +44,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "newnewday",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/Users/jerryganst/PycharmProjects/Experiment-Platform",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newnewday&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jerryganst/PycharmProjects/Experiment-Platform&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -82,9 +84,7 @@
       <workItem from="1750660198983" duration="2000000" />
       <workItem from="1750753821450" duration="9637000" />
       <workItem from="1750810752043" duration="3473000" />
-
       <workItem from="1750929528152" duration="3272000" />
-
     </task>
     <servers />
   </component>

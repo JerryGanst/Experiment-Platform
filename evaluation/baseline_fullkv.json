@@ -1,11 +1,10 @@
 {
-  "hotpotqa": 0.6527,
+  "hotpotqa": 0.0,
   "_metadata": {
     "created_at": "2025-01-27",
     "source": "updated_baseline_values",
     "note": "使用典型Full KV基线性能值，避免除零错误"
   },
-  "narrativeqa": 0.2341,
+  "narrativeqa": 0.16216216216216217,
   "multi_news": 0.2845
-
 }
