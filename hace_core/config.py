@@ -1,6 +1,43 @@
 """
 配置文件，存储实验的所有参数设置
 """
+import os
+from pathlib import Path
+
+# 模型路径配置 - 支持环境变量和多种配置方式
+def get_model_path(model_name="mistral-7b-instruct-v0.3"):
+    """
+    获取模型路径，优先级：
+    1. 环境变量 HACE_MODEL_PATH
+    2. 项目本地 models 目录
+    3. 用户主目录下的 models 目录
+    如果以上都不存在，将抛出错误提示用户配置
+    """
+    # 优先使用环境变量指定的路径
+    if "HACE_MODEL_PATH" in os.environ:
+        model_path = os.environ["HACE_MODEL_PATH"]
+        if not Path(model_path).exists():
+            raise FileNotFoundError(f"环境变量指定的模型路径不存在: {model_path}")
+        return model_path
+    
+    # 检查项目本地models目录
+    local_model_path = Path("./models") / model_name
+    if local_model_path.exists():
+        return str(local_model_path)
+    
+    # 检查用户主目录的models目录
+    home_model_path = Path.home() / "models" / model_name
+    if home_model_path.exists():
+        return str(home_model_path)
+    
+    # 如果都不存在，抛出错误提示用户配置
+    raise FileNotFoundError(
+        f"找不到模型 '{model_name}'，请使用以下方式之一配置模型路径：\n"
+        f"1. 设置环境变量: HACE_MODEL_PATH=你的模型路径\n"
+        f"2. 将模型放入: ./models/{model_name}/\n"
+        f"3. 将模型放入: ~/models/{model_name}/\n"
+        f"运行 'python check_model_config.py' 获取详细配置指南"
+    )
 
 # 硬件配置信息
 HARDWARE_CONFIG = {
@@ -11,14 +48,14 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",  # 本地Windows模型路径
+    "model_name_or_path": "mistral-7b-instruct-v0.3",  # 模型名称，实际路径由get_model_path()动态获取
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda"
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "C:/Users/Administrator/mistral_models/7B-Instruct-v0.3",
+    "model_name_or_path": "mistral-7b-instruct-v0.3",
     "precision": "fp16",  # or "bf16", "fp32"
 # 在这里添加这几行 ↓↓↓
     "use_relative_paths": True,        # 新增：强制使用相对路径

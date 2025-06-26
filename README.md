@@ -63,7 +63,38 @@ Experiment-Platform/
 pip install -r evaluation/requirements.txt
 ```
 
-### 3. 运行实验
+### 3. 模型路径配置
+
+系统支持多种模型路径配置方式，优先级如下：
+
+#### 方式1: 环境变量（推荐）
+```bash
+# 设置模型路径环境变量
+export HACE_MODEL_PATH="/path/to/your/models/mistral-7b-instruct-v0.3"
+
+# Windows
+set HACE_MODEL_PATH=D:\AI\models\mistral-7b-instruct-v0.3
+```
+
+#### 方式2: 项目本地模型目录
+```bash
+# 在项目根目录创建 models 文件夹
+mkdir models
+# 将模型文件放入 models/mistral-7b-instruct-v0.3/
+```
+
+#### 方式3: 用户主目录
+```bash
+# 在用户主目录创建 models 文件夹
+mkdir ~/models
+# 将模型文件放入 ~/models/mistral-7b-instruct-v0.3/
+```
+
+⚠️ **重要**: 
+- 不再使用硬编码的Windows用户路径，避免了跨用户和跨平台的兼容性问题
+- 必须显式配置模型路径，不提供自动下载兜底方案，确保环境配置的明确性
+
+### 4. 运行实验
 
 #### 🎯 完整评估流程 (推荐)
 
