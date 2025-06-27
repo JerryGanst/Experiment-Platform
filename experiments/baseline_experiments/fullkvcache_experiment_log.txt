@@ -487,6 +487,7 @@ The first golf course in the Un...', 标准答案='Other location', 分数=0.0
 2025-06-26 19:06:19,638 - __main__ - INFO - Summary shape: (1, 6)
 2025-06-26 19:06:19,638 - __main__ - INFO - All FullKVCache experiment summaries saved to C:\Users\Administrator\PycharmProjects3\runs\fullkvcache_run_20250626_190558\all_fullkvcache_experiments_summary.json as JSON.
 2025-06-26 19:06:19,639 - __main__ - INFO - FullKVCache experiment suite finished.
+
 2025-06-26 22:20:33,799 - __main__ - INFO - Starting FullKVCache experiment suite
 2025-06-26 22:20:33,799 - __main__ - INFO - Arguments: Namespace(model_name='C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3', datasets='trec', kv_cache_lengths='128', batch_sizes='1', max_new_tokens=50, repetitions=1, output_dir=WindowsPath('C:/Users/Administrator/PycharmProjects3/experiments/baseline_experiments'), log_level='INFO', seed=42, enable_scoring=True, is_baseline_run=False)
 2025-06-26 22:20:33,839 - __main__ - INFO - Total number of FullKVCache experiment configurations to run: 1

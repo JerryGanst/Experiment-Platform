@@ -2,6 +2,7 @@
 setlocal enabledelayedexpansion
 chcp 65001 >nul
 
+
 echo Setting environment variables...
 
 REM Get the directory where this script is located
@@ -34,6 +35,7 @@ if not defined HACE_MODEL_PATH (
 )
 
 echo Verifying settings...
+
 echo PYTHONPATH=%PYTHONPATH%
 echo HACE_MODEL_PATH=%HACE_MODEL_PATH%
 echo.
