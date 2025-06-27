@@ -963,7 +963,7 @@ def main():
                         logger.info(f"数据集 {dataset_name} 验证通过，继续执行实验")
 
                         # 准备样本
-                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_name, num_samples=len(dataset))
+                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_config, num_samples=len(dataset))
                         logger.info(f"Prepared {len(prepared_samples)} samples successfully")
 
                         # 初始化监控
