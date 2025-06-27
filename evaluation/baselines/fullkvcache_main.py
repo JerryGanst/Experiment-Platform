@@ -1006,12 +1006,55 @@ def main():
                         eval_data = json.load(f)
 
                     if eval_data.get("average_score") is not None:
-                        # 从文件路径推断数据集
-                        dataset_name = "hotpotqa"  # 默认
-                        if "multi_news" in eval_file_path.lower():
+                        # 从文件路径推断数据集 - 修复版本
+                        dataset_name = None
+                        file_path_lower = eval_file_path.lower()
+                        
+                        # 检测所有可能的数据集名称
+                        if "multifieldqa_en" in file_path_lower:
+                            dataset_name = "multifieldqa_en"
+                        elif "multi_news" in file_path_lower:
                             dataset_name = "multi_news"
-                        elif "narrativeqa" in eval_file_path.lower():
+                        elif "narrativeqa" in file_path_lower:
                             dataset_name = "narrativeqa"
+                        elif "qasper" in file_path_lower:
+                            dataset_name = "qasper"
+                        elif "hotpotqa" in file_path_lower:
+                            dataset_name = "hotpotqa"
+                        elif "trec" in file_path_lower:
+                            dataset_name = "trec"
+                        elif "2wikimqa" in file_path_lower:
+                            dataset_name = "2wikimqa"
+                        elif "musique" in file_path_lower:
+                            dataset_name = "musique"
+                        elif "dureader" in file_path_lower:
+                            dataset_name = "dureader"
+                        elif "gov_report" in file_path_lower:
+                            dataset_name = "gov_report"
+                        elif "qmsum" in file_path_lower:
+                            dataset_name = "qmsum"
+                        elif "vcsum" in file_path_lower:
+                            dataset_name = "vcsum"
+                        elif "triviaqa" in file_path_lower:
+                            dataset_name = "triviaqa"
+                        elif "samsum" in file_path_lower:
+                            dataset_name = "samsum"
+                        elif "lsht" in file_path_lower:
+                            dataset_name = "lsht"
+                        elif "passage_count" in file_path_lower:
+                            dataset_name = "passage_count"
+                        elif "passage_retrieval_en" in file_path_lower:
+                            dataset_name = "passage_retrieval_en"
+                        elif "passage_retrieval_zh" in file_path_lower:
+                            dataset_name = "passage_retrieval_zh"
+                        elif "lcc" in file_path_lower:
+                            dataset_name = "lcc"
+                        elif "repobench" in file_path_lower:
+                            dataset_name = "repobench-p"
+                        else:
+                            # 如果无法识别数据集，记录警告并跳过
+                            logger.warning(f"⚠️ 无法从文件路径识别数据集: {eval_file_path}")
+                            continue
 
                         score_result = calculate_relative_score(
                             dataset_name=dataset_name,
