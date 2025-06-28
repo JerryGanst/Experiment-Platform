@@ -285,24 +285,63 @@ def get_model_max_length(model_name: str, fallback_length: int = 2048) -> int:
     # 模型名称标准化映射
     model_name_lower = model_name.lower()
     
-    # 尝试匹配已知的模型配置
-    for config_name, max_length in MODEL_MAX_LENGTHS.items():
-        if any(keyword in model_name_lower for keyword in config_name.lower().split('-')):
-            logger.info(f"找到模型 {model_name} 的最大长度配置: {max_length}")
-            return max_length
+    # 使用更精确的匹配策略 - 按匹配分数排序
+    best_match = None
+    best_score = 0
     
-    # 基于模型名称的启发式匹配
+    for config_name, max_length in MODEL_MAX_LENGTHS.items():
+        config_name_lower = config_name.lower()
+        match_score = 0
+        
+        # 计算匹配分数：匹配的关键词越多越好，但必须包含主要模型标识符
+        config_keywords = config_name_lower.split('-')
+        
+        # 检查主要模型家族匹配（必须匹配）
+        model_family_matched = False
+        for family in ['llama', 'mistral', 'qwen']:
+            if family in model_name_lower and any(family in keyword for keyword in config_keywords):
+                model_family_matched = True
+                match_score += 10  # 主要家族匹配给高分
+                break
+        
+        if not model_family_matched:
+            continue  # 如果主要模型家族都不匹配，跳过
+            
+        # 检查其他关键词匹配
+        for keyword in config_keywords:
+            if keyword in model_name_lower and len(keyword) > 1:  # 忽略单字符匹配
+                match_score += len(keyword)  # 更长的关键词匹配得分更高
+        
+        # 检查精确子字符串匹配（如版本号）
+        if config_name_lower in model_name_lower:
+            match_score += 20  # 精确匹配给最高分
+            
+        if match_score > best_score:
+            best_score = match_score
+            best_match = (config_name, max_length)
+    
+    if best_match:
+        config_name, max_length = best_match
+        logger.info(f"找到模型 {model_name} 的最佳匹配配置: {config_name} -> {max_length} (得分: {best_score})")
+        return max_length
+    
+    # 基于模型名称的启发式匹配（作为备用方案）
     if "llama" in model_name_lower:
         if "3.1" in model_name_lower and ("128k" in model_name_lower or "instruct" in model_name_lower):
+            logger.info(f"使用启发式匹配: {model_name} -> Llama 3.1 128K")
             return 127500  # Llama 3.1 128K
         else:
+            logger.info(f"使用启发式匹配: {model_name} -> Llama 默认")
             return 3500    # 其他Llama模型默认
     elif "mistral" in model_name_lower:
         if "32k" in model_name_lower or "0.3" in model_name_lower:
+            logger.info(f"使用启发式匹配: {model_name} -> Mistral 32K")
             return 31500   # Mistral 32K
         else:
+            logger.info(f"使用启发式匹配: {model_name} -> Mistral 默认")
             return 8000    # 其他Mistral模型
     elif "qwen" in model_name_lower:
+        logger.info(f"使用启发式匹配: {model_name} -> Qwen 系列")
         return 31500       # Qwen系列
     
     # 如果都没匹配到，使用回退值
