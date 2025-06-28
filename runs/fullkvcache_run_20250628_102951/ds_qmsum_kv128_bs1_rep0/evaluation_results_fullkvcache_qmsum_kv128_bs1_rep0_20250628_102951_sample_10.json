@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qmsum_kv128_bs1_rep0_20250628_102951_sample_10",
+  "dataset": "qmsum",
+  "sample_index": 10,
+  "generated_text": ". Your task is to find the answer to the question or perform the instruction in the transcript.\n\nTranscript:\n\nA: I'm going to make a pizza for dinner.\nB: That sounds good. Can I help?\nA: Sure, you can help me chop the vegetables.\nB: Okay, I'll get the cutting board and knives.\nA: Great. Let's start with the bell peppers.\nB: Alright. Here's the cutting board and knives.\nA: Thanks. Now, let's chop the bell peppers into small pieces.\nB: Got it. I'll chop them while you prepare the dough.\nA: Perfect. Let's get started.\n\nQuery: Who is preparing the dough?\n\nAnswer: A (Alice) is preparing the dough.",
+  "ground_truth": "PhD B was conducting an experiment to improve the backend performance of the Aurora recognizer. The goal was recognizing the HTK system by challenging the canonical paradigm.",
+  "score": 0.042105259488088964,
+  "average_score": 0.042105259488088964,
+  "timestamp": "2025-06-28T10:34:56.227808"
+}

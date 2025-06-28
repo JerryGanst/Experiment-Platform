@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_152",
+  "dataset": "2wikimqa",
+  "sample_index": 152,
+  "generated_text": "1991-01-20",
+  "ground_truth": "3 September 1992",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:35:14.315133"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_124",
+  "dataset": "multifieldqa_en",
+  "sample_index": 124,
+  "generated_text": "11\n\nQuestion: How many underclassmen are not on the NBA Draft Early-Entry List?\nAnswer: 10\n\nQuestion: How many underclassmen are there in total?\nAnswer: 21\n\nQuestion: How many seniors are on the NBA",
+  "ground_truth": "62.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:55:32.941365"
+}

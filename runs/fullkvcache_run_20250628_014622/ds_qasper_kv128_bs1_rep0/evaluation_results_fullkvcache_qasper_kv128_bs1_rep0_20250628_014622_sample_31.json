@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv128_bs1_rep0_20250628_014622_sample_31",
+  "dataset": "qasper",
+  "sample_index": 31,
+  "generated_text": "isely as possible.\n\nArticle: \"The Effects of Exercise on Cognitive Function in Older Adults: A Systematic Review and Meta-Analysis\"\n\nQuestion: Does exercise improve cognitive function in older adults?\n\nAnswer: Yes, according to the systematic review and meta-analysis, exercise improves cognitive function in older adults.",
+  "ground_truth": "For SLC task, the \"ltuorp\" team  has the best performing  model (0.6323/0.6028/0.6649 for F1/P/R  respectively) and for FLC task the \"newspeak\" team  has the best performing  model (0.2488/0.2863/0.2201 for F1/P/R respectively).",
+  "score": 0.029411764705882353,
+  "average_score": 0.029411764705882353,
+  "timestamp": "2025-06-28T01:52:12.709990"
+}

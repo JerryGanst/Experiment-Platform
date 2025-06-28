@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_33",
+  "dataset": "qasper",
+  "sample_index": 33,
+  "generated_text": "Unanswerable (The article does not provide information on how the human judgements were assembled.)",
+  "ground_truth": "50 human annotators ranked a random sample of 100 translations by Adequacy, Fluency and overall ranking on a 5-point scale.",
+  "score": 0.13333333333333333,
+  "average_score": 0.13333333333333333,
+  "timestamp": "2025-06-28T02:23:48.696056"
+}

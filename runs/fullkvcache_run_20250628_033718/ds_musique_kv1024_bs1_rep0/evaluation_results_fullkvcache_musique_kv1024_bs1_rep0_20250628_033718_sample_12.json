@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_12",
+  "dataset": "musique",
+  "sample_index": 12,
+  "generated_text": "FDA (Food and Drug Administration)",
+  "ground_truth": "Food Safety Modernization Act (FSMA)",
+  "score": 0.20000000000000004,
+  "average_score": 0.20000000000000004,
+  "timestamp": "2025-06-28T03:48:24.921624"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_69",
+  "dataset": "multifieldqa_en",
+  "sample_index": 69,
+  "generated_text": "?\n\nAnswer: The Central Government and the State Governments.",
+  "ground_truth": "The Director of Town and Country Planning is responsible for carrying out the functions assigned under the act.",
+  "score": 0.09523809523809522,
+  "average_score": 0.09523809523809522,
+  "timestamp": "2025-06-28T02:37:23.753418"
+}

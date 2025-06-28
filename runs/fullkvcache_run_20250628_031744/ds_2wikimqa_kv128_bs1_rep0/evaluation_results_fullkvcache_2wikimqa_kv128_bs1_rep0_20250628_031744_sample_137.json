@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_137",
+  "dataset": "2wikimqa",
+  "sample_index": 137,
+  "generated_text": "Henri Ii, Duke Of Nemours's paternal grandfather is Louis Philippe I, Duke Of Orleans.",
+  "ground_truth": "Jacques",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:25:06.037389"
+}

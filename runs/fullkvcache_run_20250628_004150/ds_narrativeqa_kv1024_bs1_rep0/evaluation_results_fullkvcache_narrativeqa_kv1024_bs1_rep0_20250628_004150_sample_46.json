@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_46",
+  "dataset": "narrativeqa",
+  "sample_index": 46,
+  "generated_text": "Invest it in the company.",
+  "ground_truth": "Keep it to buy a house ",
+  "score": 0.22222222222222224,
+  "average_score": 0.22222222222222224,
+  "timestamp": "2025-06-28T01:41:47.653727"
+}

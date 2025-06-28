@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_56",
+  "dataset": "narrativeqa",
+  "sample_index": 56,
+  "generated_text": "Her deceased husband.",
+  "ground_truth": "Louis Leverett",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:05.834219"
+}

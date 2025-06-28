@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_128",
+  "dataset": "multifieldqa_en",
+  "sample_index": 128,
+  "generated_text": "\n\nAnswer: 1. 下载Ganache，2. 安装Ganache，3. 运行Ganache，4. 在Ganache UI中点击“New Workspace”，5. 在“New Workspace”中输入名称",
+  "ground_truth": "使用安装包安装Ganache；打开程序，用户可以从显示的界面中查看账户、区块、交易和日志；点击“设置”，用户可以设置绑定的ip和端口、账户数量以及gas限制等，点击“restart”后设置生效。此时，Ganache已经在本机运行了一个以太坊私有网络，并绑定了8545端口。.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:42:41.276104"
+}

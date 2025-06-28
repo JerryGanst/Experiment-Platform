@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_135",
+  "dataset": "musique",
+  "sample_index": 135,
+  "generated_text": "Sony Music Entertainment",
+  "ground_truth": "Attic Records",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:53:45.084032"
+}

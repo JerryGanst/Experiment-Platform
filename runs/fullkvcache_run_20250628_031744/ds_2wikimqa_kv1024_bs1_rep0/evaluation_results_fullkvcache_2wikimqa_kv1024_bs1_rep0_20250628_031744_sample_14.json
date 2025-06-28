@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_14",
+  "dataset": "2wikimqa",
+  "sample_index": 14,
+  "generated_text": "USC (University of Southern California)",
+  "ground_truth": "Tisch",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:28:35.879323"
+}

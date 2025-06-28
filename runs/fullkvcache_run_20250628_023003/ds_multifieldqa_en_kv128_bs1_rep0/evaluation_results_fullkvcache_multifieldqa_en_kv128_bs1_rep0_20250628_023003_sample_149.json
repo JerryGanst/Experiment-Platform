@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_149",
+  "dataset": "multifieldqa_en",
+  "sample_index": 149,
+  "generated_text": "1?\n\nAnswer: BERT-base-uncased\n\nQuestion: What was the best performing model for the English language in Track 2?\n\nAnswer: BERT-large-cased\n\nQuestion: What was the best performing model for the German language in Track 3",
+  "ground_truth": "The best performing model for the Spanish language in Track-1 was Spanish BERT.",
+  "score": 0.35,
+  "average_score": 0.35,
+  "timestamp": "2025-06-28T02:44:47.939976"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_158",
+  "dataset": "2wikimqa",
+  "sample_index": 158,
+  "generated_text": "swer: Jessi Colter",
+  "ground_truth": "Jessi Colter",
+  "score": 0.8,
+  "average_score": 0.8,
+  "timestamp": "2025-06-28T03:26:12.643511"
+}

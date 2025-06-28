@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_39",
+  "dataset": "multifieldqa_en",
+  "sample_index": 39,
+  "generated_text": "Member of Parliament\n\nQuestion: Who was the leader of the Labour Party in 2008?\nAnswer: Gordon Brown\n\nQuestion: Who was the leader of the Conservative Party in 2008?\nAnswer: David Cameron\n\nQuestion: Who was the leader of the Liberal",
+  "ground_truth": "He became deputy prime minister and minister of finance.",
+  "score": 0.047619047619047616,
+  "average_score": 0.047619047619047616,
+  "timestamp": "2025-06-28T02:49:12.565628"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_28",
+  "dataset": "musique",
+  "sample_index": 28,
+  "generated_text": "The North Sea",
+  "ground_truth": "River Thames",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:49:09.492895"
+}

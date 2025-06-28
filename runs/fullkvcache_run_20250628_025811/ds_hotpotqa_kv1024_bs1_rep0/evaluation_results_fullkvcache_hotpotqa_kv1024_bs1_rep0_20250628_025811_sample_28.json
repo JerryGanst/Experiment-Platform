@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_28",
+  "dataset": "hotpotqa",
+  "sample_index": 28,
+  "generated_text": "Washington State University",
+  "ground_truth": "Washington State",
+  "score": 0.8,
+  "average_score": 0.8,
+  "timestamp": "2025-06-28T03:10:31.399280"
+}

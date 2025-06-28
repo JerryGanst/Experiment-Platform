@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_165",
+  "dataset": "narrativeqa",
+  "sample_index": 165,
+  "generated_text": "The Duke owns the manor.",
+  "ground_truth": "Madame de Merret",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:45:11.418794"
+}

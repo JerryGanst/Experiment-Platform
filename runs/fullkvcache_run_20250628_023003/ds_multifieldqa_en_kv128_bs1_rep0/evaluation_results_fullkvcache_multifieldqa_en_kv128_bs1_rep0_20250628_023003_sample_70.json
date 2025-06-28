@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_70",
+  "dataset": "multifieldqa_en",
+  "sample_index": 70,
+  "generated_text": "s service?\n\nAnswer: Users must be 18 years or older, and they cannot use the service for any unlawful or infringing purposes. Additionally, they cannot use the service to distribute content that is offensive, defamatory, or violates any third-party rights.",
+  "ground_truth": "No excessive overloading and no use for illegal activity.",
+  "score": 0.12765957446808512,
+  "average_score": 0.12765957446808512,
+  "timestamp": "2025-06-28T02:37:31.954294"
+}

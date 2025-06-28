@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_53",
+  "dataset": "multifieldqa_en",
+  "sample_index": 53,
+  "generated_text": "The book is titled \"The Cult of the Constitution\".",
+  "ground_truth": "Legacies of Losing in American Politics and an expanded edition of The Rhetorical Presidency in the Princeton Classics series.",
+  "score": 0.09090909090909091,
+  "average_score": 0.09090909090909091,
+  "timestamp": "2025-06-28T02:50:24.451388"
+}

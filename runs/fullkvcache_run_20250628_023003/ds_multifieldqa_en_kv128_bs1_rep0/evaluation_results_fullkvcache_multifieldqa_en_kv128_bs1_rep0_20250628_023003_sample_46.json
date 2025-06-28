@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_46",
+  "dataset": "multifieldqa_en",
+  "sample_index": 46,
+  "generated_text": "system?\n\nAnswer: It exhibits a transition from a disordered phase to an ordered phase.",
+  "ground_truth": "It is well described by the Gaussian theory.",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T02:35:12.241254"
+}

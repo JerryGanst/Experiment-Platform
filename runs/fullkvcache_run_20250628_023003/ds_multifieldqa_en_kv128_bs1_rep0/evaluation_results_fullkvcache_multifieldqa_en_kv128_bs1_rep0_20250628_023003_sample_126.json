@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_126",
+  "dataset": "multifieldqa_en",
+  "sample_index": 126,
+  "generated_text": "?\n\nAnswer: PLMS-PPIC is a method, not an algorithm. It combines two algorithms: Persistent Local Models (PLMs) and Probabilistic Patch-based Image Compression (PPIC).",
+  "ground_truth": "The normalized least mean square (NLMS) algorithm.",
+  "score": 0.07692307692307691,
+  "average_score": 0.07692307692307691,
+  "timestamp": "2025-06-28T02:42:27.632816"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_90",
+  "dataset": "narrativeqa",
+  "sample_index": 90,
+  "generated_text": "Mortimer was estranged due to a family feud.",
+  "ground_truth": "The matter of the division of the proceeds from selling the family business.",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T01:43:08.344327"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_77",
+  "dataset": "qasper",
+  "sample_index": 77,
+  "generated_text": "Their ensemble method combines multiple models.",
+  "ground_truth": "simply averaging the predictions from the constituent single models",
+  "score": 0.15384615384615383,
+  "average_score": 0.15384615384615383,
+  "timestamp": "2025-06-28T02:25:29.598395"
+}

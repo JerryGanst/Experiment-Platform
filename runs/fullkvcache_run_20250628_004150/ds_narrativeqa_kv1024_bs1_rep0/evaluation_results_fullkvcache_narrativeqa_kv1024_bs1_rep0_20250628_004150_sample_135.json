@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_135",
+  "dataset": "narrativeqa",
+  "sample_index": 135,
+  "generated_text": "In his home.",
+  "ground_truth": "Hawaii",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:22.889506"
+}

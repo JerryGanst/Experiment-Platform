@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_62",
+  "dataset": "hotpotqa",
+  "sample_index": 62,
+  "generated_text": "and Yuezhi. Who led this campaign?\n\nAnswer: Zhang Qian",
+  "ground_truth": "the Qin dynasty",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:01:45.954996"
+}

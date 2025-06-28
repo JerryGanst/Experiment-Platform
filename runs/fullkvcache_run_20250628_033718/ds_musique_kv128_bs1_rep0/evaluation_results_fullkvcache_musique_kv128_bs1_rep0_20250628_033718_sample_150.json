@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_150",
+  "dataset": "musique",
+  "sample_index": 150,
+  "generated_text": "swer: The symbol of the Saints from the headquarters location of Ten High's manufacturer is a cross with a halo.",
+  "ground_truth": "fleur - de-lis",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:45:01.420117"
+}

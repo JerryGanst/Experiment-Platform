@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_173",
+  "dataset": "hotpotqa",
+  "sample_index": 173,
+  "generated_text": "\nAnswer: 1834\n\nPassage 1:\nThe plaintiff in the 1892 Barbed Wire Pat",
+  "ground_truth": "January 18, 1813",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:07:19.512435"
+}

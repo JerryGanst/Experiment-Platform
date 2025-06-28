@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_81",
+  "timestamp": "2025-06-28T03:32:06.445855",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 179.82756826612686,
+    "throughput_tokens_per_sec": 5.654675372491931,
+    "total_time_sec": 1.7684481143951416,
+    "tokens_generated": 10,
+    "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 1024,
+    "max_new_tokens": 32,
+    "use_fullkvcache": true,
+    "dataset": "2wikimqa",
+    "repetition": 0
+  },
+  "monitoring": null
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_147",
+  "dataset": "2wikimqa",
+  "sample_index": 147,
+  "generated_text": "swer: Heonjong Of Goryeo's father died of illness.",
+  "ground_truth": "illness",
+  "score": 0.2222222222222222,
+  "average_score": 0.2222222222222222,
+  "timestamp": "2025-06-28T03:25:38.298178"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_164",
+  "dataset": "2wikimqa",
+  "sample_index": 164,
+  "generated_text": "New York City",
+  "ground_truth": "Oklahoma City, Oklahoma",
+  "score": 0.3333333333333333,
+  "average_score": 0.3333333333333333,
+  "timestamp": "2025-06-28T03:35:41.034434"
+}

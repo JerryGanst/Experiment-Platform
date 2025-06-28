@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_89",
+  "dataset": "narrativeqa",
+  "sample_index": 89,
+  "generated_text": "\"Aeonian\" instead of \"a\"",
+  "ground_truth": "The English lanuage has evolved.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:43:05.910290"
+}

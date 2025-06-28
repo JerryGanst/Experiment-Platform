@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_152",
+  "dataset": "hotpotqa",
+  "sample_index": 152,
+  "generated_text": "?\n\nAnswer: Dr. Mengele\n\nPassage 1:\nFredric Rieders was a Jewish prisoner at Ausch",
+  "ground_truth": "Michael Swango",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:06:06.502762"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_177",
+  "dataset": "musique",
+  "sample_index": 177,
+  "generated_text": "Elisabeth Shue played the girlfriend of Mary Stewart Masterson, who played Marty McFly's daughter in Back to the Future 2.",
+  "ground_truth": "Claudia Wells",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:55:52.259172"
+}

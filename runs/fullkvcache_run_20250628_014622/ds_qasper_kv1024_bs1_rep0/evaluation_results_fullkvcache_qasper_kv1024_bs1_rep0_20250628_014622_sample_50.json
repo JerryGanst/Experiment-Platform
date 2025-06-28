@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_50",
+  "dataset": "qasper",
+  "sample_index": 50,
+  "generated_text": "They create labels for the presence and absence of a disease.",
+  "ground_truth": "(1) the time the patient has been experiencing the symptom, (2) activities that trigger the symptom (to occur or worsen), (3) the extent of seriousness, (4) the frequency occurrence of the symptom, and (5) the location of symptom, No Answer",
+  "score": 0.0975609756097561,
+  "average_score": 0.0975609756097561,
+  "timestamp": "2025-06-28T02:24:31.903849"
+}

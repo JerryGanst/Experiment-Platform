@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_81",
+  "dataset": "hotpotqa",
+  "sample_index": 81,
+  "generated_text": "Manila",
+  "ground_truth": "Metro Manila",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T03:12:49.655555"
+}

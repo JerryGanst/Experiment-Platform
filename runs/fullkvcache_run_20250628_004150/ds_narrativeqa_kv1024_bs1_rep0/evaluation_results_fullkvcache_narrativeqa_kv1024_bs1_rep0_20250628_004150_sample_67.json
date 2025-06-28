@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_67",
+  "dataset": "narrativeqa",
+  "sample_index": 67,
+  "generated_text": "Socrates believes he will be judged by the gods.",
+  "ground_truth": "It would have a negative effect",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:25.823511"
+}

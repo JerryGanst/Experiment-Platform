@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_3",
+  "dataset": "hotpotqa",
+  "sample_index": 3,
+  "generated_text": "Darren\n\nPassage 1:\n\n> Sean Tully is a character played by actor Connor McIntyre in the British soap opera",
+  "ground_truth": "Jodie Prenger",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:58:39.159945"
+}

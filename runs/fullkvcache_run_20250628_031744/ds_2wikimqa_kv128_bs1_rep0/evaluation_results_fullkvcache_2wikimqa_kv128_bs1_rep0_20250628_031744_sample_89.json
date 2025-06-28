@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_89",
+  "dataset": "2wikimqa",
+  "sample_index": 89,
+  "generated_text": "\nAnswer: Dubai\n\nPassage 1:\nAbdulaziz Nasser Al Shamsi is a UAE national who was",
+  "ground_truth": "Abu Dhabi",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:22:52.431215"
+}

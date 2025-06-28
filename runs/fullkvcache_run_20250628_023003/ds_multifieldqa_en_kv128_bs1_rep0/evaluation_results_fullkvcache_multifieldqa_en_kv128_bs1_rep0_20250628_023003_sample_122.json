@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_122",
+  "dataset": "multifieldqa_en",
+  "sample_index": 122,
+  "generated_text": "Zealand Parliament?\n\nAnswer: Dunedin South\n\nQuestion: What is the name of the political party that Simon English represents?\n\nAnswer: National Party\n\nQuestion: What is the name of the political party that David Clark represents?\n\nAnswer: Labour Party\n\nQuestion:",
+  "ground_truth": "The Wallace electorate.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:42:07.955478"
+}

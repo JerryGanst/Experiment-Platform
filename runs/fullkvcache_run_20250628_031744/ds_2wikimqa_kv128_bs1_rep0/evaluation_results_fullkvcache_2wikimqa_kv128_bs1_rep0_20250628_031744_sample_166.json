@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_166",
+  "dataset": "2wikimqa",
+  "sample_index": 166,
+  "generated_text": "Answer: Blue Blood And Red",
+  "ground_truth": "Blue Blood And Red",
+  "score": 0.888888888888889,
+  "average_score": 0.888888888888889,
+  "timestamp": "2025-06-28T03:26:26.270076"
+}

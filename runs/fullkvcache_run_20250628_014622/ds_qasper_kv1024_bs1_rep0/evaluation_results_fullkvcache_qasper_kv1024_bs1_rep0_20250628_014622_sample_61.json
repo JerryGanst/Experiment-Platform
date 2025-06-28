@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_61",
+  "dataset": "qasper",
+  "sample_index": 61,
+  "generated_text": "Visual stimuli were presented to the subjects.",
+  "ground_truth": "7 phonemic/syllabic ( /iy/, /piy/, /tiy/, /diy/, /uw/, /m/, /n/ ) as well as 4 words(pat, pot, knew and gnaw)",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:24:57.719601"
+}

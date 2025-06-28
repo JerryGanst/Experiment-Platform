@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_42",
+  "dataset": "multifieldqa_en",
+  "sample_index": 42,
+  "generated_text": "It tracks and reports on violent deaths in Iraq.",
+  "ground_truth": "It provides cover for the war and allows supporters of the illegal war to point to it.",
+  "score": 0.16666666666666669,
+  "average_score": 0.16666666666666669,
+  "timestamp": "2025-06-28T02:49:26.045228"
+}

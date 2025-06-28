@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_104",
+  "dataset": "2wikimqa",
+  "sample_index": 104,
+  "generated_text": "\nAnswer: Grand Duke Friedrich Franz III Of Mecklenburg-Schwerin",
+  "ground_truth": "Prince Albert of Prussia",
+  "score": 0.16666666666666666,
+  "average_score": 0.16666666666666666,
+  "timestamp": "2025-06-28T03:23:31.856376"
+}

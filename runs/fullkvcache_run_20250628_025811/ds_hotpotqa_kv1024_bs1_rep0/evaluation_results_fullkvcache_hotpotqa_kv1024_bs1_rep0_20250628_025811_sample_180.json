@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_180",
+  "dataset": "hotpotqa",
+  "sample_index": 180,
+  "generated_text": "Mars",
+  "ground_truth": "Sun",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:16:41.916992"
+}

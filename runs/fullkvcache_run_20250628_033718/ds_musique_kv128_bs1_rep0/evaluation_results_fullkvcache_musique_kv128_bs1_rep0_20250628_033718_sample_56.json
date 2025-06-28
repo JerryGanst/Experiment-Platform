@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_56",
+  "dataset": "musique",
+  "sample_index": 56,
+  "generated_text": ": Schindler's List",
+  "ground_truth": "The African Queen",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:40:21.536875"
+}

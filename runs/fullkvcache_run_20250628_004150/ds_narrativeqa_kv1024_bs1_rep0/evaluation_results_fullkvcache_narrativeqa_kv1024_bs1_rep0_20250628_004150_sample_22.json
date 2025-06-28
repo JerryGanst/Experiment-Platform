@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_22",
+  "dataset": "narrativeqa",
+  "sample_index": 22,
+  "generated_text": "He was a newspaper editor.",
+  "ground_truth": "Radioactive gas",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:09.926389"
+}

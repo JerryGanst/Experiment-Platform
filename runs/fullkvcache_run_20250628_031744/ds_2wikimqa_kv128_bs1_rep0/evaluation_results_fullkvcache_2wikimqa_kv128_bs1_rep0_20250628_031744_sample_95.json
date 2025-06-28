@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_95",
+  "dataset": "2wikimqa",
+  "sample_index": 95,
+  "generated_text": "Alvaro Fernández De Oviedo\n\nQuestion: Who is the maternal grandmother of Diego Fernández De Oviedo?\nAn",
+  "ground_truth": "Flaín Muñoz",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:23:04.247041"
+}

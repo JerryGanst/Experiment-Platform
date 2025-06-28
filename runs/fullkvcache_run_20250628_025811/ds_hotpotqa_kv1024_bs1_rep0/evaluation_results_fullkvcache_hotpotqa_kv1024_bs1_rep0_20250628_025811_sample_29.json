@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_29",
+  "dataset": "hotpotqa",
+  "sample_index": 29,
+  "generated_text": "Middle Park",
+  "ground_truth": "Albert Park",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T03:10:32.444746"
+}

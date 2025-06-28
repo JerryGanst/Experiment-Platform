@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_187",
+  "dataset": "2wikimqa",
+  "sample_index": 187,
+  "generated_text": "Dudley Russell was born first.",
+  "ground_truth": "Dudley Russell",
+  "score": 0.5714285714285715,
+  "average_score": 0.5714285714285715,
+  "timestamp": "2025-06-28T03:27:24.066708"
+}

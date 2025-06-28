@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_186",
+  "dataset": "hotpotqa",
+  "sample_index": 186,
+  "generated_text": ". Who is this player?\n\nAnswer: Jalen Saunders",
+  "ground_truth": "Big 12 Conference",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:08:07.562329"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_141",
+  "dataset": "hotpotqa",
+  "sample_index": 141,
+  "generated_text": "David Villa\n\nQuestion: Which team did David Villa play for before joining Valencia CF?\nAnswer: Real Zaragoza\n\nQuestion:",
+  "ground_truth": "Claudio Javier López",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:15:18.377100"
+}

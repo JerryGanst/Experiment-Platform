@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_87",
+  "dataset": "musique",
+  "sample_index": 87,
+  "generated_text": "Michael Jackson",
+  "ground_truth": "Michael Bublé",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T03:51:47.445826"
+}

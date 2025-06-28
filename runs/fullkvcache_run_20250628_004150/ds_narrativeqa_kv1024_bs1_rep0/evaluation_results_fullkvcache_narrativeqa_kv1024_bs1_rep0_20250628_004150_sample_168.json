@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_168",
+  "dataset": "narrativeqa",
+  "sample_index": 168,
+  "generated_text": "Alabama was a singer.",
+  "ground_truth": "Alabama was a call girl.",
+  "score": 0.5714285714285715,
+  "average_score": 0.5714285714285715,
+  "timestamp": "2025-06-28T01:45:16.495212"
+}

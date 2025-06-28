@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_134",
+  "dataset": "hotpotqa",
+  "sample_index": 134,
+  "generated_text": "HDMI cable",
+  "ground_truth": "coaxial",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:14:55.362421"
+}

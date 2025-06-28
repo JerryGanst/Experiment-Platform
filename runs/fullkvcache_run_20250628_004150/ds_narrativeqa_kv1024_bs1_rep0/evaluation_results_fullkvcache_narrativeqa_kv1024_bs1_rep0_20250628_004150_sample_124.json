@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_124",
+  "dataset": "narrativeqa",
+  "sample_index": 124,
+  "generated_text": "Baron Conrad killed Sir Percival.",
+  "ground_truth": "Baron Frederick",
+  "score": 0.28571428571428575,
+  "average_score": 0.28571428571428575,
+  "timestamp": "2025-06-28T01:44:03.631747"
+}

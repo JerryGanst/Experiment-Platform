@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_119",
+  "dataset": "2wikimqa",
+  "sample_index": 119,
+  "generated_text": "\nAnswer: Yes\n\nPassage 1:\nThe director of La Morte Vivante is Georges Franju, a French filmmaker.\n",
+  "ground_truth": "yes",
+  "score": 0.13333333333333333,
+  "average_score": 0.13333333333333333,
+  "timestamp": "2025-06-28T03:24:20.768649"
+}

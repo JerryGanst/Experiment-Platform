@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_85",
+  "dataset": "musique",
+  "sample_index": 85,
+  "generated_text": "Autonomous Community of Madrid",
+  "ground_truth": "Tamaulipas",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:51:45.474182"
+}

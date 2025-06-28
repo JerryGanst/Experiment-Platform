@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_16",
+  "dataset": "multifieldqa_en",
+  "sample_index": 16,
+  "generated_text": "The datasets used in this community for research include the Human Genome Project, the Encyclopedia of DNA Elements (ENCODE), and the International HapMap Project.",
+  "ground_truth": "URPC2017, URPC2018, URPC2019, URPC2020_ZJ and URPC2020_DL.",
+  "score": 0.07692307692307691,
+  "average_score": 0.07692307692307691,
+  "timestamp": "2025-06-28T02:46:52.564313"
+}

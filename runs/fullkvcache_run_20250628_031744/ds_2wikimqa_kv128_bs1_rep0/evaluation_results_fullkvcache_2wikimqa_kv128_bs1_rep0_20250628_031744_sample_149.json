@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_149",
+  "dataset": "2wikimqa",
+  "sample_index": 149,
+  "generated_text": "swer: Golden Globe Award\n\nQuestion: Which film was directed by the director who won the Golden Globe Award?\nAnswer: Tiram",
+  "ground_truth": "Hong Kong Film Award for Best Director",
+  "score": 0.24,
+  "average_score": 0.24,
+  "timestamp": "2025-06-28T03:25:44.832520"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_177",
+  "dataset": "qasper",
+  "sample_index": 177,
+  "generated_text": "Models are evaluated based on their performance in the game.",
+  "ground_truth": "by training an autocomplete system on 500K randomly sampled sentences from Yelp reviews",
+  "score": 0.09523809523809525,
+  "average_score": 0.09523809523809525,
+  "timestamp": "2025-06-28T02:29:00.420373"
+}

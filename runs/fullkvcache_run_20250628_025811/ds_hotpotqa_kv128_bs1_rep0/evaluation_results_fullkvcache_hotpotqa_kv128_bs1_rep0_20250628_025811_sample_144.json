@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_144",
+  "dataset": "hotpotqa",
+  "sample_index": 144,
+  "generated_text": ": Miller v. California",
+  "ground_truth": "Miller v. California",
+  "score": 1.0,
+  "average_score": 1.0,
+  "timestamp": "2025-06-28T03:05:47.694772"
+}

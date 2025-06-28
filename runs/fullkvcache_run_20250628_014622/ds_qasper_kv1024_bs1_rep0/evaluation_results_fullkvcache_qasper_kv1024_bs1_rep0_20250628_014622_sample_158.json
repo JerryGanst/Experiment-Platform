@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_158",
+  "dataset": "qasper",
+  "sample_index": 158,
+  "generated_text": "Data quality is empirically evaluated using statistical methods.",
+  "ground_truth": "Validated transcripts were sent to professional translators., various sanity checks to the translations,  sanity check the overlaps of train, development and test sets",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:28:23.915230"
+}

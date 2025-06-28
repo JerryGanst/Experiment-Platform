@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_176",
+  "dataset": "qasper",
+  "sample_index": 176,
+  "generated_text": "They test their conflict method on decision-making tasks.",
+  "ground_truth": "Task 1: Quora Duplicate Question Pair Detection, Task 2: Ranking questions",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:28:57.717797"
+}

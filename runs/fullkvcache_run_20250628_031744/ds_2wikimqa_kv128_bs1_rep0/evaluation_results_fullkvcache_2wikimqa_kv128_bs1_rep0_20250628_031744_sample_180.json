@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_180",
+  "dataset": "2wikimqa",
+  "sample_index": 180,
+  "generated_text": "country?\n\nAnswer: No.",
+  "ground_truth": "no",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T03:27:00.566033"
+}

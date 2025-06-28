@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_91",
+  "dataset": "qasper",
+  "sample_index": 91,
+  "generated_text": "The authors do not provide evidence for this claim in the article.",
+  "ground_truth": "By conducting a survey among engineers",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:26:03.510979"
+}

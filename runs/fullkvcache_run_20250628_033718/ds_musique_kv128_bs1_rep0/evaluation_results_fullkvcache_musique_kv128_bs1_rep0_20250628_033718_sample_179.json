@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_179",
+  "dataset": "musique",
+  "sample_index": 179,
+  "generated_text": "swer: The number of people in the British Colonies is not specified in the passages. The London broil cut comes from the United States.",
+  "ground_truth": "2 million",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:46:37.389239"
+}

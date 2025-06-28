@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_147",
+  "dataset": "narrativeqa",
+  "sample_index": 147,
+  "generated_text": "\"What do you fear, Antonius?\"",
+  "ground_truth": "If Antonius has succeeded in his \"one meaningful deed.\"",
+  "score": 0.14285714285714285,
+  "average_score": 0.14285714285714285,
+  "timestamp": "2025-06-28T01:44:44.558970"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_11",
+  "dataset": "multifieldqa_en",
+  "sample_index": 11,
+  "generated_text": "U.S. Army?\n\nAnswer: Major General\n\nQuestion: What was the name of the ship that Goodwin commanded during World War II?\n\nAnswer: USS LST-325\n\nQuestion: What was the purpose of the USS LST-325 during World",
+  "ground_truth": "Vice Admiral.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:31:36.649821"
+}

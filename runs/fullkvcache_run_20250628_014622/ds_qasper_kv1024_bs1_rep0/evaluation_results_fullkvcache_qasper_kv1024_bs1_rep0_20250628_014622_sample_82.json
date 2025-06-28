@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_82",
+  "dataset": "qasper",
+  "sample_index": 82,
+  "generated_text": "They experimented with the LSTM and GRU models.",
+  "ground_truth": "Stacked LSTMs, Cell-aware Stacked LSTMs, Sentence Encoders, Top-layer Classifiers",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:25:42.392839"
+}

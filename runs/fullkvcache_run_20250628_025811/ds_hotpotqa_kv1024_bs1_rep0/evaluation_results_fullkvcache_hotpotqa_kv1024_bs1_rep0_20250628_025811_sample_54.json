@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_54",
+  "dataset": "hotpotqa",
+  "sample_index": 54,
+  "generated_text": "11\n\nPassage 1:\nThe 1952 Individual Speedway World Championship was won by Ove Fundin of Sweden.",
+  "ground_truth": "14",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:11:41.822111"
+}

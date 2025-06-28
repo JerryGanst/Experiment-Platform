@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_194",
+  "dataset": "qasper",
+  "sample_index": 194,
+  "generated_text": "Unanswerable (The article does not provide information about the tagging scheme employed.)",
+  "ground_truth": "A new tagging scheme that tags the words before and after the pun as well as the pun words.",
+  "score": 0.16,
+  "average_score": 0.16,
+  "timestamp": "2025-06-28T02:29:39.010314"
+}

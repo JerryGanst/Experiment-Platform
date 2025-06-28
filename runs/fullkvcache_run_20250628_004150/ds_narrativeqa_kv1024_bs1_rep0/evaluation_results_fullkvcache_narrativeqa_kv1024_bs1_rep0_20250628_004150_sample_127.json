@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_127",
+  "dataset": "narrativeqa",
+  "sample_index": 127,
+  "generated_text": "The Stranger.",
+  "ground_truth": "One of his fellow soldiers.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:07.924501"
+}

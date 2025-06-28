@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_140",
+  "dataset": "musique",
+  "sample_index": 140,
+  "generated_text": "Mendeleev's periodic table development",
+  "ground_truth": "Manhattan Project",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:54:03.271171"
+}

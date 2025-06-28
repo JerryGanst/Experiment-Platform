@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_90",
+  "dataset": "multifieldqa_en",
+  "sample_index": 90,
+  "generated_text": "e-India issue?\n\nAnswer: He issued orders for the evacuation of Muslims from India.",
+  "ground_truth": "Mufti-e-Azam-e-Hind received Khilafat in the Qaderi, Chishti, Nakshbandi, Suharwardi, and Madaari Orders.",
+  "score": 0.08695652173913043,
+  "average_score": 0.08695652173913043,
+  "timestamp": "2025-06-28T02:39:10.772190"
+}

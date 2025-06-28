@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_95",
+  "dataset": "musique",
+  "sample_index": 95,
+  "generated_text": "The passage does not provide the information about the last time Ken Faulkner's team beat the 1894-95 FA Cup winner",
+  "ground_truth": "1 December 2010",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:52:05.021733"
+}

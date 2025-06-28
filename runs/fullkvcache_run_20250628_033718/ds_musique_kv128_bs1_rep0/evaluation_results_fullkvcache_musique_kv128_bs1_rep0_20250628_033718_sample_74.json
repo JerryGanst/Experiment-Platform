@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_74",
+  "dataset": "musique",
+  "sample_index": 74,
+  "generated_text": "Your Mother play?\n\nAnswer: Jason Todd\n\nPassage 1:\nThe Red Hood is a character in Batman Under the Red",
+  "ground_truth": "Nightwing / Dick Grayson",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:41:09.362809"
+}

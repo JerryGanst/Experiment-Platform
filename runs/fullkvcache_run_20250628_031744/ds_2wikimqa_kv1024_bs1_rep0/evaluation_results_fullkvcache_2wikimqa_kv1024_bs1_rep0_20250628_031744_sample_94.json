@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_94",
+  "dataset": "2wikimqa",
+  "sample_index": 94,
+  "generated_text": "Our Agent Tiger",
+  "ground_truth": "London Melody",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:32:40.087122"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_35",
+  "dataset": "multifieldqa_en",
+  "sample_index": 35,
+  "generated_text": "Software Development\n\nQuestion: What is the name of the company where Danny works?\nAnswer: Teknion\n\nQuestion: What is the name of the city where Danny lives?\nAnswer: Nashville\n\nQuestion: What is the name of the university Danny graduated from?\nAnswer",
+  "ground_truth": "3-D printing and software development.",
+  "score": 0.10256410256410256,
+  "average_score": 0.10256410256410256,
+  "timestamp": "2025-06-28T02:48:44.990449"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_48",
+  "dataset": "2wikimqa",
+  "sample_index": 48,
+  "generated_text": "Alkohol\n\nPassage 1:\nThe film Alkohol was released in 1924.\n\nPassage ",
+  "ground_truth": "Alkohol",
+  "score": 0.18181818181818182,
+  "average_score": 0.18181818181818182,
+  "timestamp": "2025-06-28T03:30:31.194818"
+}

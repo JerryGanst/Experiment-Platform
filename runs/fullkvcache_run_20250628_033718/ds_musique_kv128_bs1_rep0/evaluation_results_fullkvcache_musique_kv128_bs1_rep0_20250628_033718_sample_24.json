@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_24",
+  "dataset": "musique",
+  "sample_index": 24,
+  "generated_text": "The Godfather\n\nPassage 1:\nMary Philips is the wife of the actor who won the Oscar for Best Supporting Actor for",
+  "ground_truth": "The African Queen",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:38:40.328392"
+}

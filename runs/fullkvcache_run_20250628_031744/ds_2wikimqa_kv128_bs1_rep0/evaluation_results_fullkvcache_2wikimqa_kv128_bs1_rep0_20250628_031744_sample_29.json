@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_29",
+  "dataset": "2wikimqa",
+  "sample_index": 29,
+  "generated_text": "1546-08-24",
+  "ground_truth": "13 March 1753",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:19:35.026142"
+}

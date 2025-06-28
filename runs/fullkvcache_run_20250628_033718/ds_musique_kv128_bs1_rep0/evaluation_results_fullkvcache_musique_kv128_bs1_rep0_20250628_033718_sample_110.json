@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_110",
+  "dataset": "musique",
+  "sample_index": 110,
+  "generated_text": "China?\n\nAnswer: The passage does not provide the name of the president of the newly declared independent country.",
+  "ground_truth": "Francisco Guterres",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:43:00.516047"
+}

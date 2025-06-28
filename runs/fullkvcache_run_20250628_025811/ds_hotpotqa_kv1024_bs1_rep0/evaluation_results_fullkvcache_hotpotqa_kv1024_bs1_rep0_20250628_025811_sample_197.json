@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_197",
+  "dataset": "hotpotqa",
+  "sample_index": 197,
+  "generated_text": "James II",
+  "ground_truth": "King James II of England",
+  "score": 0.5714285714285715,
+  "average_score": 0.5714285714285715,
+  "timestamp": "2025-06-28T03:17:27.625115"
+}

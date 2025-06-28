@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_63",
+  "dataset": "qasper",
+  "sample_index": 63,
+  "generated_text": "Stylistic features are not obtained.",
+  "ground_truth": "Unanswerable",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:25:00.799311"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_138",
+  "dataset": "narrativeqa",
+  "sample_index": 138,
+  "generated_text": "The Red Lady.",
+  "ground_truth": "Vigo",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:27.376023"
+}

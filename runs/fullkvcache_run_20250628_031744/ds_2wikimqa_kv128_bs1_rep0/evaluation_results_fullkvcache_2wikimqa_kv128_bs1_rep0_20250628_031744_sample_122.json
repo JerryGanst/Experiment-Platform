@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_122",
+  "dataset": "2wikimqa",
+  "sample_index": 122,
+  "generated_text": "\n\nAnswer: The Drover'S Sweetheart\n\nPassage 1:\nThe Drover's Sweetheart is a ",
+  "ground_truth": "The Drover'S Sweetheart",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T03:24:30.491042"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_89",
+  "dataset": "qasper",
+  "sample_index": 89,
+  "generated_text": "Metrics for knowledgeability and learning are not specified in the article.",
+  "ground_truth": "Coverage, Avg. MCC and avg. +ve F1 score",
+  "score": 0.11111111111111112,
+  "average_score": 0.11111111111111112,
+  "timestamp": "2025-06-28T02:25:59.164670"
+}

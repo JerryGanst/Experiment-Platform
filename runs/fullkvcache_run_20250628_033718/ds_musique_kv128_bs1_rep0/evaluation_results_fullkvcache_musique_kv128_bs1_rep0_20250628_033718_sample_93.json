@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_93",
+  "dataset": "musique",
+  "sample_index": 93,
+  "generated_text": "\n\nAnswer: American\n\nPassage 1:\n\nGrowing Up is a memoir written by the American author, MacGru",
+  "ground_truth": "Min Zhou",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:42:07.459356"
+}

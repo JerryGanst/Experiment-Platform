@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_163",
+  "dataset": "narrativeqa",
+  "sample_index": 163,
+  "generated_text": "In the rose garden.",
+  "ground_truth": "In a closet.",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T01:45:08.792389"
+}

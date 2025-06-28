@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_126",
+  "dataset": "2wikimqa",
+  "sample_index": 126,
+  "generated_text": "The Pyrammmid\n\nQuestion: What is the name of the film that was released in 2018?\nAnswer: Revolt",
+  "ground_truth": "Revolt Of The Praetorians",
+  "score": 0.23529411764705882,
+  "average_score": 0.23529411764705882,
+  "timestamp": "2025-06-28T03:34:11.730643"
+}

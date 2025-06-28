@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_49",
+  "dataset": "multifieldqa_en",
+  "sample_index": 49,
+  "generated_text": "They may get damaged.",
+  "ground_truth": "Exposure to sunlight or strong light may cause permanent yellow spot damage on the screen.",
+  "score": 0.11111111111111112,
+  "average_score": 0.11111111111111112,
+  "timestamp": "2025-06-28T02:50:00.112036"
+}

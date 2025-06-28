@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_80",
+  "dataset": "2wikimqa",
+  "sample_index": 80,
+  "generated_text": "University of Southern California",
+  "ground_truth": "Lee Strasberg Theatre and Film Institute",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:22:21.282096"
+}

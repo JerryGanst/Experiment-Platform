@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_60",
+  "dataset": "multifieldqa_en",
+  "sample_index": 60,
+  "generated_text": "debt ceiling?\n\nAnswer: The sticking point is the disagreement over spending cuts and tax increases.",
+  "ground_truth": "The sticking point in the political showdown over the budget is how much spending to cut.",
+  "score": 0.38461538461538464,
+  "average_score": 0.38461538461538464,
+  "timestamp": "2025-06-28T02:36:45.295911"
+}

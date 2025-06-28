@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_138",
+  "dataset": "musique",
+  "sample_index": 138,
+  "generated_text": "of the United States?\n\nAnswer: The president of the new country is not specified in the passages.",
+  "ground_truth": "Francisco Guterres",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:44:18.004688"
+}

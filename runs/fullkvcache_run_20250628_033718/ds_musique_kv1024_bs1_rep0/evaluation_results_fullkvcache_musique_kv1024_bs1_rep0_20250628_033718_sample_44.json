@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_44",
+  "dataset": "musique",
+  "sample_index": 44,
+  "generated_text": "60%",
+  "ground_truth": "30% to 65%",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:49:47.545850"
+}

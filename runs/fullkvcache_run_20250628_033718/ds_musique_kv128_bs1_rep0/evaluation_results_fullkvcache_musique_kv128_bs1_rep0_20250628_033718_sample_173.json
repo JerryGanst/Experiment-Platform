@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_173",
+  "dataset": "musique",
+  "sample_index": 173,
+  "generated_text": ": It was an important work because it was a pamphlet that helped to rally support for the American Revolution.",
+  "ground_truth": "crystallized the rebellious demand for independence from Great Britain",
+  "score": 0.08333333333333333,
+  "average_score": 0.08333333333333333,
+  "timestamp": "2025-06-28T03:46:11.524916"
+}

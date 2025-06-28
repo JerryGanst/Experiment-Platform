@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_195",
+  "dataset": "musique",
+  "sample_index": 195,
+  "generated_text": "Fidel Castro",
+  "ground_truth": "Francisco Guterres",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:56:36.802855"
+}

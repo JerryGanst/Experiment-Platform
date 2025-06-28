@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_92",
+  "dataset": "qasper",
+  "sample_index": 92,
+  "generated_text": "Unanswerable (The article only mentions BERT and RoBERTa.)",
+  "ground_truth": "GloVe, BERT, Universal Sentence Encoder, TF-IDF, InferSent",
+  "score": 0.14285714285714285,
+  "average_score": 0.14285714285714285,
+  "timestamp": "2025-06-28T02:26:06.670810"
+}

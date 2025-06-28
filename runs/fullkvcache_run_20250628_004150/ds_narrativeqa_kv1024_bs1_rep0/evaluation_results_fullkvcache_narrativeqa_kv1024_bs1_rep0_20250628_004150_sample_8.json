@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_8",
+  "dataset": "narrativeqa",
+  "sample_index": 8,
+  "generated_text": "The Witch could perceive humanity's flaws.",
+  "ground_truth": "The fears and desires of mankind.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:40:42.452535"
+}

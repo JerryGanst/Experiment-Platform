@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_40",
+  "dataset": "narrativeqa",
+  "sample_index": 40,
+  "generated_text": "All boarders realize this.",
+  "ground_truth": "the German professor",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:38.233377"
+}

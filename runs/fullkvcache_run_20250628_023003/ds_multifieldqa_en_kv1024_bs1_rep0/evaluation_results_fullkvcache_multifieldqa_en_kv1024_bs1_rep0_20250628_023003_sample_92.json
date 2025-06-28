@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_92",
+  "dataset": "multifieldqa_en",
+  "sample_index": 92,
+  "generated_text": "It increases the learning rate.",
+  "ground_truth": "As the transition probability increases, the learning rate initially rises and then declines.",
+  "score": 0.39999999999999997,
+  "average_score": 0.39999999999999997,
+  "timestamp": "2025-06-28T02:52:58.305195"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_87",
+  "dataset": "multifieldqa_en",
+  "sample_index": 87,
+  "generated_text": "It allows for easy integration of various services and applications.",
+  "ground_truth": "Flexibility.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:52:48.493773"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_93",
+  "dataset": "multifieldqa_en",
+  "sample_index": 93,
+  "generated_text": "ation?\n\nAnswer: It is determined by the probability density function of the gamma distribution.",
+  "ground_truth": "Using the vacuum Einstein equation and the Baez-Bunn form.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:39:22.156683"
+}

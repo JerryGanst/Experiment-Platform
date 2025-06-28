@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_27",
+  "dataset": "qasper",
+  "sample_index": 27,
+  "generated_text": "Limitations of the model are not demonstrated in the article.",
+  "ground_truth": "Since we do not have an end-to-end dataset, the generated English poem may not work well with Shakespeare style transfer",
+  "score": 0.07692307692307691,
+  "average_score": 0.07692307692307691,
+  "timestamp": "2025-06-28T02:23:31.028155"
+}

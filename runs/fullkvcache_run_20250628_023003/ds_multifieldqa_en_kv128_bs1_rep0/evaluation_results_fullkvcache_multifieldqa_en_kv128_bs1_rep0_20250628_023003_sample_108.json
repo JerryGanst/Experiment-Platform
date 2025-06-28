@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_108",
+  "dataset": "multifieldqa_en",
+  "sample_index": 108,
+  "generated_text": "\n\nAnswer: Users can go to the official website for troubleshooting and support.",
+  "ground_truth": "Online documentation, QuecPython community, online support: QQ group 445121768.",
+  "score": 0.09999999999999999,
+  "average_score": 0.09999999999999999,
+  "timestamp": "2025-06-28T02:40:41.506122"
+}

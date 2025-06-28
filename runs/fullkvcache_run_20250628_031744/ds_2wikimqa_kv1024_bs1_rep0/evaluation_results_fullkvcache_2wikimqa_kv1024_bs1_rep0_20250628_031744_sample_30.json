@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_30",
+  "dataset": "2wikimqa",
+  "sample_index": 30,
+  "generated_text": "Lady Elizabeth Mary Fitzalan Howard\n\nQuestion: Who is Charles Willoughby, 10Th Baron Willoughby Of Parham's p",
+  "ground_truth": "Lady Frances Manners",
+  "score": 0.10526315789473684,
+  "average_score": 0.10526315789473684,
+  "timestamp": "2025-06-28T03:29:31.959466"
+}

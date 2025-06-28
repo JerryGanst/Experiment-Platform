@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_66",
+  "dataset": "qasper",
+  "sample_index": 66,
+  "generated_text": "Unanswerable",
+  "ground_truth": " high-quality datasets  from SemEval-2016 “Sentiment Analysis in Twitter” task",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:25:05.913270"
+}

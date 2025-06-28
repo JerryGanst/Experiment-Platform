@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_146",
+  "dataset": "qasper",
+  "sample_index": 146,
+  "generated_text": "Method improvements for F1 in paraphrase identification are not specified in the article.",
+  "ground_truth": "Using DSC loss improves the F1 score by +0.58 for MRPC and +0.73 for QQP",
+  "score": 0.15384615384615383,
+  "average_score": 0.15384615384615383,
+  "timestamp": "2025-06-28T02:27:57.252778"
+}

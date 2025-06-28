@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_88",
+  "dataset": "musique",
+  "sample_index": 88,
+  "generated_text": "Award for?\n\nAnswer: My Fair Lady",
+  "ground_truth": "for Best Performance by a Leading Actress in a Play in Ondine",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T03:41:50.046404"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_91",
+  "dataset": "multifieldqa_en",
+  "sample_index": 91,
+  "generated_text": "V1, V2, and V3.",
+  "ground_truth": "The three subsets are V+, V0, and V-, determined by the Kullback-Leibler information distance.",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T02:52:56.710221"
+}

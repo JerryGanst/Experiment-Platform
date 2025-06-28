@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv128_bs1_rep0_20250628_014622_sample_115",
+  "dataset": "qasper",
+  "sample_index": 115,
+  "generated_text": "isely as possible.\n\nArticle: \"The Effects of Exercise on Cognitive Function in Older Adults: A Systematic Review and Meta-Analysis\"\n\nQuestion: Does exercise improve cognitive function in older adults?\n\nAnswer: Yes, according to the systematic review and meta-analysis, exercise improves cognitive function in older adults.",
+  "ground_truth": "The authors showed few tweets where neither and implicit hatred content exist but the model was able to discriminate",
+  "score": 0.06896551724137931,
+  "average_score": 0.06896551724137931,
+  "timestamp": "2025-06-28T02:07:04.298747"
+}

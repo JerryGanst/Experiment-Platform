@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_48",
+  "dataset": "musique",
+  "sample_index": 48,
+  "generated_text": ": Cape Verde",
+  "ground_truth": "central Atlantic Ocean",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:39:54.827890"
+}

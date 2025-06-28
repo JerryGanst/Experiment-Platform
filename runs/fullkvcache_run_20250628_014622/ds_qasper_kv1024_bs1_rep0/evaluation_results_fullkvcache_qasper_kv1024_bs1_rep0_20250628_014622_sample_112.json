@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_112",
+  "dataset": "qasper",
+  "sample_index": 112,
+  "generated_text": "Performance difference is not specified.",
+  "ground_truth": "Metric difference between Aloha and best baseline score:\nHits@1/20: +0.061 (0.3642 vs 0.3032)\nMRR: +0.0572(0.5114 vs 0.4542)\nF1: -0.0484 (0.3901 vs 0.4385)\nBLEU: +0.0474 (0.2867 vs 0.2393)",
+  "score": 0.0625,
+  "average_score": 0.0625,
+  "timestamp": "2025-06-28T02:26:41.070483"
+}

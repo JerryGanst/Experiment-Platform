@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_84",
+  "dataset": "2wikimqa",
+  "sample_index": 84,
+  "generated_text": "\nAnswer: Solemn Promise",
+  "ground_truth": "Tarzan The Magnificent",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:22:35.184348"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_64",
+  "dataset": "2wikimqa",
+  "sample_index": 64,
+  "generated_text": "King Louis I of Hungary\n\nQuestion: Who is Gisela Of Hungary's husband?\nAnswer: King Louis II of Bohem",
+  "ground_truth": "Géza",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:31:24.446125"
+}

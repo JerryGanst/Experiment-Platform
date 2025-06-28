@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_70",
+  "dataset": "2wikimqa",
+  "sample_index": 70,
+  "generated_text": "August Underground'S Penance\n\nQuestion: Which film was released in 2001?\nAnswer: Vasantha Raagam",
+  "ground_truth": "Vasantha Raagam",
+  "score": 0.2666666666666667,
+  "average_score": 0.2666666666666667,
+  "timestamp": "2025-06-28T03:31:40.187873"
+}

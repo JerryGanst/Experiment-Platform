@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_101",
+  "dataset": "musique",
+  "sample_index": 101,
+  "generated_text": "The child of the male star of the 1921 film Money is not mentioned in the passages.",
+  "ground_truth": "Anthony Ainley",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:52:27.545721"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_125",
+  "dataset": "narrativeqa",
+  "sample_index": 125,
+  "generated_text": "\"Auld Lang Syne\"",
+  "ground_truth": "Auld Lang Saye",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T01:44:05.202943"
+}

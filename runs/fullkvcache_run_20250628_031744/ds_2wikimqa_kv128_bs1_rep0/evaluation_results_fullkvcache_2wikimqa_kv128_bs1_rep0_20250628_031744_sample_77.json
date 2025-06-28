@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_77",
+  "dataset": "2wikimqa",
+  "sample_index": 77,
+  "generated_text": "The director of film Wine Of Morning works at a film studio in Seoul.",
+  "ground_truth": "Bob Jones University",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:22:17.068005"
+}

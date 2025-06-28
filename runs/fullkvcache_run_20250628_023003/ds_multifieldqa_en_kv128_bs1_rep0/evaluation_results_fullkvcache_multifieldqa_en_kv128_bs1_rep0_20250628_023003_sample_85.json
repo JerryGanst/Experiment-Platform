@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_85",
+  "dataset": "multifieldqa_en",
+  "sample_index": 85,
+  "generated_text": "swer: 1964\n\nQuestion: Who is the author of Weep Not, Child?\nAnswer: Ngugi wa Thiong'o\n\nQuestion: In which country was Weep Not, Child set?\nAnswer: Kenya\n\nQuestion: What is the genre of",
+  "ground_truth": "Weep Not, Child was first published in 1964.",
+  "score": 0.31578947368421056,
+  "average_score": 0.31578947368421056,
+  "timestamp": "2025-06-28T02:38:54.660661"
+}

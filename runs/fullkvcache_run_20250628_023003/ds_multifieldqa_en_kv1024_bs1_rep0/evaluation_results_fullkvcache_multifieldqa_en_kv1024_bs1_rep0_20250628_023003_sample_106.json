@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_106",
+  "dataset": "multifieldqa_en",
+  "sample_index": 106,
+  "generated_text": "Grounded Theory Approach",
+  "ground_truth": "An unsupervised method based on the information bottleneck and contrastive learning.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:54:02.333805"
+}

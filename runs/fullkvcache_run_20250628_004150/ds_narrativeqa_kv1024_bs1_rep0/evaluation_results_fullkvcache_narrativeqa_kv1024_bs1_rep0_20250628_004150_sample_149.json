@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_149",
+  "dataset": "narrativeqa",
+  "sample_index": 149,
+  "generated_text": "Mary learns to live without him.",
+  "ground_truth": "accomplishments",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:48.079784"
+}

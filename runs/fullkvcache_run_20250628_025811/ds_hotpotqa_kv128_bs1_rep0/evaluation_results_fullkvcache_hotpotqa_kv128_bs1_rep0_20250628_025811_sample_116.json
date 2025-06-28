@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_116",
+  "dataset": "hotpotqa",
+  "sample_index": 116,
+  "generated_text": "\nLoving You\n\nElvis Presley's fourth studio album, Loving You, was released in 1957. The song \"",
+  "ground_truth": "Elvis' Christmas Album",
+  "score": 0.23529411764705882,
+  "average_score": 0.23529411764705882,
+  "timestamp": "2025-06-28T03:04:26.121118"
+}

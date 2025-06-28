@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_108",
+  "dataset": "2wikimqa",
+  "sample_index": 108,
+  "generated_text": "\n\nAnswer: Preslav\n\nPassage 1:\nBoris I of Bulgaria was the first Christian ruler of Bulgaria.",
+  "ground_truth": "Preslav",
+  "score": 0.13333333333333333,
+  "average_score": 0.13333333333333333,
+  "timestamp": "2025-06-28T03:23:47.292824"
+}

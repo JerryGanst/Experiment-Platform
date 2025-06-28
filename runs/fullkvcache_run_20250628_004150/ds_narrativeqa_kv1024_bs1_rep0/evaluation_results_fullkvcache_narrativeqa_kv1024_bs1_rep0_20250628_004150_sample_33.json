@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_33",
+  "dataset": "narrativeqa",
+  "sample_index": 33,
+  "generated_text": "In the forest.",
+  "ground_truth": "museum",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:27.229285"
+}

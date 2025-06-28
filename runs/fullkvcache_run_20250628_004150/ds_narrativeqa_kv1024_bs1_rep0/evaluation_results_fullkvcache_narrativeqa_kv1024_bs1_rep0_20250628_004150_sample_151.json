@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_151",
+  "dataset": "narrativeqa",
+  "sample_index": 151,
+  "generated_text": "They agree to abide by Athenian laws.",
+  "ground_truth": "Comply with the laws",
+  "score": 0.2,
+  "average_score": 0.2,
+  "timestamp": "2025-06-28T01:44:51.732482"
+}

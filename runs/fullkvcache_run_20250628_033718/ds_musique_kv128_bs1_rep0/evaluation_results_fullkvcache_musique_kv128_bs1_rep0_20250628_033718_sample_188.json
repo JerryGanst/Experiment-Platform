@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_188",
+  "dataset": "musique",
+  "sample_index": 188,
+  "generated_text": "s?\n\nAnswer: Ulises Solís Jr.",
+  "ground_truth": "Sebastian Cabot",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:46:59.852504"
+}

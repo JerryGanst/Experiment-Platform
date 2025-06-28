@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_10",
+  "dataset": "hotpotqa",
+  "sample_index": 10,
+  "generated_text": "swer: Michael Tippett",
+  "ground_truth": "Michael Kemp Tippett",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T02:59:01.414094"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_82",
+  "dataset": "hotpotqa",
+  "sample_index": 82,
+  "generated_text": "fluid mechanics?\n\nAnswer: British Engineer",
+  "ground_truth": "French mathematician and physicist",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:02:50.485140"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_117",
+  "dataset": "2wikimqa",
+  "sample_index": 117,
+  "generated_text": "\nAnswer: Cuchillos De Fuego",
+  "ground_truth": "Cuchillos De Fuego",
+  "score": 0.8571428571428571,
+  "average_score": 0.8571428571428571,
+  "timestamp": "2025-06-28T03:24:14.277813"
+}

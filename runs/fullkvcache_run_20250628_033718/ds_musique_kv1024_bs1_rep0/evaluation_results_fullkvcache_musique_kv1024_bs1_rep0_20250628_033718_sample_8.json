@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_8",
+  "dataset": "musique",
+  "sample_index": 8,
+  "generated_text": "James Meredith",
+  "ground_truth": "James Howard Meredith",
+  "score": 0.8,
+  "average_score": 0.8,
+  "timestamp": "2025-06-28T03:48:17.930133"
+}

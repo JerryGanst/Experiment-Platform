@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_187",
+  "dataset": "qasper",
+  "sample_index": 187,
+  "generated_text": "Knowledge base",
+  "ground_truth": "answer questions by obtaining information from KB tuples ",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:29:18.948549"
+}

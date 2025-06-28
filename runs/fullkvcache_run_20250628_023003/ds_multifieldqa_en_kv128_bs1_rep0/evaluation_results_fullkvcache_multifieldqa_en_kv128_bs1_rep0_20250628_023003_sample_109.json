@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_109",
+  "dataset": "multifieldqa_en",
+  "sample_index": 109,
+  "generated_text": "\n\nAnswer: A media application determines the context of an event by analyzing the metadata associated with the event, such as location, time, and related topics.",
+  "ground_truth": "It uses a content-recognition module or algorithm.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:40:46.679122"
+}

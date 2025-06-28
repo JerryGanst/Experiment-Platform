@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_181",
+  "dataset": "2wikimqa",
+  "sample_index": 181,
+  "generated_text": "Archibald Acheson, 3rd Earl of Gosford",
+  "ground_truth": "Archibald Acheson, 2nd Earl of Gosford",
+  "score": 0.8333333333333334,
+  "average_score": 0.8333333333333334,
+  "timestamp": "2025-06-28T03:36:15.532909"
+}

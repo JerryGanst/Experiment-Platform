@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_79",
+  "dataset": "multifieldqa_en",
+  "sample_index": 79,
+  "generated_text": "\n\nAnswer: The authors used both behavioral and neural data in their experiments.",
+  "ground_truth": "The authors used simulated data and real data from a wireless MISO channel.",
+  "score": 0.36363636363636365,
+  "average_score": 0.36363636363636365,
+  "timestamp": "2025-06-28T02:38:19.473019"
+}

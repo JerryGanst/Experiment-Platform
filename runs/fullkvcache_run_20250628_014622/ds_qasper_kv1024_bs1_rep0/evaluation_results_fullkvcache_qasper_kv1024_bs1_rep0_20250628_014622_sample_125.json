@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_125",
+  "dataset": "qasper",
+  "sample_index": 125,
+  "generated_text": "Eight Named Entity Recognition tasks were evaluated.",
+  "ground_truth": "BC5CDR-disease, NCBI-disease, BC5CDR-chem, BC4CHEMD, BC2GM, JNLPBA, LINNAEUS, Species-800",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:27:10.519050"
+}

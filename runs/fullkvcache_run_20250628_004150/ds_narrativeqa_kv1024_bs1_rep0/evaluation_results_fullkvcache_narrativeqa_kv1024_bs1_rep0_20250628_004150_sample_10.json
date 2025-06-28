@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_10",
+  "dataset": "narrativeqa",
+  "sample_index": 10,
+  "generated_text": "Bill was killed by the shark.",
+  "ground_truth": "he was killed by the police",
+  "score": 0.6,
+  "average_score": 0.6,
+  "timestamp": "2025-06-28T01:40:47.642377"
+}

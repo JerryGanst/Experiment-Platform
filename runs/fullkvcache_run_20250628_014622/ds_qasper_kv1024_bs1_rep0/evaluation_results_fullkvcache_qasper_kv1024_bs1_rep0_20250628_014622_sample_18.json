@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_18",
+  "dataset": "qasper",
+  "sample_index": 18,
+  "generated_text": "Ngrams of length 4 are aligned using PARENT.",
+  "ground_truth": "Unanswerable",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:23:11.223558"
+}

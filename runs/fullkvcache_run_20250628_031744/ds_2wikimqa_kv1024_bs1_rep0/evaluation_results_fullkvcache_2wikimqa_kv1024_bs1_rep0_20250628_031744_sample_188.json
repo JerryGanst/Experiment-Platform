@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_188",
+  "dataset": "2wikimqa",
+  "sample_index": 188,
+  "generated_text": "Academy Award for Best Director",
+  "ground_truth": "Prometheus Award",
+  "score": 0.28571428571428575,
+  "average_score": 0.28571428571428575,
+  "timestamp": "2025-06-28T03:36:36.449361"
+}

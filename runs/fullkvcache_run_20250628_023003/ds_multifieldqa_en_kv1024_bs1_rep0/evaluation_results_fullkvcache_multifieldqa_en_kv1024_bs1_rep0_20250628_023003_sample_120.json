@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_120",
+  "dataset": "multifieldqa_en",
+  "sample_index": 120,
+  "generated_text": "Mobile device management (MDM) is a system used to manage, secure, and monitor mobile devices, such as smartphones and tablets, in an enterprise environment. It allows administrators to control and enforce policies, configure devices, and protect corporate data on these devices.",
+  "ground_truth": "Centralized control of mobile devices and applications.",
+  "score": 0.17391304347826086,
+  "average_score": 0.17391304347826086,
+  "timestamp": "2025-06-28T02:55:04.319876"
+}

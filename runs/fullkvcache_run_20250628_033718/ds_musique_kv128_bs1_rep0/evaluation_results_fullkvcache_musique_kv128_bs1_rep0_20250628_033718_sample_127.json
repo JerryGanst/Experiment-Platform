@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_127",
+  "dataset": "musique",
+  "sample_index": 127,
+  "generated_text": "Amon-Ra pantheon",
+  "ground_truth": "ancient Egyptian religion",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:43:45.922298"
+}

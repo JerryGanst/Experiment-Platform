@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_49",
+  "dataset": "hotpotqa",
+  "sample_index": 49,
+  "generated_text": "dotes from which two individuals?\n\nAnswer: 50 Cent and Robert Greene",
+  "ground_truth": "Plato",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:01:03.073222"
+}

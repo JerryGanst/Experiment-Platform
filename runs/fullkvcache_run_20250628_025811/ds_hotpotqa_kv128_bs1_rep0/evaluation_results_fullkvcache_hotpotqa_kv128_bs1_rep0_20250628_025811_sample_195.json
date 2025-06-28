@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_195",
+  "dataset": "hotpotqa",
+  "sample_index": 195,
+  "generated_text": "chess game as a metaphor. Who is the author of this short story?\n\nAnswer: Leonard Mlodinow",
+  "ground_truth": "Alice's Adventures in Wonderland",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:08:41.616842"
+}

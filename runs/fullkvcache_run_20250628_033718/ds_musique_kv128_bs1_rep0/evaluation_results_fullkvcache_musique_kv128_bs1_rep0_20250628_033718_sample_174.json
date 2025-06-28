@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_174",
+  "dataset": "musique",
+  "sample_index": 174,
+  "generated_text": "His mother's death",
+  "ground_truth": "three different relationships he had in the past",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:46:13.072669"
+}

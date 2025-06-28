@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_14",
+  "dataset": "hotpotqa",
+  "sample_index": 14,
+  "generated_text": "Merck Sharp & Dohme\n\nQuestion: What is the name of the company that created the drug Darunavir?\nAnswer:",
+  "ground_truth": "American",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:09:52.682773"
+}

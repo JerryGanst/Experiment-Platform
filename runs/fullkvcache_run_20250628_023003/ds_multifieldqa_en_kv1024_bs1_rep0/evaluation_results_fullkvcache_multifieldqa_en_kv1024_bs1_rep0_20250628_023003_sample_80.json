@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_80",
+  "dataset": "multifieldqa_en",
+  "sample_index": 80,
+  "generated_text": "It plays a crucial role in determining the optical properties of 2D materials.",
+  "ground_truth": "The momentum space curl of the interlayer Berry connection polarizability generates the crossed nonlinear dynamical Hall effect.",
+  "score": 0.08,
+  "average_score": 0.08,
+  "timestamp": "2025-06-28T02:52:17.751586"
+}

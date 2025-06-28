@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_130",
+  "dataset": "musique",
+  "sample_index": 130,
+  "generated_text": "The Gulf of Mexico",
+  "ground_truth": "River Thames",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:53:39.660684"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_38",
+  "dataset": "qasper",
+  "sample_index": 38,
+  "generated_text": "Experiments on the effects of different types of exercise on cognitive function are conducted.",
+  "ground_truth": "Irony Classifier, Sentiment Classifier for Irony, Sentiment Classifier for Non-irony, transformation from ironic sentences to non-ironic sentences",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:24:00.445145"
+}

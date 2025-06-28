@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_111",
+  "dataset": "multifieldqa_en",
+  "sample_index": 111,
+  "generated_text": "the expense of the peripheral vision?\n\nAnswer: It decreases.",
+  "ground_truth": "It becomes a bit less so that what's off to the left or right can be better noted.",
+  "score": 0.08695652173913043,
+  "average_score": 0.08695652173913043,
+  "timestamp": "2025-06-28T02:40:58.275684"
+}

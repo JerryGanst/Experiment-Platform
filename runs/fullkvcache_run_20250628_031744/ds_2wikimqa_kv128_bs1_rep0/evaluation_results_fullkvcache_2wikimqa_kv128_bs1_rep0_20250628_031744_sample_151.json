@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_151",
+  "dataset": "2wikimqa",
+  "sample_index": 151,
+  "generated_text": "\n\nAnswer: Yes\n\nPassage 1:\nGut (Crișul Alb) is a commune in Bihor County, Rom",
+  "ground_truth": "yes",
+  "score": 0.14285714285714288,
+  "average_score": 0.14285714285714288,
+  "timestamp": "2025-06-28T03:25:51.305440"
+}

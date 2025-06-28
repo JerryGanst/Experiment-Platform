@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_2",
+  "dataset": "hotpotqa",
+  "sample_index": 2,
+  "generated_text": "Kerala\n\nQuestion: Which Indian state is Kollam located in?\nAnswer: Kerala\n\nQuestion: Which Indian state is Kott",
+  "ground_truth": "Tharangambadi",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:09:19.733321"
+}

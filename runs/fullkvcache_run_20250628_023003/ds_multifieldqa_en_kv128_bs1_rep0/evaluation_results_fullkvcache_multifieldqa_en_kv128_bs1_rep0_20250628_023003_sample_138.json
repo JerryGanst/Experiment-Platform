@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_138",
+  "dataset": "multifieldqa_en",
+  "sample_index": 138,
+  "generated_text": "user?\n\nAnswer: The scoring engine generates a stream of content for the user by ranking the articles based on their relevance and user engagement, and then selecting the top articles to display.",
+  "ground_truth": "By comparing candidate content items to a model and scoring them.",
+  "score": 0.2702702702702703,
+  "average_score": 0.2702702702702703,
+  "timestamp": "2025-06-28T02:43:44.530287"
+}

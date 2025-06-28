@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_107",
+  "dataset": "hotpotqa",
+  "sample_index": 107,
+  "generated_text": "?\n\nAnswer: Val Gardena\n\nQuestion: Which country did the FIBT World Championships 1960 take place in?\n",
+  "ground_truth": "the Veneto region of Northern Italy",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:03:59.776162"
+}

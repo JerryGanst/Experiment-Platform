@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_132",
+  "dataset": "hotpotqa",
+  "sample_index": 132,
+  "generated_text": "2007.\n\nAnswer: Dave Stewart",
+  "ground_truth": "Bob Dylan",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:05:14.408050"
+}

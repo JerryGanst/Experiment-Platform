@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_149",
+  "dataset": "hotpotqa",
+  "sample_index": 149,
+  "generated_text": "American",
+  "ground_truth": "American",
+  "score": 1.0,
+  "average_score": 1.0,
+  "timestamp": "2025-06-28T03:15:28.990150"
+}

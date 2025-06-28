@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_114",
+  "dataset": "multifieldqa_en",
+  "sample_index": 114,
+  "generated_text": "swer: By pressing the 'Esc' key.",
+  "ground_truth": "Players can skip dialogue on the quest map by pressing the 'SKIP' button.",
+  "score": 0.25000000000000006,
+  "average_score": 0.25000000000000006,
+  "timestamp": "2025-06-28T02:41:12.011934"
+}

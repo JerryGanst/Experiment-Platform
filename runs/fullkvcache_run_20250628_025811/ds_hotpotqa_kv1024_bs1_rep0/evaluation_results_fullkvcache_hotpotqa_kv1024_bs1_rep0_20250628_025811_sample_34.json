@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_34",
+  "dataset": "hotpotqa",
+  "sample_index": 34,
+  "generated_text": "No.\n\nExplanation:\n\nPortland International Airport is located in Portland, Oregon, while Gerald R. Ford International Airport is located in",
+  "ground_truth": "no",
+  "score": 0.1,
+  "average_score": 0.1,
+  "timestamp": "2025-06-28T03:10:47.262326"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qmsum_kv128_bs1_rep0_20250628_102951_sample_3",
+  "dataset": "qmsum",
+  "sample_index": 3,
+  "generated_text": ". Your task is to find the answer to the question or perform the instruction in the transcript.\n\nTranscript:\n\nA: I'm going to make a pizza for dinner.\nB: That sounds good. Can I help?\nA: Sure, you can help me chop the vegetables.\nB: Okay, I'll get the cutting board and knives.\nA: Great. Let's start with the bell peppers.\nB: Alright. Here's the cutting board and knives.\nA: Thanks. Now, let's chop the bell peppers into small pieces.\nB: Got it. I'll chop them while you prepare the dough.\nA: Perfect. Let's get started.\n\nQuery: Who is preparing the dough?\n\nAnswer: A (Alice) is preparing the dough.",
+  "ground_truth": "The minister argued that it was very important to be transparent with our investments and the government would look at the investments and the figures every day and be transparent about it. The minister promised that Canada would have a good economy in the future, and the government would not raise taxes after the crisis to tackle the deficit. Hence, the opposition party demanded a regular economy update.",
+  "score": 0.11965811492439204,
+  "average_score": 0.11965811492439204,
+  "timestamp": "2025-06-28T10:31:51.294755"
+}

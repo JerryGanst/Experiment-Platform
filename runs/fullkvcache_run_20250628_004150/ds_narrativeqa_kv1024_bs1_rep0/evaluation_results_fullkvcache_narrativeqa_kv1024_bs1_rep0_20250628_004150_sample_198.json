@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_198",
+  "dataset": "narrativeqa",
+  "sample_index": 198,
+  "generated_text": "Leon's focus in writing letters is the truth.",
+  "ground_truth": "The beauty of the women",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:46:09.187375"
+}

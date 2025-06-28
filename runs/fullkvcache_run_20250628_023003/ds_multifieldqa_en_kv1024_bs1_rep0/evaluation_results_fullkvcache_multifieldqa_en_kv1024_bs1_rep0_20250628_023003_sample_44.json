@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_44",
+  "dataset": "multifieldqa_en",
+  "sample_index": 44,
+  "generated_text": "Suppression of Kondo effect.",
+  "ground_truth": "It tends to suppress the Kondo effect.",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T02:49:36.412598"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_66",
+  "dataset": "multifieldqa_en",
+  "sample_index": 66,
+  "generated_text": "C-130J Super Hercules",
+  "ground_truth": "The IAF is considering the acquisition of the Airbus A330 MRTT (Multi-Role Tanker Transport) besides the Boeing C-17.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:51:10.975052"
+}

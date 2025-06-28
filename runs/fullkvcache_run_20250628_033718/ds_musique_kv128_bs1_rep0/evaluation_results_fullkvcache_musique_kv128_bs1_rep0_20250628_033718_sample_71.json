@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_71",
+  "dataset": "musique",
+  "sample_index": 71,
+  "generated_text": "\nAnswer: David Bowie",
+  "ground_truth": "John D. Loudermilk",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:40:58.245896"
+}

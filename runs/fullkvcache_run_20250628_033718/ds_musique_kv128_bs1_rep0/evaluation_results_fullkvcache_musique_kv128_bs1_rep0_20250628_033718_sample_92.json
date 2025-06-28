@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_92",
+  "dataset": "musique",
+  "sample_index": 92,
+  "generated_text": "that lives in a pineapple under the sea?\n\nAnswer: Tom Kenny",
+  "ground_truth": "Mr. Lawrence",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:42:02.719947"
+}

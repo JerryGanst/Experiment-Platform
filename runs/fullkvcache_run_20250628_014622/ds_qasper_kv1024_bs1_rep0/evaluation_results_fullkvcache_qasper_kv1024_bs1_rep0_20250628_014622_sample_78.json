@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_78",
+  "dataset": "qasper",
+  "sample_index": 78,
+  "generated_text": "Unanswerable (The article does not provide information about the experts used for annotation.)",
+  "ground_truth": "Individuals with legal training",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:25:32.602680"
+}

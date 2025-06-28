@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_56",
+  "dataset": "hotpotqa",
+  "sample_index": 56,
+  "generated_text": "was born become a part of Canada?\n\nAnswer: 1867",
+  "ground_truth": "1763",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:01:31.304433"
+}

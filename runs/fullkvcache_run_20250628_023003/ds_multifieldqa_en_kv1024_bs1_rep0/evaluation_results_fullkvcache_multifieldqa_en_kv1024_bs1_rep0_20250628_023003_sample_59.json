@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_59",
+  "dataset": "multifieldqa_en",
+  "sample_index": 59,
+  "generated_text": "It increases the average motion of the bubble.",
+  "ground_truth": "The specific-heat ratio affects the average motion of the bubble. The bubbles with smaller specific-heat ratios have slower average motion.",
+  "score": 0.36363636363636365,
+  "average_score": 0.36363636363636365,
+  "timestamp": "2025-06-28T02:50:48.218543"
+}

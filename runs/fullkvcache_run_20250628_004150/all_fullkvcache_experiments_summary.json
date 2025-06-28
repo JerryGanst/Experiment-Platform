@@ -1,0 +1,52 @@
+[
+    {
+        "experiment_id": "fullkvcache_narrativeqa_kv128_bs1_rep0_20250628_004150",
+        "timestamp": "2025-06-28T01:40:13.913973",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 132.09349039032705,
+            "throughput_tokens_per_sec": 7.562386760539438,
+            "total_time_sec": 16.925873279571533,
+            "tokens_generated": 128,
+            "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 128,
+            "max_new_tokens": 128,
+            "use_fullkvcache": true,
+            "dataset": "narrativeqa",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0,
+        "total_samples": 200,
+        "average_score": 0.018649211392411952
+    },
+    {
+        "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150",
+        "timestamp": "2025-06-28T01:46:10.855497",
+        "performance": {
+            "success": true,
+            "ttft_ms": 150.0,
+            "tpot_ms": 176.9312586103167,
+            "throughput_tokens_per_sec": 5.761535199103002,
+            "total_time_sec": 1.3885188102722168,
+            "tokens_generated": 8,
+            "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+            "precision": "fp16",
+            "batch_size": 1,
+            "kv_cache_length": 1024,
+            "max_new_tokens": 128,
+            "use_fullkvcache": true,
+            "dataset": "narrativeqa",
+            "repetition": 0
+        },
+        "gpu": {},
+        "system": {},
+        "monitoring_duration": 0,
+        "total_samples": 200,
+        "average_score": 0.11552838256514728
+    }
+]

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_15",
+  "dataset": "qasper",
+  "sample_index": 15,
+  "generated_text": "Comparison to other WSD approaches is not provided in the article.",
+  "ground_truth": "GM$\\_$KL achieves better correlation than existing approaches for various metrics on SCWS dataset.",
+  "score": 0.08695652173913043,
+  "average_score": 0.08695652173913043,
+  "timestamp": "2025-06-28T02:23:04.127779"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_73",
+  "dataset": "qasper",
+  "sample_index": 73,
+  "generated_text": "Unanswerable",
+  "ground_truth": "BIBREF17, BIBREF18, TensiStrength BIBREF13, TwitterNLP BIBREF6, BIBREF19, CogComp-NLP BIBREF20, Stanford NLP NER BIBREF21",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:25:21.142590"
+}

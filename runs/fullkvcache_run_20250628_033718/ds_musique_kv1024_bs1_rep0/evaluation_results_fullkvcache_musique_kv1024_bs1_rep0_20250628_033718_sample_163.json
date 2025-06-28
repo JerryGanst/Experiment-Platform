@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_163",
+  "dataset": "musique",
+  "sample_index": 163,
+  "generated_text": "Jaden Smith",
+  "ground_truth": "Matthew Lawrence",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:55:15.800278"
+}

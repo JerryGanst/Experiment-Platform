@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_181",
+  "dataset": "2wikimqa",
+  "sample_index": 181,
+  "generated_text": "grandfather?\n\nAnswer: Archibald Acheson, 4Th Earl Of Gosford's paternal grandfather is Archibald",
+  "ground_truth": "Archibald Acheson, 2nd Earl of Gosford",
+  "score": 0.4444444444444444,
+  "average_score": 0.4444444444444444,
+  "timestamp": "2025-06-28T03:27:05.464407"
+}

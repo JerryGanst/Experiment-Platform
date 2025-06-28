@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_4",
+  "dataset": "2wikimqa",
+  "sample_index": 4,
+  "generated_text": "Karachi\n\nQuestion: Who was the father of Shahnawaz Bhutto?\nAnswer: Murtaza Bhutto\n\nQuestion",
+  "ground_truth": "Dubai",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:18:10.532166"
+}

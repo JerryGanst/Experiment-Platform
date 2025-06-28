@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_33",
+  "dataset": "2wikimqa",
+  "sample_index": 33,
+  "generated_text": "Provence",
+  "ground_truth": "East Francia",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:29:38.871562"
+}

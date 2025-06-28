@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_139",
+  "dataset": "qasper",
+  "sample_index": 139,
+  "generated_text": "The models used in the experiment are not specified.",
+  "ground_truth": "linear SVM, bidirectional Long Short-Term-Memory (BiLSTM), Convolutional Neural Network (CNN)",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:27:40.815169"
+}

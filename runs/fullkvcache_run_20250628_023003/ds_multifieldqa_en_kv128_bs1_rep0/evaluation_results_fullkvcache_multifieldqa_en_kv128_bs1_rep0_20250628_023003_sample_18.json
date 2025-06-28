@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_18",
+  "dataset": "multifieldqa_en",
+  "sample_index": 18,
+  "generated_text": "\nAnswer: The framework captures the reduced-order dynamics by projecting the high-dimensional system onto a lower-dimensional subspace using proper orthogonal decomposition (POD).",
+  "ground_truth": "By using a propagator in the latent space.",
+  "score": 0.1739130434782609,
+  "average_score": 0.1739130434782609,
+  "timestamp": "2025-06-28T02:32:20.157875"
+}

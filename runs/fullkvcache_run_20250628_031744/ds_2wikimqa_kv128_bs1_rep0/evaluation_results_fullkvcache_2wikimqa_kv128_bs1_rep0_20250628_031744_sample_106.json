@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_106",
+  "dataset": "2wikimqa",
+  "sample_index": 106,
+  "generated_text": "Cali is the child of the director of film The Trouble With Cali.",
+  "ground_truth": "Mira Sorvino",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:23:37.775702"
+}

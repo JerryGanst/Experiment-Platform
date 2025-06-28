@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_34",
+  "dataset": "qasper",
+  "sample_index": 34,
+  "generated_text": "Unanswerable (The article does not specify which hyperparameters were varied in the experiments.)",
+  "ground_truth": "number of clusters, seed value in clustering, selection of word vectors, window size and dimension of embedding",
+  "score": 0.07142857142857142,
+  "average_score": 0.07142857142857142,
+  "timestamp": "2025-06-28T02:23:51.721766"
+}

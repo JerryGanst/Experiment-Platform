@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_78",
+  "dataset": "narrativeqa",
+  "sample_index": 78,
+  "generated_text": "They hid their secret collection.",
+  "ground_truth": "They stayed in the bedroom for a few days with the sounds of her lover trapped. ",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T01:42:46.520914"
+}

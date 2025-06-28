@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_69",
+  "dataset": "hotpotqa",
+  "sample_index": 69,
+  "generated_text": "No.\n\nPassage 1: Duke Energy Corporation is an American electric power holding company headquartered in Charlotte, North Carolina.\n\nPass",
+  "ground_truth": "no",
+  "score": 0.10526315789473684,
+  "average_score": 0.10526315789473684,
+  "timestamp": "2025-06-28T03:02:10.927985"
+}

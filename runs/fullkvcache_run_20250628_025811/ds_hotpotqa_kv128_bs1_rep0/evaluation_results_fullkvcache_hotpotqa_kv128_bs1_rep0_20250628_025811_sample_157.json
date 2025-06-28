@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_157",
+  "dataset": "hotpotqa",
+  "sample_index": 157,
+  "generated_text": "album \"Bangerz\" was released in 2013?\n\nAnswer: 1992\n\nPassage 1:",
+  "ground_truth": "October 13, 1980",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:06:27.541275"
+}

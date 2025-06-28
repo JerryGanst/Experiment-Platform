@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_100",
+  "dataset": "narrativeqa",
+  "sample_index": 100,
+  "generated_text": "Tomoko becomes a recluse.",
+  "ground_truth": "Tomoko reveals that they watched a video tape with several friends a week ago and received a strange call after watching it. Tomoko is killed while Masami watches.",
+  "score": 0.07142857142857142,
+  "average_score": 0.07142857142857142,
+  "timestamp": "2025-06-28T01:43:24.379578"
+}

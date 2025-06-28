@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_37",
+  "dataset": "narrativeqa",
+  "sample_index": 37,
+  "generated_text": "Home-schooled by her father.",
+  "ground_truth": "Nature and books",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:33.609076"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_33",
+  "dataset": "multifieldqa_en",
+  "sample_index": 33,
+  "generated_text": "The paper aims to solve the problem of identifying the most important features in a dataset.",
+  "ground_truth": "The paper aims to solve nonlinear system vibration problems efficiently.",
+  "score": 0.380952380952381,
+  "average_score": 0.380952380952381,
+  "timestamp": "2025-06-28T02:48:34.771786"
+}

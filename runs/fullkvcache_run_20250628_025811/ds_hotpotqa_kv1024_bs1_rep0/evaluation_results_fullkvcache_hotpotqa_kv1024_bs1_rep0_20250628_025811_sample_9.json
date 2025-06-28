@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_9",
+  "dataset": "hotpotqa",
+  "sample_index": 9,
+  "generated_text": "Ribosome",
+  "ground_truth": "Ribosomes",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:09:39.660796"
+}

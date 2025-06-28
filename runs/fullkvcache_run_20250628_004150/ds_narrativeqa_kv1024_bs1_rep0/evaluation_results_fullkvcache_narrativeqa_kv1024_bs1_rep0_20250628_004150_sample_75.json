@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_75",
+  "dataset": "narrativeqa",
+  "sample_index": 75,
+  "generated_text": "La Grande Breteche is a French chateau.",
+  "ground_truth": "Abandon manor",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:41.813509"
+}

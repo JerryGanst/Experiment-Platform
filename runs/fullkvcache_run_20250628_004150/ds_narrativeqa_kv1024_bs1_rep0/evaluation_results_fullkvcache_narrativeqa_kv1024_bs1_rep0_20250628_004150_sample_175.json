@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_175",
+  "dataset": "narrativeqa",
+  "sample_index": 175,
+  "generated_text": "Socrates would not agree to break out of prison.",
+  "ground_truth": "An outlaw",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:45:27.195945"
+}

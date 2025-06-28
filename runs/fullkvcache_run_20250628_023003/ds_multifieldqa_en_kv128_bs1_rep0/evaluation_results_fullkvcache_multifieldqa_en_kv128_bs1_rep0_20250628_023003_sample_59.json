@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_59",
+  "dataset": "multifieldqa_en",
+  "sample_index": 59,
+  "generated_text": "of a gas?\n\nAnswer: The specific-heat ratio affects the average motion of a gas by determining whether it expands or contracts when heated at constant volume or constant pressure. A gas with a specific-heat ratio greater than 1 (diatomic gas) contracts when heated at constant volume and",
+  "ground_truth": "The specific-heat ratio affects the average motion of the bubble. The bubbles with smaller specific-heat ratios have slower average motion.",
+  "score": 0.28070175438596495,
+  "average_score": 0.28070175438596495,
+  "timestamp": "2025-06-28T02:36:41.697497"
+}

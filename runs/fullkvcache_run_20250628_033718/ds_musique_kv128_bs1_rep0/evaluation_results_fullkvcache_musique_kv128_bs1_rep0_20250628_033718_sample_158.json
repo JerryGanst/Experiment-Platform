@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_158",
+  "dataset": "musique",
+  "sample_index": 158,
+  "generated_text": "?\n\nAnswer: Fulton County\n\nPassage 1:\nMiller Electric is headquartered in Cobb County, Georgia",
+  "ground_truth": "Green Bay",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:45:30.527506"
+}

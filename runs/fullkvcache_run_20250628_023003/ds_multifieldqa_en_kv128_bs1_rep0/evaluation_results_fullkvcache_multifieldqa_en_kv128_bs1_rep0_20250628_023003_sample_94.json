@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_94",
+  "dataset": "multifieldqa_en",
+  "sample_index": 94,
+  "generated_text": "to be smooth?\n\nAnswer: To reduce air resistance and increase efficiency.",
+  "ground_truth": "The sides of the fuselage are sloped to create a conical section when the fuselage is formed.",
+  "score": 0.08333333333333334,
+  "average_score": 0.08333333333333334,
+  "timestamp": "2025-06-28T02:39:25.115082"
+}

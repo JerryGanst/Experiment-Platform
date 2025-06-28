@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_93",
+  "dataset": "hotpotqa",
+  "sample_index": 93,
+  "generated_text": "No.\n\nExplanation:\n\nFrank Lloyd is an American architect, not a film director. Olivier Assayas is a French",
+  "ground_truth": "no",
+  "score": 0.13333333333333333,
+  "average_score": 0.13333333333333333,
+  "timestamp": "2025-06-28T03:03:22.823619"
+}

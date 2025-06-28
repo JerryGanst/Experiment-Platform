@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_78",
+  "dataset": "musique",
+  "sample_index": 78,
+  "generated_text": "William and Mary College",
+  "ground_truth": "College of Charles Towne",
+  "score": 0.25,
+  "average_score": 0.25,
+  "timestamp": "2025-06-28T03:41:20.978783"
+}

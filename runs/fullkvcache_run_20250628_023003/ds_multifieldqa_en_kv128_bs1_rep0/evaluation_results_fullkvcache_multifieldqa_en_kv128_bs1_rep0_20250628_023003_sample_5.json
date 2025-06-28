@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_5",
+  "dataset": "multifieldqa_en",
+  "sample_index": 5,
+  "generated_text": "?\n\nAnswer: 2001",
+  "ground_truth": "The Tevatron Collider Run II started in March 2002 and is expected to continue until the end of this decade.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:30:46.817307"
+}

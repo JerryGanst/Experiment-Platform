@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_118",
+  "dataset": "musique",
+  "sample_index": 118,
+  "generated_text": "\n\nAnswer: Ben Affleck\n\nPassage 1:\nThe Justice League movie was released in 2017. In the",
+  "ground_truth": "Fred O'Bannion",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:43:30.169497"
+}

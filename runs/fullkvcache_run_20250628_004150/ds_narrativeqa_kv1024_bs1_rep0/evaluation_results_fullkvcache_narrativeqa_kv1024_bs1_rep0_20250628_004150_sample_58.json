@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_58",
+  "dataset": "narrativeqa",
+  "sample_index": 58,
+  "generated_text": "West Egg.",
+  "ground_truth": "Story did not mention",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:08.737625"
+}

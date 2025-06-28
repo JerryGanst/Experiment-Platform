@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_143",
+  "dataset": "hotpotqa",
+  "sample_index": 143,
+  "generated_text": "TV series?\n\nAnswer: Home and Away",
+  "ground_truth": "Neighbours",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:05:46.293133"
+}

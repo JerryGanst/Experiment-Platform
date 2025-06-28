@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_61",
+  "dataset": "musique",
+  "sample_index": 61,
+  "generated_text": "swer: Salma Hayek",
+  "ground_truth": "Joyce Van Patten",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:40:28.588990"
+}

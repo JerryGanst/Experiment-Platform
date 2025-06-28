@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_123",
+  "dataset": "narrativeqa",
+  "sample_index": 123,
+  "generated_text": "Thomas defends Lazarus.",
+  "ground_truth": "bennett landsmann",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:01.892218"
+}

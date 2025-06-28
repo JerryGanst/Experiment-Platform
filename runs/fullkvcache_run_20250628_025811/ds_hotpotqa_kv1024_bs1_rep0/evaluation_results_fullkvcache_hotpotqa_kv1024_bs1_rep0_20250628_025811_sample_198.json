@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_198",
+  "dataset": "hotpotqa",
+  "sample_index": 198,
+  "generated_text": "150 meters",
+  "ground_truth": "37.5",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:17:29.229195"
+}

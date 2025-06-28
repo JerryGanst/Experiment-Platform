@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_148",
+  "dataset": "hotpotqa",
+  "sample_index": 148,
+  "generated_text": "100000",
+  "ground_truth": "43,000 marchers",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:15:28.056982"
+}

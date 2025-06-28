@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_1",
+  "dataset": "hotpotqa",
+  "sample_index": 1,
+  "generated_text": "Band-e-Amir National Park",
+  "ground_truth": "Band-e Amir National Park",
+  "score": 0.5714285714285715,
+  "average_score": 0.5714285714285715,
+  "timestamp": "2025-06-28T03:09:15.012150"
+}

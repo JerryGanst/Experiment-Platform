@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_161",
+  "dataset": "musique",
+  "sample_index": 161,
+  "generated_text": "\n\nAnswer: Keturah\n\nPassage 1:\n\nThe Bible tells us that Abraham had a wife named Sarah. Sarah died",
+  "ground_truth": "Keturah",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T03:45:39.031403"
+}

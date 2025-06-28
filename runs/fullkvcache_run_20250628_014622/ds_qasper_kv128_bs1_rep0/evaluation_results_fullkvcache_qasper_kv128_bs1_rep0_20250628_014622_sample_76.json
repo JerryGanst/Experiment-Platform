@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv128_bs1_rep0_20250628_014622_sample_76",
+  "dataset": "qasper",
+  "sample_index": 76,
+  "generated_text": "isely as possible.\n\nArticle: \"The Effects of Exercise on Cognitive Function in Older Adults: A Systematic Review and Meta-Analysis\"\n\nQuestion: Does exercise improve cognitive function in older adults?\n\nAnswer: Yes, according to the systematic review and meta-analysis, exercise improves cognitive function in older adults.",
+  "ground_truth": "They use two independent convolutional and max-pooling layers on (1) a combination of the left context, the left entity and the middle context; and (2) a combination of the middle context, the right entity and the right context. They concatenated the two results after pooling to get the new context representation.",
+  "score": 0.12195121951219512,
+  "average_score": 0.12195121951219512,
+  "timestamp": "2025-06-28T02:00:15.057037"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_17",
+  "dataset": "2wikimqa",
+  "sample_index": 17,
+  "generated_text": "Cipriano Castro\n\nQuestion: Who was born in 1837?\nAnswer: Cipriano Castro\n\n",
+  "ground_truth": "Cipriano Castro",
+  "score": 0.3076923076923077,
+  "average_score": 0.3076923076923077,
+  "timestamp": "2025-06-28T03:18:53.975362"
+}

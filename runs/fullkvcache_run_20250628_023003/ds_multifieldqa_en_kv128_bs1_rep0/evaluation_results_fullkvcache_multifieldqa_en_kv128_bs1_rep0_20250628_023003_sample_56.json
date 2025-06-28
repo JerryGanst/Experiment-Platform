@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_56",
+  "dataset": "multifieldqa_en",
+  "sample_index": 56,
+  "generated_text": "ology?\n\nAnswer: Lack of standardization, intellectual property rights, and competition for funding.",
+  "ground_truth": "Technological limitations, resistance to exposing data to scrutiny, and desire to hold onto data for personal use.",
+  "score": 0.13793103448275862,
+  "average_score": 0.13793103448275862,
+  "timestamp": "2025-06-28T02:36:21.452986"
+}

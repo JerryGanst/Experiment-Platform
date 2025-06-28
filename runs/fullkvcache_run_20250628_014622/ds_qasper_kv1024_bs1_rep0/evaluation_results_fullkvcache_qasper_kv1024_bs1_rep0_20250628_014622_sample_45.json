@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_45",
+  "dataset": "qasper",
+  "sample_index": 45,
+  "generated_text": "Support Vector Machines and Random Forests are used.",
+  "ground_truth": "probabilistic model",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:24:20.086016"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_82",
+  "dataset": "multifieldqa_en",
+  "sample_index": 82,
+  "generated_text": "\"Influence of pH on the release of a model protein from poly(lactic-co-glycolic acid) microspheres\" and \"In vitro release of a model protein from poly(lactic-co-glycolic acid) microspheres prepared by emulsion sol",
+  "ground_truth": "Sustained viral gene delivery through core-shell fibers and Gene transfer to hemophilia A mice via oral delivery of FVIII-chitosan nanoparticles.",
+  "score": 0.08695652173913043,
+  "average_score": 0.08695652173913043,
+  "timestamp": "2025-06-28T02:52:28.977260"
+}

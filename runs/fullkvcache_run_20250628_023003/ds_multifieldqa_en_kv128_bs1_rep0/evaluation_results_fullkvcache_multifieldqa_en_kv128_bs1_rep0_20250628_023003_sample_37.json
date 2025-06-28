@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_37",
+  "dataset": "multifieldqa_en",
+  "sample_index": 37,
+  "generated_text": "a healthy adult?\n\nAnswer: 90 micrograms for men and 65 micrograms for women.",
+  "ground_truth": "90 μg for women and 120 μg for men.",
+  "score": 0.5714285714285715,
+  "average_score": 0.5714285714285715,
+  "timestamp": "2025-06-28T02:34:21.977638"
+}

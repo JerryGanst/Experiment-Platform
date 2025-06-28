@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_114",
+  "dataset": "hotpotqa",
+  "sample_index": 114,
+  "generated_text": "house of the Irish parliament?\n\nAnswer: Taoiseach",
+  "ground_truth": "Taoiseach of Ireland",
+  "score": 0.4444444444444444,
+  "average_score": 0.4444444444444444,
+  "timestamp": "2025-06-28T03:04:20.350292"
+}

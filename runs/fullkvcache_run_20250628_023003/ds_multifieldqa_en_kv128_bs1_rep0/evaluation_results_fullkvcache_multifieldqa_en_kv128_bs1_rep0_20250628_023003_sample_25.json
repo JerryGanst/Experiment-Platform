@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_25",
+  "dataset": "multifieldqa_en",
+  "sample_index": 25,
+  "generated_text": "\nAnswer: Born in England, died in Australia.",
+  "ground_truth": "Margaret Way was born in Brisbane and died in Cleveland, Queensland, Australia.",
+  "score": 0.5263157894736842,
+  "average_score": 0.5263157894736842,
+  "timestamp": "2025-06-28T02:32:58.741234"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_14",
+  "dataset": "musique",
+  "sample_index": 14,
+  "generated_text": "Mersey River",
+  "ground_truth": "Hunter River",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T03:48:31.013497"
+}

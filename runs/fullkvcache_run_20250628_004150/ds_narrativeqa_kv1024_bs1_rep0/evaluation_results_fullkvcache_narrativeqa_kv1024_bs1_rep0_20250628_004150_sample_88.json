@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_88",
+  "dataset": "narrativeqa",
+  "sample_index": 88,
+  "generated_text": "Grassou's resentment persists due to unfulfilled ambition.",
+  "ground_truth": "He feels as the he is still not a real artist.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:43:03.740273"
+}

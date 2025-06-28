@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_6",
+  "dataset": "multifieldqa_en",
+  "sample_index": 6,
+  "generated_text": "the research focus on?\n\nAnswer: Plasmas with a high density of neutral atoms and a low temperature.",
+  "ground_truth": "A subset that form via kinetic rate processes from state-selected Rydberg gases.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:30:50.765160"
+}

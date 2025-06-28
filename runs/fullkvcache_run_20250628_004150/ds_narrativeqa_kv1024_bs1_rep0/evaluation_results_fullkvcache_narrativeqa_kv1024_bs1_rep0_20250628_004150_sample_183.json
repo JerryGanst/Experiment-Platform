@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_183",
+  "dataset": "narrativeqa",
+  "sample_index": 183,
+  "generated_text": "Enoch Soames wore the same suit every day.",
+  "ground_truth": "always wore a grey waterproof cape and a soft black hat",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T01:45:43.121015"
+}

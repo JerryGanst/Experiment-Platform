@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_143",
+  "dataset": "2wikimqa",
+  "sample_index": 143,
+  "generated_text": "1793\n\nPassage 1:\nFrances Vane, Marchioness Of Londonderry was born on 17th",
+  "ground_truth": "1 August 1813",
+  "score": 0.13333333333333333,
+  "average_score": 0.13333333333333333,
+  "timestamp": "2025-06-28T03:34:49.308756"
+}

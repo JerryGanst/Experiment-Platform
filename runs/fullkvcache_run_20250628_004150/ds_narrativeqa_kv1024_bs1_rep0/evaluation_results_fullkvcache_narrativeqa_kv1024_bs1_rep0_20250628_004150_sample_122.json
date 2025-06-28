@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_122",
+  "dataset": "narrativeqa",
+  "sample_index": 122,
+  "generated_text": "Large red dog.",
+  "ground_truth": "A security guard.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:00.432614"
+}

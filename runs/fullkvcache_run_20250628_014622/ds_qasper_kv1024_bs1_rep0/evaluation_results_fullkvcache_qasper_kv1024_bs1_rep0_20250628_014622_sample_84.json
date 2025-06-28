@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_84",
+  "dataset": "qasper",
+  "sample_index": 84,
+  "generated_text": "Unanswerable (The article does not specify the 7 Indian languages.)",
+  "ground_truth": "Hindi, English, Kannada, Telugu, Assamese, Bengali and Malayalam",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:25:46.228059"
+}

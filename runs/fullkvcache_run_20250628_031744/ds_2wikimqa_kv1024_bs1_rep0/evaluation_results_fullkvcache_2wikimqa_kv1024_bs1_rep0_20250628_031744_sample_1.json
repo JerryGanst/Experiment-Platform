@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_1",
+  "dataset": "2wikimqa",
+  "sample_index": 1,
+  "generated_text": "Béla I the Conqueror",
+  "ground_truth": "Leustach Rátót",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:28:05.990245"
+}

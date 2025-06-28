@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_134",
+  "dataset": "narrativeqa",
+  "sample_index": 134,
+  "generated_text": "Mary spent most of her time outside the home at the library.",
+  "ground_truth": "With her charity",
+  "score": 0.15384615384615383,
+  "average_score": 0.15384615384615383,
+  "timestamp": "2025-06-28T01:44:21.807444"
+}

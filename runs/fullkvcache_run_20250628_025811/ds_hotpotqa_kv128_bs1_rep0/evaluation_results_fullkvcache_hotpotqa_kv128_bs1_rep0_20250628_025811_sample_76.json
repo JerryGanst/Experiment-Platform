@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_76",
+  "dataset": "hotpotqa",
+  "sample_index": 76,
+  "generated_text": "state?\n\nAnswer: Mississippi\n\nPassage 1:\n\nIn 1920, Mississippi was the site of a Republican political",
+  "ground_truth": "Hawaii",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:02:32.575615"
+}

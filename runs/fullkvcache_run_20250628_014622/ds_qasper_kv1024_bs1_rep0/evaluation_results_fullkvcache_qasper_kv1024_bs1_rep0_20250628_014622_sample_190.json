@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_190",
+  "dataset": "qasper",
+  "sample_index": 190,
+  "generated_text": "Source domain: English, Target domain: Chinese",
+  "ground_truth": "Book, electronics, beauty, music, IMDB, Yelp, cell phone, baby, DVDs, kitchen",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:29:27.521494"
+}

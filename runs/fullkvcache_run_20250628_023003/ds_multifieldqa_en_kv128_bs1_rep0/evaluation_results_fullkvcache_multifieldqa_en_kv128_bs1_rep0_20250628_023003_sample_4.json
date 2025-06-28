@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_4",
+  "dataset": "multifieldqa_en",
+  "sample_index": 4,
+  "generated_text": "8 led to the resignation of its founder, Louis Bacon?\n\nAnswer: Moore Capital Management",
+  "ground_truth": "Long Term Capital Management (LTCM).",
+  "score": 0.2222222222222222,
+  "average_score": 0.2222222222222222,
+  "timestamp": "2025-06-28T02:30:44.714952"
+}

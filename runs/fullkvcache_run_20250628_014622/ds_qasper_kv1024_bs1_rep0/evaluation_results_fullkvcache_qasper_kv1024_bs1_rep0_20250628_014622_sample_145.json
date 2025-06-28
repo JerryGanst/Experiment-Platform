@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_145",
+  "dataset": "qasper",
+  "sample_index": 145,
+  "generated_text": "Accuracy and F1 score are looked at for classification tasks.",
+  "ground_truth": "Precision, Recall, F-measure, accuracy",
+  "score": 0.14285714285714288,
+  "average_score": 0.14285714285714288,
+  "timestamp": "2025-06-28T02:27:54.160206"
+}

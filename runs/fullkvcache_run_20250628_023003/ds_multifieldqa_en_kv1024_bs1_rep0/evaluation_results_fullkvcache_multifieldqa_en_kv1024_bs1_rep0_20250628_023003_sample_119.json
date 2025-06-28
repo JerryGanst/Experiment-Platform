@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_119",
+  "dataset": "multifieldqa_en",
+  "sample_index": 119,
+  "generated_text": "It outperforms other methods.",
+  "ground_truth": "It outperforms mean-field methods and the PLM with $l_2$ regularization in terms of reconstruction error and true positive rate.",
+  "score": 0.27272727272727276,
+  "average_score": 0.27272727272727276,
+  "timestamp": "2025-06-28T02:54:56.516482"
+}

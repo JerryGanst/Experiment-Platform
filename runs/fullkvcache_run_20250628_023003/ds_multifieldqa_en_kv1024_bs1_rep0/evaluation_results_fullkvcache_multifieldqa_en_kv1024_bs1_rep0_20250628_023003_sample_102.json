@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_102",
+  "dataset": "multifieldqa_en",
+  "sample_index": 102,
+  "generated_text": "They are not significantly different for CPUE based on catch weight, but they are significantly different for CPUE based on catch number.",
+  "ground_truth": "The relationships between catch per set and fishing behavior variables differ when comparing unstandardized CPUE and standardized CPUE.",
+  "score": 0.15384615384615383,
+  "average_score": 0.15384615384615383,
+  "timestamp": "2025-06-28T02:53:49.378845"
+}

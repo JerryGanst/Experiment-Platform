@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_19",
+  "dataset": "2wikimqa",
+  "sample_index": 19,
+  "generated_text": "Ivan Petrovich Melnikov\n\nPassage 1:\nPyotr Karatygin is married to Anna Petrovna Melnikova.",
+  "ground_truth": "Alexandra Kolosova",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:28:57.940303"
+}

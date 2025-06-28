@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_1",
+  "timestamp": "2025-06-28T03:09:15.009532",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 242.537122964859,
+    "throughput_tokens_per_sec": 4.3056082796368935,
+    "total_time_sec": 2.090296983718872,
+    "tokens_generated": 9,
+    "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 1024,
+    "max_new_tokens": 32,
+    "use_fullkvcache": true,
+    "dataset": "hotpotqa",
+    "repetition": 0
+  },
+  "monitoring": null
+}

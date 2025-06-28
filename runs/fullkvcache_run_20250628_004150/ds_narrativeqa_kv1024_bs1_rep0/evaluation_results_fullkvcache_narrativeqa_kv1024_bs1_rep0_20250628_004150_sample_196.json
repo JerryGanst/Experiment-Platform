@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_196",
+  "dataset": "narrativeqa",
+  "sample_index": 196,
+  "generated_text": "Reikos husband dies.",
+  "ground_truth": "He watches the video and dies of Cardiac arrest.",
+  "score": 0.18181818181818182,
+  "average_score": 0.18181818181818182,
+  "timestamp": "2025-06-28T01:46:05.688586"
+}

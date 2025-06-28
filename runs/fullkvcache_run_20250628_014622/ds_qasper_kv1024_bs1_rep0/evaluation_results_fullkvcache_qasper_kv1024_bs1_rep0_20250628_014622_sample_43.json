@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_43",
+  "dataset": "qasper",
+  "sample_index": 43,
+  "generated_text": "The attention module is pretrained on the BERT model.",
+  "ground_truth": "the model is pre-trained on CTC-based ASR task and MT task in the pre-training stage.",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T02:24:15.239911"
+}

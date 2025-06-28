@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_144",
+  "dataset": "qasper",
+  "sample_index": 144,
+  "generated_text": "Unanswerable (The article does not discuss the establishment of ground truth for fake news.)",
+  "ground_truth": "Ground truth is not established in the paper",
+  "score": 0.3157894736842105,
+  "average_score": 0.3157894736842105,
+  "timestamp": "2025-06-28T02:27:51.188340"
+}

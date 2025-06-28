@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_120",
+  "dataset": "qasper",
+  "sample_index": 120,
+  "generated_text": "Unanswerable",
+  "ground_truth": "0.5115",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:26:58.236753"
+}

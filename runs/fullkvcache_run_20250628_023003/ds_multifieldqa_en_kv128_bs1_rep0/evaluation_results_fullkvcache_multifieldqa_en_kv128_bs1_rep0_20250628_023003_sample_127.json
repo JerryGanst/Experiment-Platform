@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_127",
+  "dataset": "multifieldqa_en",
+  "sample_index": 127,
+  "generated_text": "and NFPA-opt differ?\n\nAnswer: NFPA-opt has a lower runtime and fewer iterations than NFPA.",
+  "ground_truth": "NFPA and FPSA greatly outperform GMRES and DSA.",
+  "score": 0.2857142857142857,
+  "average_score": 0.2857142857142857,
+  "timestamp": "2025-06-28T02:42:32.288431"
+}

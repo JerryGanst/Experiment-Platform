@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_143",
+  "dataset": "musique",
+  "sample_index": 143,
+  "generated_text": "is located?\n\nAnswer: DeKalb County shares a border with Fulton County, where the most populous city in Georgia (At",
+  "ground_truth": "Presque Isle County",
+  "score": 0.1,
+  "average_score": 0.1,
+  "timestamp": "2025-06-28T03:44:36.078540"
+}

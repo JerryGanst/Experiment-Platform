@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_123",
+  "dataset": "multifieldqa_en",
+  "sample_index": 123,
+  "generated_text": ": To monitor and control abnormal heart rhythms.",
+  "ground_truth": "Implantable Cardioverter Defibrillator (ICD) is a surgically implanted electronic device to treat life-threatening heartbeat irregularities.",
+  "score": 0.09523809523809523,
+  "average_score": 0.09523809523809523,
+  "timestamp": "2025-06-28T02:42:10.189813"
+}

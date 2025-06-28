@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_134",
+  "dataset": "musique",
+  "sample_index": 134,
+  "generated_text": "Los Angeles County",
+  "ground_truth": "Cabarrus County",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T03:53:43.960954"
+}

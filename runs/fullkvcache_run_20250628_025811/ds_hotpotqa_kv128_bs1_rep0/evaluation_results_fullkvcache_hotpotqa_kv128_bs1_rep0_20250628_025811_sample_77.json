@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_77",
+  "dataset": "hotpotqa",
+  "sample_index": 77,
+  "generated_text": "?\n\nAnswer: No Doubt",
+  "ground_truth": "The Rebirth",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:02:34.516359"
+}

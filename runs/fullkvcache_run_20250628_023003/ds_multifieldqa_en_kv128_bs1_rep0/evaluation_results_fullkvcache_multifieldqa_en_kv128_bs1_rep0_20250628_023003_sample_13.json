@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_13",
+  "dataset": "multifieldqa_en",
+  "sample_index": 13,
+  "generated_text": "an e-book?\n\nAnswer: 2010\n\nQuestion: What was the first book Margaret Way self-published as an e-book?\n\nAnswer: The Last of the Wine\n\nQuestion: What was the name of the company that Margaret Way used to self-",
+  "ground_truth": "Margaret Way started self-publishing her books as e-books in 2013.",
+  "score": 0.15384615384615385,
+  "average_score": 0.15384615384615385,
+  "timestamp": "2025-06-28T02:31:48.321892"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_195",
+  "dataset": "2wikimqa",
+  "sample_index": 195,
+  "generated_text": "Rock Street Journal was established first.",
+  "ground_truth": "De As",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:36:54.657669"
+}

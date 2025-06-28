@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_54",
+  "dataset": "narrativeqa",
+  "sample_index": 54,
+  "generated_text": "Saying the name of the tape.",
+  "ground_truth": "Making a copy and showing it to someone else",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:02.319986"
+}

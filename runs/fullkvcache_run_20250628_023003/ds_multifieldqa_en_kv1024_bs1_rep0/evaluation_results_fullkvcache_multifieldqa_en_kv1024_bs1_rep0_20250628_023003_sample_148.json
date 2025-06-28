@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_148",
+  "dataset": "multifieldqa_en",
+  "sample_index": 148,
+  "generated_text": "Improved model performance and reduced noise.",
+  "ground_truth": "Decorrelating the data before running the PLS algorithm improves the performance of the algorithm.",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T02:57:38.765886"
+}

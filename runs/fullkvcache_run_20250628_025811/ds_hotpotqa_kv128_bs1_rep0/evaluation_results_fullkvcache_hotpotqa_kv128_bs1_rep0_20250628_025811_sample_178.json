@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_178",
+  "dataset": "hotpotqa",
+  "sample_index": 178,
+  "generated_text": ": 2000\n\nQuestion: Which country did Sara Symington represent in the 2000 Sydney Olympics?\nAnswer: Great",
+  "ground_truth": "2000 Summer Olympic Games",
+  "score": 0.11111111111111112,
+  "average_score": 0.11111111111111112,
+  "timestamp": "2025-06-28T03:07:42.293004"
+}

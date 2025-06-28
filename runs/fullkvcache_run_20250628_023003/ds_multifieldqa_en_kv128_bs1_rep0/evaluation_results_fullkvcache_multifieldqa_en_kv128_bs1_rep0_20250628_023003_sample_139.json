@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_139",
+  "dataset": "multifieldqa_en",
+  "sample_index": 139,
+  "generated_text": "'s job title?\n\nAnswer: Senior Vice President of Marketing\n\nQuestion: What is the name of the company where Toby Schindel works?\n\nAnswer: The Coca-Cola Company\n\nQuestion: What is the name of the event that Toby Schindel is",
+  "ground_truth": "Toby Schindelbeck's observation is that the police say they aren't paid enough to enforce the laws in the streets.",
+  "score": 0.125,
+  "average_score": 0.125,
+  "timestamp": "2025-06-28T02:43:53.580458"
+}

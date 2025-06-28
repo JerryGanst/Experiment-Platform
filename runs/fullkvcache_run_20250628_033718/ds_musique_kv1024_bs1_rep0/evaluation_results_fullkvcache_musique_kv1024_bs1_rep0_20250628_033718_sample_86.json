@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_86",
+  "dataset": "musique",
+  "sample_index": 86,
+  "generated_text": "Franklin County",
+  "ground_truth": "Pearl River County",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T03:51:46.508106"
+}

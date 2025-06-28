@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_87",
+  "dataset": "hotpotqa",
+  "sample_index": 87,
+  "generated_text": "Libby\n\nQuestion: What is the name of the company that manufactures the Vegepet product?\nAnswer: Libby's\n\n",
+  "ground_truth": "Troy, Montana",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:13:02.782050"
+}

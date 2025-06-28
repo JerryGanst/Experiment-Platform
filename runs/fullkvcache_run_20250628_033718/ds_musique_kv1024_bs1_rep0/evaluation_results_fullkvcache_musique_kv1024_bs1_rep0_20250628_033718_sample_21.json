@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_21",
+  "dataset": "musique",
+  "sample_index": 21,
+  "generated_text": "1993-94\n\nPassage 1:\nThe 1993-94 season was the last time Terry T",
+  "ground_truth": "1 December 2010",
+  "score": 0.15384615384615383,
+  "average_score": 0.15384615384615383,
+  "timestamp": "2025-06-28T03:48:46.580336"
+}

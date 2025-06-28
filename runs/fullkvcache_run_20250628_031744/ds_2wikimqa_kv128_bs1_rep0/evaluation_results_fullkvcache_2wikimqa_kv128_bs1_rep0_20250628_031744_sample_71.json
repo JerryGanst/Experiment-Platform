@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_71",
+  "dataset": "2wikimqa",
+  "sample_index": 71,
+  "generated_text": "\nAnswer: Miley Naa Miley Hum\n\nPassage 1:\nDance With A Stranger is a 1995",
+  "ground_truth": "Miley Naa Miley Hum",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T03:21:54.245581"
+}

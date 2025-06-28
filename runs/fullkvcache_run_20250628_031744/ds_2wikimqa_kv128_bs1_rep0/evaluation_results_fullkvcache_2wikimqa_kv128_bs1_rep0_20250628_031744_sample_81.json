@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_81",
+  "dataset": "2wikimqa",
+  "sample_index": 81,
+  "generated_text": "swer: USC (University of Southern California)",
+  "ground_truth": "University of Wisconsin",
+  "score": 0.4444444444444444,
+  "average_score": 0.4444444444444444,
+  "timestamp": "2025-06-28T03:22:23.735514"
+}

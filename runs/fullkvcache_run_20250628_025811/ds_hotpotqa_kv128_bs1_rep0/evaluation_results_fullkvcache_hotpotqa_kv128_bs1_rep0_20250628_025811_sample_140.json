@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_140",
+  "dataset": "hotpotqa",
+  "sample_index": 140,
+  "generated_text": ": Lev Yilmaz\n\nQuestion: Which filmmaker was known for documentaries, Pamela B. Green or Lev Yilmaz?\nAnswer",
+  "ground_truth": "Levni Yilmaz",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T03:05:37.789038"
+}

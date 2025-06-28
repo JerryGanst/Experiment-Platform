@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_53",
+  "dataset": "qasper",
+  "sample_index": 53,
+  "generated_text": "Improvement gained from Adversarial Reward Augmented Maximum Likelihood (ARAML) is not specified in the article.",
+  "ground_truth": "ARAM has achieved improvement over all baseline methods using reverese perplexity and  slef-BLEU metric.  The maximum reverse perplexity improvement 936,16 is gained for EMNLP2017  WMT  dataset and  48,44 for COCO dataset.",
+  "score": 0.18181818181818182,
+  "average_score": 0.18181818181818182,
+  "timestamp": "2025-06-28T02:24:38.777436"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_6",
+  "dataset": "multifieldqa_en",
+  "sample_index": 6,
+  "generated_text": "Plasmas in the terrestrial environment\n\nQuestion: What is the purpose of the study?\nAnswer: To understand the properties of ultracold neutral plasmas in the terrestrial environment\n\nQuestion: What are the two main challenges in studying ultracold neutral plasmas",
+  "ground_truth": "A subset that form via kinetic rate processes from state-selected Rydberg gases.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:45:33.965859"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_41",
+  "dataset": "hotpotqa",
+  "sample_index": 41,
+  "generated_text": "\n\nAnswer: Texas\n\nPassage 1:\n\nIn the 1980s, the Dallas Cowboys had a punter",
+  "ground_truth": "Arizona State University",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:00:32.722047"
+}

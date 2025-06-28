@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_169",
+  "dataset": "narrativeqa",
+  "sample_index": 169,
+  "generated_text": "To investigate a mystery.",
+  "ground_truth": "For Holmes' health.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:45:17.954942"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_88",
+  "dataset": "qasper",
+  "sample_index": 88,
+  "generated_text": "Unanswerable (The article does not provide information about the performance on emotion detection.)",
+  "ground_truth": "Answer with content missing: (Table 3) Best author's model B-M average micro f-score is 0.409, 0.459, 0.411 on Affective, Fairy Tales and ISEAR datasets respectively. ",
+  "score": 0.05555555555555555,
+  "average_score": 0.05555555555555555,
+  "timestamp": "2025-06-28T02:25:56.521199"
+}

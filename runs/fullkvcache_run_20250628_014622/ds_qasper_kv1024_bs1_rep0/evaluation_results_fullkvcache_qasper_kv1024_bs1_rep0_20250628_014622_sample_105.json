@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_105",
+  "dataset": "qasper",
+  "sample_index": 105,
+  "generated_text": "Unanswerable (The article does not provide information about a semicharacter architecture.)",
+  "ground_truth": "A semi-character based RNN (ScRNN) treats the first and last characters individually, and is agnostic to the ordering of the internal characters",
+  "score": 0.07407407407407407,
+  "average_score": 0.07407407407407407,
+  "timestamp": "2025-06-28T02:26:30.668043"
+}

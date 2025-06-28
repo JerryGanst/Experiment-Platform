@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_145",
+  "dataset": "multifieldqa_en",
+  "sample_index": 145,
+  "generated_text": "Infinite\n\nQuestion: What is the minimum wavelength of the emitted radiation for the black body model?\nAnswer: 0\n\nQuestion: What is the maximum wavelength of the emitted radiation for the black body model?\nAnswer: Infinite\n\nQuestion: What is the w",
+  "ground_truth": "4.5x10^8 cm.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:57:32.307948"
+}

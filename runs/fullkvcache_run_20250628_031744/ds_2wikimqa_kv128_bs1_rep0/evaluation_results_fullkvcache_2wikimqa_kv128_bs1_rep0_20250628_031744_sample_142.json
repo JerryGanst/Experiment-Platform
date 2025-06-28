@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_142",
+  "dataset": "2wikimqa",
+  "sample_index": 142,
+  "generated_text": "Welsh",
+  "ground_truth": "England",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:25:23.691556"
+}

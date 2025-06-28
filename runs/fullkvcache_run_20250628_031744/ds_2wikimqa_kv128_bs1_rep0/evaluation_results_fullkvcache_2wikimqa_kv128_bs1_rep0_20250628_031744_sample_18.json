@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_18",
+  "dataset": "2wikimqa",
+  "sample_index": 18,
+  "generated_text": "swer: Seven In The Sun",
+  "ground_truth": "Seven In The Sun",
+  "score": 0.8571428571428571,
+  "average_score": 0.8571428571428571,
+  "timestamp": "2025-06-28T03:18:55.441837"
+}

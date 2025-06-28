@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_88",
+  "dataset": "hotpotqa",
+  "sample_index": 88,
+  "generated_text": "Duck\n\nQuestion: What is the name of the area that is a series of lagoons and marshes that is located on the coast of the",
+  "ground_truth": "duck",
+  "score": 0.09523809523809523,
+  "average_score": 0.09523809523809523,
+  "timestamp": "2025-06-28T03:13:07.929892"
+}

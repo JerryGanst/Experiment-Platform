@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_112",
+  "dataset": "hotpotqa",
+  "sample_index": 112,
+  "generated_text": "swer: They are both poets.",
+  "ground_truth": "poet and novelist",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:04:14.228433"
+}

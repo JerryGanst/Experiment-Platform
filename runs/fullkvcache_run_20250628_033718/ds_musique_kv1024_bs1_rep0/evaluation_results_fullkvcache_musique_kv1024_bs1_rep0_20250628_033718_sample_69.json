@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_69",
+  "dataset": "musique",
+  "sample_index": 69,
+  "generated_text": "The author is not mentioned.",
+  "ground_truth": "Min Zhou",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:50:57.899711"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_136",
+  "dataset": "2wikimqa",
+  "sample_index": 136,
+  "generated_text": "32)?\n\nAnswer: The Wind'S Fierce",
+  "ground_truth": "The Wind'S Fierce",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T03:25:02.192937"
+}

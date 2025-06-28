@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv128_bs1_rep0_20250628_014622_sample_43",
+  "dataset": "qasper",
+  "sample_index": 43,
+  "generated_text": "isely as possible.\n\nArticle: \"The Effects of Exercise on Cognitive Function in Older Adults: A Systematic Review and Meta-Analysis\"\n\nQuestion: Does exercise improve cognitive function in older adults?\n\nAnswer: Yes, according to the systematic review and meta-analysis, exercise improves cognitive function in older adults.",
+  "ground_truth": "the model is pre-trained on CTC-based ASR task and MT task in the pre-training stage.",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T01:54:22.872773"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_132",
+  "dataset": "2wikimqa",
+  "sample_index": 132,
+  "generated_text": "Mysore, India",
+  "ground_truth": "Mysore",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T03:24:53.809921"
+}

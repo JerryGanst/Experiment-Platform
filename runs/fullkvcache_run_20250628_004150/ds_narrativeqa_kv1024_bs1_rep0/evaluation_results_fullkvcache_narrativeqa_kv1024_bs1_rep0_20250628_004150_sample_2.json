@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_2",
+  "dataset": "narrativeqa",
+  "sample_index": 2,
+  "generated_text": "The entertainer's manager has an affair with the lead actress.",
+  "ground_truth": "Lisa, the blacksmith's wife.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:40:31.485545"
+}

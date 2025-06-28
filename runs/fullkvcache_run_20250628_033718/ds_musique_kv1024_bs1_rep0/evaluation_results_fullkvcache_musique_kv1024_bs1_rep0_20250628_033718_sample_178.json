@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_178",
+  "dataset": "musique",
+  "sample_index": 178,
+  "generated_text": "Charles Bridge",
+  "ground_truth": "Rialto Bridge",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T03:55:53.182310"
+}

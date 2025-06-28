@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_41",
+  "dataset": "qasper",
+  "sample_index": 41,
+  "generated_text": "Unanswerable (The article does not provide information about Gaussian-masked directional multi-head attention.)",
+  "ground_truth": "pays attentions to adjacent characters and casts a localness relationship between the characters as a fixed Gaussian weight assuming the weight relies on the distance between characters",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:24:10.197643"
+}

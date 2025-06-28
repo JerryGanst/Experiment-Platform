@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_35",
+  "dataset": "narrativeqa",
+  "sample_index": 35,
+  "generated_text": "Dana Barrett.",
+  "ground_truth": "Dana",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T01:41:29.905641"
+}

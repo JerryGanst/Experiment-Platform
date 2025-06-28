@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_133",
+  "dataset": "qasper",
+  "sample_index": 133,
+  "generated_text": "Size of Augmented LibriSpeech dataset is not specified.",
+  "ground_truth": "Unanswerable",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:27:24.713369"
+}

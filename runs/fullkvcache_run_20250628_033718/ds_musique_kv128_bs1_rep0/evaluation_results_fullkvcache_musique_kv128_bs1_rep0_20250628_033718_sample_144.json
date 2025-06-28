@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_144",
+  "dataset": "musique",
+  "sample_index": 144,
+  "generated_text": "swer: Salma Hayek\n\nQuestion: What is the name of the movie in which the producer of Here Comes the Boom plays a character named",
+  "ground_truth": "Maria Bello",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:44:41.127753"
+}

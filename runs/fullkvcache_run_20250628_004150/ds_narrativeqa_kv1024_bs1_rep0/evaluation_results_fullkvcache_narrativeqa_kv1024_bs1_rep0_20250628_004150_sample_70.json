@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_70",
+  "dataset": "narrativeqa",
+  "sample_index": 70,
+  "generated_text": "The Red Hand Gang.",
+  "ground_truth": "The Hans",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:32.538083"
+}

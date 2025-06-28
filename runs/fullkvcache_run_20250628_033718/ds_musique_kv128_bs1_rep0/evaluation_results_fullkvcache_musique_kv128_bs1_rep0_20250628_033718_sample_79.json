@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_79",
+  "dataset": "musique",
+  "sample_index": 79,
+  "generated_text": "The story of the character Aaron Cross from The Bourne Deception was based on the character Jason Bourne from the original Bourne series.",
+  "ground_truth": "the novel of the same name by Robert Ludlum",
+  "score": 0.08,
+  "average_score": 0.08,
+  "timestamp": "2025-06-28T03:41:25.610910"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_118",
+  "dataset": "multifieldqa_en",
+  "sample_index": 118,
+  "generated_text": "It widens in the direction of tensile strain and narrows in the direction of compressive strain.",
+  "ground_truth": "Peaks occur at certain strain directions, while the gap is zero at others.",
+  "score": 0.07692307692307691,
+  "average_score": 0.07692307692307691,
+  "timestamp": "2025-06-28T02:54:54.993205"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_5",
+  "dataset": "musique",
+  "sample_index": 5,
+  "generated_text": "Joey McIntyre's brother is Nicholas McIntyre.",
+  "ground_truth": "Matthew Lawrence",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:37:48.161483"
+}

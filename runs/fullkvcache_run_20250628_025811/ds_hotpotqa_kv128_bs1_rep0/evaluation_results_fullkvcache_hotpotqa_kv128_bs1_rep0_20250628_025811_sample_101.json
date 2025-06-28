@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_101",
+  "dataset": "hotpotqa",
+  "sample_index": 101,
+  "generated_text": "birth to death?\n\nAnswer: Munich",
+  "ground_truth": "Vienna",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:03:41.414999"
+}

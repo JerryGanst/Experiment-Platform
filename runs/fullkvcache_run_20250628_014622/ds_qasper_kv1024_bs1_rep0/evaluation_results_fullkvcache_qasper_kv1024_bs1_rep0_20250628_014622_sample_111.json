@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_111",
+  "dataset": "qasper",
+  "sample_index": 111,
+  "generated_text": "They define robustness of a model as the ability to perform well under a variety of conditions.",
+  "ground_truth": "ability to accurately classify texts even when the amount of prior knowledge for different classes is unbalanced, and when the class distribution of the dataset is unbalanced",
+  "score": 0.2105263157894737,
+  "average_score": 0.2105263157894737,
+  "timestamp": "2025-06-28T02:26:39.572553"
+}

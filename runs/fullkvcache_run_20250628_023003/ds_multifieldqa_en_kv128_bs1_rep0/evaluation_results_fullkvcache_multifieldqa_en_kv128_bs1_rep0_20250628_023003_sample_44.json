@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_44",
+  "dataset": "multifieldqa_en",
+  "sample_index": 44,
+  "generated_text": "and magnetism on the properties of the material?\n\nAnswer: The proximity of superconductivity and magnetism leads to the formation of exotic states and unusual properties in the material.",
+  "ground_truth": "It tends to suppress the Kondo effect.",
+  "score": 0.06896551724137931,
+  "average_score": 0.06896551724137931,
+  "timestamp": "2025-06-28T02:35:06.372857"
+}

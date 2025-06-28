@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_111",
+  "dataset": "musique",
+  "sample_index": 111,
+  "generated_text": "\n\nAnswer: Lea Thompson\n\nPassage 1:\nIn the movie Back to the Future, Lea Thompson played the role of L",
+  "ground_truth": "Claudia Wells",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:43:05.166936"
+}

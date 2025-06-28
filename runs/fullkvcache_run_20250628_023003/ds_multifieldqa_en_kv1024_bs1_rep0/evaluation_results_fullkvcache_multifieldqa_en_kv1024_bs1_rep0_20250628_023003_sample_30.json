@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_30",
+  "dataset": "multifieldqa_en",
+  "sample_index": 30,
+  "generated_text": "COVID-19\n\nQuestion: What was the result of the trials?\nAnswer: The vaccines were found to be safe and effective.\n\nQuestion: How many doses were given in the trials?\nAnswer: 30,000 doses\n\nQuestion: What was",
+  "ground_truth": "Other toxic products.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:48:25.796792"
+}

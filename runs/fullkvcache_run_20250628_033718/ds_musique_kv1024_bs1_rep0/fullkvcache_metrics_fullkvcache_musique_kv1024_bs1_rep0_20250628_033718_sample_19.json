@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_19",
+  "timestamp": "2025-06-28T03:48:40.387547",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 210.9430027008057,
+    "throughput_tokens_per_sec": 4.98043100048071,
+    "total_time_sec": 1.2047150135040283,
+    "tokens_generated": 6,
+    "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 1024,
+    "max_new_tokens": 32,
+    "use_fullkvcache": true,
+    "dataset": "musique",
+    "repetition": 0
+  },
+  "monitoring": null
+}

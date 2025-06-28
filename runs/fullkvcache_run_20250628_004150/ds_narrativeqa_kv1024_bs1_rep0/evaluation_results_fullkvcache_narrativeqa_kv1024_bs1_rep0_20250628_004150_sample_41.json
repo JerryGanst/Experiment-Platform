@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_41",
+  "dataset": "narrativeqa",
+  "sample_index": 41,
+  "generated_text": "They were accused of war crimes.",
+  "ground_truth": "They were never deployed and were discharged for psychological reasons.",
+  "score": 0.25,
+  "average_score": 0.25,
+  "timestamp": "2025-06-28T01:41:39.904428"
+}

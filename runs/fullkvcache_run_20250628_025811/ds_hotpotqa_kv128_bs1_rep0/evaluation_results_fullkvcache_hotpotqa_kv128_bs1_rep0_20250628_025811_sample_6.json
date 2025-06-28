@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_6",
+  "dataset": "hotpotqa",
+  "sample_index": 6,
+  "generated_text": "by a former Huskies coach. Who was the coach of the team that defeated the Huskies?\n\nAnswer: The coach of the team",
+  "ground_truth": "Floyd Casey Stadium",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:58:52.992621"
+}

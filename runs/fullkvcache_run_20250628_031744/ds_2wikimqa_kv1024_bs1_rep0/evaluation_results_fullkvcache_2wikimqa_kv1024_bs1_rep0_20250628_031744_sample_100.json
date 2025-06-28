@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_100",
+  "dataset": "2wikimqa",
+  "sample_index": 100,
+  "generated_text": "The passages do not provide information about Henrietta Maria Of Brandenburg-Schwedt's father's birthday.",
+  "ground_truth": "May 19, 1669",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:33:03.055863"
+}

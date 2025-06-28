@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_68",
+  "dataset": "hotpotqa",
+  "sample_index": 68,
+  "generated_text": "Christmas specials",
+  "ground_truth": "seasonal television specials, particularly its work in stop motion animation",
+  "score": 0.16666666666666669,
+  "average_score": 0.16666666666666669,
+  "timestamp": "2025-06-28T03:12:15.518177"
+}

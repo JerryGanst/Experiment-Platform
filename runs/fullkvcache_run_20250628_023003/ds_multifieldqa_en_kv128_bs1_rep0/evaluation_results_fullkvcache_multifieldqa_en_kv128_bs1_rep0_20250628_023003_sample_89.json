@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_89",
+  "dataset": "multifieldqa_en",
+  "sample_index": 89,
+  "generated_text": "the study?\n\nAnswer: TEM, XRD, and PL spectroscopy.",
+  "ground_truth": "Low temperature scanning tunneling microscopy and spectroscopy (STM/STS).",
+  "score": 0.26666666666666666,
+  "average_score": 0.26666666666666666,
+  "timestamp": "2025-06-28T02:39:07.091720"
+}

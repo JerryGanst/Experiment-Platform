@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_33",
+  "dataset": "musique",
+  "sample_index": 33,
+  "generated_text": "\nAnswer: Twin Oaks County\n\nPassage 1:\nValley New School is located in the county of Oak Grove.\n",
+  "ground_truth": "Green Bay",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:39:02.319232"
+}

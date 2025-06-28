@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_66",
+  "dataset": "narrativeqa",
+  "sample_index": 66,
+  "generated_text": "Reikos husband dies.",
+  "ground_truth": "has a heart attack",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:23.200392"
+}

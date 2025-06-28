@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_104",
+  "dataset": "2wikimqa",
+  "sample_index": 104,
+  "generated_text": "King George V\n\nPassage 1:\nDuke William of Mecklenburg-Schwerin is the son-in-law of King",
+  "ground_truth": "Prince Albert of Prussia",
+  "score": 0.11764705882352941,
+  "average_score": 0.11764705882352941,
+  "timestamp": "2025-06-28T03:33:11.457210"
+}

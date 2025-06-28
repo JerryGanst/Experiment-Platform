@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_169",
+  "dataset": "hotpotqa",
+  "sample_index": 169,
+  "generated_text": "red in the performance?\n\nAnswer: The choreographer choreographed one who is said to be the last muse for the chore",
+  "ground_truth": "George Balanchine",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:07:03.442297"
+}

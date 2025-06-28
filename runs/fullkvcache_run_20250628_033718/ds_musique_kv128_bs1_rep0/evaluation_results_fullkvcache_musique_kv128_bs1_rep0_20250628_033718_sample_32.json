@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_32",
+  "dataset": "musique",
+  "sample_index": 32,
+  "generated_text": ": Rutherford's experiment",
+  "ground_truth": "Manhattan Project",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:38:57.522455"
+}

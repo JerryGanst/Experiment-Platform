@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_182",
+  "dataset": "hotpotqa",
+  "sample_index": 182,
+  "generated_text": "Video game\n\nPassage 1:\nYameen is a popular YouTuber who plays video games.\n\nPassage 2:\n",
+  "ground_truth": "video game",
+  "score": 0.25,
+  "average_score": 0.25,
+  "timestamp": "2025-06-28T03:07:57.293187"
+}

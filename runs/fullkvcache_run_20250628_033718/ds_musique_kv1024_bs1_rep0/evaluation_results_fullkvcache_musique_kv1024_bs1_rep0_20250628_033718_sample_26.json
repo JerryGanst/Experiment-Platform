@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_26",
+  "dataset": "musique",
+  "sample_index": 26,
+  "generated_text": "Capitol Records",
+  "ground_truth": "Kill Rock Stars",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:49:03.759722"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_7",
+  "dataset": "multifieldqa_en",
+  "sample_index": 7,
+  "generated_text": "cortex?\n\nAnswer: High\n\nQuestion: What is the main advantage of SNNs over traditional neural networks?\n\nAnswer: Energy efficiency\n\nQuestion: What is the role of spike timing in SNNs?\n\nAnswer: It encodes information\n\nQuestion:",
+  "ground_truth": "SNNs have the potential to better model and explain the functional hierarchy and mechanisms of the visual system.",
+  "score": 0.08695652173913043,
+  "average_score": 0.08695652173913043,
+  "timestamp": "2025-06-28T02:30:59.419928"
+}

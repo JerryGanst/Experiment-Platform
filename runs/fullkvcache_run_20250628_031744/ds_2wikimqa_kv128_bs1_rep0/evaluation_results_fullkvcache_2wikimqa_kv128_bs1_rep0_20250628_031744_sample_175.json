@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_175",
+  "dataset": "2wikimqa",
+  "sample_index": 175,
+  "generated_text": "Folgore Division",
+  "ground_truth": "Sandflow",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:26:49.881015"
+}

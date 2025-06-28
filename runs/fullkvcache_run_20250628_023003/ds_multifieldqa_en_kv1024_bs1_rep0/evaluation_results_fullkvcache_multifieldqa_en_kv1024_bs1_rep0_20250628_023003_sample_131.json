@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_131",
+  "dataset": "multifieldqa_en",
+  "sample_index": 131,
+  "generated_text": "K'unyak' FC",
+  "ground_truth": "FC Banants.",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T02:56:06.862828"
+}

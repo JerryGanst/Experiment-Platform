@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_83",
+  "dataset": "multifieldqa_en",
+  "sample_index": 83,
+  "generated_text": "\n\nAnswer: Image processing, geophysics, and audio signal processing.",
+  "ground_truth": "Physics, biology, social sciences, finance, and neuroscience are some fields in which the inverse problem is encountered.",
+  "score": 0.08333333333333333,
+  "average_score": 0.08333333333333333,
+  "timestamp": "2025-06-28T02:38:42.625301"
+}

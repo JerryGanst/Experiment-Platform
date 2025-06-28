@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_180",
+  "dataset": "narrativeqa",
+  "sample_index": 180,
+  "generated_text": "To persuade Socrates to escape from prison.",
+  "ground_truth": "To smuggle Socrates out of prison and into a life of exile.",
+  "score": 0.33333333333333326,
+  "average_score": 0.33333333333333326,
+  "timestamp": "2025-06-28T01:45:36.221626"
+}

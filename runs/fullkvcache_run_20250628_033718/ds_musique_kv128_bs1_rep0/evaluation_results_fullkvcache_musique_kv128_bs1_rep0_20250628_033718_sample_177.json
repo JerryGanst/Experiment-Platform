@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_177",
+  "dataset": "musique",
+  "sample_index": 177,
+  "generated_text": "?\n\nAnswer: J.J. Cohen played the girlfriend of Mary Stewart Masterson, who played Marty McFly's daughter in Back",
+  "ground_truth": "Claudia Wells",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:46:27.790994"
+}

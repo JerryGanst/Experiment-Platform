@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_87",
+  "dataset": "hotpotqa",
+  "sample_index": 87,
+  "generated_text": "\nAnswer: Libby\n\nPassage 1:\n\nVegepet is a pet food company based in Libby, Montana.",
+  "ground_truth": "Troy, Montana",
+  "score": 0.13333333333333336,
+  "average_score": 0.13333333333333336,
+  "timestamp": "2025-06-28T03:03:03.843508"
+}

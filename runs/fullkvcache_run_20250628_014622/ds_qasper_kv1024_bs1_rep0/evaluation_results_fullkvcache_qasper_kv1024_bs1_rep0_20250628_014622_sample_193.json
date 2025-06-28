@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_193",
+  "dataset": "qasper",
+  "sample_index": 193,
+  "generated_text": "Unanswerable (The article does not provide information about the accuracy of the proposed system.)",
+  "ground_truth": "F1 scores of 85.99 on the DL-PS data,  75.15 on the EC-MT data and 71.53 on the EC-UQ data ",
+  "score": 0.07407407407407407,
+  "average_score": 0.07407407407407407,
+  "timestamp": "2025-06-28T02:29:36.036948"
+}

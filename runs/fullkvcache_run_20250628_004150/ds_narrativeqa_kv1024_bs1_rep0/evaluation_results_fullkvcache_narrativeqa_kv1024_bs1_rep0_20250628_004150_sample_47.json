@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_47",
+  "dataset": "narrativeqa",
+  "sample_index": 47,
+  "generated_text": "A world of ash and dust.",
+  "ground_truth": "ones that are vague",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:49.459360"
+}

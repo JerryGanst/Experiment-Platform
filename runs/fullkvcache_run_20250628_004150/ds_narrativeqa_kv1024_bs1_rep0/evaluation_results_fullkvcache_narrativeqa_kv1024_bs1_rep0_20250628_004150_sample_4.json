@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_4",
+  "dataset": "narrativeqa",
+  "sample_index": 4,
+  "generated_text": "Grassou's wife's name was not mentioned.",
+  "ground_truth": "Virginie.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:40:35.577522"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_181",
+  "dataset": "qasper",
+  "sample_index": 181,
+  "generated_text": "Not specified in the article.",
+  "ground_truth": "Byte-Pair Encoding perplexity  (BPE PPL),\nBLEU-1,\nBLEU-4,\nROUGE-L,\npercentage of distinct unigram (D-1),\npercentage of distinct bigrams(D-2),\nuser matching accuracy(UMA),\nMean Reciprocal Rank(MRR)\nPairwise preference over baseline(PP)",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:29:06.621392"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_71",
+  "dataset": "multifieldqa_en",
+  "sample_index": 71,
+  "generated_text": "'s path?\n\nAnswer: It makes the robot's path more efficient and less likely to collide with obstacles.",
+  "ground_truth": "The belief entropy decreases more steadily.",
+  "score": 0.09523809523809523,
+  "average_score": 0.09523809523809523,
+  "timestamp": "2025-06-28T02:37:36.079229"
+}

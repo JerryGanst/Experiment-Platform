@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_134",
+  "dataset": "qasper",
+  "sample_index": 134,
+  "generated_text": "Painting embedding uses VGG16, while language style transfer uses CycleGAN.",
+  "ground_truth": "generating a poem from images we use an existing actor-critic architecture, various types of sequence to sequence models",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:27:28.001327"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_36",
+  "dataset": "2wikimqa",
+  "sample_index": 36,
+  "generated_text": "Angelina Jolie\n\nQuestion: What is the name of the film directed by the spouse of the director of Soldier (1998 American",
+  "ground_truth": "Milla",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:29:46.815183"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_39",
+  "dataset": "qasper",
+  "sample_index": 39,
+  "generated_text": "Unanswerable (The article does not specify the dataset used for the state-of-the-art results.)",
+  "ground_truth": "the English-German dataset",
+  "score": 0.16666666666666669,
+  "average_score": 0.16666666666666669,
+  "timestamp": "2025-06-28T02:24:04.130193"
+}

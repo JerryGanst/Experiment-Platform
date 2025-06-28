@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_114",
+  "dataset": "qasper",
+  "sample_index": 114,
+  "generated_text": "Tasks are not specified in the article.",
+  "ground_truth": "four machine translation tasks: German -> English, Japanese -> English, Romanian -> English, English -> German",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T02:26:45.125381"
+}

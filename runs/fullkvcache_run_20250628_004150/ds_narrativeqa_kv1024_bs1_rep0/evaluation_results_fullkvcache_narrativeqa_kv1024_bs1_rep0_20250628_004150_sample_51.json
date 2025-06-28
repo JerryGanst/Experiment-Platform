@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_51",
+  "dataset": "narrativeqa",
+  "sample_index": 51,
+  "generated_text": "Exceptional mastery of his craft.",
+  "ground_truth": "A grand master.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:56.497964"
+}

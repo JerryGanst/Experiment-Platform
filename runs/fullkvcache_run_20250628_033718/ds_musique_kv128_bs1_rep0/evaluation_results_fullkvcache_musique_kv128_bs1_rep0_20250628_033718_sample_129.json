@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_129",
+  "dataset": "musique",
+  "sample_index": 129,
+  "generated_text": "a part of?\n\nAnswer: 2010 World Cup, 2012 European Championship, 2014 World Cup",
+  "ground_truth": "continental treble",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:43:51.544101"
+}

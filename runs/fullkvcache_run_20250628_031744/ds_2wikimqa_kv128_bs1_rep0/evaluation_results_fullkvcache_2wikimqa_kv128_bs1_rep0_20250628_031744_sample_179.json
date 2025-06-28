@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_179",
+  "dataset": "2wikimqa",
+  "sample_index": 179,
+  "generated_text": "çu?\n\nAnswer: 1953-08-13",
+  "ground_truth": "November 3, 1867",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:26:58.626926"
+}

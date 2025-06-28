@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_39",
+  "dataset": "hotpotqa",
+  "sample_index": 39,
+  "generated_text": "Democritus",
+  "ground_truth": "Leucippus",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:10:56.468751"
+}

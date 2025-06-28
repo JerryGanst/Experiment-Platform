@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_47",
+  "dataset": "hotpotqa",
+  "sample_index": 47,
+  "generated_text": "CNN\n\nQuestion: What was the name of the first show that aired on CNN?\nAnswer: CNN Tonight\n\nQuestion: Who was",
+  "ground_truth": "Betty Cohen",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:11:21.493793"
+}

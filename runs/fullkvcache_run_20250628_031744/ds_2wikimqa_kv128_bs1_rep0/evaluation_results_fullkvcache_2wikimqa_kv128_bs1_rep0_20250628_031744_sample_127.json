@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_127",
+  "dataset": "2wikimqa",
+  "sample_index": 127,
+  "generated_text": "\nAnswer: Melody Of The World",
+  "ground_truth": "Melody Of The World",
+  "score": 0.8571428571428571,
+  "average_score": 0.8571428571428571,
+  "timestamp": "2025-06-28T03:24:44.249969"
+}

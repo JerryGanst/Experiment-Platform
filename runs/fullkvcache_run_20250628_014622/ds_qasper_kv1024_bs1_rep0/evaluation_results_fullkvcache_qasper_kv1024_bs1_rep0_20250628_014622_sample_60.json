@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_60",
+  "dataset": "qasper",
+  "sample_index": 60,
+  "generated_text": "Convolutional Neural Network (CNN) and Recurrent Neural Network (RNN) embedding techniques are explored.",
+  "ground_truth": "Skip–gram, CBOW",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:24:55.819298"
+}

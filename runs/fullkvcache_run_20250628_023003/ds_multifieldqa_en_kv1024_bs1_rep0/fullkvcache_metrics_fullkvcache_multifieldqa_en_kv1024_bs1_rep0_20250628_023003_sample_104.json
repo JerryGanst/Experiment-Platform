@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_104",
+  "timestamp": "2025-06-28T02:53:54.155926",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 140.99523587660357,
+    "throughput_tokens_per_sec": 7.072798679300326,
+    "total_time_sec": 3.2518951892852783,
+    "tokens_generated": 23,
+    "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 1024,
+    "max_new_tokens": 64,
+    "use_fullkvcache": true,
+    "dataset": "multifieldqa_en",
+    "repetition": 0
+  },
+  "monitoring": null
+}

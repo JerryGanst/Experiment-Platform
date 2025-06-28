@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_67",
+  "timestamp": "2025-06-28T02:25:08.576178",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 149.96073087056476,
+    "throughput_tokens_per_sec": 6.668303282071022,
+    "total_time_sec": 2.3994109630584717,
+    "tokens_generated": 16,
+    "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 1024,
+    "max_new_tokens": 128,
+    "use_fullkvcache": true,
+    "dataset": "qasper",
+    "repetition": 0
+  },
+  "monitoring": null
+}

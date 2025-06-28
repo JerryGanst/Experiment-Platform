@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_131",
+  "dataset": "multifieldqa_en",
+  "sample_index": 131,
+  "generated_text": "artu?\n\nAnswer: K'unyak' FC",
+  "ground_truth": "FC Banants.",
+  "score": 0.3333333333333333,
+  "average_score": 0.3333333333333333,
+  "timestamp": "2025-06-28T02:42:54.897386"
+}

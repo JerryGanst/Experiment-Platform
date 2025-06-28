@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_70",
+  "dataset": "2wikimqa",
+  "sample_index": 70,
+  "generated_text": "\nAnswer: August Underground'S Penance\n\nPassage 1:\n\nAugust Underground's Penance is a 2",
+  "ground_truth": "Vasantha Raagam",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:21:49.089605"
+}

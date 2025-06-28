@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_66",
+  "dataset": "multifieldqa_en",
+  "sample_index": 66,
+  "generated_text": "aircraft does the US Air Force use?\n\nAnswer: C-130 Hercules",
+  "ground_truth": "The IAF is considering the acquisition of the Airbus A330 MRTT (Multi-Role Tanker Transport) besides the Boeing C-17.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:37:08.760026"
+}

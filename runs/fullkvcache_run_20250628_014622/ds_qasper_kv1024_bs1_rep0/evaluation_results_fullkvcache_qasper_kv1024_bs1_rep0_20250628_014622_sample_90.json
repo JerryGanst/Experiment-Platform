@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_90",
+  "dataset": "qasper",
+  "sample_index": 90,
+  "generated_text": "Unclear, not specified in the article.",
+  "ground_truth": "LSA, TextRank, LexRank and ILP-based summary.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:26:01.046361"
+}

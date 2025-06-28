@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_117",
+  "dataset": "musique",
+  "sample_index": 117,
+  "generated_text": "The population of state A is not given in the passages.",
+  "ground_truth": "1,335,907",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:53:12.474465"
+}

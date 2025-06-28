@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_160",
+  "dataset": "musique",
+  "sample_index": 160,
+  "generated_text": "New York City",
+  "ground_truth": "Denver",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:55:04.110730"
+}

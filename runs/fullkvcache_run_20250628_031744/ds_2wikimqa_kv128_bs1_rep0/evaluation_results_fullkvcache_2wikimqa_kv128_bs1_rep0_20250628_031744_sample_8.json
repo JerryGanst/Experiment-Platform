@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_8",
+  "dataset": "2wikimqa",
+  "sample_index": 8,
+  "generated_text": "same province?\n\nAnswer: No.\n\nPassage 1:\nHoward Lake is a lake in British Columbia, Canada. It is",
+  "ground_truth": "yes",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:18:25.964425"
+}

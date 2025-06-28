@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_31",
+  "dataset": "musique",
+  "sample_index": 31,
+  "generated_text": "The passage does not provide the name of the president of the newly declared independent country.",
+  "ground_truth": "Francisco Guterres",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:49:14.826320"
+}

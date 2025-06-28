@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_173",
+  "dataset": "hotpotqa",
+  "sample_index": 173,
+  "generated_text": "1834\n\nQuestion: What was the name of the plaintiff in the 1892 Barbed Wire Patent Case?",
+  "ground_truth": "January 18, 1813",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:16:16.432659"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_35",
+  "dataset": "qasper",
+  "sample_index": 35,
+  "generated_text": "Strong baselines model is compared to other models.",
+  "ground_truth": "Baseline models are:\n- Chen et al., 2015a\n- Chen et al., 2015b\n- Liu et al., 2016\n- Cai and Zhao, 2016\n- Cai et al., 2017\n- Zhou et al., 2017\n- Ma et al., 2018\n- Wang et al., 2019",
+  "score": 0.04651162790697674,
+  "average_score": 0.04651162790697674,
+  "timestamp": "2025-06-28T02:23:53.887936"
+}

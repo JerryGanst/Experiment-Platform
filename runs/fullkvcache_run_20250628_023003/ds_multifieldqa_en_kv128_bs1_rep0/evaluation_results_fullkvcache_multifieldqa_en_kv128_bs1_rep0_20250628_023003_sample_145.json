@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_145",
+  "dataset": "multifieldqa_en",
+  "sample_index": 145,
+  "generated_text": "100 keV photons?\n\nAnswer: 1.6 x 10^-12 m",
+  "ground_truth": "4.5x10^8 cm.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:44:24.214711"
+}

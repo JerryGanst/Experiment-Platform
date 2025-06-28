@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_137",
+  "dataset": "multifieldqa_en",
+  "sample_index": 137,
+  "generated_text": "\nAnswer: The Beatles' fan club, The Beatle Fan Club, is the most active.",
+  "ground_truth": "South West Ultras fan club.",
+  "score": 0.26666666666666666,
+  "average_score": 0.26666666666666666,
+  "timestamp": "2025-06-28T02:43:36.105347"
+}

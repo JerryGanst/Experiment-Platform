@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_53",
+  "dataset": "2wikimqa",
+  "sample_index": 53,
+  "generated_text": "New York City",
+  "ground_truth": "Gura Humorului",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:30:44.936511"
+}

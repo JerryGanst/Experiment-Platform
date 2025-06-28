@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_67",
+  "dataset": "multifieldqa_en",
+  "sample_index": 67,
+  "generated_text": "model?\n\nAnswer: Improved accuracy, reduced computational time, and ability to handle complex relationships.",
+  "ground_truth": "Reduced computational complexity.",
+  "score": 0.25,
+  "average_score": 0.25,
+  "timestamp": "2025-06-28T02:37:12.483256"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_84",
+  "dataset": "hotpotqa",
+  "sample_index": 84,
+  "generated_text": "New Zealand",
+  "ground_truth": "Northern Ireland",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:02:53.893343"
+}

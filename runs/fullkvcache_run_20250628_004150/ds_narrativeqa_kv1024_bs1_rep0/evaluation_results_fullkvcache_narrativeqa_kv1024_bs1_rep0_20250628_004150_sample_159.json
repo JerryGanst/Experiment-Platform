@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_159",
+  "dataset": "narrativeqa",
+  "sample_index": 159,
+  "generated_text": "In the Vervelle mansion.",
+  "ground_truth": "In a mansion in Ville-d'Avray. ",
+  "score": 0.5714285714285715,
+  "average_score": 0.5714285714285715,
+  "timestamp": "2025-06-28T01:45:03.008458"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_61",
+  "dataset": "2wikimqa",
+  "sample_index": 61,
+  "generated_text": "Una Prostituta Al Servizio Del Pubblico E In Regola Con Le Leggi Dello Stato\n\nQuestion: Which film was released",
+  "ground_truth": "Una Prostituta Al Servizio Del Pubblico E In Regola Con Le Leggi Dello Stato",
+  "score": 0.8484848484848484,
+  "average_score": 0.8484848484848484,
+  "timestamp": "2025-06-28T03:31:09.930278"
+}

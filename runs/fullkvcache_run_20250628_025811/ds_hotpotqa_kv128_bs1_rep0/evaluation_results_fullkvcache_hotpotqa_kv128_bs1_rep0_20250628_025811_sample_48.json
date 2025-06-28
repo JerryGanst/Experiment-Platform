@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_48",
+  "dataset": "hotpotqa",
+  "sample_index": 48,
+  "generated_text": "swer: Don Bluth\n\nQuestion: Who was the voice actor for Olivia Flaversham in the film?\nAnswer: Susanne Poll",
+  "ground_truth": "Burny Mattinson, David Michener, and the team of John Musker and Ron Clements",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:00:59.774638"
+}

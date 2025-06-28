@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_43",
+  "dataset": "hotpotqa",
+  "sample_index": 43,
+  "generated_text": "Pub Crawl\n\nQuestion: What is the name of the bar that Robbie Tucker's character runs in Pub Crawl?\nAnswer:",
+  "ground_truth": "It's Always Sunny in Philadelphia",
+  "score": 0.0909090909090909,
+  "average_score": 0.0909090909090909,
+  "timestamp": "2025-06-28T03:11:08.517919"
+}

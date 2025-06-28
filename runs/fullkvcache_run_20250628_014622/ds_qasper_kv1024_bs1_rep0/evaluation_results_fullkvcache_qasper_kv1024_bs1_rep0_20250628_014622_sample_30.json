@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_30",
+  "dataset": "qasper",
+  "sample_index": 30,
+  "generated_text": "Unanswerable (The article does not specify the language model architectures used.)",
+  "ground_truth": "uni-directional model to augment the decoder",
+  "score": 0.14285714285714285,
+  "average_score": 0.14285714285714285,
+  "timestamp": "2025-06-28T02:23:39.497479"
+}

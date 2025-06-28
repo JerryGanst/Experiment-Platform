@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_57",
+  "dataset": "hotpotqa",
+  "sample_index": 57,
+  "generated_text": "Ronald Reagan",
+  "ground_truth": "George H. W. Bush",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:01:32.175556"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_141",
+  "dataset": "multifieldqa_en",
+  "sample_index": 141,
+  "generated_text": "swer: Adenosine triphosphate (ATP)",
+  "ground_truth": "The focus of the study was on the reactive radical ethynyl (C$_2$H).",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:44:03.379685"
+}

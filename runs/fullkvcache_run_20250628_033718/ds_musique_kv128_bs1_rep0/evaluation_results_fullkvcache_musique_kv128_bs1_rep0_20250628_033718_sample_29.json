@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_29",
+  "dataset": "musique",
+  "sample_index": 29,
+  "generated_text": ": Tanzania",
+  "ground_truth": "Tanzania",
+  "score": 1.0,
+  "average_score": 1.0,
+  "timestamp": "2025-06-28T03:38:49.419110"
+}

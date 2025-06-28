@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_148",
+  "dataset": "multifieldqa_en",
+  "sample_index": 148,
+  "generated_text": "the clustering algorithm?\n\nAnswer: Improved cluster quality.\n\nQuestion: What is the disadvantage of using k-means clustering algorithm for high dimensional data?\n\nAnswer: It may not work well due to the curse of dimensionality.\n\nQuestion: What is",
+  "ground_truth": "Decorrelating the data before running the PLS algorithm improves the performance of the algorithm.",
+  "score": 0.186046511627907,
+  "average_score": 0.186046511627907,
+  "timestamp": "2025-06-28T02:44:39.201800"
+}

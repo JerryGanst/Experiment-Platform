@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_175",
+  "dataset": "musique",
+  "sample_index": 175,
+  "generated_text": "Stanford University\n\nQuestion: What is the name of the school where Lawrence Landweber was educated?\nAnswer: Stanford\n\nQuestion: What is",
+  "ground_truth": "City University of New York",
+  "score": 0.1739130434782609,
+  "average_score": 0.1739130434782609,
+  "timestamp": "2025-06-28T03:55:42.584994"
+}

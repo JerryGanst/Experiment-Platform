@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_8",
+  "dataset": "hotpotqa",
+  "sample_index": 8,
+  "generated_text": "Sawin Millett is being talked about because he is a candidate for Maine's 2nd Congressional District seat.",
+  "ground_truth": "Commissioner by the Maine Senate",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:09:38.389820"
+}

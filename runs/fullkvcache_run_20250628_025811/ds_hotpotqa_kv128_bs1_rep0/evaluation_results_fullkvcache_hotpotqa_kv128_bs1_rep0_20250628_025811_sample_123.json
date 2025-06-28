@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_123",
+  "dataset": "hotpotqa",
+  "sample_index": 123,
+  "generated_text": "\n\nAnswer: Santeria\n\nQuestion: What is the name of the religion that developed among the Yoruba people of West Africa ?\n",
+  "ground_truth": "West African descendants",
+  "score": 0.10526315789473684,
+  "average_score": 0.10526315789473684,
+  "timestamp": "2025-06-28T03:04:46.397546"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_126",
+  "dataset": "qasper",
+  "sample_index": 126,
+  "generated_text": "Quality not specified.",
+  "ground_truth": "improvement when the difficult subset with expert annotations is mixed with the remaining crowd annotation is 3.5 F1 score, much larger than when a random set of expert annotations are added",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:27:11.763982"
+}

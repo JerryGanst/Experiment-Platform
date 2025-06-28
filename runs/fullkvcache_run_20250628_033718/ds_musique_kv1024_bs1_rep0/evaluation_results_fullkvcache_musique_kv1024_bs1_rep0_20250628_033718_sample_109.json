@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_109",
+  "dataset": "musique",
+  "sample_index": 109,
+  "generated_text": "1893-94\n\nPassage 1:\nThe 1894-95 FA cup winner was Aston Villa",
+  "ground_truth": "1 December 2010",
+  "score": 0.15384615384615383,
+  "average_score": 0.15384615384615383,
+  "timestamp": "2025-06-28T03:52:44.886405"
+}

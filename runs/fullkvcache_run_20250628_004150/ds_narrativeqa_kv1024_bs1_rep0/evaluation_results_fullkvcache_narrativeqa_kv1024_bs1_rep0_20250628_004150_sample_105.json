@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_105",
+  "dataset": "narrativeqa",
+  "sample_index": 105,
+  "generated_text": "By receiving future awards for poetry.",
+  "ground_truth": "By selling his soul to the devil.",
+  "score": 0.16666666666666666,
+  "average_score": 0.16666666666666666,
+  "timestamp": "2025-06-28T01:43:31.884574"
+}

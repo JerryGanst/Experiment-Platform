@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_0",
+  "dataset": "musique",
+  "sample_index": 0,
+  "generated_text": "San Antonio-New Braunfels\n\nQuestion: What is the name of the radio station that KTRP is licensed to?\nAnswer:",
+  "ground_truth": "Canyon County",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:37:36.943908"
+}

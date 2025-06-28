@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_97",
+  "dataset": "multifieldqa_en",
+  "sample_index": 97,
+  "generated_text": "in Normandy?\n\nAnswer: 101st Airborne Division\n\nQuestion: What was the name of the airfield where Goodwin's unit was based before the invasion?\n\nAnswer: Aldermaston Airfield\n\nQuestion: What was the rank of Goodwin during",
+  "ground_truth": "VC-10 Squadron.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:39:45.392250"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_21",
+  "dataset": "musique",
+  "sample_index": 21,
+  "generated_text": "195 Boston Celtics?\n\nAnswer: 1969\n\nPassage 1:\nTerry Twell was a member",
+  "ground_truth": "1 December 2010",
+  "score": 0.14285714285714288,
+  "average_score": 0.14285714285714288,
+  "timestamp": "2025-06-28T03:38:24.824790"
+}

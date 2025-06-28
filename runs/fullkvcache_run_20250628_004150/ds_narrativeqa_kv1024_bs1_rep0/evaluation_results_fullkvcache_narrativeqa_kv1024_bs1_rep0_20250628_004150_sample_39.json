@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_39",
+  "dataset": "narrativeqa",
+  "sample_index": 39,
+  "generated_text": "Falder's lawyer is unknown.",
+  "ground_truth": "Frome",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:41:36.793305"
+}

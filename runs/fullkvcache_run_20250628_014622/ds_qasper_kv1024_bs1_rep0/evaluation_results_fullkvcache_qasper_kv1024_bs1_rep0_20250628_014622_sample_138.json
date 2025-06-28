@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_138",
+  "dataset": "qasper",
+  "sample_index": 138,
+  "generated_text": "Unanswerable (The article does not specify which LSTM models were compared.)",
+  "ground_truth": "Unidirectional LSTM networks with 2, 6, 7, 8, and  9 layers.",
+  "score": 0.09523809523809525,
+  "average_score": 0.09523809523809525,
+  "timestamp": "2025-06-28T02:27:38.800399"
+}

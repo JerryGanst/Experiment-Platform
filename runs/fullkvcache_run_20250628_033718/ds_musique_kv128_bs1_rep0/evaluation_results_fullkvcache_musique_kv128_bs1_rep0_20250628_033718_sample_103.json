@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_103",
+  "dataset": "musique",
+  "sample_index": 103,
+  "generated_text": "the narrator is from?\n\nAnswer: 1968",
+  "ground_truth": "1964",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:42:41.405152"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_52",
+  "dataset": "hotpotqa",
+  "sample_index": 52,
+  "generated_text": "Cartoon Network Action Pack",
+  "ground_truth": "Cartoon Cartoon Fridays",
+  "score": 0.28571428571428575,
+  "average_score": 0.28571428571428575,
+  "timestamp": "2025-06-28T03:11:35.884530"
+}

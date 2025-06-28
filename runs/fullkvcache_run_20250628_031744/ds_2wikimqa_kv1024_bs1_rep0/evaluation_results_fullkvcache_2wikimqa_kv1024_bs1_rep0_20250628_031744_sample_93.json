@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_93",
+  "dataset": "2wikimqa",
+  "sample_index": 93,
+  "generated_text": "New York City",
+  "ground_truth": "Eindhoven",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:32:38.959373"
+}

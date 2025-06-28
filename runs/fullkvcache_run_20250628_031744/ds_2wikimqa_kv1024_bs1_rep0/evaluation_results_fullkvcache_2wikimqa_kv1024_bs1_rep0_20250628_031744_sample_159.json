@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_159",
+  "dataset": "2wikimqa",
+  "sample_index": 159,
+  "generated_text": "German",
+  "ground_truth": "Duchy of Saxe-Gotha-Altenburg",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:35:30.656500"
+}

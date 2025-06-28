@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_148",
+  "dataset": "narrativeqa",
+  "sample_index": 148,
+  "generated_text": "Dr. Kevorkian moved to Chicago.",
+  "ground_truth": "Seth Lazarus",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:44:46.501855"
+}

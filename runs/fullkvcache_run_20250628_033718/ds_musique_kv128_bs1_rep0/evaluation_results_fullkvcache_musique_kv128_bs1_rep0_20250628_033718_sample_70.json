@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_70",
+  "dataset": "musique",
+  "sample_index": 70,
+  "generated_text": ": Rosario Dawson",
+  "ground_truth": "Amy Poehler",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:40:56.492412"
+}

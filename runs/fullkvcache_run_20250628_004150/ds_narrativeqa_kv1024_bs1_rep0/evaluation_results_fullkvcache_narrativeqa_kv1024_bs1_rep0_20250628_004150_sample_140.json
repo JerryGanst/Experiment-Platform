@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_140",
+  "dataset": "narrativeqa",
+  "sample_index": 140,
+  "generated_text": "Radioactive material.",
+  "ground_truth": "Radioactive gas",
+  "score": 0.5,
+  "average_score": 0.5,
+  "timestamp": "2025-06-28T01:44:30.262221"
+}

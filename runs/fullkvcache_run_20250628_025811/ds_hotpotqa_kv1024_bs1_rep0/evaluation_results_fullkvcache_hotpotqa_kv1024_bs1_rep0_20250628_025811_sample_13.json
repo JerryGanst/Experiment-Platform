@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_13",
+  "dataset": "hotpotqa",
+  "sample_index": 13,
+  "generated_text": "Harvard University",
+  "ground_truth": "University of Vienna",
+  "score": 0.4,
+  "average_score": 0.4,
+  "timestamp": "2025-06-28T03:09:47.846942"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_124",
+  "dataset": "qasper",
+  "sample_index": 124,
+  "generated_text": "Unanswerable (The article does not provide information about the specific neural network modules included in NeuronBlocks.)",
+  "ground_truth": "Embedding Layer, Neural Network Layers, Loss Function, Metrics",
+  "score": 0.18181818181818182,
+  "average_score": 0.18181818181818182,
+  "timestamp": "2025-06-28T02:27:08.343299"
+}

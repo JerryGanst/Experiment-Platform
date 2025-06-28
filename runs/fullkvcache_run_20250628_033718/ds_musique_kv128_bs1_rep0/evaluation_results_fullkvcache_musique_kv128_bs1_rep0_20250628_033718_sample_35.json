@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_35",
+  "dataset": "musique",
+  "sample_index": 35,
+  "generated_text": "lma and Louise?\n\nAnswer: Dottie Hinson\n\nPassage 1:\nA League of Their Own is a 1",
+  "ground_truth": "Dottie Hinson",
+  "score": 0.25,
+  "average_score": 0.25,
+  "timestamp": "2025-06-28T03:39:08.992662"
+}

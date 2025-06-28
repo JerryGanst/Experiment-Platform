@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_150",
+  "dataset": "qasper",
+  "sample_index": 150,
+  "generated_text": "Unanswerable (The article does not specify the baseline model used.)",
+  "ground_truth": "For Article-Entity placement, they consider two baselines: the first one using only salience-based features, and the second baseline checks if the entity appears in the title of the article. \n\nFor Article-Section Placement, they consider two baselines: the first picks the section with the highest lexical similarity to the article, and the second one picks the most frequent section.",
+  "score": 0.07272727272727272,
+  "average_score": 0.07272727272727272,
+  "timestamp": "2025-06-28T02:28:03.346251"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_78",
+  "dataset": "multifieldqa_en",
+  "sample_index": 78,
+  "generated_text": "\n\nAnswer: Severe anemia, jaundice, enlarged spleen, and failure to thrive.",
+  "ground_truth": "Severe anemia that begins even before birth.",
+  "score": 0.23529411764705882,
+  "average_score": 0.23529411764705882,
+  "timestamp": "2025-06-28T02:38:16.616233"
+}

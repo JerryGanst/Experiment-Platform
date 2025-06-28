@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_197",
+  "dataset": "narrativeqa",
+  "sample_index": 197,
+  "generated_text": "In the hospital.",
+  "ground_truth": "Mexico.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:46:06.910058"
+}

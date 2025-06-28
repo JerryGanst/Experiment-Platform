@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_113",
+  "dataset": "2wikimqa",
+  "sample_index": 113,
+  "generated_text": "same country?\n\nAnswer: No.\n\nPassage 1:\nRhosgoch is a village in the county of Anglesey",
+  "ground_truth": "no",
+  "score": 0.14285714285714288,
+  "average_score": 0.14285714285714288,
+  "timestamp": "2025-06-28T03:24:03.980685"
+}

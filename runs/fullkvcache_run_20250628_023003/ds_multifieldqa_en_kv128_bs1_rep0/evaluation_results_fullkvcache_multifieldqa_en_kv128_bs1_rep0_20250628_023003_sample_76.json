@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_76",
+  "dataset": "multifieldqa_en",
+  "sample_index": 76,
+  "generated_text": "\nAnswer: Phylloquinone, Menaquinone-4, Menaquinone-7",
+  "ground_truth": "Vitamins K3, K4, and K5.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:38:03.593646"
+}

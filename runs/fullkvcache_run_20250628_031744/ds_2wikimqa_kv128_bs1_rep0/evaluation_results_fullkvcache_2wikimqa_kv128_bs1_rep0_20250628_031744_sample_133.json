@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_133",
+  "dataset": "2wikimqa",
+  "sample_index": 133,
+  "generated_text": "\nAnswer: No Trees In The Street",
+  "ground_truth": "No Trees In The Street",
+  "score": 0.888888888888889,
+  "average_score": 0.888888888888889,
+  "timestamp": "2025-06-28T03:24:55.891770"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_145",
+  "dataset": "musique",
+  "sample_index": 145,
+  "generated_text": "the quote?\n\nAnswer: Genesis 22:12\n\nReference:\n\nThe quote \"by the skin of your teeth\"",
+  "ground_truth": "Genesis 3:15",
+  "score": 0.15384615384615385,
+  "average_score": 0.15384615384615385,
+  "timestamp": "2025-06-28T03:44:46.086352"
+}

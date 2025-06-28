@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_30",
+  "dataset": "narrativeqa",
+  "sample_index": 30,
+  "generated_text": "Otto is attacked by the ghost.",
+  "ground_truth": "The nephew of Baron Frederick storms the castle and kidnaps Otto",
+  "score": 0.14285714285714285,
+  "average_score": 0.14285714285714285,
+  "timestamp": "2025-06-28T01:41:22.064480"
+}

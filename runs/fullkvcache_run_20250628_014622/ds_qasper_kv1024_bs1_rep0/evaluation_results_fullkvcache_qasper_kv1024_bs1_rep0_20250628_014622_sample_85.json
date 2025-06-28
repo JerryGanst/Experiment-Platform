@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_85",
+  "dataset": "qasper",
+  "sample_index": 85,
+  "generated_text": "They compare with the baseline of the control group.",
+  "ground_truth": "They compare with the following models: by Pedersen (2017), by Pramanick and Das (2017), by Mikhalkova and Karyakin (2017),  by Vadehra (2017), Indurthi and Oota (2017), by Vechtomova (2017), by (Cai et al., 2018), and CRF.",
+  "score": 0.14285714285714285,
+  "average_score": 0.14285714285714285,
+  "timestamp": "2025-06-28T02:25:48.266902"
+}

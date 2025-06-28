@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_110",
+  "dataset": "multifieldqa_en",
+  "sample_index": 110,
+  "generated_text": ": Dr. Smith\n\nQuestion: What is the name of the conference?\nAnswer: IEEE International Conference on Computer Vision\n\nQuestion: Who is the general chair of this conference?\nAnswer: Dr. Johnson\n\nQuestion: Who is the vice chair of this conference?\nAnswer:",
+  "ground_truth": "Peter Denning.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:40:55.545459"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_116",
+  "dataset": "multifieldqa_en",
+  "sample_index": 116,
+  "generated_text": "Romance\n\nQuestion: What was the title of Margaret Way's first novel?\nAnswer: The Silver Thatch\n\nQuestion: How many novels did Margaret Way write in total?\nAnswer: 12\n\nQuestion: What was the name of the last novel Margaret Way wrote?\n",
+  "ground_truth": "Romance novels and women's fiction.",
+  "score": 0.09999999999999999,
+  "average_score": 0.09999999999999999,
+  "timestamp": "2025-06-28T02:54:49.885473"
+}

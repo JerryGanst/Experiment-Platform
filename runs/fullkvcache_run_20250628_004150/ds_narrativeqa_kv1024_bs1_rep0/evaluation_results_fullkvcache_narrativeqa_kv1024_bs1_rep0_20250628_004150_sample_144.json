@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_144",
+  "dataset": "narrativeqa",
+  "sample_index": 144,
+  "generated_text": "Saltram lives in a mansion.",
+  "ground_truth": "He is a guest in the home of the Mulvilles.",
+  "score": 0.18181818181818182,
+  "average_score": 0.18181818181818182,
+  "timestamp": "2025-06-28T01:44:38.179250"
+}

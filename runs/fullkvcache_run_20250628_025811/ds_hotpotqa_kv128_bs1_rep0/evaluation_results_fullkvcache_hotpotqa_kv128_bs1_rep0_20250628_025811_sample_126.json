@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_126",
+  "dataset": "hotpotqa",
+  "sample_index": 126,
+  "generated_text": "\n\nAnswer: He stepped down due to the controversy surrounding the handling of the Ray Rice domestic violence case.",
+  "ground_truth": "due to the onset and progression of Alzheimer's disease",
+  "score": 0.26086956521739135,
+  "average_score": 0.26086956521739135,
+  "timestamp": "2025-06-28T03:04:52.696179"
+}

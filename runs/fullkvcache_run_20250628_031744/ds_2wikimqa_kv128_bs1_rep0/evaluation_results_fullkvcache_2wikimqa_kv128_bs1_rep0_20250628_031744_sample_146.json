@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_146",
+  "dataset": "2wikimqa",
+  "sample_index": 146,
+  "generated_text": "Dreams (2002 Film) directed by the same person?\n\nAnswer: No.",
+  "ground_truth": "no",
+  "score": 0.19999999999999998,
+  "average_score": 0.19999999999999998,
+  "timestamp": "2025-06-28T03:25:34.831442"
+}

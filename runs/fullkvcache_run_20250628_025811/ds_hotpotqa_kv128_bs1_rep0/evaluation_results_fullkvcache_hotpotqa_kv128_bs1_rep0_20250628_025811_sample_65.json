@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_65",
+  "dataset": "hotpotqa",
+  "sample_index": 65,
+  "generated_text": "\nAnswer: No.\n\nPassage 1:\nKaiping is a county-level city in Guangdong Province, China",
+  "ground_truth": "no",
+  "score": 0.15384615384615385,
+  "average_score": 0.15384615384615385,
+  "timestamp": "2025-06-28T03:01:59.514253"
+}

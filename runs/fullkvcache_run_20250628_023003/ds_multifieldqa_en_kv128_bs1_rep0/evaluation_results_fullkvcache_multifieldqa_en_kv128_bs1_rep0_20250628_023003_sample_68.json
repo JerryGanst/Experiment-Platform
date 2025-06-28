@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_68",
+  "dataset": "multifieldqa_en",
+  "sample_index": 68,
+  "generated_text": "06?\n\nAnswer: Presidential Medal of Freedom\n\nQuestion: Who was the President who awarded Brooksley Born the Presidential Medal of Freedom in 2006?\n\nAnswer: George W. Bush\n\nQuestion: What was the reason for Brooksley Born receiving the",
+  "ground_truth": "In 2009, Brooksley Born received the John F. Kennedy Profiles in Courage Award.",
+  "score": 0.13636363636363635,
+  "average_score": 0.13636363636363635,
+  "timestamp": "2025-06-28T02:37:21.197014"
+}

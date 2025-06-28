@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_38",
+  "dataset": "2wikimqa",
+  "sample_index": 38,
+  "generated_text": "Forlì\n\nPassage 1:\nTeobaldo Ii Ordelaffi was born in Forlì, Italy, in 1",
+  "ground_truth": "Italy",
+  "score": 0.14285714285714288,
+  "average_score": 0.14285714285714288,
+  "timestamp": "2025-06-28T03:20:04.769447"
+}

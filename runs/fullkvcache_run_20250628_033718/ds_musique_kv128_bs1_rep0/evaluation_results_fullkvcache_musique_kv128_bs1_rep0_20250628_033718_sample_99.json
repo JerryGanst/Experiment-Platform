@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_99",
+  "dataset": "musique",
+  "sample_index": 99,
+  "generated_text": ": Rovers\n\nQuestion: What is the name of the team that won the 1965 Federation Cup?\nAnswer: West Brom",
+  "ground_truth": "International Tennis Federation",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T03:42:27.366412"
+}

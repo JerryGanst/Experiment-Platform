@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv1024_bs1_rep0_20250628_025811_sample_135",
+  "dataset": "hotpotqa",
+  "sample_index": 135,
+  "generated_text": "Kandahar",
+  "ground_truth": "Puli Alam",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:14:56.520995"
+}

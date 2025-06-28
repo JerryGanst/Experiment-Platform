@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_194",
+  "dataset": "musique",
+  "sample_index": 194,
+  "generated_text": "as the language of the country where the headquarter of the United Nations is located?\n\nAnswer: New York\n\nPassage 1:",
+  "ground_truth": "Pristina",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:47:30.249678"
+}

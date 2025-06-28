@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_183",
+  "dataset": "qasper",
+  "sample_index": 183,
+  "generated_text": "They compare with previous RNN models such as LSTM and GRU.",
+  "ground_truth": "Variational LSTM, CharCNN, Pointer Sentinel-LSTM, RHN, NAS Cell, SRU, QRNN, RAN, 4-layer skip-connection LSTM, AWD-LSTM, Quantized LSTM",
+  "score": 0.07142857142857142,
+  "average_score": 0.07142857142857142,
+  "timestamp": "2025-06-28T02:29:13.113323"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_57",
+  "dataset": "multifieldqa_en",
+  "sample_index": 57,
+  "generated_text": "about the validity of the state's statute?\n\nAnswer: The court found the statute to be unconstitutional.",
+  "ground_truth": "It required the transformation to be limited to specific data and a visual depiction representing specific objects or substances.",
+  "score": 0.13793103448275862,
+  "average_score": 0.13793103448275862,
+  "timestamp": "2025-06-28T02:36:26.140604"
+}

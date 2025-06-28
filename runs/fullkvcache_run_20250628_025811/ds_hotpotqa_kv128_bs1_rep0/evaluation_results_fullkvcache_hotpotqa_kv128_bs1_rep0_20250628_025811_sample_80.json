@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_80",
+  "dataset": "hotpotqa",
+  "sample_index": 80,
+  "generated_text": "Sydney\n\nQuestion: What is the name of the train station that is located near Kellyville Ridge?\nAnswer: Kellyville Station\n\nQuestion:",
+  "ground_truth": "on the Cumberland Plain",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:02:45.833639"
+}

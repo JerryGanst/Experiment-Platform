@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_69",
+  "dataset": "narrativeqa",
+  "sample_index": 69,
+  "generated_text": "Madame de Merret threatened to leave her husband if he continued his affair.",
+  "ground_truth": "Opened the closet",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:42:30.957938"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_176",
+  "dataset": "2wikimqa",
+  "sample_index": 176,
+  "generated_text": "The Bandit?\n\nAnswer: Perdón, Viejita",
+  "ground_truth": "Perdón, Viejita",
+  "score": 0.6666666666666666,
+  "average_score": 0.6666666666666666,
+  "timestamp": "2025-06-28T03:26:52.834966"
+}

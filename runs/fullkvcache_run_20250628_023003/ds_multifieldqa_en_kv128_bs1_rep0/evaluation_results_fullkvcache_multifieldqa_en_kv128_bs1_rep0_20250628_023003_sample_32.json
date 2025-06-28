@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_32",
+  "dataset": "multifieldqa_en",
+  "sample_index": 32,
+  "generated_text": "swer: The main focus of the research paper is to investigate the effects of different types of music on the performance of students in mathematics.",
+  "ground_truth": "Nuclear liquid-gas transition in lattice QCD.",
+  "score": 0.07407407407407407,
+  "average_score": 0.07407407407407407,
+  "timestamp": "2025-06-28T02:33:55.239033"
+}

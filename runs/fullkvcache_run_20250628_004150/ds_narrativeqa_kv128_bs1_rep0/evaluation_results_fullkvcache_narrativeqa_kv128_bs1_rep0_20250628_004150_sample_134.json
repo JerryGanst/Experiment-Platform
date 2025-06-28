@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv128_bs1_rep0_20250628_004150_sample_134",
+  "dataset": "narrativeqa",
+  "sample_index": 134,
+  "generated_text": "script, and your task is to write a short summary of it. Here's an example:\n\nStory: The Great Gatsby\n\nSummary: The Great Gatsby is a novel written by F. Scott Fitzgerald, set in the Roaring Twenties. The story follows the life of the mysterious millionaire Jay Gatsby and his pursuit of the beautiful Daisy Buchanan, a woman he loved and lost before making his fortune. The narrative is told from the perspective of Nick Carraway, a Midwesterner who moves to West Egg, Long Island, and becomes Gats",
+  "ground_truth": "With her charity",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:21:22.112763"
+}

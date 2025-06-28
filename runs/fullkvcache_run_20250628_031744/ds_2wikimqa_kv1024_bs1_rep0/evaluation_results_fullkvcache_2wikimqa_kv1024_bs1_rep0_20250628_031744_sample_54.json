@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_54",
+  "dataset": "2wikimqa",
+  "sample_index": 54,
+  "generated_text": "Sir William Gore, 2nd Baronet",
+  "ground_truth": "Sir Paul Gore, 1st Baronet",
+  "score": 0.6,
+  "average_score": 0.6,
+  "timestamp": "2025-06-28T03:30:47.186479"
+}

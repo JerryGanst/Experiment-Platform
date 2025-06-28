@@ -1,0 +1,21 @@
+{
+  "experiment_id": "fullkvcache_gov_report_kv128_bs1_rep0_20250628_035720_sample_153",
+  "timestamp": "2025-06-28T06:37:44.639505",
+  "performance": {
+    "success": true,
+    "ttft_ms": 150.0,
+    "tpot_ms": 186.78706211048166,
+    "throughput_tokens_per_sec": 5.356003117029356,
+    "total_time_sec": 85.13811326026917,
+    "tokens_generated": 456,
+    "model_name": "C:\\Users\\Administrator\\mistral_models\\7B-Instruct-v0.3",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 128,
+    "max_new_tokens": 512,
+    "use_fullkvcache": true,
+    "dataset": "gov_report",
+    "repetition": 0
+  },
+  "monitoring": null
+}

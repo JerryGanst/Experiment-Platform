@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_130",
+  "dataset": "multifieldqa_en",
+  "sample_index": 130,
+  "generated_text": "Expansion into new markets and product lines.",
+  "ground_truth": "Verifying other meta-information such as patient's gender, age, race, etc.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:56:05.169040"
+}

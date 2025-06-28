@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_13",
+  "dataset": "narrativeqa",
+  "sample_index": 13,
+  "generated_text": "Characters argue over the plan.",
+  "ground_truth": "Elliot accidentally reveals himself as an informant.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:40:53.272446"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_161",
+  "dataset": "qasper",
+  "sample_index": 161,
+  "generated_text": "The amount of data needed is not specified in the article.",
+  "ground_truth": "57,505 sentences",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:28:32.712538"
+}

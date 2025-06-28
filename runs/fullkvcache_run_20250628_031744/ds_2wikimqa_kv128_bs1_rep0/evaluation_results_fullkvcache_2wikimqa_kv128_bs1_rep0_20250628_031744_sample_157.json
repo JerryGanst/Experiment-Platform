@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_157",
+  "dataset": "2wikimqa",
+  "sample_index": 157,
+  "generated_text": "?\n\nAnswer: The House Of The Seven Hawks",
+  "ground_truth": "The House Of The Seven Hawks",
+  "score": 0.888888888888889,
+  "average_score": 0.888888888888889,
+  "timestamp": "2025-06-28T03:26:11.031759"
+}

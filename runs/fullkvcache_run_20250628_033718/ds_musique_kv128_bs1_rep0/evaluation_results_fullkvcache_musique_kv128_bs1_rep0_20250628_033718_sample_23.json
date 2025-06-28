@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv128_bs1_rep0_20250628_033718_sample_23",
+  "dataset": "musique",
+  "sample_index": 23,
+  "generated_text": "?\n\nAnswer: The northern part of Erich Zakowski's birthplace was also the site of the Battle of Tannenberg in",
+  "ground_truth": "names were replaced by new Russian names",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:38:34.585380"
+}

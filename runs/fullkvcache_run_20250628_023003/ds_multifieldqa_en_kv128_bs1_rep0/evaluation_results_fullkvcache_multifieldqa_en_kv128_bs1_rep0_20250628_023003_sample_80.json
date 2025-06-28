@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_80",
+  "dataset": "multifieldqa_en",
+  "sample_index": 80,
+  "generated_text": "ization in the context of the text?\n\nAnswer: It is a key factor in determining the direction of the electric current in a 2D material, and it can be used to create a voltage difference between the edges of a sample, potentially leading to edge currents and topological insulators.",
+  "ground_truth": "The momentum space curl of the interlayer Berry connection polarizability generates the crossed nonlinear dynamical Hall effect.",
+  "score": 0.03703703703703704,
+  "average_score": 0.03703703703703704,
+  "timestamp": "2025-06-28T02:38:27.943898"
+}

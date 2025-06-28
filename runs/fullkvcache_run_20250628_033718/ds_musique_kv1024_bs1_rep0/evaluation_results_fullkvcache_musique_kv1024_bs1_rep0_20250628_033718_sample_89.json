@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_89",
+  "dataset": "musique",
+  "sample_index": 89,
+  "generated_text": "Pulitzer Prize for Poetry",
+  "ground_truth": "Pulitzer Prize for Drama",
+  "score": 0.75,
+  "average_score": 0.75,
+  "timestamp": "2025-06-28T03:51:49.979391"
+}

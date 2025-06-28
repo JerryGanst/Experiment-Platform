@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_25",
+  "dataset": "musique",
+  "sample_index": 25,
+  "generated_text": "Khyber Pakhtunkhwa",
+  "ground_truth": "Cabo Delgado Province",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:49:02.612217"
+}

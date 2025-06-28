@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_139",
+  "dataset": "multifieldqa_en",
+  "sample_index": 139,
+  "generated_text": "He observes that the police are not doing enough to protect the public.",
+  "ground_truth": "Toby Schindelbeck's observation is that the police say they aren't paid enough to enforce the laws in the streets.",
+  "score": 0.2962962962962963,
+  "average_score": 0.2962962962962963,
+  "timestamp": "2025-06-28T02:56:52.119312"
+}

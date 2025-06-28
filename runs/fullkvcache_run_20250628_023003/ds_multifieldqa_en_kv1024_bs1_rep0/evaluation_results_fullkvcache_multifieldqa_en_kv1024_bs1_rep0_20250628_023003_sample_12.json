@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_12",
+  "dataset": "multifieldqa_en",
+  "sample_index": 12,
+  "generated_text": "Team A, Team B, Team C",
+  "ground_truth": "Lasa, Gitastrophe, and Shadoks.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:46:20.515167"
+}

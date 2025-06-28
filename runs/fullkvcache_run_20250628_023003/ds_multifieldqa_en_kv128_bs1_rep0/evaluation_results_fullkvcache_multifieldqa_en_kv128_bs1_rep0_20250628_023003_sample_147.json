@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv128_bs1_rep0_20250628_023003_sample_147",
+  "dataset": "multifieldqa_en",
+  "sample_index": 147,
+  "generated_text": "?\n\nAnswer: 0.0001 eV-angstroms",
+  "ground_truth": "It is the ratio of the average unscreened electron-electron potential energy to kinetic energy.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:44:30.404604"
+}

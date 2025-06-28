@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_55",
+  "dataset": "multifieldqa_en",
+  "sample_index": 55,
+  "generated_text": "The factors that control the reliance of artificial organisms on plasticity are their design, the environment they are placed in, and the tasks they are required to perform.",
+  "ground_truth": "Environmental fluctuation and uncertainty control the reliance of artificial organisms on plasticity.",
+  "score": 0.4571428571428572,
+  "average_score": 0.4571428571428572,
+  "timestamp": "2025-06-28T02:50:38.532544"
+}

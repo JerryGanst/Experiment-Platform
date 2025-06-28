@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_70",
+  "dataset": "multifieldqa_en",
+  "sample_index": 70,
+  "generated_text": "Users must not use the servers for illegal activities, spamming, or any other activities that violate Broadjam's terms of service. They must also not attempt to access or manipulate the servers in any way.",
+  "ground_truth": "No excessive overloading and no use for illegal activity.",
+  "score": 0.14634146341463417,
+  "average_score": 0.14634146341463417,
+  "timestamp": "2025-06-28T02:51:32.990924"
+}

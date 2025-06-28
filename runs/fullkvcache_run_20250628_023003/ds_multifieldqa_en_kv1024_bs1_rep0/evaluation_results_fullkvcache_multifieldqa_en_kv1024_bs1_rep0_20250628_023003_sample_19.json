@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_multifieldqa_en_kv1024_bs1_rep0_20250628_023003_sample_19",
+  "dataset": "multifieldqa_en",
+  "sample_index": 19,
+  "generated_text": "8 June 2017",
+  "ground_truth": "23 September.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:47:06.682845"
+}

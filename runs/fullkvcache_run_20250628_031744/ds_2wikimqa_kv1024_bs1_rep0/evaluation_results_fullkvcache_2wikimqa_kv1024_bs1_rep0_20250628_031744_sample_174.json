@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv1024_bs1_rep0_20250628_031744_sample_174",
+  "dataset": "2wikimqa",
+  "sample_index": 174,
+  "generated_text": "Season Of Strangers",
+  "ground_truth": "Season Of Strangers",
+  "score": 1.0,
+  "average_score": 1.0,
+  "timestamp": "2025-06-28T03:36:04.080729"
+}

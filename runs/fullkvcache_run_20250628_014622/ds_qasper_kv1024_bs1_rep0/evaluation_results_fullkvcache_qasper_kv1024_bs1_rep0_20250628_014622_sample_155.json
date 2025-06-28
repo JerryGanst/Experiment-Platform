@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_155",
+  "dataset": "qasper",
+  "sample_index": 155,
+  "generated_text": "Unanswerable (The article does not provide information about where the annotated clinical notes were obtained from.)",
+  "ground_truth": "clinical notes from the CE task in 2010 i2b2/VA",
+  "score": 0.2727272727272727,
+  "average_score": 0.2727272727272727,
+  "timestamp": "2025-06-28T02:28:17.556845"
+}

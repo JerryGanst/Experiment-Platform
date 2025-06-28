@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_2wikimqa_kv128_bs1_rep0_20250628_031744_sample_155",
+  "dataset": "2wikimqa",
+  "sample_index": 155,
+  "generated_text": "Sarah\n\nPassage 1:\nRodney Steps In is a film directed by Rodney.\n\nPassage 2:\nR",
+  "ground_truth": "Ivy Duke",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:26:03.564670"
+}

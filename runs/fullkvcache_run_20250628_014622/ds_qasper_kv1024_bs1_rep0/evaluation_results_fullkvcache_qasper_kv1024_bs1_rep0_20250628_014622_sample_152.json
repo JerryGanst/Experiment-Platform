@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_152",
+  "dataset": "qasper",
+  "sample_index": 152,
+  "generated_text": "Unanswerable (The article does not provide information about the specific combination of rewards for reinforcement learning.)",
+  "ground_truth": "irony accuracy, sentiment preservation",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:28:08.478752"
+}

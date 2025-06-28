@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_172",
+  "dataset": "hotpotqa",
+  "sample_index": 172,
+  "generated_text": "ation of Ryan Zinke. Who was the incumbent that Gianforte defeated?\n\nAnswer: Denny Rehberg",
+  "ground_truth": "United States Secretary of the Interior",
+  "score": 0.1111111111111111,
+  "average_score": 0.1111111111111111,
+  "timestamp": "2025-06-28T03:07:14.826320"
+}

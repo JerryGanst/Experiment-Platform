@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_108",
+  "dataset": "narrativeqa",
+  "sample_index": 108,
+  "generated_text": "10 years.",
+  "ground_truth": "100.",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T01:43:36.149593"
+}

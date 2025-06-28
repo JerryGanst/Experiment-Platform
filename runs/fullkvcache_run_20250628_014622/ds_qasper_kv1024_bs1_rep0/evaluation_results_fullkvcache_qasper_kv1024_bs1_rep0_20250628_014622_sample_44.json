@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_qasper_kv1024_bs1_rep0_20250628_014622_sample_44",
+  "dataset": "qasper",
+  "sample_index": 44,
+  "generated_text": "Existing approaches include the use of machine learning and deep learning.",
+  "ground_truth": "BOW-Tags, BOW-KL(Tags), BOW-All, GloVe",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T02:24:17.931949"
+}

@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_musique_kv1024_bs1_rep0_20250628_033718_sample_102",
+  "dataset": "musique",
+  "sample_index": 102,
+  "generated_text": "Nieuwe Maas",
+  "ground_truth": "Het Scheur",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:52:29.010902"
+}

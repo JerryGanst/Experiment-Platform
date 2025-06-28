@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_hotpotqa_kv128_bs1_rep0_20250628_025811_sample_146",
+  "dataset": "hotpotqa",
+  "sample_index": 146,
+  "generated_text": "name?\n\nAnswer: \"Cecilia Aguilar\"",
+  "ground_truth": "\"Currer Bell\"",
+  "score": 0,
+  "average_score": 0,
+  "timestamp": "2025-06-28T03:05:52.818623"
+}

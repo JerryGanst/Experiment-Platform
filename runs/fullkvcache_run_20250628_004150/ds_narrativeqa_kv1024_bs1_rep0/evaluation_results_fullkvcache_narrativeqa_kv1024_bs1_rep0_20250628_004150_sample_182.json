@@ -1,0 +1,10 @@
+{
+  "experiment_id": "fullkvcache_narrativeqa_kv1024_bs1_rep0_20250628_004150_sample_182",
+  "dataset": "narrativeqa",
+  "sample_index": 182,
+  "generated_text": "Otto is known for his love of books.",
+  "ground_truth": "His wise counsel and peaceful nature",
+  "score": 0.14285714285714288,
+  "average_score": 0.14285714285714288,
+  "timestamp": "2025-06-28T01:45:41.018652"
+}
