@@ -21,6 +21,11 @@ if project_root_dir not in sys.path:
 FullKVCache实验执行脚本 - 使用完整KV缓存，不进行任何优化
 修复版：解决CUDA设备端断言错误和内存累积问题
 支持本地JSONL数据文件
+
+更新说明：
+- 现在使用标准的CAKE prompt模板（dataset2prompt.json），确保与LongBench基准测试一致
+- 这样可以与CAKE、H2O等优化方法进行公平对比
+- 所有方法使用相同的prompt格式，性能差异纯粹来自缓存策略
 """
 import time
 import logging
@@ -255,6 +260,54 @@ def get_dataset_prompt_template(dataset_name: str) -> str:
     
     logger.warning(f"未找到数据集 {dataset_name} 的prompt模板，使用默认格式")
     return "Context: {context}\n\nQuestion: {input}\n\nAnswer:"
+
+def get_model_max_length(model_name: str, fallback_length: int = 2048) -> int:
+    """
+    获取模型特定的最大长度限制
+    基于CAKE的model2maxlen.json配置
+    
+    Args:
+        model_name: 模型名称或路径
+        fallback_length: 未找到配置时的默认长度
+    
+    Returns:
+        模型的最大处理长度
+    """
+    # CAKE官方的模型最大长度配置（来自model2maxlen.json）
+    MODEL_MAX_LENGTHS = {
+        "llama2-7b-chat-4k": 3500,
+        "llama2-13b-chat-4k": 3500,
+        "llama3.1-8b-128k": 127500,
+        "mistral-0.3-7b-32k": 31500,
+        "qwen2.5-7b-instruct": 31500
+    }
+    
+    # 模型名称标准化映射
+    model_name_lower = model_name.lower()
+    
+    # 尝试匹配已知的模型配置
+    for config_name, max_length in MODEL_MAX_LENGTHS.items():
+        if any(keyword in model_name_lower for keyword in config_name.lower().split('-')):
+            logger.info(f"找到模型 {model_name} 的最大长度配置: {max_length}")
+            return max_length
+    
+    # 基于模型名称的启发式匹配
+    if "llama" in model_name_lower:
+        if "3.1" in model_name_lower and ("128k" in model_name_lower or "instruct" in model_name_lower):
+            return 127500  # Llama 3.1 128K
+        else:
+            return 3500    # 其他Llama模型默认
+    elif "mistral" in model_name_lower:
+        if "32k" in model_name_lower or "0.3" in model_name_lower:
+            return 31500   # Mistral 32K
+        else:
+            return 8000    # 其他Mistral模型
+    elif "qwen" in model_name_lower:
+        return 31500       # Qwen系列
+    
+    # 如果都没匹配到，使用回退值
+    logger.warning(f"未找到模型 {model_name} 的最大长度配置，使用默认值: {fallback_length}")
+    return fallback_length
 
 # 数据集评分映射 - 扩展到支持所有CAKE数据集
 DATASET_SCORING_MAP = {
@@ -505,92 +558,45 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
         logger.info(f"样本数据: {sample}")
         logger.info(f"样本类型: {type(sample)}")
         
-        # 准备输入 - 修复版本，确保每个数据集使用正确的输入格式
+        # 使用标准的CAKE prompt模板，确保与LongBench基准测试一致
+        prompt_template = get_dataset_prompt_template(dataset_name)
+        
+        # 准备输入 - 使用标准CAKE模板
         input_text = ""
-        if dataset_name in ["hotpotqa", "2wikimqa", "musique"]:
-            # 问答类数据集
-            if isinstance(sample, dict):
-                question = sample.get('input', sample.get('question', sample.get('prompt', '')))
-                context = sample.get('context', '')
-                if context:
-                    input_text = f"Context: {context}\nQuestion: {question}\nAnswer:"
+        if isinstance(sample, dict):
+            # 提取context和input字段
+            context = sample.get('context', '')
+            input_field = sample.get('input', sample.get('question', sample.get('prompt', '')))
+            
+            # 使用模板格式化
+            try:
+                if '{context}' in prompt_template and '{input}' in prompt_template:
+                    # 需要context和input的模板
+                    input_text = prompt_template.format(context=context, input=input_field)
+                elif '{context}' in prompt_template:
+                    # 只需要context的模板（如摘要任务）
+                    input_text = prompt_template.format(context=context)
+                elif '{input}' in prompt_template:
+                    # 只需要input的模板
+                    input_text = prompt_template.format(input=input_field)
                 else:
-                    input_text = f"Question: {question}\nAnswer:"
-            else:
-                input_text = f"Question: {str(sample)}\nAnswer:"
-                
-        elif dataset_name == "narrativeqa":
-            # 叙事问答
-            if isinstance(sample, dict):
-                question = sample.get('input', sample.get('question', sample.get('prompt', '')))
-                context = sample.get('context', sample.get('document', ''))
-                if context:
-                    input_text = f"Read the following story and answer the question.\nStory: {context}\nQuestion: {question}\nAnswer:"
+                    # 没有占位符的模板，直接使用
+                    input_text = prompt_template
+                    
+                logger.info(f"使用CAKE标准模板格式化输入: {dataset_name}")
+            except KeyError as e:
+                logger.warning(f"模板格式化失败: {e}，回退到简单格式")
+                # 回退到简单格式
+                if context and input_field:
+                    input_text = f"Context: {context}\nQuestion: {input_field}\nAnswer:"
+                elif input_field:
+                    input_text = f"Question: {input_field}\nAnswer:"
+                elif context:
+                    input_text = f"Context: {context}\nAnswer:"
                 else:
-                    input_text = f"Question: {question}\nAnswer:"
-            else:
-                input_text = f"Question: {str(sample)}\nAnswer:"
-                
-        elif dataset_name == "multi_news":
-            # 多文档摘要
-            if isinstance(sample, dict):
-                content = sample.get('input', sample.get('context', sample.get('text', sample.get('prompt', ''))))
-                if not content:
-                    # 如果input为空，查找其他可能的字段
-                    for field in ['document', 'articles', 'content']:
-                        if field in sample and sample[field]:
-                            content = sample[field]
-                            break
-                if content:
-                    input_text = f"Summarize the following articles:\n{content}\nSummary:"
-                else:
-                    logger.warning(f"multi_news样本缺少内容: {sample}")
-                    input_text = "Summarize the following articles:\n[No content available]\nSummary:"
-            else:
-                input_text = f"Summarize the following articles:\n{str(sample)}\nSummary:"
-                
-        elif dataset_name == "gov_report":
-            # 政府报告摘要
-            if isinstance(sample, dict):
-                content = sample.get('input', sample.get('context', sample.get('text', sample.get('prompt', ''))))
-                if not content:
-                    # 如果input为空，查找其他可能的字段
-                    for field in ['document', 'report', 'content']:
-                        if field in sample and sample[field]:
-                            content = sample[field]
-                            break
-                if content:
-                    input_text = f"Summarize the following government report:\n{content}\nSummary:"
-                else:
-                    logger.warning(f"gov_report样本缺少内容: {sample}")
-                    input_text = "Summarize the following government report:\n[No content available]\nSummary:"
-            else:
-                input_text = f"Summarize the following government report:\n{str(sample)}\nSummary:"
-                
-        elif dataset_name == "qmsum":
-            # 会议摘要
-            if isinstance(sample, dict):
-                content = sample.get('input', sample.get('context', sample.get('text', sample.get('prompt', ''))))
-                if not content:
-                    # 如果input为空，查找其他可能的字段
-                    for field in ['meeting', 'transcript', 'dialogue', 'content']:
-                        if field in sample and sample[field]:
-                            content = sample[field]
-                            break
-                if content:
-                    input_text = f"Summarize the following meeting:\n{content}\nSummary:"
-                else:
-                    logger.warning(f"qmsum样本缺少内容: {sample}")
-                    input_text = "Summarize the following meeting:\n[No content available]\nSummary:"
-            else:
-                input_text = f"Summarize the following meeting:\n{str(sample)}\nSummary:"
-                
+                    input_text = str(sample)
         else:
-            # 其他数据集的通用处理
-            if isinstance(sample, dict):
-                input_text = sample.get('input', sample.get('prompt', sample.get('text', str(sample))))
-            else:
-                input_text = str(sample)
+            input_text = str(sample)
         
         # 验证输入文本
         if not input_text or input_text.strip() == "":
@@ -600,9 +606,18 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
         # 记录输入文本用于调试
         logger.info(f"最终输入文本 (前200字符): {input_text[:200]}...")
         
-        # 限制输入长度以适应KV cache
-        # 计算输入限制，防止出现负值
-        max_input_length = max(kv_cache_length - max_new_tokens - 10, 16)
+        # 获取模型特定的最大长度限制
+        model_name = model.config.name_or_path if hasattr(model.config, 'name_or_path') else "unknown"
+        model_max_length = get_model_max_length(model_name, kv_cache_length)
+        
+        # 限制输入长度以适应KV cache和模型限制
+        max_input_length = min(
+            max(kv_cache_length - max_new_tokens - 10, 16),  # KV cache限制
+            model_max_length - max_new_tokens - 10  # 模型限制
+        )
+        
+        logger.info(f"输入长度限制: kv_cache={kv_cache_length}, model_max={model_max_length}, final_max_input={max_input_length}")
+        
         inputs = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=max_input_length)
 
         input_ids = inputs["input_ids"].to(model.device)
@@ -963,7 +978,7 @@ def main():
                         logger.info(f"数据集 {dataset_name} 验证通过，继续执行实验")
 
                         # 准备样本
-                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_config, num_samples=len(dataset))
+                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_name, num_samples=len(dataset))
                         logger.info(f"Prepared {len(prepared_samples)} samples successfully")
 
                         # 初始化监控
