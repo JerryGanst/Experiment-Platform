@@ -137,8 +137,8 @@ EXPERIMENT_CONFIG = {
     "memory_management": {
         "auto_max_memory": True,  # 是否自动设置max_memory参数
         "manual_max_memory": {    # 手动设置显存上限 (仅在auto_max_memory=False时使用)
-            0: "23000MB",  # GPU 0的显存上限
-            # 1: "23000MB",  # GPU 1的显存上限 (多GPU时)
+            0: "50000MB",  # GPU 0的显存上限 - 临时设置为50GB用于Linux分支
+            # 1: "50000MB",  # GPU 1的显存上限 (多GPU时)
         },
         "memory_buffer_ratio": 0.05,  # 显存缓冲比例 (5%缓冲)
         "force_no_cpu_offload": True   # 强制避免CPU offload
