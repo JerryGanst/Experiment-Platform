@@ -58,18 +58,9 @@ def robust_download(model_name, local_path, max_retries=10):
         try:
             print(f"\n🔄 尝试 {attempt + 1}/{max_retries}")
             
-            # 根据网络情况调整参数
-            if attempt < 3:
-                # 前3次尝试使用正常配置
-                timeout = 600  # 10分钟
-                max_workers = 2
-            else:
-                # 后续尝试使用保守配置
-                timeout = 1800  # 30分钟
-                max_workers = 1
-                print("🐌 使用保守配置（单线程，长超时）")
-            
-            print(f"⚙️  超时时间: {timeout}秒, 并发数: {max_workers}")
+            # 根据重试次数显示不同信息
+            if attempt >= 3:
+                print("🐌 使用保守重试策略")
             
             # 开始下载
             snapshot_download(
@@ -78,8 +69,6 @@ def robust_download(model_name, local_path, max_retries=10):
                 local_dir_use_symlinks=False,
                 resume_download=True,  # 断点续传
                 token=token,
-                timeout=timeout,
-                max_workers=max_workers,
             )
             
             print("\n✅ 下载完成！")
