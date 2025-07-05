@@ -255,3 +255,39 @@ config = IntegrationConfig(
 ---
 
 **注意**: 本框架是我们的原创研究成果，独立于CAKE和AdaKV的原始实现。所有代码都是从零开始设计和实现，体现了我们在KV缓存优化领域的创新贡献。
+
+## 🚀 命令行启动器 (launcher.py)
+
+为了方便快速验证，我们新增了 `launcher.py` CLI。
+
+### 基本用法
+```bash
+# 在当前仓库根目录
+python src/core-code/launcher.py --synthetic  # 默认 BL = 4096
+```
+
+### 指定 Budget Limit (BL)
+```bash
+# 激进内存预算 (128 tokens)
+python src/core-code/launcher.py --synthetic --bl 128 --monitor --detailed
+
+# 宽松内存预算 (1024 tokens) 并读取已有注意力权重
+python src/core-code/launcher.py -i weights.npy --bl 1024 -o budgets.json
+```
+- `--bl` 直接等价于 **Budget Limit**，会覆盖 `--cache-size`。
+- 若使用合成数据且未指定 `--synthetic-seq`，`--bl` 也会作为合成序列长度，保证场景一致。
+
+### 主要参数速查
+| 参数 | 说明 |
+|------|------|
+| `--bl` | Budget Limit，KV缓存 token 上限 (例: 128, 1024) |
+| `--cache-size` | 与 `--bl` 类似，若同时出现由 `--bl` 覆盖 |
+| `--monitor` | 启用性能监控 |
+| `--auto-tune` | 启用自动调优 |
+| `--detailed` | 输出包含监控与分配详情的 JSON |
+| `--synthetic*` | 生成合成注意力权重的相关参数 |
+
+更多 CLI 细节请运行：
+```bash
+python src/core-code/launcher.py -h
+```
