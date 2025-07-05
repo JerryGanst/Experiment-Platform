@@ -276,24 +276,36 @@ class BudgetNormalizer:
                 
         elif deficit < 0:
             # 预算超额：从非最小预算位置回收
-            excess = -deficit
-            # 找到可以减少预算的位置
-            candidates = np.where(rounded > min_budget)[0]
-            
-            if len(candidates) >= excess:
-                # 优先从预算较大的地方回收
+            excess = -deficit  # 需要回收的预算量 (正数)
+
+            # 针对回收过程，我们采用"最大可回收优先"策略，
+            # 每次从仍有富余(>min_budget)且当前预算最大的头中回收，
+            # 直到完全抵消超额或再无法回收为止。
+
+            # 计算各头可回收量
+            while excess > 0:
+                # 找到所有仍可回收的头索引
+                candidates = np.where(rounded > min_budget)[0]
+
+                if len(candidates) == 0:
+                    # 已无法继续回收，跳出循环，后续验证会捕获错误
+                    break
+
+                # 根据当前预算从大到小排序，优先回收大的
                 sorted_candidates = candidates[np.argsort(-rounded[candidates])]
-                for i in range(excess):
-                    if rounded[sorted_candidates[i]] > min_budget:
-                        rounded[sorted_candidates[i]] -= 1
-            else:
-                # 无法完全回收，尽力而为
-                for candidate in candidates:
-                    if excess <= 0:
+
+                for idx in sorted_candidates:
+                    if excess == 0:
                         break
-                    if rounded[candidate] > min_budget:
-                        rounded[candidate] -= 1
-                        excess -= 1
+
+                    # 本头最大可回收量
+                    reclaimable = rounded[idx] - min_budget
+                    if reclaimable <= 0:
+                        continue
+
+                    take = min(reclaimable, excess)
+                    rounded[idx] -= take
+                    excess -= take
         
         # 最终验证
         final_sum = rounded.sum()
@@ -301,15 +313,35 @@ class BudgetNormalizer:
             # 最后的补偿机制
             diff = total_budget - final_sum
             if diff > 0:
-                # 还有剩余，随机分配
-                indices = np.random.choice(len(rounded), min(abs(diff), len(rounded)), replace=False)
-                rounded[indices] += 1
+                # 还有剩余，循环分配（随机打散顺序保证均衡）
+                remaining = diff
+                while remaining > 0:
+                    indices = np.random.permutation(len(rounded))
+                    for idx in indices:
+                        if remaining == 0:
+                            break
+                        rounded[idx] += 1
+                        remaining -= 1
             elif diff < 0:
-                # 仍然超额，强制减少
-                candidates = np.where(rounded > min_budget)[0]
-                if len(candidates) > 0:
-                    indices = np.random.choice(candidates, min(abs(diff), len(candidates)), replace=False)
-                    rounded[indices] -= 1
+                # 仍然超额，强制减少 (使用与前面一致的回收逻辑)
+                excess = -diff  # 需要回收的金额 (正数)
+
+                while excess > 0:
+                    candidates = np.where(rounded > min_budget)[0]
+                    if len(candidates) == 0:
+                        break  # 无法再回收
+
+                    # 根据当前预算从大到小排序
+                    sorted_candidates = candidates[np.argsort(-rounded[candidates])]
+                    for idx in sorted_candidates:
+                        if excess == 0:
+                            break
+                        reclaimable = rounded[idx] - min_budget
+                        if reclaimable <= 0:
+                            continue
+                        take = min(reclaimable, excess)
+                        rounded[idx] -= take
+                        excess -= take
         
         # 严格检查（可选）
         if validate:
