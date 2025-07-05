@@ -129,6 +129,11 @@ def parse_args() -> argparse.Namespace:
     synth_group.add_argument("--synthetic-layers", type=int, default=12, help="合成数据层数")
     synth_group.add_argument("--synthetic-heads", type=int, default=32, help="合成数据头数")
     synth_group.add_argument("--synthetic-seq", type=int, default=512, help="合成数据序列长度")
+
+    # BL 参数（KV缓存长度），与论文/脚本中使用的一致
+    parser.add_argument("--bl", type=int, dest="bl", default=None,
+                        help="KV缓存长度 B_L (例如 128 或 1024)。若同时启用 --synthetic 且未显式指定 --synthetic-seq，将覆盖合成数据序列长度。")
+
     synth_group.add_argument("--synthetic-batch", type=int, default=1, help="合成数据 batch 大小")
 
     return parser.parse_args()
@@ -152,10 +157,15 @@ def main() -> None:
         attention_weights_list = load_attention_weights(Path(args.input))
     else:
         # fallback to synthetic data
+        seq_len = args.synthetic_seq
+        # 若提供了 --bl 且未用户未手动指定 --synthetic-seq，则使用 bl 作为序列长度
+        if args.bl is not None and "--synthetic-seq" not in sys.argv:
+            seq_len = args.bl
+
         attention_weights_list = generate_synthetic_attention_weights(
             num_layers=args.synthetic_layers,
             num_heads=args.synthetic_heads,
-            seq_len=args.synthetic_seq,
+            seq_len=seq_len,
             batch_size=args.synthetic_batch,
         )
 
