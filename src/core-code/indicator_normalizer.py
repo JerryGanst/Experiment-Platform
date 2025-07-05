@@ -275,35 +275,29 @@ class BudgetNormalizer:
                 rounded[sorted_indices[i]] += 1
                 
         elif deficit < 0:
-            # 预算超额：从非最小预算位置回收
+            # 预算超额：需要从各头回收多余的预算
             excess = -deficit  # 需要回收的预算量 (正数)
 
-            # 针对回收过程，我们采用"最大可回收优先"策略，
-            # 每次从仍有富余(>min_budget)且当前预算最大的头中回收，
-            # 直到完全抵消超额或再无法回收为止。
+            # 计算每个头的最大可回收量（仍满足最小预算约束）
+            reclaimable = rounded - min_budget
+            total_reclaimable = reclaimable.sum()
 
-            # 计算各头可回收量
-            while excess > 0:
-                # 找到所有仍可回收的头索引
-                candidates = np.where(rounded > min_budget)[0]
-
-                if len(candidates) == 0:
-                    # 已无法继续回收，跳出循环，后续验证会捕获错误
-                    break
-
-                # 根据当前预算从大到小排序，优先回收大的
-                sorted_candidates = candidates[np.argsort(-rounded[candidates])]
-
-                for idx in sorted_candidates:
+            if total_reclaimable <= 0:
+                # 理论上不应出现，但防御性处理
+                pass  # 后续验证会捕获错误
+            elif total_reclaimable <= excess:
+                # 即使全部回收也无法抵消超额——只能全部回收到最小预算
+                rounded -= reclaimable
+                excess -= total_reclaimable
+            else:
+                # 可以完全回收，按当前预算(由大到小)依次回收
+                sorted_indices = np.argsort(-rounded)  # 当前预算越大越先被回收
+                for idx in sorted_indices:
                     if excess == 0:
                         break
-
-                    # 本头最大可回收量
-                    reclaimable = rounded[idx] - min_budget
-                    if reclaimable <= 0:
+                    take = min(reclaimable[idx], excess)
+                    if take <= 0:
                         continue
-
-                    take = min(reclaimable, excess)
                     rounded[idx] -= take
                     excess -= take
         
@@ -323,23 +317,28 @@ class BudgetNormalizer:
                         rounded[idx] += 1
                         remaining -= 1
             elif diff < 0:
-                # 仍然超额，强制减少 (使用与前面一致的回收逻辑)
+                # 仍然超额，强制减少
                 excess = -diff  # 需要回收的金额 (正数)
 
-                while excess > 0:
-                    candidates = np.where(rounded > min_budget)[0]
-                    if len(candidates) == 0:
-                        break  # 无法再回收
+                # 使用与主流程相同的可回收量评估逻辑
+                reclaimable = rounded - min_budget
+                total_reclaimable = reclaimable.sum()
 
-                    # 根据当前预算从大到小排序
-                    sorted_candidates = candidates[np.argsort(-rounded[candidates])]
-                    for idx in sorted_candidates:
+                if total_reclaimable <= 0:
+                    pass  # 后续严格验证会抛出异常
+                elif total_reclaimable <= excess:
+                    # 回收到最小预算仍不足以抵消超额
+                    rounded -= reclaimable
+                    excess -= total_reclaimable
+                else:
+                    # 可完全回收，按当前预算从大到小遍历
+                    sorted_indices = np.argsort(-rounded)
+                    for idx in sorted_indices:
                         if excess == 0:
                             break
-                        reclaimable = rounded[idx] - min_budget
-                        if reclaimable <= 0:
+                        take = min(reclaimable[idx], excess)
+                        if take <= 0:
                             continue
-                        take = min(reclaimable, excess)
                         rounded[idx] -= take
                         excess -= take
         
