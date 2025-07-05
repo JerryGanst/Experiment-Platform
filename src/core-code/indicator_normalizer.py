@@ -317,21 +317,23 @@ class BudgetNormalizer:
                         "预算守恒失败且无法回收预算：所有头均已达到最小预算"
                     )
                 sorted_indices = candidates[np.argsort(-rounded[candidates])]  # 较大的预算优先被回收
-                for i in range(excess):
-                    idx = sorted_indices[i % len(sorted_indices)]
-                    if rounded[idx] - 1 < min_budget:
-                        # 跳过无法继续回收的头
-                        continue
-                    rounded[idx] -= 1
 
-        # 严格检查（可选）
-        if validate:
-            final_sum = rounded.sum()
-            if final_sum != total_budget:
-                raise RuntimeError(
-                    f"预算守恒失败: 期望={total_budget}, 实际={final_sum}, "
-                    f"差值={final_sum - total_budget}"
-                )
+                # 逐个头循环，直到成功回收全部超额预算
+                for idx in sorted_indices:
+                    if excess <= 0:
+                        break
+                    # 当前头最多可以回收的额度
+                    reducible = min(rounded[idx] - min_budget, excess)
+                    if reducible <= 0:
+                        continue  # 已无法再回收
+                    rounded[idx] -= reducible
+                    excess -= reducible
+
+                # 如果仍有剩余超额，说明无法在不违反最小预算约束的情况下完成回收
+                if excess > 0:
+                    raise RuntimeError(
+                        "预算守恒失败且无法回收预算：剩余超额 {}，所有可回收预算已用尽".format(excess)
+                    )
             
             # 检查最小预算约束
             if np.any(rounded < min_budget):
