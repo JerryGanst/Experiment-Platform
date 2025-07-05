@@ -128,6 +128,7 @@ def parse_args() -> argparse.Namespace:
     synth_group.add_argument("--synthetic", action="store_true", help="使用合成数据 (若未指定 --input，将自动启用)")
     synth_group.add_argument("--synthetic-layers", type=int, default=12, help="合成数据层数")
     synth_group.add_argument("--synthetic-heads", type=int, default=32, help="合成数据头数")
+
     # 为了判断用户是否显式传入 --synthetic-seq，我们将其默认值设为 None，
     # 后续手动处理默认 512 的逻辑。
     synth_group.add_argument("--synthetic-seq", type=int, default=None, help="合成数据序列长度 (默认 512)")
@@ -163,6 +164,7 @@ def main() -> None:
     if args.input:
         attention_weights_list = load_attention_weights(Path(args.input))
     else:
+
         # 根据以下优先级决定合成序列长度 (seq_len):
         # 1. 用户通过 --synthetic-seq 显式指定 (最高优先级)
         # 2. 用户通过 --bl 指定 (若未显式指定 --synthetic-seq)
