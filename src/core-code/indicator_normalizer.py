@@ -298,19 +298,32 @@ class BudgetNormalizer:
         # 最终验证
         final_sum = rounded.sum()
         if validate and final_sum != total_budget:
-            # 最后的补偿机制
+            # 最后的补偿机制（确定性实现，避免随机性）
             diff = total_budget - final_sum
-            if diff > 0:
-                # 还有剩余，随机分配
-                indices = np.random.choice(len(rounded), min(abs(diff), len(rounded)), replace=False)
-                rounded[indices] += 1
-            elif diff < 0:
-                # 仍然超额，强制减少
+            if diff == 0:
+                pass  # 无需调整
+            elif diff > 0:
+                # 预算仍有剩余：按当前预算从小到大依次分配，保证确定性
+                sorted_indices = np.argsort(rounded)  # 较小的预算优先获得补偿
+                for i in range(diff):
+                    rounded[sorted_indices[i % num_heads]] += 1
+            else:  # diff < 0
+                # 预算仍然超出：按当前预算从大到小依次回收，保证确定性
+                excess = -diff
                 candidates = np.where(rounded > min_budget)[0]
-                if len(candidates) > 0:
-                    indices = np.random.choice(candidates, min(abs(diff), len(candidates)), replace=False)
-                    rounded[indices] -= 1
-        
+                if len(candidates) == 0:
+                    # 所有头都已达到最小预算仍超额，无法处理
+                    raise RuntimeError(
+                        "预算守恒失败且无法回收预算：所有头均已达到最小预算"
+                    )
+                sorted_indices = candidates[np.argsort(-rounded[candidates])]  # 较大的预算优先被回收
+                for i in range(excess):
+                    idx = sorted_indices[i % len(sorted_indices)]
+                    if rounded[idx] - 1 < min_budget:
+                        # 跳过无法继续回收的头
+                        continue
+                    rounded[idx] -= 1
+
         # 严格检查（可选）
         if validate:
             final_sum = rounded.sum()
