@@ -298,27 +298,42 @@ class BudgetNormalizer:
         # 最终验证
         final_sum = rounded.sum()
         if validate and final_sum != total_budget:
-            # 最后的补偿机制
+            # 最后的补偿机制（确定性实现，避免随机性）
             diff = total_budget - final_sum
-            if diff > 0:
-                # 还有剩余，随机分配
-                indices = np.random.choice(len(rounded), min(abs(diff), len(rounded)), replace=False)
-                rounded[indices] += 1
-            elif diff < 0:
-                # 仍然超额，强制减少
+            if diff == 0:
+                pass  # 无需调整
+            elif diff > 0:
+                # 预算仍有剩余：按当前预算从小到大依次分配，保证确定性
+                sorted_indices = np.argsort(rounded)  # 较小的预算优先获得补偿
+                for i in range(diff):
+                    rounded[sorted_indices[i % num_heads]] += 1
+            else:  # diff < 0
+                # 预算仍然超出：按当前预算从大到小依次回收，保证确定性
+                excess = -diff
                 candidates = np.where(rounded > min_budget)[0]
-                if len(candidates) > 0:
-                    indices = np.random.choice(candidates, min(abs(diff), len(candidates)), replace=False)
-                    rounded[indices] -= 1
-        
-        # 严格检查（可选）
-        if validate:
-            final_sum = rounded.sum()
-            if final_sum != total_budget:
-                raise RuntimeError(
-                    f"预算守恒失败: 期望={total_budget}, 实际={final_sum}, "
-                    f"差值={final_sum - total_budget}"
-                )
+                if len(candidates) == 0:
+                    # 所有头都已达到最小预算仍超额，无法处理
+                    raise RuntimeError(
+                        "预算守恒失败且无法回收预算：所有头均已达到最小预算"
+                    )
+                sorted_indices = candidates[np.argsort(-rounded[candidates])]  # 较大的预算优先被回收
+
+                # 逐个头循环，直到成功回收全部超额预算
+                for idx in sorted_indices:
+                    if excess <= 0:
+                        break
+                    # 当前头最多可以回收的额度
+                    reducible = min(rounded[idx] - min_budget, excess)
+                    if reducible <= 0:
+                        continue  # 已无法再回收
+                    rounded[idx] -= reducible
+                    excess -= reducible
+
+                # 如果仍有剩余超额，说明无法在不违反最小预算约束的情况下完成回收
+                if excess > 0:
+                    raise RuntimeError(
+                        "预算守恒失败且无法回收预算：剩余超额 {}，所有可回收预算已用尽".format(excess)
+                    )
             
             # 检查最小预算约束
             if np.any(rounded < min_budget):
