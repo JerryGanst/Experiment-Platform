@@ -142,9 +142,14 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
+    # 根据BL覆盖cache_size（Budget Limit 优先级更高）
+    effective_cache_size = args.cache_size
+    if args.bl is not None:
+        effective_cache_size = args.bl
+
     # 构建 IntegrationConfig
     integration_cfg = IntegrationConfig(
-        total_cache_size=args.cache_size,
+        total_cache_size=effective_cache_size,
         enable_monitoring=args.monitor,
         enable_auto_tuning=args.auto_tune,
     )
