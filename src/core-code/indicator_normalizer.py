@@ -294,6 +294,7 @@ class BudgetNormalizer:
                     if rounded[candidate] > min_budget:
                         rounded[candidate] -= 1
                         excess -= 1
+
         
         # 最终验证
         final_sum = rounded.sum()
@@ -334,7 +335,7 @@ class BudgetNormalizer:
                     raise RuntimeError(
                         "预算守恒失败且无法回收预算：剩余超额 {}，所有可回收预算已用尽".format(excess)
                     )
-            
+
             # 检查最小预算约束
             if np.any(rounded < min_budget):
                 min_actual = rounded.min()

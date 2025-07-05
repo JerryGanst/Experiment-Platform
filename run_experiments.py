@@ -88,10 +88,31 @@ def run_cake_experiment(run_dir, args):
     return result.returncode == 0
 
 def run_h2o_experiment(run_dir, args):
-    """运行H2O实验"""
+    """运行H2O实验 (目前为简化版占位实现)"""
     print("🟡 运行H2O实验...")
-    print("⚠️ H2O实验脚本待实现")
-    return True
+
+    h2o_script = get_project_root() / "src" / "methods" / "h2o" / "h2o_main.py"
+    if not h2o_script.exists():
+        print(f"❌ H2O脚本不存在: {h2o_script}")
+        return False
+
+    cmd = [
+        sys.executable, str(h2o_script),
+        "--output_dir", str(run_dir / "h2o_results"),
+        "--datasets", args.datasets,
+        "--cache_budgets", args.cache_budgets,
+    ]
+
+    if args.dry_run:
+        print(f"将执行命令: {' '.join(cmd)}")
+        return True
+
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
+
+    print(f"执行: {' '.join(cmd)}")
+    result = subprocess.run(cmd, capture_output=False, env=env)
+    return result.returncode == 0
 
 def run_comparison_analysis(run_dir, args):
     """运行对比分析"""
