@@ -36,19 +36,42 @@ def load_dataset_split(dataset_config, split="validation", trust_remote_code=Fal
         logger.error(f"Error loading dataset: {e}")
         raise
 
-def prepare_samples_for_evaluation(dataset, dataset_name, num_samples=100, random_seed=42):
+def prepare_samples_for_evaluation(dataset, dataset_info, num_samples=100, random_seed=42):
     """
-    准备用于评估的样本 - 修复版本，支持LongBench标准格式
-    
+    准备用于评估的样本 - 支持多种调用方式
+
     Args:
         dataset: 加载的数据集
-        dataset_name: 数据集名称，用于确定处理方式
+        dataset_info: 可以是数据集名称(str)或数据集配置(dict)
         num_samples: 要准备的样本数量
         random_seed: 随机种子，用于可重复性
-        
+
     Returns:
         samples: 处理后的样本列表，每个样本是一个字典，包含输入提示和参考答案
     """
+    # -------- 兼容旧/新签名 -------------------------------------------------
+    # 允许dataset_info既可以是名称字符串，也可以是配置字典。后续逻辑统一使用dataset_name
+    if isinstance(dataset_info, str):
+        dataset_name = dataset_info
+    elif isinstance(dataset_info, dict):
+        # 从配置字典中提取名称；优先级：显式字段 -> 回退到键名猜测
+        dataset_name = dataset_info.get("name") or dataset_info.get("dataset_name")
+        # 如果仍然为空，尝试根据全局配置反向查找
+        if not dataset_name:
+            try:
+                from hace_core import config as _global_cfg
+                for _name, _cfg in _global_cfg.DATASET_CONFIG.get("available_datasets", {}).items():
+                    if _cfg == dataset_info:
+                        dataset_name = _name
+                        break
+            except Exception:
+                pass
+        # 如果依旧未知，则设置占位符，后续仅用于日志
+        dataset_name = dataset_name or "unknown_dataset"
+    else:
+        raise TypeError(f"dataset_info 应为 str 或 dict，实际收到: {type(dataset_info)}")
+
+    # -----------------------------------------------------------------------
     random.seed(random_seed)
     logger.info(f"Preparing {num_samples} samples from {dataset_name}")
     

@@ -1,21 +1,10 @@
 {
-  "narrativeqa": 0.16216216216216217,
-  "multifieldqa_en": 0.1111111111111111,
-  "multi_news": 0.10465115848296395,
-  "_metadata": {
-    "created_at": "2025-01-27",
-    "source": "qasper_baseline_reset",
-    "note": "重置qasper基线，准备重新建立",
-    "fix_details": "移除qasper基线，将通过新实验重新建立正确的基线值"
-  },
-  "qasper": 0.2105263157894737,
-  "trec": 0.0,
-  "hotpotqa": 0.07228915662650602,
-  "2wikimqa": 0.0,
+  "qasper": 0.0,
+  "narrativeqa": 0.0,
+  "qmsum": 0.09803921153402555,
+  "gov_report": 0.11688311211737057,
   "musique": 0.0,
-  "gov_report": 0.07942237907961805,
-  "qmsum": 0.058823524623702814,
-  "samsum": 0.030303029164371026,
-  "triviaqa": 0.07894736842105264,
-  "passage_count": 0.0
+  "2wikimqa": 1.0,
+  "hotpotqa": 0.10526315789473684,
+  "multifieldqa_en": 0.0625
 }

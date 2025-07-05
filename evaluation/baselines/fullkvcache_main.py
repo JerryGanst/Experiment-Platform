@@ -21,6 +21,11 @@ if project_root_dir not in sys.path:
 FullKVCache实验执行脚本 - 使用完整KV缓存，不进行任何优化
 修复版：解决CUDA设备端断言错误和内存累积问题
 支持本地JSONL数据文件
+
+更新说明：
+- 现在使用标准的CAKE prompt模板（dataset2prompt.json），确保与LongBench基准测试一致
+- 这样可以与CAKE、H2O等优化方法进行公平对比
+- 所有方法使用相同的prompt格式，性能差异纯粹来自缓存策略
 """
 import time
 import logging
@@ -70,7 +75,7 @@ def override_config_paths():
     if hasattr(config, 'OUTPUT_CONFIG'):
         config.OUTPUT_CONFIG["base_dir"] = str(current_dir / "results")
 
-    print(f"✅ 配置已重写为相对路径，基于目录: {current_dir}")
+    print(f"配置已重写为相对路径，基于目录: {current_dir}")
 
 
 # 调用配置重写
@@ -177,8 +182,175 @@ except ImportError as e:
         BASELINE_SCORING_AVAILABLE = False
 
 
-# 数据集评分映射
+# CAKE配置常量 - 从官方配置文件导入
+CAKE_DATASET_CONFIG = {
+    # Max new tokens配置 (来自dataset2maxlen.json)
+    "max_new_tokens": {
+        "narrativeqa": 128,
+        "qasper": 128,
+        "multifieldqa_en": 64,
+        "multifieldqa_zh": 64,
+        "hotpotqa": 32,
+        "2wikimqa": 32,
+        "musique": 32,
+        "dureader": 128,
+        "gov_report": 512,
+        "qmsum": 512,
+        "multi_news": 512,
+        "vcsum": 512,
+        "trec": 64,
+        "triviaqa": 32,
+        "samsum": 128,
+        "lsht": 64,
+        "passage_count": 32,
+        "passage_retrieval_en": 32,
+        "passage_retrieval_zh": 32,
+        "lcc": 64,
+        "repobench-p": 64
+    },
+    
+    # Prompt模板配置 (来自dataset2prompt.json)
+    "prompts": {
+        "narrativeqa": "You are given a story, which can be either a novel or a movie script, and a question. Answer the question asconcisely as you can, using a single phrase if possible. Do not provide any explanation.\n\nStory: {context}\n\nNow, answer the question based on the story asconcisely as you can, using a single phrase if possible. Do not provide any explanation.\n\nQuestion: {input}\n\nAnswer:",
+        "qasper": "You are given a scientific article and a question. Answer the question as concisely as you can, using a single phrase or sentence if possible. If the question cannot be answered based on the information in the article, write \"unanswerable\". If the question is a yes/no question, answer \"yes\", \"no\", or \"unanswerable\". Do not provide any explanation.\n\nArticle: {context}\n\n Answer the question based on the above article as concisely as you can, using a single phrase or sentence if possible. If the question cannot be answered based on the information in the article, write \"unanswerable\". If the question is a yes/no question, answer \"yes\", \"no\", or \"unanswerable\". Do not provide any explanation.\n\nQuestion: {input}\n\nAnswer:",
+        "multifieldqa_en": "Read the following text and answer briefly.\n\n{context}\n\nNow, answer the following question based on the above text, only give me the answer and do not output any other words.\n\nQuestion: {input}\nAnswer:",
+        "multifieldqa_zh": "阅读以下文字并用中文简短回答：\n\n{context}\n\n现在请基于上面的文章回答下面的问题，只告诉我答案，不要输出任何其他字词。\n\n问题：{input}\n回答：",
+        "hotpotqa": "Answer the question based on the given passages. Only give me the answer and do not output any other words.\n\nThe following are given passages.\n{context}\n\nAnswer the question based on the given passages. Only give me the answer and do not output any other words.\n\nQuestion: {input}\nAnswer:",
+        "2wikimqa": "Answer the question based on the given passages. Only give me the answer and do not output any other words.\n\nThe following are given passages.\n{context}\n\nAnswer the question based on the given passages. Only give me the answer and do not output any other words.\n\nQuestion: {input}\nAnswer:",
+        "musique": "Answer the question based on the given passages. Only give me the answer and do not output any other words.\n\nThe following are given passages.\n{context}\n\nAnswer the question based on the given passages. Only give me the answer and do not output any other words.\n\nQuestion: {input}\nAnswer:",
+        "dureader": "请基于给定的文章回答下述问题。\n\n文章：{context}\n\n请基于上述文章回答下面的问题。\n\n问题：{input}\n回答：",
+        "gov_report": "You are given a report by a government agency. Write a one-page summary of the report.\n\nReport:\n{context}\n\nNow, write a one-page summary of the report.\n\nSummary:",
+        "qmsum": "You are given a meeting transcript and a query containing a question or instruction. Answer the query in one or more sentences.\n\nTranscript:\n{context}\n\nNow, answer the query based on the above meeting transcript in one or more sentences.\n\nQuery: {input}\nAnswer:",
+        "multi_news": "You are given several news passages. Write a one-page summary of all news. \n\nNews:\n{context}\n\nNow, write a one-page summary of all the news.\n\nSummary:",
+        "vcsum": "下面有一段会议记录，请你阅读后，写一段总结，总结会议的内容。\n会议记录：\n{context}\n\n会议总结：",
+        "trec": "Please determine the type of the question below. Here are some examples of questions.\n\n{context}\n{input}",
+        "triviaqa": "Answer the question based on the given passage. Only give me the answer and do not output any other words. The following are some examples.\n\n{context}\n\n{input}",
+        "samsum": "Summarize the dialogue into a few short sentences. The following are some examples.\n\n{context}\n\n{input}",
+        "lsht": "请判断给定新闻的类别，下面是一些例子。\n\n{context}\n{input}",
+        "passage_count": "There are some paragraphs below sourced from Wikipedia. Some of them may be duplicates. Please carefully read these paragraphs and determine how many unique paragraphs there are after removing duplicates. In other words, how many non-repeating paragraphs are there in total?\n\n{context}\n\nPlease enter the final count of unique paragraphs after removing duplicates. The output format should only contain the number, such as 1, 2, 3, and so on.\n\nThe final answer is: ",
+        "passage_retrieval_en": "Here are 30 paragraphs from Wikipedia, along with an abstract. Please determine which paragraph the abstract is from.\n\n{context}\n\nThe following is an abstract.\n\n{input}\n\nPlease enter the number of the paragraph that the abstract is from. The answer format must be like \"Paragraph 1\", \"Paragraph 2\", etc.\n\nThe answer is: ",
+        "passage_retrieval_zh": "以下是若干段落文字，以及其中一个段落的摘要。请确定给定的摘要出自哪一段。\n\n{context}\n\n下面是一个摘要\n\n{input}\n\n请输入摘要所属段落的编号。答案格式必须是\"段落1\"，\"段落2\"等格式\n\n答案是：",
+        "lcc": "Please complete the code given below. \n{context}Next line of code:\n",
+        "repobench-p": "Please complete the code given below. \n{context}{input}Next line of code:\n"
+    }
+}
+
+def get_dataset_max_new_tokens(dataset_name: str) -> int:
+    """
+    获取数据集特定的max_new_tokens配置
+    优先级：CAKE配置 > 全局配置
+    """
+    cake_tokens = CAKE_DATASET_CONFIG["max_new_tokens"].get(dataset_name)
+    if cake_tokens is not None:
+        logger.info(f"使用CAKE配置的max_new_tokens: {dataset_name} = {cake_tokens}")
+        return cake_tokens
+    
+    global_tokens = EXPERIMENT_CONFIG.get("max_new_tokens", 256)
+    logger.info(f"使用全局配置的max_new_tokens: {dataset_name} = {global_tokens}")
+    return global_tokens
+
+def get_dataset_prompt_template(dataset_name: str) -> str:
+    """
+    获取数据集特定的prompt模板
+    """
+    template = CAKE_DATASET_CONFIG["prompts"].get(dataset_name)
+    if template is not None:
+        logger.info(f"使用CAKE配置的prompt模板: {dataset_name}")
+        return template
+    
+    logger.warning(f"未找到数据集 {dataset_name} 的prompt模板，使用默认格式")
+    return "Context: {context}\n\nQuestion: {input}\n\nAnswer:"
+
+def get_model_max_length(model_name: str, fallback_length: int = 2048) -> int:
+    """
+    获取模型特定的最大长度限制
+    基于CAKE的model2maxlen.json配置
+    
+    Args:
+        model_name: 模型名称或路径
+        fallback_length: 未找到配置时的默认长度
+    
+    Returns:
+        模型的最大处理长度
+    """
+    # CAKE官方的模型最大长度配置（来自model2maxlen.json）
+    MODEL_MAX_LENGTHS = {
+        "llama2-7b-chat-4k": 3500,
+        "llama2-13b-chat-4k": 3500,
+        "llama3.1-8b-128k": 127500,
+        "mistral-0.3-7b-32k": 31500,
+        "qwen2.5-7b-instruct": 31500
+    }
+    
+    # 模型名称标准化映射
+    model_name_lower = model_name.lower()
+    
+    # 使用更精确的匹配策略 - 按匹配分数排序
+    best_match = None
+    best_score = 0
+    
+    for config_name, max_length in MODEL_MAX_LENGTHS.items():
+        config_name_lower = config_name.lower()
+        match_score = 0
+        
+        # 计算匹配分数：匹配的关键词越多越好，但必须包含主要模型标识符
+        config_keywords = config_name_lower.split('-')
+        
+        # 检查主要模型家族匹配（必须匹配）
+        model_family_matched = False
+        for family in ['llama', 'mistral', 'qwen']:
+            if family in model_name_lower and any(family in keyword for keyword in config_keywords):
+                model_family_matched = True
+                match_score += 10  # 主要家族匹配给高分
+                break
+        
+        if not model_family_matched:
+            continue  # 如果主要模型家族都不匹配，跳过
+            
+        # 检查其他关键词匹配
+        for keyword in config_keywords:
+            if keyword in model_name_lower and len(keyword) > 1:  # 忽略单字符匹配
+                match_score += len(keyword)  # 更长的关键词匹配得分更高
+        
+        # 检查精确子字符串匹配（如版本号）
+        if config_name_lower in model_name_lower:
+            match_score += 20  # 精确匹配给最高分
+            
+        if match_score > best_score:
+            best_score = match_score
+            best_match = (config_name, max_length)
+    
+    if best_match:
+        config_name, max_length = best_match
+        logger.info(f"找到模型 {model_name} 的最佳匹配配置: {config_name} -> {max_length} (得分: {best_score})")
+        return max_length
+    
+    # 基于模型名称的启发式匹配（作为备用方案）
+    if "llama" in model_name_lower:
+        if "3.1" in model_name_lower and ("128k" in model_name_lower or "instruct" in model_name_lower):
+            logger.info(f"使用启发式匹配: {model_name} -> Llama 3.1 128K")
+            return 127500  # Llama 3.1 128K
+        else:
+            logger.info(f"使用启发式匹配: {model_name} -> Llama 默认")
+            return 3500    # 其他Llama模型默认
+    elif "mistral" in model_name_lower:
+        if "32k" in model_name_lower or "0.3" in model_name_lower:
+            logger.info(f"使用启发式匹配: {model_name} -> Mistral 32K")
+            return 31500   # Mistral 32K
+        else:
+            logger.info(f"使用启发式匹配: {model_name} -> Mistral 默认")
+            return 8000    # 其他Mistral模型
+    elif "qwen" in model_name_lower:
+        logger.info(f"使用启发式匹配: {model_name} -> Qwen 系列")
+        return 31500       # Qwen系列
+    
+    # 如果都没匹配到，使用回退值
+    logger.warning(f"未找到模型 {model_name} 的最大长度配置，使用默认值: {fallback_length}")
+    return fallback_length
+
+# 数据集评分映射 - 扩展到支持所有CAKE数据集
 DATASET_SCORING_MAP = {
+    # 原有映射
     "mmlu": qa_f1_score,
     "narrativeqa": qa_f1_score,
     "qasper": qa_f1_score,
@@ -196,6 +368,13 @@ DATASET_SCORING_MAP = {
     "passage_count": count_score,
     "lcc": code_sim_score,
     "repobench-p": code_sim_score,
+    
+    # 新增CAKE数据集映射
+    "multifieldqa_zh": qa_f1_score,
+    "dureader": qa_f1_score,
+    "vcsum": rouge_score,
+    "lsht": classification_score,
+    "passage_retrieval_zh": retrieval_score,
 }
 
 
@@ -227,7 +406,7 @@ def find_baseline_results_robust(main_output_dir):
                 matches = glob.glob(pattern, recursive=True)
                 if matches:
                     all_files.extend(matches)
-                    print(f"🔍 在 '{pattern}' 找到 {len(matches)} 个文件")
+                    print(f"[SEARCH] 在 '{pattern}' 找到 {len(matches)} 个文件")
             except Exception as e:
                 print(f"搜索模式失败 '{pattern}': {e}")
 
@@ -235,7 +414,7 @@ def find_baseline_results_robust(main_output_dir):
     unique_files = list(set(all_files))
     unique_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
 
-    print(f"📁 总共找到 {len(unique_files)} 个评分文件")
+    print(f"[FILES] 总共找到 {len(unique_files)} 个评分文件")
     for f in unique_files[:5]:  # 显示前5个
         print(f"   {f}")
 
@@ -246,17 +425,17 @@ def load_longbench_official_data(dataset_name: str, max_samples: int = None):
     """直接加载LongBench官方数据，绕过有问题的预处理"""
     from datasets import load_dataset
 
-    print(f"🌐 加载LongBench官方数据: {dataset_name}")
-    print(f"📋 原因：基于探索发现，LongBench是独立版本，更适合学术比较")
+    print(f"[LOAD] 加载LongBench官方数据: {dataset_name}")
+    print(f"[INFO] 原因：基于探索发现，LongBench是独立版本，更适合学术比较")
 
     try:
         dataset = load_dataset("THUDM/LongBench", dataset_name, split="test")
         if max_samples:
             dataset = dataset.select(range(min(len(dataset), max_samples)))
-        print(f"✅ 加载了 {len(dataset)} 个样本")
+        print(f"[OK] 加载了 {len(dataset)} 个样本")
         return dataset
     except Exception as e:
-        print(f"❌ 加载LongBench官方数据失败: {e}")
+        print(f"[ERROR] 加载LongBench官方数据失败: {e}")
         return None
 
 
@@ -270,9 +449,9 @@ try:
         """数据加载包装器 - 使用统一数据加载器"""
         return unified_load_local_jsonl_data(dataset_name, max_samples)
     
-    print("✅ 成功导入统一数据加载器")
+    print("[OK] 成功导入统一数据加载器")
 except ImportError as e:
-    print(f"⚠️ 无法导入统一数据加载器，使用本地版本: {e}")
+    print(f"[WARNING] 无法导入统一数据加载器，使用本地版本: {e}")
     
     def load_local_jsonl_data(dataset_name: str, max_samples: int = None):
         """本地版本的数据加载器 - 备用方案"""
@@ -297,7 +476,7 @@ except ImportError as e:
                 break
 
         if not data_path:
-            logger.warning(f"❌ 未找到本地数据文件: {dataset_name}.jsonl")
+            logger.warning(f"[ERROR] 未找到本地数据文件: {dataset_name}.jsonl")
             return None
 
         try:
@@ -313,11 +492,11 @@ except ImportError as e:
                         except json.JSONDecodeError as e:
                             logger.warning(f"跳过无效JSON行: {line[:50]}... 错误: {e}")
 
-            logger.info(f"✅ 从本地加载 {dataset_name}，共 {len(data)} 条样本")
+            logger.info(f"[OK] 从本地加载 {dataset_name}，共 {len(data)} 条样本")
             return data
 
         except Exception as e:
-            logger.error(f"❌ 加载本地JSONL文件失败: {e}")
+            logger.error(f"[ERROR] 加载本地JSONL文件失败: {e}")
             return None
 
 
@@ -418,92 +597,45 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
         logger.info(f"样本数据: {sample}")
         logger.info(f"样本类型: {type(sample)}")
         
-        # 准备输入 - 修复版本，确保每个数据集使用正确的输入格式
+        # 使用标准的CAKE prompt模板，确保与LongBench基准测试一致
+        prompt_template = get_dataset_prompt_template(dataset_name)
+        
+        # 准备输入 - 使用标准CAKE模板
         input_text = ""
-        if dataset_name in ["hotpotqa", "2wikimqa", "musique"]:
-            # 问答类数据集
-            if isinstance(sample, dict):
-                question = sample.get('input', sample.get('question', sample.get('prompt', '')))
-                context = sample.get('context', '')
-                if context:
-                    input_text = f"Context: {context}\nQuestion: {question}\nAnswer:"
+        if isinstance(sample, dict):
+            # 提取context和input字段
+            context = sample.get('context', '')
+            input_field = sample.get('input', sample.get('question', sample.get('prompt', '')))
+            
+            # 使用模板格式化
+            try:
+                if '{context}' in prompt_template and '{input}' in prompt_template:
+                    # 需要context和input的模板
+                    input_text = prompt_template.format(context=context, input=input_field)
+                elif '{context}' in prompt_template:
+                    # 只需要context的模板（如摘要任务）
+                    input_text = prompt_template.format(context=context)
+                elif '{input}' in prompt_template:
+                    # 只需要input的模板
+                    input_text = prompt_template.format(input=input_field)
                 else:
-                    input_text = f"Question: {question}\nAnswer:"
-            else:
-                input_text = f"Question: {str(sample)}\nAnswer:"
-                
-        elif dataset_name == "narrativeqa":
-            # 叙事问答
-            if isinstance(sample, dict):
-                question = sample.get('input', sample.get('question', sample.get('prompt', '')))
-                context = sample.get('context', sample.get('document', ''))
-                if context:
-                    input_text = f"Read the following story and answer the question.\nStory: {context}\nQuestion: {question}\nAnswer:"
+                    # 没有占位符的模板，直接使用
+                    input_text = prompt_template
+                    
+                logger.info(f"使用CAKE标准模板格式化输入: {dataset_name}")
+            except KeyError as e:
+                logger.warning(f"模板格式化失败: {e}，回退到简单格式")
+                # 回退到简单格式
+                if context and input_field:
+                    input_text = f"Context: {context}\nQuestion: {input_field}\nAnswer:"
+                elif input_field:
+                    input_text = f"Question: {input_field}\nAnswer:"
+                elif context:
+                    input_text = f"Context: {context}\nAnswer:"
                 else:
-                    input_text = f"Question: {question}\nAnswer:"
-            else:
-                input_text = f"Question: {str(sample)}\nAnswer:"
-                
-        elif dataset_name == "multi_news":
-            # 多文档摘要
-            if isinstance(sample, dict):
-                content = sample.get('input', sample.get('context', sample.get('text', sample.get('prompt', ''))))
-                if not content:
-                    # 如果input为空，查找其他可能的字段
-                    for field in ['document', 'articles', 'content']:
-                        if field in sample and sample[field]:
-                            content = sample[field]
-                            break
-                if content:
-                    input_text = f"Summarize the following articles:\n{content}\nSummary:"
-                else:
-                    logger.warning(f"multi_news样本缺少内容: {sample}")
-                    input_text = "Summarize the following articles:\n[No content available]\nSummary:"
-            else:
-                input_text = f"Summarize the following articles:\n{str(sample)}\nSummary:"
-                
-        elif dataset_name == "gov_report":
-            # 政府报告摘要
-            if isinstance(sample, dict):
-                content = sample.get('input', sample.get('context', sample.get('text', sample.get('prompt', ''))))
-                if not content:
-                    # 如果input为空，查找其他可能的字段
-                    for field in ['document', 'report', 'content']:
-                        if field in sample and sample[field]:
-                            content = sample[field]
-                            break
-                if content:
-                    input_text = f"Summarize the following government report:\n{content}\nSummary:"
-                else:
-                    logger.warning(f"gov_report样本缺少内容: {sample}")
-                    input_text = "Summarize the following government report:\n[No content available]\nSummary:"
-            else:
-                input_text = f"Summarize the following government report:\n{str(sample)}\nSummary:"
-                
-        elif dataset_name == "qmsum":
-            # 会议摘要
-            if isinstance(sample, dict):
-                content = sample.get('input', sample.get('context', sample.get('text', sample.get('prompt', ''))))
-                if not content:
-                    # 如果input为空，查找其他可能的字段
-                    for field in ['meeting', 'transcript', 'dialogue', 'content']:
-                        if field in sample and sample[field]:
-                            content = sample[field]
-                            break
-                if content:
-                    input_text = f"Summarize the following meeting:\n{content}\nSummary:"
-                else:
-                    logger.warning(f"qmsum样本缺少内容: {sample}")
-                    input_text = "Summarize the following meeting:\n[No content available]\nSummary:"
-            else:
-                input_text = f"Summarize the following meeting:\n{str(sample)}\nSummary:"
-                
+                    input_text = str(sample)
         else:
-            # 其他数据集的通用处理
-            if isinstance(sample, dict):
-                input_text = sample.get('input', sample.get('prompt', sample.get('text', str(sample))))
-            else:
-                input_text = str(sample)
+            input_text = str(sample)
         
         # 验证输入文本
         if not input_text or input_text.strip() == "":
@@ -513,9 +645,18 @@ def run_single_fullkvcache_experiment(model, tokenizer, sample, kv_cache_length,
         # 记录输入文本用于调试
         logger.info(f"最终输入文本 (前200字符): {input_text[:200]}...")
         
-        # 限制输入长度以适应KV cache
-        # 计算输入限制，防止出现负值
-        max_input_length = max(kv_cache_length - max_new_tokens - 10, 16)
+        # 获取模型特定的最大长度限制
+        model_name = model.config.name_or_path if hasattr(model.config, 'name_or_path') else "unknown"
+        model_max_length = get_model_max_length(model_name, kv_cache_length)
+        
+        # 限制输入长度以适应KV cache和模型限制
+        max_input_length = min(
+            max(kv_cache_length - max_new_tokens - 10, 16),  # KV cache限制
+            model_max_length - max_new_tokens - 10  # 模型限制
+        )
+        
+        logger.info(f"输入长度限制: kv_cache={kv_cache_length}, model_max={model_max_length}, final_max_input={max_input_length}")
+        
         inputs = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=max_input_length)
 
         input_ids = inputs["input_ids"].to(model.device)
@@ -720,8 +861,8 @@ def main():
     parser.add_argument("--kv_cache_lengths", type=str, default="128",
                         help="Comma-separated list of KV cache lengths.")
     parser.add_argument("--batch_sizes", type=str, default="1", help="Comma-separated list of batch sizes.")
-    parser.add_argument("--max_new_tokens", type=int, default=EXPERIMENT_CONFIG["max_new_tokens"],
-                        help="Maximum number of new tokens to generate.")
+    parser.add_argument("--max_new_tokens", type=int, default=None,
+                        help="Maximum number of new tokens to generate (if not specified, will use dataset-specific CAKE config).")
     parser.add_argument("--repetitions", type=int, default=EXPERIMENT_CONFIG["repetitions"],
                         help="Number of repetitions for each experiment configuration.")
     parser.add_argument("--output_dir", type=str,
@@ -733,6 +874,7 @@ def main():
                         help="Random seed for reproducibility.")
     parser.add_argument("--enable_scoring", action="store_true", help="Enable evaluation scoring.")
     parser.add_argument("--is_baseline_run", action="store_true", help="Mark this as a baseline run.")
+    parser.add_argument("--max_samples", type=int, default=None, help="Maximum number of samples to process per dataset (None for all samples).")
 
     args = parser.parse_args()
 
@@ -797,6 +939,9 @@ def main():
     
     main_output_dir.mkdir(parents=True, exist_ok=True)
 
+    # 修复重复实验问题：将all_scores移到重复循环外部
+    experiment_scores = {}  # 用于存储每个实验配置的分数
+
     for rep in range(args.repetitions):
         for dataset_name in datasets_list:
             dataset_config = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
@@ -809,6 +954,10 @@ def main():
                     try:
                         experiment_id = f"fullkvcache_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{rep}_{run_timestamp}"
                         logger.info(f"Starting experiment: {experiment_id}")
+
+                        # 获取数据集特定的max_new_tokens配置
+                        dataset_max_tokens = get_dataset_max_new_tokens(dataset_name) if args.max_new_tokens is None else args.max_new_tokens
+                        logger.info(f"使用max_new_tokens: {dataset_max_tokens} (数据集: {dataset_name})")
 
                         # 创建实验特定的输出目录
                         experiment_output_dir = main_output_dir / f"ds_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{rep}"
@@ -830,25 +979,25 @@ def main():
 
                         # 尝试从本地JSONL文件加载
                         logger.info("尝试从本地JSONL文件加载数据集: " + dataset_name)
-                        dataset = load_local_jsonl_data(dataset_name, max_samples=1)
+                        dataset = load_local_jsonl_data(dataset_name, max_samples=args.max_samples)
                         data_source = "local"
 
                         if dataset is None:
                             # 如果本地加载失败，尝试LongBench官方数据
                             logger.info("本地加载失败，尝试LongBench官方数据...")
-                            dataset = load_longbench_official_data(dataset_name, max_samples=1)
+                            dataset = load_longbench_official_data(dataset_name, max_samples=args.max_samples)
                             data_source = "longbench"
 
                         if dataset is None:
-                            logger.error(f"❌ 无法加载数据集 {dataset_name}，跳过此实验")
+                            logger.error(f"[ERROR] 无法加载数据集 {dataset_name}，跳过此实验")
                             continue
 
                         # 验证数据集内容
                         if not dataset or len(dataset) == 0:
-                            logger.error(f"❌ 数据集 {dataset_name} 为空，跳过此实验")
+                            logger.error(f"[ERROR] 数据集 {dataset_name} 为空，跳过此实验")
                             continue
 
-                        logger.info(f"✅ 成功加载 {dataset_name} (来源: {data_source}, 样本数: {len(dataset)})")
+                        logger.info(f"[OK] 成功加载 {dataset_name} (来源: {data_source}, 样本数: {len(dataset)})")
                         
                         # 记录第一个样本用于调试
                         first_sample = dataset[0] if isinstance(dataset, list) else dataset[0]
@@ -863,93 +1012,135 @@ def main():
                                     break
                             
                             if not has_content:
-                                logger.warning(f"⚠️ 数据集 {dataset_name} 的样本似乎缺少有效内容")
+                                logger.warning(f"[WARNING] 数据集 {dataset_name} 的样本似乎缺少有效内容")
                         
                         logger.info(f"数据集 {dataset_name} 验证通过，继续执行实验")
 
                         # 准备样本
-                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_config)
+                        prepared_samples = prepare_samples_for_evaluation(dataset, dataset_name, num_samples=len(dataset))
                         logger.info(f"Prepared {len(prepared_samples)} samples successfully")
-
-                        # 准备batch
-                        logger.info(f"Preparing batch with size {batch_size}, max_length {kv_cache_length}...")
-                        batch = prepare_batch(prepared_samples, tokenizer, batch_size, kv_cache_length)
 
                         # 初始化监控
                         monitor = UnifiedMonitor()
 
-                        # 运行实验
-                        logger.info("Running FullKVCache experiment...")
-                        sample = batch["samples"][0] if batch and "samples" in batch and batch["samples"] else prepared_samples[0]
+                        # 运行实验 - 遍历所有样本
+                        logger.info(f"Running FullKVCache experiment on {len(prepared_samples)} samples...")
+                        
+                        # 修复重复实验问题：为每个实验配置创建独立的分数存储
+                        config_key = f"{dataset_name}_kv{kv_cache_length}_bs{batch_size}"
+                        if config_key not in experiment_scores:
+                            experiment_scores[config_key] = []
+                        
+                        current_scores = []
+                        all_experiment_results = []
 
-                        experiment_results = run_single_fullkvcache_experiment(
-                            model, tokenizer, sample, kv_cache_length, args.max_new_tokens,
-                            dataset_name, experiment_id, monitor, repetition=rep
-                        )
-
-                        # 保存性能指标
-                        metrics_file = save_experiment_results(experiment_results, experiment_output_dir,
-                                                               experiment_id)
-
-                        # 如果启用评分，进行评估
-                        if args.enable_scoring:
-                            logger.info("Performing evaluation scoring...")
-                            generated_text = experiment_results["generated_text"]
-
-                            # 获取ground truth - 修复版本，使用处理后样本的reference字段
-                            ground_truth = ""
-                            if isinstance(sample, dict):
-                                # 优先使用处理后的reference字段
-                                if 'reference' in sample:
-                                    ground_truth = sample['reference']
-                                    logger.info(f"使用处理后的reference: {ground_truth}")
-                                else:
-                                    # 备用方案：从原始字段提取
-                                    ground_truth = sample.get('answers', sample.get('output', sample.get('answer', '')))
-                                    logger.info(f"使用原始字段提取: {ground_truth}")
-                            else:
-                                ground_truth = str(sample)
-
-                            # 如果ground_truth是列表，取第一个
-                            if isinstance(ground_truth, list):
-                                ground_truth = ground_truth[0] if ground_truth else ""
-                                logger.info(f"从列表中提取第一个元素: {ground_truth}")
+                        for sample_idx, sample in enumerate(prepared_samples):
+                            logger.info(f"Processing sample {sample_idx + 1}/{len(prepared_samples)}")
                             
-                            # 验证ground truth不为空
-                            if not ground_truth or str(ground_truth).strip() == "":
-                                logger.warning(f"Ground truth为空！样本类型: {type(sample)}, 样本内容: {sample}")
-                                ground_truth = "Unknown"  # 提供默认值避免评分失败
+                            # 为每个样本创建独立的实验ID
+                            sample_experiment_id = f"{experiment_id}_sample_{sample_idx}"
+                            
+                            try:
+                                experiment_results = run_single_fullkvcache_experiment(
+                                    model, tokenizer, sample, kv_cache_length, dataset_max_tokens,
+                                    dataset_name, sample_experiment_id, monitor, repetition=rep
+                                )
 
-                            # 计算分数 - 传递原始数据集样本以获取all_classes等信息
-                            original_sample = dataset[0] if dataset and len(dataset) > 0 else {}
-                            score = score_generated_text(generated_text, ground_truth, dataset_name, original_sample)
+                                # 保存性能指标
+                                metrics_file = save_experiment_results(experiment_results, experiment_output_dir,
+                                                                       sample_experiment_id)
 
-                            evaluation_results = {
+                                # 如果启用评分，进行评估
+                                if args.enable_scoring:
+                                    logger.info(f"Performing evaluation scoring for sample {sample_idx + 1}...")
+                                    generated_text = experiment_results["generated_text"]
+
+                                    # 获取ground truth - 修复版本，使用处理后样本的reference字段
+                                    ground_truth = ""
+                                    if isinstance(sample, dict):
+                                        # 优先使用处理后的reference字段
+                                        if 'reference' in sample:
+                                            ground_truth = sample['reference']
+                                            logger.info(f"使用处理后的reference: {ground_truth}")
+                                        else:
+                                            # 备用方案：从原始字段提取
+                                            ground_truth = sample.get('answers', sample.get('output', sample.get('answer', '')))
+                                            logger.info(f"使用原始字段提取: {ground_truth}")
+                                    else:
+                                        ground_truth = str(sample)
+
+                                    # 如果ground_truth是列表，取第一个
+                                    if isinstance(ground_truth, list):
+                                        ground_truth = ground_truth[0] if ground_truth else ""
+                                        logger.info(f"从列表中提取第一个元素: {ground_truth}")
+                                    
+                                    # 验证ground truth不为空
+                                    if not ground_truth or str(ground_truth).strip() == "":
+                                        logger.warning(f"Ground truth为空！样本类型: {type(sample)}, 样本内容: {sample}")
+                                        ground_truth = "Unknown"  # 提供默认值避免评分失败
+
+                                    # 计算分数 - 传递原始数据集样本以获取all_classes等信息
+                                    original_sample = dataset[0] if dataset and len(dataset) > 0 else {}
+                                    score = score_generated_text(generated_text, ground_truth, dataset_name, original_sample)
+                                    current_scores.append(score)
+
+                                    evaluation_results = {
+                                        "experiment_id": sample_experiment_id,
+                                        "dataset": dataset_name,
+                                        "sample_index": sample_idx,
+                                        "generated_text": generated_text,
+                                        "ground_truth": ground_truth,
+                                        "score": score,
+                                        "average_score": score,  # 为了兼容性
+                                        "timestamp": datetime.now().isoformat()
+                                    }
+
+                                    # 保存评估结果
+                                    eval_file = save_evaluation_results(evaluation_results, experiment_output_dir,
+                                                                        sample_experiment_id)
+
+                                    logger.info(f"Sample {sample_idx + 1} evaluation score: {score:.4f}")
+
+                                all_experiment_results.append(experiment_results)
+
+                            except Exception as sample_error:
+                                logger.error(f"Sample {sample_idx + 1} failed: {sample_error}")
+                                continue
+
+                        # 计算平均分数并存储到实验分数字典
+                        if current_scores:
+                            average_score = sum(current_scores) / len(current_scores)
+                            experiment_scores[config_key].append(average_score)  # 存储到总体分数记录
+                            logger.info(f"Dataset {dataset_name} rep {rep} average score: {average_score:.4f} (from {len(current_scores)} samples)")
+                            
+                            # 保存汇总评估结果
+                            summary_evaluation = {
                                 "experiment_id": experiment_id,
                                 "dataset": dataset_name,
-                                "generated_text": generated_text,
-                                "ground_truth": ground_truth,
-                                "score": score,
-                                "average_score": score,  # 为了兼容性
+                                "total_samples": len(prepared_samples),
+                                "evaluated_samples": len(current_scores),
+                                "individual_scores": current_scores,
+                                "average_score": average_score,
                                 "timestamp": datetime.now().isoformat()
                             }
+                            
+                            summary_eval_file = save_evaluation_results(summary_evaluation, experiment_output_dir,
+                                                                        f"{experiment_id}_summary")
 
-                            # 保存评估结果
-                            eval_file = save_evaluation_results(evaluation_results, experiment_output_dir,
-                                                                experiment_id)
-
-                            logger.info(f"Evaluation score: {score:.4f}")
-
-                        # 记录结果
-                        monitoring_data = experiment_results.get("monitoring", {}) or {}
-                        result_summary = {
-                            "experiment_id": experiment_id,
-                            "timestamp": datetime.now().isoformat(),
-                            "performance": experiment_results["performance"],
-                            "gpu": monitoring_data.get("gpu", {}),
-                            "system": monitoring_data.get("system", {}),
-                            "monitoring_duration": monitoring_data.get("duration", 0)
-                        }
+                        # 记录结果 - 使用最后一个实验结果作为代表
+                        if all_experiment_results:
+                            last_result = all_experiment_results[-1]
+                            monitoring_data = last_result.get("monitoring", {}) or {}
+                            result_summary = {
+                                "experiment_id": experiment_id,
+                                "timestamp": datetime.now().isoformat(),
+                                "performance": last_result["performance"],
+                                "gpu": monitoring_data.get("gpu", {}),
+                                "system": monitoring_data.get("system", {}),
+                                "monitoring_duration": monitoring_data.get("duration", 0),
+                                "total_samples": len(prepared_samples),
+                                "average_score": average_score if current_scores else 0.0
+                            }
 
                         all_results.append(result_summary)
 
@@ -969,6 +1160,24 @@ def main():
                         pbar.update(1)
 
     pbar.close()
+
+    # 生成实验分数汇总报告
+    logger.info("="*60)
+    logger.info("实验分数汇总报告 (修复重复实验问题)")
+    logger.info("="*60)
+    
+    for config_key, scores in experiment_scores.items():
+        if scores:
+            avg_score = sum(scores) / len(scores)
+            std_score = (sum((s - avg_score) ** 2 for s in scores) / len(scores)) ** 0.5 if len(scores) > 1 else 0.0
+            logger.info(f"{config_key}:")
+            logger.info(f"  - 重复次数: {len(scores)}")
+            logger.info(f"  - 各次分数: {[f'{s:.4f}' for s in scores]}")
+            logger.info(f"  - 平均分数: {avg_score:.4f} ± {std_score:.4f}")
+            logger.info(f"  - 最高分数: {max(scores):.4f}")
+            logger.info(f"  - 最低分数: {min(scores):.4f}")
+    
+    logger.info("="*60)
 
     # 保存所有结果的汇总
     if all_results:
@@ -992,7 +1201,7 @@ def main():
     # 处理基线评分（如果启用）- 修复版本
     if args.enable_scoring and args.is_baseline_run and BASELINE_SCORING_AVAILABLE:
         try:
-            logger.info("🔍 开始强化基线评分搜索...")
+            logger.info("[SEARCH] 开始强化基线评分搜索...")
 
             # 使用强化搜索
             evaluation_files = find_baseline_results_robust(main_output_dir)
@@ -1053,7 +1262,7 @@ def main():
                             dataset_name = "repobench-p"
                         else:
                             # 如果无法识别数据集，记录警告并跳过
-                            logger.warning(f"⚠️ 无法从文件路径识别数据集: {eval_file_path}")
+                            logger.warning(f"[WARNING] 无法从文件路径识别数据集: {eval_file_path}")
                             continue
 
                         score_result = calculate_relative_score(
@@ -1062,12 +1271,12 @@ def main():
                             is_full_kv=True
                         )
                         baseline_scores.append(score_result)
-                        logger.info(f"✅ 成功记录基线分数: {dataset_name} = {eval_data['average_score']:.4f}")
+                        logger.info(f"[OK] 成功记录基线分数: {dataset_name} = {eval_data['average_score']:.4f}")
                     else:
-                        logger.warning(f"⚠️ 文件缺少 average_score: {eval_file_path}")
+                        logger.warning(f"[WARNING] 文件缺少 average_score: {eval_file_path}")
 
                 except Exception as e:
-                    logger.warning(f"❌ 处理文件失败 {eval_file_path}: {e}")
+                    logger.warning(f"[ERROR] 处理文件失败 {eval_file_path}: {e}")
 
             if baseline_scores:
                 # 生成基线报告
@@ -1080,20 +1289,20 @@ def main():
                     with open(baseline_report_path, 'w', encoding='utf-8') as f:
                         f.write(report)
 
-                    logger.info(f"✅ 基线评分报告已保存到: {baseline_report_path}")
+                    logger.info(f"[OK] 基线评分报告已保存到: {baseline_report_path}")
                     print("\n" + "=" * 60)
-                    print("🎯 基线评分成功！")
+                    print("[SUCCESS] 基线评分成功！")
                     print("=" * 60)
                     print(report)
                     print("=" * 60)
 
                 except Exception as report_error:
                     logger.error(f"生成报告失败: {report_error}")
-                    print(f"✅ 找到了 {len(baseline_scores)} 个基线分数，但报告生成失败")
+                    print(f"[OK] 找到了 {len(baseline_scores)} 个基线分数，但报告生成失败")
 
             else:
-                logger.error("❌ 未找到任何有效的评分结果文件")
-                print("\n🔍 调试信息:")
+                logger.error("[ERROR] 未找到任何有效的评分结果文件")
+                print("\n[DEBUG] 调试信息:")
                 print(f"搜索目录: {main_output_dir}")
                 print("尝试手动检查这些位置是否有evaluation_results_*.json文件:")
                 print(f"  - {main_output_dir}")
