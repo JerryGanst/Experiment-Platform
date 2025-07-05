@@ -128,7 +128,9 @@ def parse_args() -> argparse.Namespace:
     synth_group.add_argument("--synthetic", action="store_true", help="使用合成数据 (若未指定 --input，将自动启用)")
     synth_group.add_argument("--synthetic-layers", type=int, default=12, help="合成数据层数")
     synth_group.add_argument("--synthetic-heads", type=int, default=32, help="合成数据头数")
-    synth_group.add_argument("--synthetic-seq", type=int, default=512, help="合成数据序列长度")
+    # 为了判断用户是否显式传入 --synthetic-seq，我们将其默认值设为 None，
+    # 后续手动处理默认 512 的逻辑。
+    synth_group.add_argument("--synthetic-seq", type=int, default=None, help="合成数据序列长度 (默认 512)")
 
     # BL 参数（KV缓存长度），与论文/脚本中使用的一致
     parser.add_argument("--bl", type=int, dest="bl", default=None,
@@ -161,11 +163,16 @@ def main() -> None:
     if args.input:
         attention_weights_list = load_attention_weights(Path(args.input))
     else:
-        # fallback to synthetic data
-        seq_len = args.synthetic_seq
-        # 若提供了 --bl 且未用户未手动指定 --synthetic-seq，则使用 bl 作为序列长度
-        if args.bl is not None and "--synthetic-seq" not in sys.argv:
+        # 根据以下优先级决定合成序列长度 (seq_len):
+        # 1. 用户通过 --synthetic-seq 显式指定 (最高优先级)
+        # 2. 用户通过 --bl 指定 (若未显式指定 --synthetic-seq)
+        # 3. 默认值 512
+        if args.synthetic_seq is not None:
+            seq_len = args.synthetic_seq
+        elif args.bl is not None:
             seq_len = args.bl
+        else:
+            seq_len = 512
 
         attention_weights_list = generate_synthetic_attention_weights(
             num_layers=args.synthetic_layers,
