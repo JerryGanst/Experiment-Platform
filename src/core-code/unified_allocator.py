@@ -17,8 +17,12 @@ from dataclasses import dataclass, field
 import warnings
 
 # 导入我们的核心组件
-from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
-from .strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
+try:
+    from indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
+    from strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
+except ImportError:
+    from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
+    from .strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
 
 
 @dataclass 
@@ -489,7 +493,19 @@ class UnifiedCakeAdaKVAllocator:
         根据策略分配头级预算
         """
         num_heads = len(concentration_scores)
-        min_budget = max(1, int(layer_budget * strategy_params.get('min_budget_ratio', 0.02)))
+        # 调整最小预算约束：确保总约束不超过层级预算
+        min_budget_ratio = strategy_params.get('min_budget_ratio', 0.02)
+        theoretical_min_budget = max(1, int(layer_budget * min_budget_ratio))
+        
+        # 如果理论最小预算会导致约束无法满足，则动态调整
+        if theoretical_min_budget * num_heads > layer_budget:
+            # 使用能够满足约束的最大最小预算
+            min_budget = max(1, layer_budget // num_heads)
+            if min_budget * num_heads > layer_budget:
+                # 极端情况：层级预算太小，无法为每个头分配至少1个token
+                min_budget = 0  # 允许某些头分配0个token
+        else:
+            min_budget = theoretical_min_budget
         
         if strategy == AllocationStrategy.STANDARD:
             return self._standard_allocation(concentration_scores, layer_budget, min_budget)

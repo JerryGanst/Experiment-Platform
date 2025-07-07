@@ -75,3 +75,7 @@ temp/
 *.pth
 *.h5
 *.onnx
+
+# 输出目录与实验结果
+outputs/
+results_single_doc/

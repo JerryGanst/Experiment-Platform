@@ -17,10 +17,17 @@ import time
 import warnings
 
 # 导入我们的核心组件
-from .unified_allocator import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
-from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer
-from .strategy_selector import StrategySelector, AllocationStrategy
-from .memory_manager import UnifiedMemoryManager, MemoryConfig
+try:
+    from unified_allocator import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
+    from indicator_normalizer import IndicatorNormalizer, BudgetNormalizer
+    from strategy_selector import StrategySelector, AllocationStrategy
+    from memory_manager import UnifiedMemoryManager, MemoryConfig
+except ImportError:
+    # 如果绝对导入失败，尝试相对导入
+    from .unified_allocator import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
+    from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer
+    from .strategy_selector import StrategySelector, AllocationStrategy
+    from .memory_manager import UnifiedMemoryManager, MemoryConfig
 
 
 @dataclass
