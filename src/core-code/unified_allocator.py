@@ -52,6 +52,9 @@ class UnifiedCacheConfig:
     # 性能配置
     batch_processing: bool = True  # 批处理模式
     memory_efficient: bool = True  # 内存高效模式
+    
+    # 新增：V指标计算方式，可选 'var' | 'scaled_var' | 'std' | 'entropy'
+    v_metric: str = "var"  # V指标计算方式
 
 
 class UnifiedWarmupManager:
@@ -111,9 +114,21 @@ class UnifiedWarmupManager:
                 for h in range(num_heads):
                     attn_seq = attention_weights[b, h]  # [seq_len, seq_len]
                     
-                    # 计算时间维度的方差
-                    temporal_var = np.var(attn_seq, axis=-2)  # 沿着源序列维度
-                    v_value = np.mean(temporal_var)
+                    # 根据配置选择不同的V指标计算方式
+                    if self.config.v_metric == "std":
+                        # 标准差版本（对方差开根号）
+                        temporal_measure = np.std(attn_seq, axis=-2)
+                    elif self.config.v_metric == "entropy":
+                        # 信息熵版本：衡量注意力随时间的分散程度
+                        attn_clipped = np.clip(attn_seq, 1e-8, 1.0)
+                        temporal_measure = -np.sum(attn_clipped * np.log(attn_clipped + 1e-8), axis=-2)
+                    elif self.config.v_metric == "scaled_var":
+                        # 放大版方差：乘以序列长度，缓解过小的问题
+                        temporal_measure = np.var(attn_seq, axis=-2) * seq_len
+                    else:  # 默认或 'var'
+                        temporal_measure = np.var(attn_seq, axis=-2)
+                    
+                    v_value = np.mean(temporal_measure)
                     v_values.append(v_value)
             
             layer_info = {
