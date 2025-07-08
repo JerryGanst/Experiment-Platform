@@ -120,8 +120,11 @@ class UnifiedWarmupManager:
                         temporal_measure = np.std(attn_seq, axis=-2)
                     elif self.config.v_metric == "entropy":
                         # 信息熵版本：衡量注意力随时间的分散程度
-                        attn_clipped = np.clip(attn_seq, 1e-8, 1.0)
-                        temporal_measure = -np.sum(attn_clipped * np.log(attn_clipped + 1e-8), axis=-2)
+                        # 先添加小的epsilon避免log(0)，然后归一化成有效的概率分布
+                        attn_safe = attn_seq + 1e-8
+                        attn_normalized = attn_safe / np.sum(attn_safe, axis=-2, keepdims=True)
+                        temporal_measure = -np.sum(attn_normalized * np.log(attn_normalized), axis=-2)
+
                     elif self.config.v_metric == "scaled_var":
                         # 放大版方差：乘以序列长度，缓解过小的问题
                         temporal_measure = np.var(attn_seq, axis=-2) * seq_len
