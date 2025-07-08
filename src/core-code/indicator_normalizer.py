@@ -220,7 +220,7 @@ class BudgetNormalizer:
             raise ValueError(f"最小预算不能为负数，得到: {min_budget}")
         
         num_heads = len(raw_budgets)
-        if min_budget * num_heads > total_budget:
+        if min_budget > 0 and min_budget * num_heads > total_budget:
             raise ValueError(
                 f"最小预算约束无法满足: {min_budget} × {num_heads} = "
                 f"{min_budget * num_heads} > {total_budget}"

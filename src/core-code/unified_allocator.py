@@ -17,8 +17,12 @@ from dataclasses import dataclass, field
 import warnings
 
 # 导入我们的核心组件
-from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
-from .strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
+try:
+    from indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
+    from strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
+except ImportError:
+    from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
+    from .strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
 
 
 @dataclass 
@@ -48,6 +52,9 @@ class UnifiedCacheConfig:
     # 性能配置
     batch_processing: bool = True  # 批处理模式
     memory_efficient: bool = True  # 内存高效模式
+    
+    # 新增：V指标计算方式，可选 'var' | 'scaled_var' | 'std' | 'entropy'
+    v_metric: str = "var"  # V指标计算方式
 
 
 class UnifiedWarmupManager:
@@ -107,9 +114,23 @@ class UnifiedWarmupManager:
                 for h in range(num_heads):
                     attn_seq = attention_weights[b, h]  # [seq_len, seq_len]
                     
-                    # 计算时间维度的方差
-                    temporal_var = np.var(attn_seq, axis=-2)  # 沿着源序列维度
-                    v_value = np.mean(temporal_var)
+                    # 根据配置选择不同的V指标计算方式
+                    if self.config.v_metric == "std":
+                        # 标准差版本（对方差开根号）
+                        temporal_measure = np.std(attn_seq, axis=-2)
+                    elif self.config.v_metric == "entropy":
+                        # 信息熵版本：衡量注意力随时间的分散程度
+                        # 先添加小的epsilon避免log(0)，然后归一化成有效的概率分布
+                        attn_safe = attn_seq + 1e-8
+                        attn_normalized = attn_safe / np.sum(attn_safe, axis=-2, keepdims=True)
+                        temporal_measure = -np.sum(attn_normalized * np.log(attn_normalized), axis=-2)
+                    elif self.config.v_metric == "scaled_var":
+                        # 放大版方差：乘以序列长度，缓解过小的问题
+                        temporal_measure = np.var(attn_seq, axis=-2) * seq_len
+                    else:  # 默认或 'var'
+                        temporal_measure = np.var(attn_seq, axis=-2)
+                    
+                    v_value = np.mean(temporal_measure)
                     v_values.append(v_value)
             
             layer_info = {
@@ -489,7 +510,19 @@ class UnifiedCakeAdaKVAllocator:
         根据策略分配头级预算
         """
         num_heads = len(concentration_scores)
-        min_budget = max(1, int(layer_budget * strategy_params.get('min_budget_ratio', 0.02)))
+        # 调整最小预算约束：确保总约束不超过层级预算
+        min_budget_ratio = strategy_params.get('min_budget_ratio', 0.02)
+        theoretical_min_budget = max(1, int(layer_budget * min_budget_ratio))
+        
+        # 如果理论最小预算会导致约束无法满足，则动态调整
+        if theoretical_min_budget * num_heads > layer_budget:
+            # 使用能够满足约束的最大最小预算
+            min_budget = max(1, layer_budget // num_heads)
+            if min_budget * num_heads > layer_budget:
+                # 极端情况：层级预算太小，无法为每个头分配至少1个token
+                min_budget = 0  # 允许某些头分配0个token
+        else:
+            min_budget = theoretical_min_budget
         
         if strategy == AllocationStrategy.STANDARD:
             return self._standard_allocation(concentration_scores, layer_budget, min_budget)
