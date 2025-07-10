@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1321" height="570" viewBox="0 0 1321 570">
+  <!-- Background -->
+  <rect width="1321" height="570" fill="#cce0f6" />
+
+  <!-- ==== Left Category Column ==== -->
+  <g font-family="sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#000">
+    <!-- 系统层 -->
+    <rect x="45" y="38" width="130" height="130" fill="#d8c13b" />
+    <text x="110" y="110" dominant-baseline="middle">系统层</text>
+
+    <!-- MCP层 -->
+    <rect x="45" y="188" width="130" height="70" fill="#d8c13b" />
+    <text x="110" y="223" dominant-baseline="middle">MCP层</text>
+
+    <!-- Agent层 -->
+    <rect x="45" y="278" width="130" height="100" fill="#d8c13b" />
+    <text x="110" y="328" dominant-baseline="middle">Agent层</text>
+
+    <!-- 大模型层 -->
+    <rect x="45" y="388" width="130" height="110" fill="#d8c13b" />
+    <text x="110" y="443" dominant-baseline="middle">大模型层</text>
+  </g>
+
+  <!-- ==== Systems (知识库 / 系统) ==== -->
+  <g font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#fff">
+    <!-- Left knowledge block background -->
+    <rect x="205" y="37" width="490" height="210" fill="#f8d9c5" />
+    <!-- Human resources knowledge base -->
+    <rect x="235" y="55" width="200" height="50" fill="#ea9f63" />
+    <text x="335" y="85" dominant-baseline="middle">人资行政知识库</text>
+    <!-- IT knowledge base -->
+    <rect x="235" y="113" width="200" height="50" fill="#ea9f63" />
+    <text x="335" y="143" dominant-baseline="middle">IT知识库</text>
+    <!-- Legal knowledge base -->
+    <rect x="235" y="171" width="200" height="50" fill="#ea9f63" />
+    <text x="335" y="201" dominant-baseline="middle">法务知识库</text>
+
+    <!-- QA Robot -->
+    <rect x="465" y="55" width="200" height="50" fill="#ea9f63" />
+    <text x="565" y="85" dominant-baseline="middle">问答机器人</text>
+    <!-- Intelligent body -->
+    <rect x="465" y="113" width="200" height="50" fill="#ea9f63" />
+    <text x="565" y="143" dominant-baseline="middle">智能体</text>
+  </g>
+
+  <!-- Right systems block -->
+  <g font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#fff">
+    <rect x="715" y="37" width="480" height="210" fill="#f8d9c5" />
+    <!-- Mail system -->
+    <rect x="745" y="55" width="180" height="50" fill="#ea9f63" />
+    <text x="835" y="85" dominant-baseline="middle">邮件系统</text>
+    <!-- Recruiting system -->
+    <rect x="955" y="55" width="180" height="50" fill="#ea9f63" />
+    <text x="1045" y="85" dominant-baseline="middle">招聘系统</text>
+    <!-- WeChat work -->
+    <rect x="745" y="113" width="180" height="50" fill="#ea9f63" />
+    <text x="835" y="143" dominant-baseline="middle">企业微信</text>
+    <!-- Procurement system -->
+    <rect x="955" y="113" width="180" height="50" fill="#ea9f63" />
+    <text x="1045" y="143" dominant-baseline="middle">采购系统</text>
+    <!-- SAP -->
+    <rect x="745" y="171" width="180" height="50" fill="#ea9f63" />
+    <text x="835" y="201" dominant-baseline="middle">SAP</text>
+    <!-- LDP -->
+    <rect x="955" y="171" width="180" height="50" fill="#ea9f63" />
+    <text x="1045" y="201" dominant-baseline="middle">LDP</text>
+  </g>
+
+  <!-- MCP bar -->
+  <rect x="530" y="263" width="260" height="35" fill="#f8d9c5" />
+  <text x="660" y="285" font-family="sans-serif" font-size="20" font-weight="bold" text-anchor="middle" dominant-baseline="middle">MCP</text>
+
+  <!-- Arrows from systems to MCP bar -->
+  <g fill="gray">
+    <!-- Left arrow -->
+    <polygon points="530,248 550,248 540,234" />
+    <!-- Right arrow -->
+    <polygon points="770,248 790,248 780,234" />
+  </g>
+
+  <!-- ==== Agent layer ==== -->
+  <g font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#fff">
+    <rect x="205" y="333" width="905" height="110" fill="#92c6ff" stroke="#000" stroke-dasharray="6 4" />
+    <!-- openai -->
+    <rect x="235" y="353" width="150" height="60" fill="#0057b7" />
+    <text x="310" y="383" dominant-baseline="middle">openai</text>
+    <!-- agents -->
+    <rect x="415" y="353" width="150" height="60" fill="#0057b7" />
+    <text x="490" y="383" dominant-baseline="middle">agents</text>
+    <!-- langchain -->
+    <rect x="595" y="353" width="150" height="60" fill="#0057b7" />
+    <text x="670" y="383" dominant-baseline="middle">langchain</text>
+    <!-- langgraph -->
+    <rect x="775" y="353" width="150" height="60" fill="#0057b7" />
+    <text x="850" y="383" dominant-baseline="middle">langgraph</text>
+    <!-- dify -->
+    <rect x="955" y="353" width="150" height="60" fill="#0057b7" />
+    <text x="1030" y="383" dominant-baseline="middle">dify</text>
+  </g>
+
+  <!-- ==== LLM layer ==== -->
+  <g font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#fff">
+    <rect x="205" y="463" width="905" height="90" fill="#92c6ff" />
+    <!-- Qwen2.5 -->
+    <rect x="235" y="483" width="300" height="50" fill="#0057b7" />
+    <text x="385" y="508" dominant-baseline="middle">Qwen2.5</text>
+    <!-- qwen3 -->
+    <rect x="565" y="483" width="300" height="50" fill="#0057b7" />
+    <text x="715" y="508" dominant-baseline="middle">qwen3</text>
+    <!-- Deepseek-r1 -->
+    <rect x="895" y="483" width="300" height="50" fill="#0057b7" />
+    <text x="1045" y="508" dominant-baseline="middle">Deepseek-r1</text>
+  </g>
+
+</svg>
