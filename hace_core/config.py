@@ -151,8 +151,9 @@ EXPERIMENT_CONFIG = {
         "arc_challenge": None,
         "hellaswag": None,
         "truthful_qa_mc": None,
-        "pubmed_qa": 100, # Example for a potentially large dataset
-        "cais/mmlu-zh": 50 # Example for a Chinese dataset
+        # 移除未定义的数据集配置
+        # "pubmed_qa": 100, # 未在available_datasets中定义
+        # "cais/mmlu-zh": 50 # 未在available_datasets中定义
     },
     "kv_cache_lengths": [128, 256, 512, 1024, 2048], # Complete KV cache lengths for baseline
     "batch_sizes": [1, 4, 8],           # Example batch sizes
@@ -188,77 +189,78 @@ EXPERIMENT_CONFIG = {
     "monitor_interval": 0.5 # seconds
 }
 
-# 数据集配置
+# 数据集配置 - 重构为更统一的结构
 DATASET_CONFIG = {
-    # 添加available_datasets键
+    # 所有可用数据集的统一配置
     "available_datasets": {
         # 英文数据集
-        "mmlu": {"path": "cais/mmlu", "subset": "all", "description": "多领域推理任务"},
-        "hellaswag": {"path": "hellaswag", "subset": None, "description": "常识推理任务"},
-        "longbench": {"path": "THUDM/longbench", "subset": "default", "description": "长文本理解基准"},
-        "squad2": {"path": "squad_v2", "subset": None, "description": "阅读理解问答任务"},
-        "gsm8k": {"path": "gsm8k", "subset": "main", "description": "数学推理任务"},
-        "winogrande": {"path": "winogrande", "subset": "winogrande_xl", "description": "常识推理任务"},
-        "arc_challenge": {"path": "ai2_arc", "subset": "ARC-Challenge", "description": "科学推理任务"},
-        "truthful_qa_mc": {"path": "truthful_qa", "subset": "multiple_choice", "description": "真实性问答任务"},
+        "mmlu": {"path": "cais/mmlu", "subset": "all", "description": "多领域推理任务", "language": "english"},
+        "hellaswag": {"path": "hellaswag", "subset": None, "description": "常识推理任务", "language": "english"},
+        "longbench": {"path": "THUDM/longbench", "subset": "default", "description": "长文本理解基准", "language": "english"},
+        "squad2": {"path": "squad_v2", "subset": None, "description": "阅读理解问答任务", "language": "english"},
+        "gsm8k": {"path": "gsm8k", "subset": "main", "description": "数学推理任务", "language": "english"},
+        "winogrande": {"path": "winogrande", "subset": "winogrande_xl", "description": "常识推理任务", "language": "english"},
+        "arc_challenge": {"path": "ai2_arc", "subset": "ARC-Challenge", "description": "科学推理任务", "language": "english"},
+        "truthful_qa_mc": {"path": "truthful_qa", "subset": "multiple_choice", "description": "真实性问答任务", "language": "english"},
         
         # LongBench 单文档问答
-        "narrativeqa": {"path": "THUDM/longbench", "subset": "narrativeqa", "description": "基于小说和电影剧本的问答"},
-        "qasper": {"path": "THUDM/longbench", "subset": "qasper", "description": "基于科学论文的问答"},
-        "multifieldqa_en": {"path": "THUDM/longbench", "subset": "multifieldqa_en", "description": "多领域英文问答"},
+        "narrativeqa": {"path": "THUDM/longbench", "subset": "narrativeqa", "description": "基于小说和电影剧本的问答", "language": "english"},
+        "qasper": {"path": "THUDM/longbench", "subset": "qasper", "description": "基于科学论文的问答", "language": "english"},
+        "multifieldqa_en": {"path": "THUDM/longbench", "subset": "multifieldqa_en", "description": "多领域英文问答", "language": "english"},
         
         # LongBench 多文档问答
-        "hotpotqa": {"path": "THUDM/LongBench", "subset": "hotpotqa", "description": "多跳推理问答"},
-        "2wikimqa": {"path": "THUDM/longbench", "subset": "2wikimqa", "description": "基于维基百科的多文档问答"},
-        "musique": {"path": "THUDM/longbench", "subset": "musique", "description": "多步骤推理问答"},
+        "hotpotqa": {"path": "THUDM/longbench", "subset": "hotpotqa", "description": "多跳推理问答", "language": "english"},
+        "2wikimqa": {"path": "THUDM/longbench", "subset": "2wikimqa", "description": "基于维基百科的多文档问答", "language": "english"},
+        "musique": {"path": "THUDM/longbench", "subset": "musique", "description": "多步骤推理问答", "language": "english"},
         
         # LongBench 摘要生成
-        "gov_report": {"path": "THUDM/longbench", "subset": "gov_report", "description": "政府报告摘要"},
-        "qmsum": {"path": "THUDM/longbench", "subset": "qmsum", "description": "会议摘要"},
-        "multi_news": {"path": "THUDM/LongBench", "subset": "multi_news", "description": "多新闻摘要"},
+        "gov_report": {"path": "THUDM/longbench", "subset": "gov_report", "description": "政府报告摘要", "language": "english"},
+        "qmsum": {"path": "THUDM/longbench", "subset": "qmsum", "description": "会议摘要", "language": "english"},
+        "multi_news": {"path": "THUDM/longbench", "subset": "multi_news", "description": "多新闻摘要", "language": "english"},
         
         # LongBench 少样本学习
-        "trec": {"path": "THUDM/longbench", "subset": "trec", "description": "问题分类"},
-        "triviaqa": {"path": "THUDM/longbench", "subset": "triviaqa", "description": "知识问答"},
-        "samsum": {"path": "THUDM/longbench", "subset": "samsum", "description": "对话摘要"},
+        "trec": {"path": "THUDM/longbench", "subset": "trec", "description": "问题分类", "language": "english"},
+        "triviaqa": {"path": "THUDM/longbench", "subset": "triviaqa", "description": "知识问答", "language": "english"},
+        "samsum": {"path": "THUDM/longbench", "subset": "samsum", "description": "对话摘要", "language": "english"},
         
         # LongBench 合成任务
-        "passage_count": {"path": "THUDM/longbench", "subset": "passage_count", "description": "段落计数"},
-        "passage_retrieval_en": {"path": "THUDM/longbench", "subset": "passage_retrieval_en", "description": "段落检索"},
+        "passage_count": {"path": "THUDM/longbench", "subset": "passage_count", "description": "段落计数", "language": "english"},
+        "passage_retrieval_en": {"path": "THUDM/longbench", "subset": "passage_retrieval_en", "description": "段落检索", "language": "english"},
         
         # LongBench 代码任务
-        "lcc": {"path": "THUDM/longbench", "subset": "lcc", "description": "代码补全"},
-        "repobench-p": {"path": "THUDM/longbench", "subset": "repobench-p", "description": "代码库级别任务"},
+        "lcc": {"path": "THUDM/longbench", "subset": "lcc", "description": "代码补全", "language": "english"},
+        "repobench-p": {"path": "THUDM/longbench", "subset": "repobench-p", "description": "代码库级别任务", "language": "english"},
         
         # NeedleBench 任务
-        "single_needle": {"path": "custom/needlebench", "subset": "single_needle", "description": "单针检索任务"},
-        "multi_needle_retrieval": {"path": "custom/needlebench", "subset": "multi_needle_retrieval", "description": "多针检索任务"},
-        "multi_needle_reasoning": {"path": "custom/needlebench", "subset": "multi_needle_reasoning", "description": "多针推理任务"},
+        "single_needle": {"path": "custom/needlebench", "subset": "single_needle", "description": "单针检索任务", "language": "english"},
+        "multi_needle_retrieval": {"path": "custom/needlebench", "subset": "multi_needle_retrieval", "description": "多针检索任务", "language": "english"},
+        "multi_needle_reasoning": {"path": "custom/needlebench", "subset": "multi_needle_reasoning", "description": "多针推理任务", "language": "english"},
         
         # 中文数据集
-        "cluewsc2020": {"path": "cluewsc2020", "subset": None, "description": "指代消解任务"},
-        "ceval": {"path": "ceval", "subset": "all", "description": "中文多领域评测基准"},
-        "race": {"path": "race", "subset": "all", "description": "中文阅读理解任务"},
-        "openeval": {"path": "openeval", "subset": None, "description": "中文全面评估基准"}
+        "cluewsc2020": {"path": "cluewsc2020", "subset": None, "description": "指代消解任务", "language": "chinese"},
+        "ceval": {"path": "ceval", "subset": "all", "description": "中文多领域评测基准", "language": "chinese"},
+        "race": {"path": "race", "subset": "all", "description": "中文阅读理解任务", "language": "chinese"},
+        "openeval": {"path": "openeval", "subset": None, "description": "中文全面评估基准", "language": "chinese"}
     },
+    
+    # 按语言分组的便捷访问（向后兼容）
     "english": {
-        "mmlu": {"path": "cais/mmlu", "subset": "all", "description": "多领域推理任务"},
-        "hellaswag": {"path": "hellaswag", "subset": None, "description": "常识推理任务"},
-        "longbench": {"path": "THUDM/longbench", "subset": "default", "description": "长文本理解基准"},
-        "squad2": {"path": "squad_v2", "subset": None, "description": "阅读理解问答任务"},
-        "max_new_tokens": EXPERIMENT_CONFIG["max_new_tokens"], # Default from main config
+        "max_new_tokens": EXPERIMENT_CONFIG["max_new_tokens"],
         "generate_config": {
-            "max_new_tokens": EXPERIMENT_CONFIG["max_new_tokens"], # Ensure this is passed for generation
-            "do_sample": False, # For reproducibility and focused performance testing
-            "temperature": 0.7, # Only relevant if do_sample=True
-            "top_p": 0.9,       # Only relevant if do_sample=True
+            "max_new_tokens": EXPERIMENT_CONFIG["max_new_tokens"],
+            "do_sample": False,
+            "temperature": 0.7,
+            "top_p": 0.9,
         }
     },
     "chinese": {
-        "cluewsc2020": {"path": "cluewsc2020", "subset": None, "description": "指代消解任务"},
-        "ceval": {"path": "ceval", "subset": "all", "description": "中文多领域评测基准"},
-        "race": {"path": "race", "subset": "all", "description": "中文阅读理解任务"},
-        "openeval": {"path": "openeval", "subset": None, "description": "中文全面评估基准"}
+        "max_new_tokens": EXPERIMENT_CONFIG["max_new_tokens"],
+        "generate_config": {
+            "max_new_tokens": EXPERIMENT_CONFIG["max_new_tokens"],
+            "do_sample": False,
+            "temperature": 0.7,
+            "top_p": 0.9,
+        }
     }
 }
 
@@ -352,6 +354,51 @@ CAKE_MODEL_CONFIG = {
     }
 }
 
+def validate_config():
+    """
+    验证配置的一致性和完整性
+    
+    Returns:
+        dict: 包含验证结果的字典
+    """
+    validation_results = {
+        "errors": [],
+        "warnings": [],
+        "passed": True
+    }
+    
+    # 检查数据集配置一致性
+    available_datasets = set(DATASET_CONFIG["available_datasets"].keys())
+    subset_size_datasets = set(EXPERIMENT_CONFIG["dataset_subset_size"].keys())
+    
+    # 检查未定义的数据集
+    undefined_datasets = subset_size_datasets - available_datasets
+    if undefined_datasets:
+        validation_results["errors"].append(
+            f"数据集配置不一致: {undefined_datasets} 在dataset_subset_size中定义但未在available_datasets中定义"
+        )
+        validation_results["passed"] = False
+    
+    # 检查路径大小写一致性
+    longbench_paths = set()
+    for name, config in DATASET_CONFIG["available_datasets"].items():
+        if "longbench" in config["path"].lower():
+            longbench_paths.add(config["path"])
+    
+    if len(longbench_paths) > 1:
+        validation_results["warnings"].append(
+            f"LongBench路径大小写不一致: {longbench_paths}"
+        )
+    
+    # 检查语言配置完整性
+    for name, config in DATASET_CONFIG["available_datasets"].items():
+        if "language" not in config:
+            validation_results["warnings"].append(
+                f"数据集 {name} 缺少language字段"
+            )
+    
+    return validation_results
+
 """
 使用示例：
 --------
@@ -382,4 +429,12 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 # - 环境变量：export HACE_MODEL_PATH="C:/Users/Administrator/mistral_models/7B-Instruct-v0.3"
 # - 本地目录：./models/mistralai--Mistral-7B-Instruct-v0.3/
 # - HuggingFace：直接使用 "mistralai/Mistral-7B-Instruct-v0.3"
+
+# 配置验证：
+# from hace_core.config import validate_config
+# results = validate_config()
+# if not results["passed"]:
+#     print("配置验证失败:", results["errors"])
+# if results["warnings"]:
+#     print("配置警告:", results["warnings"])
 """ 
