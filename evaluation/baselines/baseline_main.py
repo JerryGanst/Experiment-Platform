@@ -141,14 +141,20 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             random_seed=EXPERIMENT_CONFIG.get("random_seed", 42)
         )
 
-        # 准备批处理
+        # 准备批处理 - 评估时使用drop_last=True避免偏差
         logger.info(f"Preparing batch with size {batch_size}...")
         batch = prepare_batch(
             samples,
             tokenizer,
             batch_size,
-            max_length=kv_cache_length
+            max_length=kv_cache_length,
+            drop_last=True  # 评估时丢弃不完整批次，避免样本重复导致的评估偏差
         )
+        
+        # 如果批次为空（样本数不足），跳过此实验
+        if batch is None:
+            logger.warning(f"Skipping experiment: insufficient samples ({len(samples)}) for batch size {batch_size}")
+            return monitor.get_comprehensive_metrics()
 
         # 将批处理数据移至设备
         inputs = {
