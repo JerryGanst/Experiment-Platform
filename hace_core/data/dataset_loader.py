@@ -269,7 +269,9 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     if not samples:
         return None
 
-    original_sample_count = len(samples)
+    # 创建一个副本以避免修改原始输入列表
+    processed_samples = list(samples)
+    original_sample_count = len(processed_samples)
     is_padded = False
 
     if original_sample_count < batch_size:
@@ -278,11 +280,11 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
         
         # 填充批次
         samples_to_add = batch_size - original_sample_count
-        samples.extend(samples[:samples_to_add])
+        processed_samples.extend(processed_samples[:samples_to_add])
         is_padded = True
 
     # 转换为PyTorch张量
-    prompts = [s["prompt"] for s in samples]
+    prompts = [s["prompt"] for s in processed_samples]
 
     # 注意：这里需要修复一个潜在的bug。如果tokenizer调用失败，encodings将不存在。
     # 在实际代码中，应确保tokenizer调用是正确的。
@@ -298,7 +300,7 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     return {
         "input_ids": encodings.input_ids,
         "attention_mask": encodings.attention_mask,
-        "references": [s["reference"] for s in samples],
+        "references": [s["reference"] for s in processed_samples],
         "is_padded": is_padded
     }
 

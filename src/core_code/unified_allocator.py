@@ -510,23 +510,45 @@ class UnifiedCakeAdaKVAllocator:
         """
         根据策略分配头级预算
         """
-        num_heads = len(concentration_scores)
-        # 调整最小预算约束：确保总约束不超过层级预算
-        min_budget_ratio = strategy_params.get('min_budget_ratio', 0.02)
-        theoretical_min_budget = max(1, int(layer_budget * min_budget_ratio))
+        scores = np.array(concentration_scores, dtype=np.float32)
+        num_heads = len(scores)
+
+        # --- 修复点 1：前置检查 num_heads ---
+        if num_heads == 0:
+            if layer_budget > 0:
+                warnings.warn(f"层 {layer_idx} 有 {layer_budget} 的预算，但没有头可以分配。")
+            return []
+
+        # --- 修复点 2：重构最小预算计算逻辑 ---
+        # 理论上的最小预算，基于总预算的一个比例
+        theoretical_min_budget = int(layer_budget * self.config.strategy_config.min_budget_ratio)
         
-        # 如果理论最小预算会导致约束无法满足，则动态调整
-        if theoretical_min_budget * num_heads > layer_budget:
-            # 使用能够满足约束的最大最小预算
-            min_budget = max(1, layer_budget // num_heads)
-            if min_budget * num_heads > layer_budget:
-                # 极端情况：层级预算太小，无法为每个头分配至少1个token
-                min_budget = 0  # 允许某些头分配0个token
-        else:
-            min_budget = theoretical_min_budget
-        
+        # 确保 min_budget 至少为 1
+        min_budget = max(1, theoretical_min_budget)
+
+        # 检查在最坏情况下，预算是否足够给每个头分配至少1个token
+        if layer_budget < num_heads:
+            # 预算极度不足，无法满足每个头至少1个token的硬性要求
+            # 在这种情况下，我们仍然将 min_budget 设为 1，
+            # BudgetNormalizer 将会把预算分配给一部分头，直到预算用完。
+            # 这比将 min_budget 设为 0 更安全，避免了下游出现空张量错误。
+            min_budget = 1
+            warnings.warn(
+                f"层 {layer_idx} 的预算 ({layer_budget}) 少于头的数量 ({num_heads})。"
+                f"某些头将被分配0个token，但这由BudgetNormalizer处理，而非通过min_budget=0实现。"
+            )
+        elif min_budget * num_heads > layer_budget:
+            # 如果理论最小预算不可行，则回退到能满足的最大可能值
+            min_budget = layer_budget // num_heads
+
+        # 再次确保 min_budget 不会意外地变为0（在 num_heads > 0 的情况下，这不应该发生，但作为防御性编程）
+        min_budget = max(1, min_budget)
+
+        # 策略分发
         if strategy == AllocationStrategy.STANDARD:
-            return self._standard_allocation(concentration_scores, layer_budget, min_budget)
+            return self._standard_allocation(
+                concentration_scores, layer_budget, min_budget
+            )
         
         elif strategy == AllocationStrategy.UNIFORM_GUIDED:
             return self._uniform_guided_allocation(
@@ -656,9 +678,6 @@ class UnifiedCakeAdaKVAllocator:
         """
         scores = np.array(concentration_scores, dtype=np.float32)
         num_heads = len(scores)
-
-        if num_heads == 0:
-            return []
 
         # 1. 识别关键头
         key_head_mask = self.key_head_detector.detect_key_heads(scores, layer_idx)
