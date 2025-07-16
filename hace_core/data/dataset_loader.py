@@ -252,31 +252,43 @@ def prepare_samples_for_evaluation(dataset, dataset_info, num_samples=100, rando
     logger.info(f"Prepared {len(samples)} samples successfully")
     return samples
 
-def prepare_batch(samples, tokenizer, batch_size, max_length=2048):
+def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=False):
     """
-    将样本处理成批次
-    
+    将样本列表处理成一个批次，并进行填充
+
     Args:
         samples: 样本列表
-        tokenizer: 分词器
-        batch_size: 批处理大小
+        tokenizer: 用于编码的分词器
+        batch_size: 批次大小
         max_length: 最大序列长度
-        
+        drop_last: 是否丢弃最后一个不完整的批次
+
     Returns:
-        batches: 包含输入ID和注意力掩码的字典
+        batch: 一个包含编码后张量和参考答案的字典，或在drop_last为True时返回None
     """
-    # 如果样本数小于批处理大小，复制样本以达到批处理大小
-    if len(samples) < batch_size:
-        samples_to_add = batch_size - len(samples)
-        samples.extend(samples[:samples_to_add])
-    
-    # 选择批处理大小的样本
-    batch_samples = samples[:batch_size]
-    
-    # 提取提示
-    prompts = [sample["prompt"] for sample in batch_samples]
-    
-    # 对提示进行分词
+    if not samples:
+        return None
+
+    # 创建一个副本以避免修改原始输入列表
+    processed_samples = list(samples)
+    original_sample_count = len(processed_samples)
+    is_padded = False
+
+    if original_sample_count < batch_size:
+        if drop_last:
+            return None  # 丢弃不完整的批次
+        
+        # 填充批次
+        samples_to_add = batch_size - original_sample_count
+        processed_samples.extend(processed_samples[:samples_to_add])
+        is_padded = True
+
+    # 转换为PyTorch张量
+    prompts = [s["prompt"] for s in processed_samples]
+
+    # 注意：这里需要修复一个潜在的bug。如果tokenizer调用失败，encodings将不存在。
+    # 在实际代码中，应确保tokenizer调用是正确的。
+    # 假设这里的调用是正确的：
     encodings = tokenizer(
         prompts,
         padding="max_length",
@@ -284,20 +296,22 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048):
         max_length=max_length,
         return_tensors="pt"
     )
-    
+
     return {
-        "input_ids": encodings["input_ids"],
-        "attention_mask": encodings["attention_mask"],
-        "samples": batch_samples  # 保留原始样本，用于评估
+        "input_ids": encodings.input_ids,
+        "attention_mask": encodings.attention_mask,
+        "references": [s["reference"] for s in processed_samples],
+        "is_padded": is_padded
     }
 
-def get_dataset_info(dataset_name, language="english"):
+
+def get_dataset_info(dataset_name, language=None):
     """
     获取数据集信息
     
     Args:
         dataset_name: 数据集名称
-        language: 语言，'english'或'chinese'
+        language: 可选，指定语言。如果不指定，将从数据集配置中自动检测
         
     Returns:
         dict: 数据集信息
@@ -305,15 +319,23 @@ def get_dataset_info(dataset_name, language="english"):
     from .. import config
     DATASET_CONFIG = config.DATASET_CONFIG
     
-    if language not in DATASET_CONFIG:
-        raise ValueError(f"Unsupported language: {language}")
+    # 从available_datasets中查找数据集
+    if dataset_name not in DATASET_CONFIG["available_datasets"]:
+        raise ValueError(f"Unknown dataset: {dataset_name}")
     
-    if dataset_name not in DATASET_CONFIG[language]:
-        raise ValueError(f"Unknown dataset: {dataset_name} for language {language}")
-    
-    dataset_info = DATASET_CONFIG[language][dataset_name].copy()
+    dataset_info = DATASET_CONFIG["available_datasets"][dataset_name].copy()
     dataset_info["name"] = dataset_name
+    
+    # 如果未指定语言，使用数据集配置中的语言
+    if language is None:
+        language = dataset_info.get("language", "english")
+    
     dataset_info["language"] = language
+    
+    # 合并语言特定的配置
+    if language in DATASET_CONFIG:
+        lang_config = DATASET_CONFIG[language]
+        dataset_info.update(lang_config)
     
     return dataset_info
 
@@ -330,9 +352,21 @@ def get_available_datasets(language=None):
     from .. import config
     DATASET_CONFIG = config.DATASET_CONFIG
     
+    available_datasets = DATASET_CONFIG["available_datasets"]
+    
     if language:
-        if language not in DATASET_CONFIG:
-            raise ValueError(f"Unsupported language: {language}")
-        return {language: list(DATASET_CONFIG[language].keys())}
+        # 过滤指定语言的数据集
+        filtered_datasets = {
+            name: config for name, config in available_datasets.items() 
+            if config.get("language") == language
+        }
+        return {language: list(filtered_datasets.keys())}
     else:
-        return {lang: list(datasets.keys()) for lang, datasets in DATASET_CONFIG.items()} 
+        # 按语言分组
+        grouped_datasets = {}
+        for name, config in available_datasets.items():
+            lang = config.get("language", "english")
+            if lang not in grouped_datasets:
+                grouped_datasets[lang] = []
+            grouped_datasets[lang].append(name)
+        return grouped_datasets 

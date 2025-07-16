@@ -124,6 +124,7 @@ class UnifiedWarmupManager:
                         attn_safe = attn_seq + 1e-8
                         attn_normalized = attn_safe / np.sum(attn_safe, axis=-2, keepdims=True)
                         temporal_measure = -np.sum(attn_normalized * np.log(attn_normalized), axis=-2)
+
                     elif self.config.v_metric == "scaled_var":
                         # 放大版方差：乘以序列长度，缓解过小的问题
                         temporal_measure = np.var(attn_seq, axis=-2) * seq_len
@@ -509,23 +510,45 @@ class UnifiedCakeAdaKVAllocator:
         """
         根据策略分配头级预算
         """
-        num_heads = len(concentration_scores)
-        # 调整最小预算约束：确保总约束不超过层级预算
-        min_budget_ratio = strategy_params.get('min_budget_ratio', 0.02)
-        theoretical_min_budget = max(1, int(layer_budget * min_budget_ratio))
+        scores = np.array(concentration_scores, dtype=np.float32)
+        num_heads = len(scores)
+
+        # --- 修复点 1：前置检查 num_heads ---
+        if num_heads == 0:
+            if layer_budget > 0:
+                warnings.warn(f"层 {layer_idx} 有 {layer_budget} 的预算，但没有头可以分配。")
+            return []
+
+        # --- 修复点 2：重构最小预算计算逻辑 ---
+        # 理论上的最小预算，基于总预算的一个比例
+        theoretical_min_budget = int(layer_budget * self.config.strategy_config.min_budget_ratio)
         
-        # 如果理论最小预算会导致约束无法满足，则动态调整
-        if theoretical_min_budget * num_heads > layer_budget:
-            # 使用能够满足约束的最大最小预算
-            min_budget = max(1, layer_budget // num_heads)
-            if min_budget * num_heads > layer_budget:
-                # 极端情况：层级预算太小，无法为每个头分配至少1个token
-                min_budget = 0  # 允许某些头分配0个token
-        else:
-            min_budget = theoretical_min_budget
-        
+        # 确保 min_budget 至少为 1
+        min_budget = max(1, theoretical_min_budget)
+
+        # 检查在最坏情况下，预算是否足够给每个头分配至少1个token
+        if layer_budget < num_heads:
+            # 预算极度不足，无法满足每个头至少1个token的硬性要求
+            # 在这种情况下，我们仍然将 min_budget 设为 1，
+            # BudgetNormalizer 将会把预算分配给一部分头，直到预算用完。
+            # 这比将 min_budget 设为 0 更安全，避免了下游出现空张量错误。
+            min_budget = 1
+            warnings.warn(
+                f"层 {layer_idx} 的预算 ({layer_budget}) 少于头的数量 ({num_heads})。"
+                f"某些头将被分配0个token，但这由BudgetNormalizer处理，而非通过min_budget=0实现。"
+            )
+        elif min_budget * num_heads > layer_budget:
+            # 如果理论最小预算不可行，则回退到能满足的最大可能值
+            min_budget = layer_budget // num_heads
+
+        # 再次确保 min_budget 不会意外地变为0（在 num_heads > 0 的情况下，这不应该发生，但作为防御性编程）
+        min_budget = max(1, min_budget)
+
+        # 策略分发
         if strategy == AllocationStrategy.STANDARD:
-            return self._standard_allocation(concentration_scores, layer_budget, min_budget)
+            return self._standard_allocation(
+                concentration_scores, layer_budget, min_budget
+            )
         
         elif strategy == AllocationStrategy.UNIFORM_GUIDED:
             return self._uniform_guided_allocation(
@@ -647,62 +670,63 @@ class UnifiedCakeAdaKVAllocator:
         min_budget: int,
         layer_idx: int
     ) -> List[int]:
-        """高度自适应分配"""
-        key_budget_ratio = strategy_params.get('key_budget_ratio', 0.6)
-        use_key_head_detection = strategy_params.get('use_key_head_detection', True)
-        normal_head_uniformity = strategy_params.get('normal_head_uniformity', 0.8)
+        """
+        高度自适应分配（两级分配）
+        - 识别关键头和非关键头
+        - 将大部分预算优先分配给关键头
+        - 剩余预算在非关键头中分配
+        """
+        scores = np.array(concentration_scores, dtype=np.float32)
+        num_heads = len(scores)
+
+        # 1. 识别关键头
+        key_head_mask = self.key_head_detector.detect_key_heads(scores, layer_idx)
+        key_head_indices = np.where(key_head_mask)[0]
+        non_key_head_indices = np.where(~key_head_mask)[0]
         
-        num_heads = len(concentration_scores)
-        
-        if use_key_head_detection:
-            # 检测关键头
-            key_head_mask = self.key_head_detector.detect_key_heads(
-                concentration_scores, layer_idx
+        num_key_heads = len(key_head_indices)
+
+        # 边界情况：如果没有或所有都是关键头，退化为激进自适应策略
+        if num_key_heads == 0 or num_key_heads == num_heads:
+            return self._aggressive_adaptive_allocation(
+                scores.tolist(), layer_budget, strategy_params, min_budget
             )
-            
-            num_key_heads = np.sum(key_head_mask)
-            num_normal_heads = num_heads - num_key_heads
-            
-            if num_key_heads > 0:
-                # 两级分配
-                key_total_budget = int(layer_budget * key_budget_ratio)
-                normal_total_budget = layer_budget - key_total_budget
-                
-                # 关键头预算分配（按集中度）
-                key_scores = [concentration_scores[i] for i in range(num_heads) if key_head_mask[i]]
-                key_budgets = self._standard_allocation(key_scores, key_total_budget, min_budget)
-                
-                # 普通头预算分配（偏向均匀）
-                if num_normal_heads > 0:
-                    normal_base = normal_total_budget // num_normal_heads
-                    normal_remainder = normal_total_budget % num_normal_heads
-                    normal_budgets = [normal_base] * num_normal_heads
-                    for i in range(normal_remainder):
-                        normal_budgets[i] += 1
-                else:
-                    normal_budgets = []
-                
-                # 合并结果
-                final_budgets = []
-                key_idx = 0
-                normal_idx = 0
-                
-                for i in range(num_heads):
-                    if key_head_mask[i]:
-                        final_budgets.append(key_budgets[key_idx])
-                        key_idx += 1
-                    else:
-                        final_budgets.append(normal_budgets[normal_idx])
-                        normal_idx += 1
-                
-                return final_budgets
+
+        # 2. 预算两级划分
+        key_budget_ratio_base = strategy_params.get('key_budget_ratio', 0.7)
         
-        # 回退到激进自适应分配
-        return self._aggressive_adaptive_allocation(
-            concentration_scores, layer_budget, 
-            {'sharpness_factor': 1.5}, min_budget
+        key_total_budget = int(layer_budget * key_budget_ratio_base)
+        
+        non_key_min_total_budget = len(non_key_head_indices) * min_budget
+        key_total_budget = min(key_total_budget, layer_budget - non_key_min_total_budget)
+        key_total_budget = max(key_total_budget, num_key_heads * min_budget)
+
+        non_key_total_budget = layer_budget - key_total_budget
+
+        # 3. 分别对两组头进行预算分配
+        key_scores = scores[key_head_indices]
+        non_key_scores = scores[non_key_head_indices]
+
+        key_budgets_raw = self._standard_allocation(key_scores.tolist(), key_total_budget, min_budget)
+        
+        non_key_strategy_params = {'sharpness_factor': 0.5}
+        non_key_budgets_raw = self._aggressive_adaptive_allocation(
+            non_key_scores.tolist(),
+            non_key_total_budget,
+            non_key_strategy_params,
+            min_budget
         )
-    
+
+        # 4. 合并结果
+        final_budgets = np.zeros(num_heads, dtype=int)
+        final_budgets[key_head_indices] = key_budgets_raw
+        final_budgets[non_key_head_indices] = non_key_budgets_raw
+        
+        # 5. 使用BudgetNormalizer做最终的严格预算守恒
+        return BudgetNormalizer.normalize_to_budget(
+            final_budgets.tolist(), layer_budget, min_budget
+        )
+
     def unified_allocate(
         self, 
         attention_weights_list: List[np.ndarray]
