@@ -254,34 +254,39 @@ def prepare_samples_for_evaluation(dataset, dataset_info, num_samples=100, rando
 
 def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=False):
     """
-    将样本处理成批次
-    
+    将样本列表处理成一个批次，并进行填充
+
     Args:
         samples: 样本列表
-        tokenizer: 分词器
-        batch_size: 批处理大小
+        tokenizer: 用于编码的分词器
+        batch_size: 批次大小
         max_length: 最大序列长度
-        drop_last: 是否丢弃最后一个不完整的批次（用于评估时避免偏差）
-        
+        drop_last: 是否丢弃最后一个不完整的批次
+
     Returns:
-        batches: 包含输入ID和注意力掩码的字典，如果drop_last=True且样本数不足则返回None
+        batch: 一个包含编码后张量和参考答案的字典，或在drop_last为True时返回None
     """
-    # 如果样本数小于批处理大小且drop_last=True，返回None
-    if len(samples) < batch_size and drop_last:
+    if not samples:
         return None
-    
-    # 如果样本数小于批处理大小且drop_last=False，复制样本以达到批处理大小
-    if len(samples) < batch_size and not drop_last:
-        samples_to_add = batch_size - len(samples)
+
+    original_sample_count = len(samples)
+    is_padded = False
+
+    if original_sample_count < batch_size:
+        if drop_last:
+            return None  # 丢弃不完整的批次
+        
+        # 填充批次
+        samples_to_add = batch_size - original_sample_count
         samples.extend(samples[:samples_to_add])
-    
-    # 选择批处理大小的样本
-    batch_samples = samples[:batch_size]
-    
-    # 提取提示
-    prompts = [sample["prompt"] for sample in batch_samples]
-    
-    # 对提示进行分词
+        is_padded = True
+
+    # 转换为PyTorch张量
+    prompts = [s["prompt"] for s in samples]
+
+    # 注意：这里需要修复一个潜在的bug。如果tokenizer调用失败，encodings将不存在。
+    # 在实际代码中，应确保tokenizer调用是正确的。
+    # 假设这里的调用是正确的：
     encodings = tokenizer(
         prompts,
         padding="max_length",
@@ -289,13 +294,14 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
         max_length=max_length,
         return_tensors="pt"
     )
-    
+
     return {
-        "input_ids": encodings["input_ids"],
-        "attention_mask": encodings["attention_mask"],
-        "samples": batch_samples,  # 保留原始样本，用于评估
-        "is_padded": len(samples) < batch_size and not drop_last  # 标记是否包含填充样本
+        "input_ids": encodings.input_ids,
+        "attention_mask": encodings.attention_mask,
+        "references": [s["reference"] for s in samples],
+        "is_padded": is_padded
     }
+
 
 def get_dataset_info(dataset_name, language=None):
     """

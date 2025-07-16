@@ -648,62 +648,66 @@ class UnifiedCakeAdaKVAllocator:
         min_budget: int,
         layer_idx: int
     ) -> List[int]:
-        """高度自适应分配"""
-        key_budget_ratio = strategy_params.get('key_budget_ratio', 0.6)
-        use_key_head_detection = strategy_params.get('use_key_head_detection', True)
-        normal_head_uniformity = strategy_params.get('normal_head_uniformity', 0.8)
+        """
+        高度自适应分配（两级分配）
+        - 识别关键头和非关键头
+        - 将大部分预算优先分配给关键头
+        - 剩余预算在非关键头中分配
+        """
+        scores = np.array(concentration_scores, dtype=np.float32)
+        num_heads = len(scores)
+
+        if num_heads == 0:
+            return []
+
+        # 1. 识别关键头
+        key_head_mask = self.key_head_detector.detect_key_heads(scores, layer_idx)
+        key_head_indices = np.where(key_head_mask)[0]
+        non_key_head_indices = np.where(~key_head_mask)[0]
         
-        num_heads = len(concentration_scores)
-        
-        if use_key_head_detection:
-            # 检测关键头
-            key_head_mask = self.key_head_detector.detect_key_heads(
-                concentration_scores, layer_idx
+        num_key_heads = len(key_head_indices)
+
+        # 边界情况：如果没有或所有都是关键头，退化为激进自适应策略
+        if num_key_heads == 0 or num_key_heads == num_heads:
+            return self._aggressive_adaptive_allocation(
+                scores.tolist(), layer_budget, strategy_params, min_budget
             )
-            
-            num_key_heads = np.sum(key_head_mask)
-            num_normal_heads = num_heads - num_key_heads
-            
-            if num_key_heads > 0:
-                # 两级分配
-                key_total_budget = int(layer_budget * key_budget_ratio)
-                normal_total_budget = layer_budget - key_total_budget
-                
-                # 关键头预算分配（按集中度）
-                key_scores = [concentration_scores[i] for i in range(num_heads) if key_head_mask[i]]
-                key_budgets = self._standard_allocation(key_scores, key_total_budget, min_budget)
-                
-                # 普通头预算分配（偏向均匀）
-                if num_normal_heads > 0:
-                    normal_base = normal_total_budget // num_normal_heads
-                    normal_remainder = normal_total_budget % num_normal_heads
-                    normal_budgets = [normal_base] * num_normal_heads
-                    for i in range(normal_remainder):
-                        normal_budgets[i] += 1
-                else:
-                    normal_budgets = []
-                
-                # 合并结果
-                final_budgets = []
-                key_idx = 0
-                normal_idx = 0
-                
-                for i in range(num_heads):
-                    if key_head_mask[i]:
-                        final_budgets.append(key_budgets[key_idx])
-                        key_idx += 1
-                    else:
-                        final_budgets.append(normal_budgets[normal_idx])
-                        normal_idx += 1
-                
-                return final_budgets
+
+        # 2. 预算两级划分
+        key_budget_ratio_base = strategy_params.get('key_budget_ratio', 0.7)
         
-        # 回退到激进自适应分配
-        return self._aggressive_adaptive_allocation(
-            concentration_scores, layer_budget, 
-            {'sharpness_factor': 1.5}, min_budget
+        key_total_budget = int(layer_budget * key_budget_ratio_base)
+        
+        non_key_min_total_budget = len(non_key_head_indices) * min_budget
+        key_total_budget = min(key_total_budget, layer_budget - non_key_min_total_budget)
+        key_total_budget = max(key_total_budget, num_key_heads * min_budget)
+
+        non_key_total_budget = layer_budget - key_total_budget
+
+        # 3. 分别对两组头进行预算分配
+        key_scores = scores[key_head_indices]
+        non_key_scores = scores[non_key_head_indices]
+
+        key_budgets_raw = self._standard_allocation(key_scores.tolist(), key_total_budget, min_budget)
+        
+        non_key_strategy_params = {'sharpness_factor': 0.5}
+        non_key_budgets_raw = self._aggressive_adaptive_allocation(
+            non_key_scores.tolist(),
+            non_key_total_budget,
+            non_key_strategy_params,
+            min_budget
         )
-    
+
+        # 4. 合并结果
+        final_budgets = np.zeros(num_heads, dtype=int)
+        final_budgets[key_head_indices] = key_budgets_raw
+        final_budgets[non_key_head_indices] = non_key_budgets_raw
+        
+        # 5. 使用BudgetNormalizer做最终的严格预算守恒
+        return BudgetNormalizer.normalize_to_budget(
+            final_budgets.tolist(), layer_budget, min_budget
+        )
+
     def unified_allocate(
         self, 
         attention_weights_list: List[np.ndarray]
