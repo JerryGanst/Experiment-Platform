@@ -269,8 +269,9 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     if not samples:
         return None
 
-    # 创建一个副本以避免修改原始输入列表
-    processed_samples = list(samples)
+    # 修复1: 如果样本数量超过批次大小，则进行截断，这也会创建副本
+    processed_samples = samples[:batch_size]
+    
     original_sample_count = len(processed_samples)
     is_padded = False
 
@@ -298,9 +299,11 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     )
 
     return {
-        "input_ids": encodings.input_ids,
-        "attention_mask": encodings.attention_mask,
-        "references": [s["reference"] for s in processed_samples],
+        # 修复2: 使用字典访问以提高兼容性
+        "input_ids": encodings["input_ids"],
+        "attention_mask": encodings["attention_mask"],
+        # 修复3: 恢复 'samples' 键名以保持API兼容性
+        "samples": processed_samples,
         "is_padded": is_padded
     }
 
