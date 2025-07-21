@@ -42,7 +42,9 @@ import argparse
 import json
 import sys
 from pathlib import Path
+
 from typing import Any, List, Dict
+
 
 # 尝试导入 numpy，如未安装则给出友好提示
 try:
@@ -50,6 +52,7 @@ try:
 except ModuleNotFoundError as exc:  # pragma: no cover
     print("❌ 检测到未安装依赖: numpy\n   请先执行 `pip install -r requirements.txt` 安装所需依赖后再运行。")
     raise exc
+
 
 # 尝试导入 yaml（可选依赖）
 try:
@@ -137,6 +140,7 @@ def load_attention_weights(path: Path) -> List[Any]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Cake-AdaKV Integration Launcher")
 
+
     # 配置文件选项（优先级最高）
     parser.add_argument("--config", type=str, help="YAML配置文件路径")
 
@@ -164,6 +168,7 @@ def parse_args() -> argparse.Namespace:
                         help="KV缓存长度 B_L (例如 128 或 1024)。若同时启用 --synthetic 且未显式指定 --synthetic-seq，将覆盖合成数据序列长度。")
 
     synth_group.add_argument("--synthetic-batch", type=int, default=1, help="合成数据 batch 大小")
+
 
     # 新增：性能配置组
     perf_group = parser.add_argument_group("Performance Config")
@@ -193,12 +198,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--env", type=str, choices=["dev", "prod", "custom"], default="custom",
                        help="环境预设：dev(开发), prod(生产), custom(自定义)")
 
+
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    
+
     # 加载配置文件（如果提供）
     config_data = {}
     if args.config:
@@ -243,9 +249,11 @@ def main() -> None:
         "key_head_ratio": args.key_head_ratio,
     }
 
+
     # 构建 IntegrationConfig
     integration_cfg = IntegrationConfig(
         total_cache_size=effective_cache_size,
+
         enable_monitoring=env_overrides.get("enable_monitoring", args.monitor),
         enable_auto_tuning=args.auto_tune,
         warmup_samples=args.warmup_samples,
@@ -254,6 +262,7 @@ def main() -> None:
         experiment_mode=env_overrides.get("experiment_mode", args.experiment_mode),
         detailed_logging=env_overrides.get("detailed_logging", args.detailed_logging),
         custom_thresholds=custom_thresholds,
+
     )
 
     integration = CakeAdaKVIntegration(integration_cfg)

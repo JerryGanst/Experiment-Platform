@@ -266,6 +266,7 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     Returns:
         batch: 一个包含编码后张量和参考答案的字典，或在drop_last为True时返回None
     """
+
     import copy
 
     if not samples:
@@ -296,6 +297,7 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
             padding_samples.extend(padding_source)
         
         processed_samples.extend(padding_samples[:samples_to_add])
+
         is_padded = True
 
     # 转换为PyTorch张量
@@ -313,11 +315,13 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     )
 
     return {
+
         # 使用字典访问以提高兼容性
         "input_ids": encodings["input_ids"],
         "attention_mask": encodings["attention_mask"],
         # 恢复 'samples' 键名以保持API兼容性
         "samples": processed_samples,
+
         "is_padded": is_padded
     }
 
