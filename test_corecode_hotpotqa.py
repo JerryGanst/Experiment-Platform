@@ -373,7 +373,7 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description="CoreCode在HotpotQA上的评估")
-    parser.add_argument("--model", type=str, default="meta-llama/Llama-2-7b-chat-hf", 
+    parser.add_argument("--model", type=str, default="mistralai/Mistral-3.1-8B-Instruct", 
                        help="模型名称或路径")
     parser.add_argument("--num_samples", type=int, default=50, 
                        help="评估样本数")

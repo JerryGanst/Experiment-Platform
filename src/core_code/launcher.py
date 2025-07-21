@@ -42,7 +42,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, List
+from typing import Any, List, Dict
 
 # 尝试导入 numpy，如未安装则给出友好提示
 try:
@@ -50,6 +50,13 @@ try:
 except ModuleNotFoundError as exc:  # pragma: no cover
     print("❌ 检测到未安装依赖: numpy\n   请先执行 `pip install -r requirements.txt` 安装所需依赖后再运行。")
     raise exc
+
+# 尝试导入 yaml（可选依赖）
+try:
+    import yaml  # type: ignore
+    YAML_AVAILABLE = True
+except ImportError:
+    YAML_AVAILABLE = False
 
 # 动态修改 sys.path, 保证直接从仓库根目录执行时可以导入
 CURRENT_DIR = Path(__file__).resolve().parent
@@ -87,6 +94,22 @@ def generate_synthetic_attention_weights(
     return attention_weights_list
 
 
+def load_config_file(config_path: str) -> Dict[str, Any]:
+    """从YAML文件加载配置"""
+    if not YAML_AVAILABLE:
+        print("⚠️  未安装PyYAML，无法加载配置文件。请运行: pip install pyyaml")
+        return {}
+    
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            config = yaml.safe_load(f)
+        print(f"✅ 已加载配置文件: {config_path}")
+        return config or {}
+    except Exception as e:
+        print(f"❌ 加载配置文件失败: {e}")
+        return {}
+
+
 def load_attention_weights(path: Path) -> List[Any]:
     """从 .npy 或 .npz 文件加载注意力权重数据。"""
     if not path.exists():
@@ -114,6 +137,9 @@ def load_attention_weights(path: Path) -> List[Any]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Cake-AdaKV Integration Launcher")
 
+    # 配置文件选项（优先级最高）
+    parser.add_argument("--config", type=str, help="YAML配置文件路径")
+
     io_group = parser.add_argument_group("I/O")
     io_group.add_argument("-i", "--input", type=str, help="注意力权重文件 (.npy/.npz)")
     io_group.add_argument("-o", "--output", type=str, help="输出 JSON 文件路径")
@@ -139,22 +165,95 @@ def parse_args() -> argparse.Namespace:
 
     synth_group.add_argument("--synthetic-batch", type=int, default=1, help="合成数据 batch 大小")
 
+    # 新增：性能配置组
+    perf_group = parser.add_argument_group("Performance Config")
+    perf_group.add_argument("--warmup-samples", type=int, default=5, help="预热样本数")
+    perf_group.add_argument("--performance-tracking", action="store_true", help="启用性能跟踪")
+    perf_group.add_argument("--enable-fallback", action="store_true", default=True, help="启用回退机制")
+    perf_group.add_argument("--memory-efficient", action="store_true", help="启用内存高效模式")
+
+    # 新增：实验配置组
+    exp_group = parser.add_argument_group("Experiment Config")
+    exp_group.add_argument("--experiment-mode", action="store_true", help="启用实验模式")
+    exp_group.add_argument("--detailed-logging", action="store_true", help="启用详细日志")
+    exp_group.add_argument("--v-metric", type=str, default="var", 
+                          choices=["var", "scaled_var", "std", "entropy"],
+                          help="V指标计算方式")
+
+    # 新增：高级配置组
+    adv_group = parser.add_argument_group("Advanced Config")
+    adv_group.add_argument("--high-dispersion-threshold", type=float, default=0.7,
+                          help="H指标高分散阈值")
+    adv_group.add_argument("--high-dynamics-threshold", type=float, default=0.5,
+                          help="V指标高动态阈值")
+    adv_group.add_argument("--key-head-ratio", type=float, default=0.2,
+                          help="关键头比例")
+    
+    # 新增：环境预设
+    parser.add_argument("--env", type=str, choices=["dev", "prod", "custom"], default="custom",
+                       help="环境预设：dev(开发), prod(生产), custom(自定义)")
+
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-
-    # 根据BL覆盖cache_size（Budget Limit 优先级更高）
+    
+    # 加载配置文件（如果提供）
+    config_data = {}
+    if args.config:
+        config_data = load_config_file(args.config)
+    
+    # 合并配置：命令行参数优先级高于配置文件
+    # 处理缓存大小
     effective_cache_size = args.cache_size
     if args.bl is not None:
         effective_cache_size = args.bl
+    elif config_data.get('cache', {}).get('bl'):
+        effective_cache_size = config_data['cache']['bl']
+    elif config_data.get('cache', {}).get('total_size'):
+        effective_cache_size = config_data['cache']['total_size']
+
+    # 环境预设配置
+    if args.env == "dev":
+        # 开发环境：启用所有监控和日志
+        env_overrides = {
+            "enable_monitoring": True,
+            "enable_fallback": True,
+            "detailed_logging": True,
+            "performance_tracking": True,
+            "experiment_mode": True,
+        }
+    elif args.env == "prod":
+        # 生产环境：关闭调试功能，优化性能
+        env_overrides = {
+            "enable_monitoring": False,
+            "enable_fallback": True,
+            "detailed_logging": False,
+            "performance_tracking": False,
+            "experiment_mode": False,
+        }
+    else:  # custom
+        env_overrides = {}
+
+    # 构建自定义阈值
+    custom_thresholds = {
+        "high_dispersion_threshold": args.high_dispersion_threshold,
+        "high_dynamics_threshold": args.high_dynamics_threshold,
+        "key_head_ratio": args.key_head_ratio,
+    }
 
     # 构建 IntegrationConfig
     integration_cfg = IntegrationConfig(
         total_cache_size=effective_cache_size,
-        enable_monitoring=args.monitor,
+        enable_monitoring=env_overrides.get("enable_monitoring", args.monitor),
         enable_auto_tuning=args.auto_tune,
+        warmup_samples=args.warmup_samples,
+        performance_tracking=env_overrides.get("performance_tracking", args.performance_tracking),
+        enable_fallback=env_overrides.get("enable_fallback", args.enable_fallback),
+        experiment_mode=env_overrides.get("experiment_mode", args.experiment_mode),
+        detailed_logging=env_overrides.get("detailed_logging", args.detailed_logging),
+        custom_thresholds=custom_thresholds,
     )
 
     integration = CakeAdaKVIntegration(integration_cfg)

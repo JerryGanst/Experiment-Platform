@@ -272,7 +272,25 @@ config = IntegrationConfig(
 
 **注意**: 本框架是我们的原创研究成果，独立于CAKE和AdaKV的原始实现。所有代码都是从零开始设计和实现，体现了我们在KV缓存优化领域的创新贡献。
 
-## 🚀 命令行启动器 (launcher.py)
+## 🚀 统一配置入口
+
+### 快速开始 (run_cake_adakv.py)
+
+为了简化使用，我们提供了一个交互式的统一运行脚本：
+
+```bash
+# 运行交互式菜单
+python src/core_code/run_cake_adakv.py
+```
+
+该脚本提供以下预设模式：
+1. **快速测试** - 使用合成数据快速验证功能
+2. **开发模式** - 启用所有监控和日志，适合调试
+3. **生产模式** - 优化性能，关闭调试功能
+4. **基准测试** - 自动测试多个BL值并保存结果
+5. **自定义运行** - 交互式构建自定义命令
+
+### 高级命令行启动器 (launcher.py)
 
 为了方便快速验证，我们新增了 `launcher.py` CLI。
 
@@ -293,15 +311,51 @@ python src/core-code/launcher.py -i weights.npy --bl 1024 -o budgets.json
 - `--bl` 直接等价于 **Budget Limit**，会覆盖 `--cache-size`。
 - 若使用合成数据且未指定 `--synthetic-seq`，`--bl` 也会作为合成序列长度，保证场景一致。
 
+### 使用配置文件
+```bash
+# 使用YAML配置文件
+python src/core-code/launcher.py --config config.yaml
+
+# 命令行参数会覆盖配置文件中的值
+python src/core-code/launcher.py --config config.yaml --bl 512 --monitor
+```
+
+### 环境预设
+```bash
+# 开发环境（启用所有监控和日志）
+python src/core-code/launcher.py --env dev --synthetic
+
+# 生产环境（优化性能，关闭调试）
+python src/core-code/launcher.py --env prod -i weights.npy
+
+# 自定义环境（使用命令行参数）
+python src/core-code/launcher.py --env custom --monitor --detailed-logging
+```
+
 ### 主要参数速查
 | 参数 | 说明 |
 |------|------|
+| `--config` | YAML配置文件路径 |
 | `--bl` | Budget Limit，KV缓存 token 上限 (例: 128, 1024) |
 | `--cache-size` | 与 `--bl` 类似，若同时出现由 `--bl` 覆盖 |
 | `--monitor` | 启用性能监控 |
 | `--auto-tune` | 启用自动调优 |
 | `--detailed` | 输出包含监控与分配详情的 JSON |
 | `--synthetic*` | 生成合成注意力权重的相关参数 |
+| `--env` | 环境预设：dev/prod/custom |
+| **性能配置** | |
+| `--warmup-samples` | 预热样本数 |
+| `--performance-tracking` | 启用性能跟踪 |
+| `--enable-fallback` | 启用回退机制 |
+| `--memory-efficient` | 内存高效模式 |
+| **实验配置** | |
+| `--experiment-mode` | 实验模式 |
+| `--detailed-logging` | 详细日志 |
+| `--v-metric` | V指标计算方式 (var/scaled_var/std/entropy) |
+| **高级配置** | |
+| `--high-dispersion-threshold` | H指标高分散阈值 |
+| `--high-dynamics-threshold` | V指标高动态阈值 |
+| `--key-head-ratio` | 关键头比例 |
 
 更多 CLI 细节请运行：
 ```bash
