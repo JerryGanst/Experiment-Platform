@@ -292,6 +292,7 @@ python src/core_code/run_cake_adakv.py
 
 ### 高级命令行启动器 (launcher.py)
 
+
 为了方便快速验证，我们新增了 `launcher.py` CLI。
 
 ### 基本用法
@@ -310,6 +311,7 @@ python src/core-code/launcher.py -i weights.npy --bl 1024 -o budgets.json
 ```
 - `--bl` 直接等价于 **Budget Limit**，会覆盖 `--cache-size`。
 - 若使用合成数据且未指定 `--synthetic-seq`，`--bl` 也会作为合成序列长度，保证场景一致。
+
 
 ### 使用配置文件
 ```bash
@@ -336,12 +338,14 @@ python src/core-code/launcher.py --env custom --monitor --detailed-logging
 | 参数 | 说明 |
 |------|------|
 | `--config` | YAML配置文件路径 |
+
 | `--bl` | Budget Limit，KV缓存 token 上限 (例: 128, 1024) |
 | `--cache-size` | 与 `--bl` 类似，若同时出现由 `--bl` 覆盖 |
 | `--monitor` | 启用性能监控 |
 | `--auto-tune` | 启用自动调优 |
 | `--detailed` | 输出包含监控与分配详情的 JSON |
 | `--synthetic*` | 生成合成注意力权重的相关参数 |
+
 | `--env` | 环境预设：dev/prod/custom |
 | **性能配置** | |
 | `--warmup-samples` | 预热样本数 |
@@ -360,6 +364,7 @@ python src/core-code/launcher.py --env custom --monitor --detailed-logging
 更多 CLI 细节请运行：
 ```bash
 python src/core-code/launcher.py -h
+
 ```
 
 ## 📋 配置和参数加载说明
