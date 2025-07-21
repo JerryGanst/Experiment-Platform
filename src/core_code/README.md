@@ -272,7 +272,26 @@ config = IntegrationConfig(
 
 **注意**: 本框架是我们的原创研究成果，独立于CAKE和AdaKV的原始实现。所有代码都是从零开始设计和实现，体现了我们在KV缓存优化领域的创新贡献。
 
-## 🚀 命令行启动器 (launcher.py)
+## 🚀 统一配置入口
+
+### 快速开始 (run_cake_adakv.py)
+
+为了简化使用，我们提供了一个交互式的统一运行脚本：
+
+```bash
+# 运行交互式菜单
+python src/core_code/run_cake_adakv.py
+```
+
+该脚本提供以下预设模式：
+1. **快速测试** - 使用合成数据快速验证功能
+2. **开发模式** - 启用所有监控和日志，适合调试
+3. **生产模式** - 优化性能，关闭调试功能
+4. **基准测试** - 自动测试多个BL值并保存结果
+5. **自定义运行** - 交互式构建自定义命令
+
+### 高级命令行启动器 (launcher.py)
+
 
 为了方便快速验证，我们新增了 `launcher.py` CLI。
 
@@ -293,9 +312,33 @@ python src/core-code/launcher.py -i weights.npy --bl 1024 -o budgets.json
 - `--bl` 直接等价于 **Budget Limit**，会覆盖 `--cache-size`。
 - 若使用合成数据且未指定 `--synthetic-seq`，`--bl` 也会作为合成序列长度，保证场景一致。
 
+
+### 使用配置文件
+```bash
+# 使用YAML配置文件
+python src/core-code/launcher.py --config config.yaml
+
+# 命令行参数会覆盖配置文件中的值
+python src/core-code/launcher.py --config config.yaml --bl 512 --monitor
+```
+
+### 环境预设
+```bash
+# 开发环境（启用所有监控和日志）
+python src/core-code/launcher.py --env dev --synthetic
+
+# 生产环境（优化性能，关闭调试）
+python src/core-code/launcher.py --env prod -i weights.npy
+
+# 自定义环境（使用命令行参数）
+python src/core-code/launcher.py --env custom --monitor --detailed-logging
+```
+
 ### 主要参数速查
 | 参数 | 说明 |
 |------|------|
+| `--config` | YAML配置文件路径 |
+
 | `--bl` | Budget Limit，KV缓存 token 上限 (例: 128, 1024) |
 | `--cache-size` | 与 `--bl` 类似，若同时出现由 `--bl` 覆盖 |
 | `--monitor` | 启用性能监控 |
@@ -303,7 +346,187 @@ python src/core-code/launcher.py -i weights.npy --bl 1024 -o budgets.json
 | `--detailed` | 输出包含监控与分配详情的 JSON |
 | `--synthetic*` | 生成合成注意力权重的相关参数 |
 
+| `--env` | 环境预设：dev/prod/custom |
+| **性能配置** | |
+| `--warmup-samples` | 预热样本数 |
+| `--performance-tracking` | 启用性能跟踪 |
+| `--enable-fallback` | 启用回退机制 |
+| `--memory-efficient` | 内存高效模式 |
+| **实验配置** | |
+| `--experiment-mode` | 实验模式 |
+| `--detailed-logging` | 详细日志 |
+| `--v-metric` | V指标计算方式 (var/scaled_var/std/entropy) |
+| **高级配置** | |
+| `--high-dispersion-threshold` | H指标高分散阈值 |
+| `--high-dynamics-threshold` | V指标高动态阈值 |
+| `--key-head-ratio` | 关键头比例 |
+
 更多 CLI 细节请运行：
 ```bash
 python src/core-code/launcher.py -h
+
 ```
+
+## 📋 配置和参数加载说明
+
+### 1. 训练参数配置
+
+#### 1.1 参数加载位置
+训练参数主要在以下位置进行配置和加载：
+
+**主配置文件**: `hace_core/config.py`
+- 模型配置 (`MODEL_CONFIG`)
+- 实验配置 (`EXPERIMENT_CONFIG`)
+- 数据集配置 (`DATASET_CONFIG`)
+- 硬件配置 (`HARDWARE_CONFIG`)
+- 监控配置 (`MONITORING_CONFIG`)
+
+**CAKE特定配置**:
+- `src/third_party/cakekv-main/cakekv-main/experiments/LongBench/config/model2tau.json` - 模型的tau参数配置
+- `configs/cake_grid.csv` - CAKE策略配置
+
+#### 1.2 参数存储位置
+- 实验配置: 运行时参数存储在内存中的配置字典
+- 持久化配置: JSON文件存储在对应的config目录下
+- 运行时日志: `./logs/` 目录
+
+### 2. 训练结果管理
+
+#### 2.1 结果加载位置
+训练结果从以下位置加载：
+- **基线结果**: `evaluation/baseline_fullkv.json`
+- **实验结果**: `./runs/*/evaluation_results_*.json`
+- **缓存统计**: `./cache_stats/` 目录
+
+#### 2.2 结果存储位置
+训练结果保存在：
+- **主结果目录**: `./results/` (由 `OUTPUT_CONFIG["results_dir"]` 配置)
+- **运行记录**: `./runs/` 目录，按时间戳组织
+- **监控数据**: `./monitoring/` 目录
+- **可视化输出**: `./visualizations/` 目录
+
+### 3. 模型参数管理
+
+#### 3.1 模型加载配置
+
+**模型路径解析优先级**:
+1. 环境变量 `HACE_MODEL_PATH`
+2. HuggingFace Hub路径 (如 `mistralai/Mistral-7B-Instruct-v0.3`)
+3. 项目本地 `./models/` 目录
+4. 用户主目录 `~/models/` 目录
+
+**模型加载器**: `hace_core/models/model_loader.py`
+```python
+# 使用示例
+from hace_core.models.model_loader import load_model_and_tokenizer
+model, tokenizer = load_model_and_tokenizer(model_config)
+```
+
+#### 3.2 模型参数存储
+- **预训练权重**: 根据模型路径配置，可能在本地或从HuggingFace Hub下载
+- **CAKE修改的模型**: 运行时动态修改，不持久化存储
+- **检查点**: 可配置保存到 `./checkpoints/` 目录
+
+### 4. 数据集Prompt配置
+
+#### 4.1 Prompt模板加载
+**配置文件**: `src/third_party/cakekv-main/cakekv-main/experiments/LongBench/config/dataset2prompt.json`
+
+包含所有数据集的Prompt模板，例如：
+- `narrativeqa`: 故事问答模板
+- `hotpotqa`: 多文档问答模板
+- `qasper`: 科学论文问答模板
+- 等等...
+
+#### 4.2 动态Prompt生成
+```python
+# 在 pred_cake.py 中的使用
+dataset2prompt = json.load(open("config/dataset2prompt.json", "r"))
+prompt_format = dataset2prompt[dataset]
+# 格式化具体的prompt
+prompt = prompt_format.format(context=context, input=question)
+```
+
+### 5. 配置优先级和覆盖
+
+#### 5.1 配置优先级（从高到低）
+1. 命令行参数
+2. 环境变量
+3. 配置文件
+4. 默认值
+
+#### 5.2 配置覆盖示例
+```python
+# 命令行覆盖
+python launcher.py --bl 256 --cache-size 512  # bl参数会覆盖cache-size
+
+# 环境变量覆盖
+export HACE_MODEL_PATH="/custom/path/to/model"
+
+# 运行时覆盖
+config = IntegrationConfig(
+    total_cache_size=8192,  # 覆盖默认缓存大小
+    custom_thresholds={
+        'high_dispersion_threshold': 0.8  # 覆盖默认阈值
+    }
+)
+```
+
+### 6. 配置验证
+
+使用配置验证功能确保配置一致性：
+```python
+from hace_core.config import validate_config
+
+results = validate_config()
+if not results["passed"]:
+    print("配置错误:", results["errors"])
+if results["warnings"]:
+    print("配置警告:", results["warnings"])
+```
+
+### 7. 快速参考
+
+| 配置类型 | 文件位置 | 主要用途 |
+|---------|---------|---------|
+| 模型配置 | `hace_core/config.py` | 模型路径、精度、设备配置 |
+| 实验参数 | `hace_core/config.py` | 数据集、批大小、KV缓存长度 |
+| CAKE参数 | `config/model2tau.json` | 模型特定的tau1、tau2参数 |
+| Prompt模板 | `config/dataset2prompt.json` | 数据集特定的提示词模板 |
+| 运行结果 | `./runs/*/` | 实验运行结果和日志 |
+| 基线数据 | `evaluation/baseline_fullkv.json` | FullKV基线性能数据 |
+
+### 8. 常见配置场景
+
+#### 8.1 切换模型
+```bash
+# 方法1: 环境变量
+export HACE_MODEL_PATH="meta-llama/Llama-2-7b-chat"
+
+# 方法2: 配置文件修改
+# 编辑 hace_core/config.py 中的 MODEL_CONFIG["model_name_or_path"]
+
+# 方法3: 命令行参数
+python launcher.py --model-path "mistralai/Mistral-7B-Instruct-v0.3"
+```
+
+#### 8.2 调整缓存大小
+```bash
+# 通过命令行
+python launcher.py --bl 512  # Budget Limit设为512
+
+# 通过配置
+config = IntegrationConfig(total_cache_size=512)
+```
+
+#### 8.3 选择数据集
+```python
+# 在 EXPERIMENT_CONFIG 中配置
+"datasets": ["hotpotqa", "qasper", "multifieldqa_en"]
+```
+
+通过以上配置说明，你可以清晰地了解：
+- 训练参数在哪里配置和如何加载
+- 训练结果保存在哪里以及如何访问
+- 模型参数的加载机制和存储位置
+- 如何为不同数据集配置Prompt模板

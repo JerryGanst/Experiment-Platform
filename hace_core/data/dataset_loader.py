@@ -266,21 +266,38 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     Returns:
         batch: 一个包含编码后张量和参考答案的字典，或在drop_last为True时返回None
     """
+
+    import copy
+
     if not samples:
         return None
 
-    # 创建一个副本以避免修改原始输入列表
-    processed_samples = list(samples)
-    original_sample_count = len(processed_samples)
+    original_sample_count = len(samples)
+
+    if original_sample_count < batch_size and drop_last:
+        return None  # 丢弃不完整的批次
+
+    # 截取或复制所需样本，并使用深拷贝确保无副作用
+    # 这一步是最终的健壮性修复
+    processed_samples = copy.deepcopy(samples[:batch_size])
+    
+    current_sample_count = len(processed_samples)
     is_padded = False
 
-    if original_sample_count < batch_size:
-        if drop_last:
-            return None  # 丢弃不完整的批次
+    # 仅当实际样本数小于批次大小时才进行填充
+    if current_sample_count < batch_size:
+        samples_to_add = batch_size - current_sample_count
         
-        # 填充批次
-        samples_to_add = batch_size - original_sample_count
-        processed_samples.extend(processed_samples[:samples_to_add])
+        # 从原始样本列表循环获取填充数据，确保填充模式正确
+        padding_source = copy.deepcopy(samples) # 使用原始列表的深拷贝作为填充源
+        
+        # 构建填充列表
+        padding_samples = []
+        while len(padding_samples) < samples_to_add:
+            padding_samples.extend(padding_source)
+        
+        processed_samples.extend(padding_samples[:samples_to_add])
+
         is_padded = True
 
     # 转换为PyTorch张量
@@ -298,9 +315,13 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
     )
 
     return {
-        "input_ids": encodings.input_ids,
-        "attention_mask": encodings.attention_mask,
-        "references": [s["reference"] for s in processed_samples],
+
+        # 使用字典访问以提高兼容性
+        "input_ids": encodings["input_ids"],
+        "attention_mask": encodings["attention_mask"],
+        # 恢复 'samples' 键名以保持API兼容性
+        "samples": processed_samples,
+
         "is_padded": is_padded
     }
 
