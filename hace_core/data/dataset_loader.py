@@ -312,12 +312,17 @@ def prepare_batch(samples, tokenizer, batch_size, max_length=2048, drop_last=Fal
         return_tensors="pt"
     )
 
+    # 提取 reference 列表以保持旧版 API 兼容性
+    references = [s.get("reference", "") for s in processed_samples]
+
     return {
         # 使用字典访问以提高兼容性
         "input_ids": encodings["input_ids"],
         "attention_mask": encodings["attention_mask"],
         # 恢复 'samples' 键名以保持API兼容性
         "samples": processed_samples,
+        # 重新引入 'references' 键以兼容旧代码
+        "references": references,
         "is_padded": is_padded
     }
 
