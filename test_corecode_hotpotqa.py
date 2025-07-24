@@ -87,7 +87,9 @@ class CoreCodeEvaluator:
         if CORECODE_AVAILABLE:
             print("🔧 配置CoreCode...")
             config = IntegrationConfig(
+
                 total_cache_size=int(kv_cache_length * self.cache_budget),
+
                 enable_monitoring=True,
                 enable_auto_tuning=True,
                 monitoring_interval=10
