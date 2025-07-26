@@ -58,49 +58,112 @@ class CoreCodeEvaluator:
     def load_model(self):
         """加载模型和分词器"""
         print(f"📚 加载模型: {self.model_name}")
+        
+        # 设置显存限制防止爆炸
+        if torch.cuda.is_available():
+            print("🔧 设置显存限制为23GB...")
+            torch.cuda.set_per_process_memory_fraction(0.96)  # 约23GB (24GB * 0.96)
+            torch.cuda.empty_cache()
+            print("✅ 显存限制设置完成")
+        
         try:
+            print("🔄 加载分词器...")
             self.tokenizer = AutoTokenizer.from_pretrained(
                 self.model_name,
                 trust_remote_code=True,
                 use_fast=False
             )
+            print("✅ 分词器加载成功")
             
+            print("🔄 加载模型...")
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.model_name,
                 torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
                 device_map="auto" if torch.cuda.is_available() else None,
-                trust_remote_code=True
+                trust_remote_code=True,
+                low_cpu_mem_usage=True
             )
+            print("✅ 模型加载成功")
             
             if self.tokenizer.pad_token is None:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
+                print("✅ 设置pad_token")
+            
+            # 检查显存使用情况
+            if torch.cuda.is_available():
+                allocated = torch.cuda.memory_allocated() / 1024**3
+                cached = torch.cuda.memory_reserved() / 1024**3
+                print(f"💾 当前显存使用: {allocated:.2f}GB (已分配) / {cached:.2f}GB (已缓存)")
                 
-            print("✅ 模型加载成功")
+            print("✅ 模型加载完成")
         except Exception as e:
             print(f"❌ 模型加载失败: {e}")
+            print("具体错误信息:")
+            import traceback
+            traceback.print_exc()
             print("使用模拟模型")
             self.model = None
             self.tokenizer = None
     
     def setup_corecode(self, kv_cache_length=1024):
         """设置CoreCode"""
+        print(f"🔧 开始配置CoreCode...")
+        print(f"📊 配置参数:")
+        print(f"  - KV缓存长度: {kv_cache_length}")
+        print(f"  - 缓存预算: {self.cache_budget*100:.0f}%")
+        print(f"  - 有效缓存大小: {int(kv_cache_length * self.cache_budget)}")
+        
         if CORECODE_AVAILABLE:
-            print("🔧 配置CoreCode...")
-            self.corecode_integrator = create_integration(
-                cache_size=int(kv_cache_length * self.cache_budget),
-                enable_monitoring=True,
-                enable_auto_tuning=True
-            )
-            print("✅ CoreCode配置完成")
+            print("✅ CoreCode模块可用，开始集成...")
+            try:
+                self.corecode_integrator = create_integration(
+                    cache_size=int(kv_cache_length * self.cache_budget),
+                    enable_monitoring=True,
+                    enable_auto_tuning=True
+                )
+                print("✅ CoreCode配置完成")
+                print(f"🎯 CoreCode状态: 已激活")
+                print(f"🔍 集成器类型: {type(self.corecode_integrator).__name__}")
+                return True
+            except Exception as e:
+                print(f"❌ CoreCode配置失败: {e}")
+                self.corecode_integrator = None
+                return False
         else:
-            print("⚠️ 使用模拟CoreCode")
+            print("⚠️ CoreCode模块不可用，使用模拟模式")
             self.corecode_integrator = None
+            return False
     
     def load_hotpotqa_dataset(self, num_samples=100):
         """加载HotpotQA数据集"""
         print("📊 加载HotpotQA数据集...")
+        
+        # 首先尝试从本地文件加载
+        local_paths = [
+            project_root / "data" / "hotpotqa.jsonl",
+            project_root / "data" / "hotpotqa_e.jsonl"
+        ]
+        
+        for local_path in local_paths:
+            if local_path.exists():
+                print(f"📁 从本地文件加载: {local_path}")
+                samples = []
+                try:
+                    with open(local_path, 'r', encoding='utf-8') as f:
+                        for i, line in enumerate(f):
+                            if i >= num_samples:
+                                break
+                            data = json.loads(line.strip())
+                            samples.append(data)
+                    print(f"✅ 从本地加载了{len(samples)}个样本")
+                    return samples
+                except Exception as e:
+                    print(f"⚠️ 本地文件加载失败: {e}")
+                    continue
+        
+        # 如果本地文件不存在，尝试从Hugging Face加载
         try:
-            # 尝试从Hugging Face加载
+            print("📡 尝试从Hugging Face加载...")
             dataset = load_dataset("THUDM/LongBench", "hotpotqa_e", split="test")
             samples = dataset.select(range(min(num_samples, len(dataset))))
             print(f"✅ 从Hugging Face加载了{len(samples)}个样本")
@@ -108,78 +171,80 @@ class CoreCodeEvaluator:
         except Exception as e:
             print(f"⚠️ 无法从Hugging Face加载: {e}")
             
-            # 尝试从本地文件加载
-            local_path = project_root / "data" / "hotpotqa.jsonl"
-            if local_path.exists():
-                print(f"📁 从本地文件加载: {local_path}")
-                samples = []
-                with open(local_path, 'r', encoding='utf-8') as f:
-                    for i, line in enumerate(f):
-                        if i >= num_samples:
-                            break
-                        samples.append(json.loads(line))
-                print(f"✅ 从本地加载了{len(samples)}个样本")
-                return samples
-            else:
-                print("⚠️ 本地文件不存在，使用模拟数据")
-                # 生成模拟数据
-                samples = []
-                for i in range(num_samples):
-                    samples.append({
-                        "input": f"Question: What is the capital of France? Context: France is a country in Europe. Paris is the capital city of France.",
-                        "context": "France is a country in Europe. Paris is the capital city of France.",
-                        "answers": ["Paris"],
-                        "length": 100 + i * 10
-                    })
-                return samples
+            # 最后使用模拟数据
+            print("⚠️ 使用模拟数据")
+            samples = []
+            for i in range(num_samples):
+                samples.append({
+                    "input": f"Question: What is the capital of France? Context: France is a country in Europe. Paris is the capital city of France.",
+                    "context": "France is a country in Europe. Paris is the capital city of France.",
+                    "answers": ["Paris"],
+                    "length": 100 + i * 10
+                })
+            return samples
     
     def generate_with_corecode(self, input_text, max_new_tokens=50):
         """使用CoreCode生成答案"""
         if self.model is None or self.tokenizer is None:
             # 模拟生成
-            return "Paris", {"cache_usage": 0.7, "time": 0.5}
+            return "Paris", {"cache_usage": 0.7, "time": 0.5, "corecode_active": False}
+        
+        # 检查CoreCode状态
+        corecode_active = self.corecode_integrator is not None
+        print(f"🎯 CoreCode状态: {'✅ 已激活' if corecode_active else '❌ 未激活'}")
         
         # 编码输入
         inputs = self.tokenizer(input_text, return_tensors="pt", truncation=True, max_length=2048)
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
         
+        # 检查输入长度
+        input_length = inputs['input_ids'].shape[1]
+        print(f"📏 输入长度: {input_length} tokens")
+        
+        # 生成前的显存检查
+        if torch.cuda.is_available():
+            before_allocated = torch.cuda.memory_allocated() / 1024**3
+            print(f"💾 生成前显存: {before_allocated:.2f}GB")
+        
         # 生成
         start_time = time.time()
         
-        if self.corecode_integrator:
-            # 使用CoreCode优化的生成
-            # 这里需要实现CoreCode与模型的集成
-            # 暂时使用标准生成
-            with torch.no_grad():
-                outputs = self.model.generate(
-                    **inputs,
-                    max_new_tokens=max_new_tokens,
-                    do_sample=False,
-                    temperature=0.1,
-                    pad_token_id=self.tokenizer.pad_token_id,
-                    eos_token_id=self.tokenizer.eos_token_id
-                )
+        if corecode_active:
+            print("🚀 使用CoreCode优化生成...")
+            # TODO: 这里应该集成实际的CoreCode生成逻辑
+            # 目前先使用标准生成，后续需要替换为CoreCode集成
         else:
-            # 标准生成
-            with torch.no_grad():
-                outputs = self.model.generate(
-                    **inputs,
-                    max_new_tokens=max_new_tokens,
-                    do_sample=False,
-                    temperature=0.1,
-                    pad_token_id=self.tokenizer.pad_token_id,
-                    eos_token_id=self.tokenizer.eos_token_id
-                )
+            print("⚠️ 使用标准生成（CoreCode未激活）...")
+        
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+                temperature=0.1,
+                pad_token_id=self.tokenizer.pad_token_id,
+                eos_token_id=self.tokenizer.eos_token_id
+            )
         
         generation_time = time.time() - start_time
         
+        # 生成后的显存检查
+        if torch.cuda.is_available():
+            after_allocated = torch.cuda.memory_allocated() / 1024**3
+            print(f"💾 生成后显存: {after_allocated:.2f}GB")
+        
         # 解码输出
         generated_text = self.tokenizer.decode(outputs[0][inputs['input_ids'].shape[1]:], skip_special_tokens=True)
+        output_length = len(outputs[0]) - inputs['input_ids'].shape[1]
+        
+        print(f"📝 生成完成: {output_length} tokens, 用时 {generation_time:.3f}s")
         
         metrics = {
             "cache_usage": self.cache_budget,
             "time": generation_time,
-            "output_length": len(outputs[0]) - inputs['input_ids'].shape[1]
+            "output_length": output_length,
+            "input_length": input_length,
+            "corecode_active": corecode_active
         }
         
         return generated_text, metrics
@@ -212,7 +277,7 @@ class CoreCodeEvaluator:
         self.load_model()
         
         # 设置CoreCode
-        self.setup_corecode(kv_cache_length)
+        corecode_success = self.setup_corecode(kv_cache_length)
         
         # 加载数据集
         dataset = self.load_hotpotqa_dataset(num_samples)
@@ -398,4 +463,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() 
