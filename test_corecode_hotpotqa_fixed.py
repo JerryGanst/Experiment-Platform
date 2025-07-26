@@ -40,6 +40,16 @@ except ImportError as e:
     print("将使用模拟的CoreCode功能")
     CORECODE_AVAILABLE = False
 
+# 尝试导入CAKE模型转换器
+try:
+    from hace_core.models.cake_converter import apply_cake_to_model, is_cake_available
+    CAKE_CONVERTER_AVAILABLE = is_cake_available()
+    print(f"✅ CAKE转换器可用: {CAKE_CONVERTER_AVAILABLE}")
+except ImportError as e:
+    print(f"⚠️ CAKE转换器导入失败: {e}")
+    CAKE_CONVERTER_AVAILABLE = False
+    apply_cake_to_model = None
+
 
 class CoreCodeEvaluator:
     """CoreCode评估器"""
@@ -88,6 +98,41 @@ class CoreCodeEvaluator:
             if self.tokenizer.pad_token is None:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 print("✅ 设置pad_token")
+            
+            # 应用CAKE转换（如果可用）
+            if CAKE_CONVERTER_AVAILABLE and apply_cake_to_model is not None:
+                print("🔄 应用CAKE模型转换...")
+                try:
+                    # 准备CAKE配置
+                    model_config_hf = self.model.config.to_dict()
+                    
+                    # CAKE实验配置
+                    cake_exp_config = {
+                        "layer_allocation_strategies": ["dynamic"],  # 使用动态策略，让CoreCode决定
+                        "cache_budgets": [self.cache_budget]
+                    }
+                    
+                    # CAKE模型特定配置
+                    cake_model_config = {
+                        "window_size": 32,
+                        "gamma": 0.8,
+                        "tau1": 1.0,
+                        "tau2": 1.0
+                    }
+                    
+                    # 应用CAKE转换
+                    self.model = apply_cake_to_model(
+                        self.model,
+                        model_config_hf,
+                        cake_exp_config,
+                        cake_model_config
+                    )
+                    print("✅ CAKE模型转换成功")
+                    print(f"🎯 模型已启用CAKE: {getattr(self.model, 'is_cake_enabled', False)}")
+                except Exception as e:
+                    print(f"⚠️ CAKE模型转换失败: {e}")
+                    import traceback
+                    traceback.print_exc()
             
             # 检查显存使用情况
             if torch.cuda.is_available():
@@ -240,9 +285,22 @@ class CoreCodeEvaluator:
                 )
                 print(f"✅ CoreCode缓存优化完成: {len(layer_budgets)}层, 平均预算{sum(layer_budgets)/len(layer_budgets):.2f}")
                 
-                # 应用缓存策略到模型（这里需要实际的模型修改逻辑）
-                # 目前先记录优化结果
-                corecode_optimized = True
+                # 应用缓存策略到模型
+                if hasattr(self.model, 'is_cake_enabled') and self.model.is_cake_enabled:
+                    # 更新模型的key_size配置
+                    self.model.config.key_size = layer_budgets
+                    print(f"✅ 已更新CAKE模型的缓存预算: {layer_budgets[:5]}... (前5层)")
+                    
+                    # 如果支持AdaKV，也更新头级预算
+                    if hasattr(self.model.config, 'head_budgets'):
+                        self.model.config.head_budgets = head_budgets_list
+                        print(f"✅ 已更新AdaKV头级预算")
+                    
+                    corecode_optimized = True
+                else:
+                    print("⚠️ 模型未启用CAKE，无法应用优化结果")
+                    corecode_optimized = False
+                    
             except Exception as e:
                 print(f"⚠️ CoreCode优化失败: {e}")
                 corecode_optimized = False
