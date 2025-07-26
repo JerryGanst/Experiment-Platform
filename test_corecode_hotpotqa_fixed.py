@@ -183,7 +183,7 @@ class CoreCodeEvaluator:
                 })
             return samples
     
-    def generate_with_corecode(self, input_text, max_new_tokens=50):
+    def generate_with_corecode(self, input_text, max_new_tokens=32):
         """使用CoreCode生成答案"""
         if self.model is None or self.tokenizer is None:
             # 模拟生成
@@ -192,6 +192,11 @@ class CoreCodeEvaluator:
         # 检查CoreCode状态
         corecode_active = self.corecode_integrator is not None
         print(f"🎯 CoreCode状态: {'✅ 已激活' if corecode_active else '❌ 未激活'}")
+        
+        # 为Mistral模型添加聊天模板（参考CAKE的build_chat）
+        if "mistral" in self.model_name.lower():
+            input_text = f'<s>[INST] {input_text} [/INST]'
+            print("📝 使用Mistral聊天模板")
         
         # 编码输入
         inputs = self.tokenizer(input_text, return_tensors="pt", truncation=True, max_length=2048)
@@ -249,22 +254,46 @@ class CoreCodeEvaluator:
         
         return generated_text, metrics
     
+    def normalize_answer(self, s):
+        """规范化答案 - 参考CAKE的实现"""
+        import re
+        import string
+        
+        def remove_articles(text):
+            return re.sub(r"\b(a|an|the)\b", " ", text)
+
+        def white_space_fix(text):
+            return " ".join(text.split())
+
+        def remove_punc(text):
+            exclude = set(string.punctuation)
+            return "".join(ch for ch in text if ch not in exclude)
+
+        def lower(text):
+            return text.lower()
+
+        return white_space_fix(remove_articles(remove_punc(lower(s))))
+    
     def calculate_f1_score(self, prediction, ground_truth):
-        """计算F1分数"""
-        pred_tokens = prediction.lower().split()
-        truth_tokens = ground_truth.lower().split()
+        """计算F1分数 - 使用CAKE的qa_f1_score方法"""
+        from collections import Counter
         
-        common = set(pred_tokens) & set(truth_tokens)
-        if len(common) == 0:
-            return 0.0
+        # 规范化预测和真实答案
+        normalized_prediction = self.normalize_answer(prediction)
+        normalized_ground_truth = self.normalize_answer(ground_truth)
         
-        precision = len(common) / len(pred_tokens) if pred_tokens else 0
-        recall = len(common) / len(truth_tokens) if truth_tokens else 0
+        # 分词
+        prediction_tokens = normalized_prediction.split()
+        ground_truth_tokens = normalized_ground_truth.split()
         
-        if precision + recall == 0:
-            return 0.0
-        
-        f1 = 2 * precision * recall / (precision + recall)
+        # 计算F1
+        common = Counter(prediction_tokens) & Counter(ground_truth_tokens)
+        num_same = sum(common.values())
+        if num_same == 0:
+            return 0
+        precision = 1.0 * num_same / len(prediction_tokens) if prediction_tokens else 0
+        recall = 1.0 * num_same / len(ground_truth_tokens) if ground_truth_tokens else 0
+        f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
         return f1
     
     def evaluate(self, num_samples=50, kv_cache_length=1024):
@@ -301,21 +330,48 @@ class CoreCodeEvaluator:
         total_f1 = 0
         total_time = 0
         
+        # 添加调试标志
+        debug_first_n = 3  # 调试前3个样本
+        
         for i, sample in enumerate(dataset):
             if i % 10 == 0:
                 print(f"进度: {i}/{len(dataset)} ({i/len(dataset)*100:.1f}%)")
             
-            # 准备输入
-            if "input" in sample:
+            # 准备输入 - 使用CAKE的HotpotQA提示格式
+            if "context" in sample and "input" in sample:
+                # 使用CAKE的格式
+                context = sample["context"]
+                question = sample["input"]
+                input_text = f"""Answer the question based on the given passages. Only give me the answer and do not output any other words.
+
+The following are given passages.
+{context}
+
+Answer the question based on the given passages. Only give me the answer and do not output any other words.
+
+Question: {question}
+Answer:"""
+            elif "input" in sample:
+                # 如果只有input字段，检查是否需要添加Answer:
                 input_text = sample["input"]
+                if not input_text.strip().endswith("Answer:"):
+                    input_text = input_text.strip() + "\n\nAnswer:"
             else:
-                # 构造输入
+                # 后备方案
                 context = sample.get("context", "")
                 question = sample.get("question", "")
-                input_text = f"Context: {context}\n\nQuestion: {question}\n\nAnswer:"
+                input_text = f"""Answer the question based on the given passages. Only give me the answer and do not output any other words.
+
+The following are given passages.
+{context}
+
+Answer the question based on the given passages. Only give me the answer and do not output any other words.
+
+Question: {question}
+Answer:"""
             
             # 生成答案
-            prediction, metrics = self.generate_with_corecode(input_text, max_new_tokens=50)
+            prediction, metrics = self.generate_with_corecode(input_text, max_new_tokens=32)  # CAKE使用32
             
             # 获取真实答案
             if "answers" in sample:
@@ -325,6 +381,16 @@ class CoreCodeEvaluator:
             
             # 计算F1分数
             f1_score = self.calculate_f1_score(prediction, ground_truth)
+            
+            # 调试输出前几个样本
+            if i < debug_first_n:
+                print(f"\n{'='*60}")
+                print(f"🔍 调试样本 {i+1}:")
+                print(f"问题: {input_text[:200]}...")
+                print(f"预期答案: {ground_truth}")
+                print(f"模型生成: {prediction}")
+                print(f"F1分数: {f1_score:.4f}")
+                print(f"{'='*60}\n")
             
             # 记录结果
             result = {
