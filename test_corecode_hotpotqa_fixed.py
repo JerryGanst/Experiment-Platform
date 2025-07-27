@@ -267,20 +267,112 @@ class CoreCodeEvaluator:
         
         if corecode_active:
             print("🚀 使用CoreCode优化生成...")
-            # 获取注意力权重（模拟数据，实际应从模型获取）
+            
+            # 获取模型配置
             num_layers = self.model.config.num_hidden_layers if self.model else 32
             num_heads = self.model.config.num_attention_heads if self.model else 32
             
-            # 创建模拟的注意力权重
+            # 创建注意力权重钩子来捕获真实的注意力权重
             attention_weights_list = []
-            for _ in range(num_layers):
-                layer_weights = torch.rand(num_heads, input_length, input_length)
-                attention_weights_list.append(layer_weights)
+            hooks = []
+            
+            def capture_attention_hook(module, input, output, layer_idx):
+                """捕获注意力权重的钩子函数"""
+                # 对于不同的模型架构，输出格式可能不同
+                # 通常 output 是一个元组 (attention_output, attention_weights)
+                if isinstance(output, tuple) and len(output) > 1:
+                    attn_weights = output[1]  # 注意力权重通常是第二个元素
+                    if attn_weights is not None:
+                        # 确保在正确的设备上并分离梯度
+                        attention_weights_list.append(attn_weights.detach())
+                        print(f"✅ 捕获第{layer_idx}层注意力权重，形状: {attn_weights.shape}")
+            
+            # 如果无法从模型获取真实注意力权重，使用更合理的模拟
+            if hasattr(self.model, 'model') and hasattr(self.model.model, 'layers'):
+                # 为每个注意力层添加钩子
+                for i, layer in enumerate(self.model.model.layers):
+                    if hasattr(layer, 'self_attn'):
+                        hook = layer.self_attn.register_forward_hook(
+                            lambda m, inp, out, idx=i: capture_attention_hook(m, inp, out, idx)
+                        )
+                        hooks.append(hook)
+                        
+                # 执行一次前向传播以捕获注意力权重
+                print("🔄 执行前向传播以捕获注意力权重...")
+                with torch.no_grad():
+                    # 设置 output_attentions=True 以确保返回注意力权重
+                    self.model.config.output_attentions = True
+                    try:
+                        outputs = self.model(**inputs, output_attentions=True)
+                        
+                        # 如果通过 output_attentions 获取到了权重
+                        if hasattr(outputs, 'attentions') and outputs.attentions:
+                            attention_weights_list = list(outputs.attentions)
+                            print(f"✅ 通过output_attentions获取了{len(attention_weights_list)}层注意力权重")
+                    except Exception as e:
+                        print(f"⚠️ 前向传播失败: {e}")
+                    finally:
+                        # 恢复设置
+                        self.model.config.output_attentions = False
+                
+                # 移除钩子
+                for hook in hooks:
+                    hook.remove()
+                    
+            # 如果仍然没有获取到注意力权重，使用改进的模拟方法
+            if not attention_weights_list:
+                print("⚠️ 无法从模型获取真实注意力权重，使用改进的模拟方法...")
+                
+                # 使用更现实的注意力模式模拟
+                for layer_idx in range(num_layers):
+                    # 创建基础的注意力矩阵
+                    layer_weights = torch.zeros(1, num_heads, input_length, input_length, 
+                                              dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+                                              device=self.device)
+                    
+                    # 添加局部注意力模式（对角线附近）
+                    for i in range(input_length):
+                        # 对角线权重
+                        layer_weights[:, :, i, i] = 0.5
+                        
+                        # 附近的权重（模拟局部依赖）
+                        window_size = min(16, input_length // 4)
+                        for j in range(max(0, i - window_size), min(input_length, i + window_size + 1)):
+                            distance = abs(i - j)
+                            weight = 0.3 * np.exp(-distance / 5)  # 距离衰减
+                            layer_weights[:, :, i, j] += weight
+                    
+                    # 添加一些长程依赖（模拟全局注意力头）
+                    global_heads = num_heads // 4  # 1/4的头用于全局注意力
+                    layer_weights[:, :global_heads, :, 0] += 0.2  # 对第一个token的注意力
+                    layer_weights[:, :global_heads, :, -1] += 0.1  # 对最后一个token的注意力
+                    
+                    # 归一化每行使其和为1（模拟softmax）
+                    row_sums = layer_weights.sum(dim=-1, keepdim=True)
+                    row_sums[row_sums == 0] = 1  # 避免除零
+                    layer_weights = layer_weights / row_sums
+                    
+                    # 添加一些噪声使其更真实
+                    noise = torch.rand_like(layer_weights) * 0.01
+                    layer_weights = layer_weights + noise
+                    layer_weights = layer_weights / layer_weights.sum(dim=-1, keepdim=True)
+                    
+                    attention_weights_list.append(layer_weights)
+                
+                print(f"✅ 创建了{len(attention_weights_list)}层模拟注意力权重")
             
             # 使用CoreCode优化缓存分配
             try:
+                # 将PyTorch张量转换为numpy数组（确保在CPU上）
+                attention_weights_numpy = []
+                for weights in attention_weights_list:
+                    # 确保张量在CPU上并转换为numpy
+                    weights_cpu = weights.cpu() if weights.is_cuda else weights
+                    weights_numpy = weights_cpu.numpy()
+                    attention_weights_numpy.append(weights_numpy)
+                
                 layer_budgets, head_budgets_list = self.corecode_integrator.optimize_cache(
-                    attention_weights_list,
+                    attention_weights_numpy,
                     return_detailed_info=False
                 )
                 print(f"✅ CoreCode缓存优化完成: {len(layer_budgets)}层, 平均预算{sum(layer_budgets)/len(layer_budgets):.2f}")
@@ -303,6 +395,8 @@ class CoreCodeEvaluator:
                     
             except Exception as e:
                 print(f"⚠️ CoreCode优化失败: {e}")
+                import traceback
+                traceback.print_exc()
                 corecode_optimized = False
         else:
             print("⚠️ 使用标准生成（CoreCode未激活）...")
