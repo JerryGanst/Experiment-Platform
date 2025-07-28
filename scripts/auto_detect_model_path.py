@@ -133,7 +133,10 @@ def select_model(models: List[Tuple[str, str]]) -> Optional[str]:
 
 def update_test_script(model_path: str) -> bool:
     """更新测试脚本中的模型路径"""
-    script_path = Path("test_corecode_hotpotqa_fixed.py")
+    # 获取脚本所在目录，然后找到项目根目录
+    script_dir = Path(__file__).parent.absolute()
+    project_root = script_dir.parent
+    script_path = project_root / "test_corecode_hotpotqa_fixed.py"
     
     if not script_path.exists():
         print(f"❌ 找不到测试脚本: {script_path}")

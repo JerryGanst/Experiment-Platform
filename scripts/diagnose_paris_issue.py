@@ -15,6 +15,33 @@ project_root = Path(__file__).parent.parent.absolute()
 sys.path.insert(0, str(project_root))
 
 
+def get_model_path():
+    """动态获取模型路径"""
+    # 1. 先检查命令行参数
+    if len(sys.argv) > 1:
+        return sys.argv[1]
+    
+    # 2. 检查环境变量
+    if "MODEL_PATH" in os.environ:
+        return os.environ["MODEL_PATH"]
+    
+    # 3. 检查test_corecode_hotpotqa_fixed.py中的默认路径
+    try:
+        test_script = Path(__file__).parent.parent / "test_corecode_hotpotqa_fixed.py"
+        if test_script.exists():
+            with open(test_script, 'r', encoding='utf-8') as f:
+                content = f.read()
+                import re
+                match = re.search(r'def __init__\(self, model_name="([^"]+)"', content)
+                if match:
+                    return match.group(1)
+    except:
+        pass
+    
+    # 4. 默认值
+    return "mistralai/Mistral-7B-Instruct-v0.3"
+
+
 def test_basic_generation():
     """测试基本的模型生成功能"""
     print("="*60)
@@ -24,8 +51,8 @@ def test_basic_generation():
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
         
-        # 使用默认的模型路径
-        model_path = r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3"
+        # 动态获取模型路径
+        model_path = get_model_path()
         
         print(f"加载模型: {model_path}")
         tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -74,7 +101,7 @@ def test_with_instruction_template():
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
         
-        model_path = r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3"
+        model_path = get_model_path()
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
@@ -131,7 +158,7 @@ def test_cake_conversion():
             print("⚠️ CAKE不可用，跳过测试")
             return False
         
-        model_path = r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3"
+        model_path = get_model_path()
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
@@ -195,7 +222,7 @@ def test_generation_parameters():
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
         
-        model_path = r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3"
+        model_path = get_model_path()
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
@@ -235,7 +262,13 @@ def test_generation_parameters():
 def main():
     """运行所有诊断测试"""
     print("🔍 开始诊断'Paris'问题")
-    print("请将这个脚本复制到堡垒机上运行\n")
+    print("\n使用方法:")
+    print("1. python scripts/diagnose_paris_issue.py [模型路径]")
+    print("2. export MODEL_PATH=模型路径 && python scripts/diagnose_paris_issue.py")
+    print("3. 或者先运行 auto_detect_model_path.py 设置默认路径\n")
+    
+    model_path = get_model_path()
+    print(f"📌 当前使用模型: {model_path}\n")
     
     tests = [
         test_basic_generation,
