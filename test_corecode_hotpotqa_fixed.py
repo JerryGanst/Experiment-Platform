@@ -281,6 +281,7 @@ class CoreCodeEvaluator:
             try:
                 layer_budgets, head_budgets_list = self.corecode_integrator.optimize_cache(
                     attention_weights_list,
+
                     return_detailed_info=False
                 )
                 print(f"✅ CoreCode缓存优化完成: {len(layer_budgets)}层, 平均预算{sum(layer_budgets)/len(layer_budgets):.2f}")
@@ -303,7 +304,7 @@ class CoreCodeEvaluator:
                     
             except Exception as e:
                 print(f"⚠️ CoreCode优化失败: {e}")
-                corecode_optimized = False
+              corecode_optimized = False
         else:
             print("⚠️ 使用标准生成（CoreCode未激活）...")
             corecode_optimized = False
