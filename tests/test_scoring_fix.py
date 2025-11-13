@@ -8,10 +8,15 @@ import sys
 import json
 from pathlib import Path
 
-# 添加metrics路径
-project_root = Path(__file__).parent
+# 添加项目根目录和metrics路径
+project_root = Path(__file__).resolve().parents[1]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench"
 sys.path.append(str(longbench_metrics_path))
+
+from src.common.data_loader import find_data_file  # noqa: E402
 
 def test_eval_utils_import():
     """测试eval_utils导入"""
@@ -19,7 +24,6 @@ def test_eval_utils_import():
     
     # 测试从src/cake_runner导入
     try:
-        project_root = Path(__file__).parent
         eval_utils_path = project_root / "src" / "cake_runner"
         if str(eval_utils_path) not in sys.path:
             sys.path.append(str(eval_utils_path))
@@ -53,7 +57,7 @@ def test_baseline_file():
     """测试基线文件内容"""
     print("\n🧪 测试基线文件内容...")
     
-    baseline_file = Path(__file__).parent / "evaluation" / "baseline_fullkv.json"
+    baseline_file = project_root / "evaluation" / "baseline_fullkv.json"
     
     if not baseline_file.exists():
         print(f"❌ 基线文件不存在: {baseline_file}")
@@ -91,7 +95,6 @@ def test_relative_scoring():
     
     try:
         # 先确保能导入
-        project_root = Path(__file__).parent
         eval_utils_path = project_root / "src" / "cake_runner"
         if str(eval_utils_path) not in sys.path:
             sys.path.append(str(eval_utils_path))
@@ -125,7 +128,12 @@ def test_scoring():
         print("✅ 评分模块导入成功")
         
         # 加载TREC数据集获取all_classes
-        with open('data/trec.jsonl', 'r', encoding='utf-8') as f:
+        trec_file = find_data_file("trec")
+        if not trec_file:
+            print("❌ 找不到 trec.jsonl，请设置 DATASETS_ROOT 或复制到 ./data")
+            return False
+
+        with open(trec_file, 'r', encoding='utf-8') as f:
             trec_data = json.loads(f.readline())
         
         all_classes = trec_data.get('all_classes', [])

@@ -65,15 +65,16 @@ pip install -r evaluation/requirements.txt
 
 ### 3. 模型路径配置
 
-系统支持多种模型路径配置方式，优先级如下：
+系统支持多种模型路径配置方式，优先级如下（Linux/SSH 环境）：
 
 #### 方式1: 环境变量（推荐）
 ```bash
 # 设置模型路径环境变量
-export HACE_MODEL_PATH="/path/to/your/models/mistral-7b-instruct-v0.3"
+export CORECODE_MODEL_PATH="/mnt/models/mistral-7b-instruct-v0.3"
+export HACE_MODEL_PATH="$CORECODE_MODEL_PATH"
 
-# Windows
-set HACE_MODEL_PATH=D:\AI\models\mistral-7b-instruct-v0.3
+# 可写入 ~/.bashrc 或 .env.corecode 后 source
+echo 'export CORECODE_MODEL_PATH="/mnt/models/mistral-7b-instruct-v0.3"' >> ~/.bashrc
 ```
 
 #### 方式2: 项目本地模型目录
@@ -91,8 +92,22 @@ mkdir ~/models
 ```
 
 ⚠️ **重要**: 
-- 不再使用硬编码的Windows用户路径，避免了跨用户和跨平台的兼容性问题
-- 必须显式配置模型路径，不提供自动下载兜底方案，确保环境配置的明确性
+- 仓库现已不再包含任何 `.bat` / Windows 工具，默认假设通过 SSH 连接 Linux 服务器
+- 必须显式配置 `CORECODE_MODEL_PATH` 和/或 `HACE_MODEL_PATH`，不提供自动下载兜底方案
+
+### 4. 数据路径配置
+
+远端 GPU 服务器通常把数据集挂载在共享目录。通过设置 `DATASETS_ROOT` 即可让所有脚本自动找到 `.jsonl` 数据：
+
+```bash
+export DATASETS_ROOT="/mnt/datasets/corecode"
+# 测试：python - <<'PY'
+from src.common.data_loader import find_data_file
+print(find_data_file("hotpotqa"))
+# PY
+```
+
+详见 `docs/REMOTE_GPU_SETUP.md` 获取完整的 SSH/远端部署指引。
 
 ### 4. 运行实验
 
@@ -298,4 +313,3 @@ python run_experiments.py \
 ---
 
 **系统已准备就绪，开始你的KV缓存优化研究！** 🎉
-

@@ -4,6 +4,7 @@
 """
 import json
 import logging
+import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
@@ -16,25 +17,41 @@ def get_project_root() -> Path:
     return current_file.parents[2]  # 从src/common/回到项目根目录
 
 
-def find_data_file(dataset_name: str) -> Optional[Path]:
-    """查找数据文件路径 - 适配重构后的项目结构"""
+def get_data_root() -> Path:
+    """根据环境变量或默认位置返回数据集根目录"""
+    env_path = os.environ.get("DATASETS_ROOT")
+    if env_path:
+        resolved = Path(env_path).expanduser()
+        logger.debug("使用DATASETS_ROOT: %s", resolved)
+        return resolved
     project_root = get_project_root()
-    
+    return project_root / "data"
+
+
+def find_data_file(dataset_name: str) -> Optional[Path]:
+    """查找数据文件路径 - 优先使用 DATASETS_ROOT"""
+    project_root = get_project_root()
+    data_root = get_data_root()
+
     possible_paths = [
-        project_root / "data" / f"{dataset_name}.jsonl",  # 项目根目录/data/
-        project_root / "hace-kv-optimization" / "data" / f"{dataset_name}.jsonl",  # hace-kv-optimization/data/
-        project_root / "hace-kv-optimization" / "baselines" / "data" / f"{dataset_name}.jsonl",  # baselines/data/
-        Path(f"./{dataset_name}.jsonl"),  # 当前目录
-        Path(f"./data/{dataset_name}.jsonl"),  # 当前目录/data/
+        data_root / f"{dataset_name}.jsonl",
+        project_root / "data" / f"{dataset_name}.jsonl",
+        project_root / "hace-kv-optimization" / "data" / f"{dataset_name}.jsonl",
+        project_root / "hace-kv-optimization" / "baselines" / "data" / f"{dataset_name}.jsonl",
+        Path(f"./{dataset_name}.jsonl"),
+        Path(f"./data/{dataset_name}.jsonl"),
     ]
-    
+
     for path in possible_paths:
         if path.exists():
-            logger.info(f"📂 找到数据文件: {path}")
+            logger.info("📂 找到数据文件: %s", path)
             return path
-    
-    logger.warning(f"❌ 未找到数据文件: {dataset_name}.jsonl")
-    logger.warning(f"搜索路径: {[str(p) for p in possible_paths]}")
+
+    logger.warning("❌ 未找到数据文件: %s.jsonl", dataset_name)
+    logger.warning("搜索路径: %s", [str(p) for p in possible_paths])
+    logger.warning(
+        "提示: 可以设置 DATASETS_ROOT 环境变量指向远端或本地数据集目录"
+    )
     return None
 
 
