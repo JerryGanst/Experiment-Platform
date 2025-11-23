@@ -46,7 +46,21 @@ packaging>=21.0
 # ========== 可选：Flash Attention (如果需要) ==========
 # flash-attn>=2.0.0  # 需要CUDA编译环境，可选安装
 
+# ========== VLLM推理引擎（可选） ==========
+# VLLM高性能推理后端 - 需要CUDA 11.8+ 和 Linux系统
+# 安装命令: pip install vllm
+# vllm>=0.4.0  # VLLM核心引擎，PagedAttention支持
+# xformers>=0.0.23  # 内存高效注意力实现
+# ray>=2.9.0  # 分布式推理支持（可选）
+# 注意：VLLM与特定PyTorch/CUDA版本有严格兼容性要求
+# 详见：https://docs.vllm.ai/en/latest/getting_started/installation.html
+
+# ========== HTTP客户端（VLLM Server模式需要） ==========
+httpx>=0.24.0  # 异步HTTP客户端
+aiohttp>=3.8.0  # 异步HTTP请求
+
 # ========== 开发和测试工具 ==========
 pytest>=7.0.0
+pytest-asyncio>=0.21.0  # 异步测试支持
 black>=22.0.0
-flake8>=4.0.0 
+flake8>=4.0.0

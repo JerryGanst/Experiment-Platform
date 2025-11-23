@@ -1,12 +1,82 @@
 """
 模型加载与配置模块
+
+支持多种推理后端：
+- HuggingFace transformers (默认)
+- VLLM (高性能推理引擎)
+
+使用方式：
+1. 传统方式（向后兼容）：
+   model, tokenizer = load_model_and_tokenizer(config)
+
+2. 新的后端抽象方式：
+   backend = load_inference_backend(config, vllm_config)
+   output = backend.generate(prompt)
 """
 import os
 import torch
 import logging
+from typing import Dict, Any, Optional, Tuple, Union
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 logger = logging.getLogger(__name__)
+
+
+def load_inference_backend(
+    config: Dict[str, Any],
+    vllm_config: Optional[Dict[str, Any]] = None
+):
+    """
+    加载推理后端（新的统一接口）
+
+    根据配置中的 inference_backend 字段选择合适的后端。
+
+    Args:
+        config: 模型配置字典
+        vllm_config: VLLM特定配置（可选）
+
+    Returns:
+        BaseInferenceBackend: 推理后端实例
+
+    Example:
+        >>> config = {"model_name_or_path": "meta-llama/Llama-2-7b-chat", "inference_backend": "vllm"}
+        >>> backend = load_inference_backend(config)
+        >>> backend.initialize()
+        >>> output = backend.generate("Hello!")
+    """
+    from .inference_backend import create_inference_backend
+
+    backend = create_inference_backend(config, vllm_config)
+    backend.initialize()
+    return backend
+
+
+def get_backend_for_optimization(
+    config: Dict[str, Any],
+    optimization_method: str = "none"
+) -> Tuple[Any, Any]:
+    """
+    获取用于优化方法的模型和tokenizer
+
+    CAKE/H2O 等优化方法需要直接操作 HuggingFace 模型。
+    此函数确保即使在 VLLM 模式下，也能获取用于优化的 HF 模型。
+
+    Args:
+        config: 模型配置
+        optimization_method: 优化方法名称 ("cake", "h2o", "none")
+
+    Returns:
+        (model, tokenizer): HuggingFace 模型和 tokenizer
+    """
+    backend_type = config.get("inference_backend", "hf").lower()
+
+    if backend_type == "vllm" and optimization_method in ("cake", "h2o"):
+        # VLLM模式下需要CAKE/H2O优化时，仍需加载HF模型进行注意力收集
+        logger.info(f"Loading HuggingFace model for {optimization_method} optimization in VLLM mode")
+        return load_model_and_tokenizer(config)
+
+    # 默认或HF模式
+    return load_model_and_tokenizer(config)
 
 def load_model_and_tokenizer(config):
     """
@@ -287,11 +357,112 @@ def is_model_type_supported_by_cake(model, cake_model_config: dict) -> bool:
     """
     model_type = model.config.model_type.lower()
     supported_types = cake_model_config.get("supported_models_cake", [])
-    
+
     is_supported = model_type in supported_types
     if not is_supported:
         logger.warning(f"模型类型 '{model_type}' 未在CAKE_MODEL_CONFIG中被列为支持。支持的类型: {', '.join(supported_types)}。建议使用: NousResearch/Llama-2-7b-hf、mistralai/Mistral-7B-v0.1、Qwen/Qwen2-7B 等模型")
     else:
         logger.info(f"模型类型 '{model_type}' 被CAKE支持。")
-    
-    return is_supported 
+
+    return is_supported
+
+
+# ============== 推理后端工具函数 ==============
+
+def detect_available_backends() -> Dict[str, bool]:
+    """
+    检测可用的推理后端
+
+    Returns:
+        包含各后端可用性的字典
+    """
+    backends = {
+        "huggingface": True,  # HuggingFace始终可用（已在导入中验证）
+        "vllm": False,
+    }
+
+    # 检查VLLM
+    try:
+        import vllm
+        backends["vllm"] = True
+    except ImportError:
+        pass
+
+    return backends
+
+
+def get_recommended_backend(config: Dict[str, Any]) -> str:
+    """
+    根据配置推荐合适的推理后端
+
+    Args:
+        config: 模型配置
+
+    Returns:
+        推荐的后端名称
+    """
+    available = detect_available_backends()
+
+    # 如果配置明确指定了后端，检查是否可用
+    requested = config.get("inference_backend", "hf").lower()
+    if requested == "vllm":
+        if available["vllm"]:
+            return "vllm"
+        else:
+            logger.warning("VLLM requested but not available, falling back to HuggingFace")
+            return "hf"
+
+    return "hf"
+
+
+def create_hybrid_inference_pipeline(
+    config: Dict[str, Any],
+    vllm_config: Optional[Dict[str, Any]] = None,
+    optimization_method: str = "none"
+):
+    """
+    创建混合推理管道
+
+    在VLLM模式下需要CAKE/AdaKV优化时，创建包含以下组件的管道：
+    1. HuggingFace模型用于注意力收集
+    2. VLLM引擎用于实际推理
+    3. 注意力适配器用于预算计算
+
+    Args:
+        config: 模型配置
+        vllm_config: VLLM配置
+        optimization_method: 优化方法
+
+    Returns:
+        dict: 包含各组件的字典
+    """
+    from .inference_backend import create_inference_backend
+    from .attention_collector import (
+        AttentionCollector,
+        AttentionCollectionConfig,
+        VLLMAttentionAdapter
+    )
+
+    pipeline = {
+        "inference_backend": None,
+        "attention_collector": None,
+        "attention_adapter": None,
+        "optimization_method": optimization_method,
+    }
+
+    backend_type = config.get("inference_backend", "hf").lower()
+
+    # 创建推理后端
+    pipeline["inference_backend"] = create_inference_backend(config, vllm_config)
+
+    # 如果是VLLM且需要优化，设置注意力收集
+    if backend_type == "vllm" and optimization_method in ("cake", "h2o", "unified"):
+        attn_config_dict = vllm_config.get("attention_collection", {}) if vllm_config else {}
+        attn_config = AttentionCollectionConfig(
+            mode=attn_config_dict.get("mode", "external_warmup"),
+            warmup_samples=attn_config_dict.get("warmup_samples", 10),
+            cache_file=attn_config_dict.get("cache_attention_file"),
+        )
+        pipeline["attention_collector"] = AttentionCollector(attn_config)
+
+    return pipeline
