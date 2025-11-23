@@ -2,15 +2,27 @@
 
 本文档介绍如何在 Experiment-Platform 中使用 VLLM 高性能推理引擎。
 
+## ⚠️ 重要工程约束
+
+在开始之前，请仔细阅读以下关键限制：
+
+1. **显存共存问题**: HF 模型（用于 Warmup）和 VLLM 引擎**无法在同一进程内同时存在**
+2. **Prefix Caching 必须禁用**: CAKE/AdaKV 对不同请求应用不同策略，会导致缓存命中错误
+3. **仅支持 TP=1**: 多卡张量并行下的 Attention 数据聚合逻辑尚未实现
+4. **Token-to-Block 对齐**: CAKE/AdaKV 的 Token 级预算会被对齐到 VLLM 的 Block 级
+5. **Attention 无法直接获取**: VLLM 的 fused kernel 不导出 attention scores，必须用 HF 外部预热
+
 ## 目录
 
 1. [概述](#概述)
 2. [安装要求](#安装要求)
 3. [配置说明](#配置说明)
 4. [使用方式](#使用方式)
-5. [注意力数据收集](#注意力数据收集)
-6. [CAKE/AdaKV 策略集成](#cakeadakv-策略集成)
-7. [常见问题](#常见问题)
+5. [串行执行管道](#串行执行管道)
+6. [注意力数据收集](#注意力数据收集)
+7. [CAKE/AdaKV 策略集成](#cakeadakv-策略集成)
+8. [工程约束详解](#工程约束详解)
+9. [常见问题](#常见问题)
 
 ## 概述
 
@@ -315,6 +327,153 @@ kv_config = adapter.to_vllm_kv_config(
 # - layer_budgets: 每层 token 预算
 # - head_budgets: 每层每头 token 预算
 # - layer_blocks: 每层 block 数量
+```
+
+## 串行执行管道
+
+由于显存共存问题，必须使用串行执行策略。`SerialInferencePipeline` 封装了正确的执行顺序：
+
+```python
+from hace_core.models.vllm_integration import SerialInferencePipeline
+from hace_core.config import MODEL_CONFIG, VLLM_CONFIG
+
+# 创建管道
+pipeline = SerialInferencePipeline(
+    model_config=MODEL_CONFIG,
+    vllm_config=VLLM_CONFIG,
+    allocator_config={"total_cache_size": 4096}
+)
+
+# 阶段 1：收集注意力（加载 HF 模型，完成后释放）
+sample_prompts = ["What is AI?", "Explain transformers."]
+attention_data = pipeline.phase1_collect_attention(
+    sample_prompts,
+    cache_file="./cache/attn.pkl"  # 可选：缓存到文件
+)
+
+# 阶段 2：计算预算
+request_allocator = pipeline.phase2_compute_budgets()
+
+# 阶段 3：初始化 VLLM（此时 HF 显存已释放）
+vllm_backend = pipeline.phase3_initialize_vllm()
+
+# 执行推理
+output = pipeline.generate(["Your question here"], request_id="req-001")
+
+# 清理
+pipeline.cleanup()
+```
+
+### 架构图
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SerialInferencePipeline                   │
+├─────────────────────────────────────────────────────────────┤
+│  Phase 1: HF Model Load → Attention Collection → Memory Free │
+│  Phase 2: Budget Computation → Block Alignment               │
+│  Phase 3: VLLM Engine Init (safe, HF memory released)       │
+│  Generate: Request-Scoped Context → VLLM Inference          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 工程约束详解
+
+### 1. 显存生命周期管理
+
+**问题**: VLLM 默认预占 GPU 90%+ 显存，HF 模型无法同时加载。
+
+**解决方案**: 串行加载策略
+```python
+from hace_core.models.vllm_integration import MemoryManager
+
+# 查看当前显存状态
+info = MemoryManager.get_gpu_memory_info()
+print(f"GPU 0: {info[0]['free_gb']:.2f} GB free")
+
+# 强制清理（在 Phase 1 完成后自动调用）
+MemoryManager.force_cleanup()
+```
+
+### 2. Token-to-Block 预算对齐
+
+**问题**: CAKE/AdaKV 计算 Token 级预算，VLLM 使用 Block 级管理（默认 16 tokens/block）。
+
+**解决方案**: `BudgetAligner` 智能对齐
+```python
+from hace_core.models.vllm_integration import BudgetAligner
+
+aligner = BudgetAligner(block_size=16)
+
+# 按重要性分配余数（推荐）
+aligned = aligner.align_layer_budgets(
+    layer_token_budgets=[100, 150, 80, 120],
+    priority_scores=[0.9, 0.7, 0.3, 0.5],  # 层重要性
+    rounding_strategy="importance_weighted"
+)
+# 结果: [6, 9, 5, 8] blocks (100/16≈6, 余数分给高优先级层)
+```
+
+### 3. VLLM 特性冲突
+
+**必须禁用的特性**:
+
+| 特性 | 原因 |
+|------|------|
+| `enable_prefix_caching` | CAKE 对不同请求可能应用不同策略，缓存会命中错误 |
+| `tensor_parallel_size > 1` | Attention 数据聚合逻辑未实现 |
+| `pipeline_parallel_size > 1` | Layer 级统计不完整 |
+
+```python
+from hace_core.models.vllm_integration import check_vllm_compatibility, get_safe_vllm_config
+
+# 检查兼容性
+report = check_vllm_compatibility(VLLM_CONFIG)
+if not report.is_compatible:
+    print("Errors:", report.errors)
+    print("Recommendations:", report.recommendations)
+
+# 自动获取安全配置
+safe_config = get_safe_vllm_config(VLLM_CONFIG)
+```
+
+### 4. 请求级分配器
+
+**问题**: VLLM Server 是高并发异步的，共享状态会导致数据污染。
+
+**解决方案**: 每请求独立上下文
+```python
+from hace_core.models.vllm_integration import RequestScopedAllocator
+
+allocator = RequestScopedAllocator(
+    attention_data=attention_data,
+    block_size=16
+)
+
+# 为每个请求创建独立上下文
+ctx1 = allocator.create_context("req-001", input_length=512)
+ctx2 = allocator.create_context("req-002", input_length=1024)
+
+print(ctx1.aligned_budgets.total_tokens_aligned)
+```
+
+### 5. Tokenizer 对齐验证
+
+**问题**: HF 和 VLLM Tokenizer 在 special tokens 处理上可能有差异。
+
+```python
+from hace_core.models.vllm_integration import TokenizerAlignmentChecker
+
+# 检查对齐
+is_aligned, mismatches = TokenizerAlignmentChecker.check_alignment(
+    hf_tokenizer,
+    vllm_tokenizer
+)
+
+if not is_aligned:
+    print("WARNING: Tokenizer mismatch detected!")
+    for m in mismatches:
+        print(f"  - {m}")
 ```
 
 ## 常见问题
