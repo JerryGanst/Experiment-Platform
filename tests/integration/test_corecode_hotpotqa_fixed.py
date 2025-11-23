@@ -2,10 +2,6 @@
 """
 CoreCode在HotpotQA数据集上的快速评估脚本
 可以在本地有完整依赖的环境下运行
-
-迁移说明: 从项目根目录迁移到 tests/integration/
-路径已修正：使用 parents[2] 获取项目根目录
-模型路径已修正：优先使用环境变量，支持跨平台
 """
 
 import os
@@ -18,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
 
-# 添加项目路径（从 tests/integration/ 向上两级到达项目根目录）
+# 添加项目路径 (从 tests/integration/ 向上两级到项目根目录)
 project_root = Path(__file__).resolve().parents[2]
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
@@ -58,27 +54,11 @@ except ImportError as e:
 class CoreCodeEvaluator:
     """CoreCode评估器"""
     
-    def __init__(self, model_name=None, cache_budget=0.7):
-        # 跨平台模型路径配置：优先环境变量，其次配置文件，最后HuggingFace Hub
-        if model_name is None:
-            # 1. 尝试环境变量
-            model_name = os.environ.get('CORECODE_MODEL_PATH')
-            
-            # 2. 尝试从配置获取
-            if model_name is None:
-                try:
-                    from hace_core.config import get_model_path
-                    model_name = get_model_path("mistral-7b-instruct-v0.3")
-                except (ImportError, FileNotFoundError):
-                    # 3. 回退到HuggingFace Hub
-                    model_name = "mistralai/Mistral-7B-Instruct-v0.3"
-                    print(f"⚠️ 未找到本地模型，使用HuggingFace Hub: {model_name}")
-        
+    def __init__(self, model_name=r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3", cache_budget=0.7):
         self.model_name = model_name
         self.cache_budget = cache_budget
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"🖥️ 使用设备: {self.device}")
-        print(f"📍 模型路径: {self.model_name}")
         
         # 初始化模型和分词器
         self.model = None
@@ -716,12 +696,8 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description="CoreCode在HotpotQA上的评估")
-    parser.add_argument(
-        "--model",
-        type=str,
-        default=os.environ.get("CORECODE_MODEL_PATH", "mistralai/Mistral-7B-Instruct-v0.3"),
-        help="模型名称或路径（默认读取 CORECODE_MODEL_PATH）",
-    )
+    parser.add_argument("--model", type=str, default=r"C:\Users\Administrator\mistral_models\7B-Instruct-v0.3", 
+                       help="模型名称或路径")
     parser.add_argument("--num_samples", type=int, default=50, 
                        help="评估样本数")
     parser.add_argument("--kv_cache_length", type=int, default=1024, 
