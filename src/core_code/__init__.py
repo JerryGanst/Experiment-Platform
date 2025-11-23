@@ -1,41 +1,119 @@
 """
-CAKE-AdaKV 统一集成核心代码
+CAKE-AdaKV 统一集成核心代码 - 兼容层
 
-这是我们的创新方法，独立于原始的CAKE和AdaKV实现。
-提供层级-头级协同优化的完整解决方案。
+!!! 废弃警告 !!!
+此模块已迁移至 hace_core.core，请更新导入：
 
-主要模块：
-- unified_allocator: 统一的分配器
-- indicator_normalizer: 指标归一化器  
-- budget_manager: 预算管理器
-- strategy_selector: 策略选择器
-- integration_framework: 集成框架
+    # 旧方式（已废弃）
+    from src.core_code import UnifiedCakeAdaKVAllocator
+
+    # 新方式（推荐）
+    from hace_core.core import UnifiedCakeAdaKVAllocator
+
+迁移指南：
+    src.core_code.* -> hace_core.core.*
+
+详见 docs/REFACTORING_PLAN.md
 """
 
-# 将核心组件提升到包级别，方便外部调用
-# 这也解决了相对导入的问题
-from .unified_allocator import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
-from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
-from .strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
-from .memory_manager import UnifiedMemoryManager
-from .integration_framework import CakeAdaKVIntegration, IntegrationConfig
-from .launcher import main as run_launcher
+import warnings
 
-__version__ = "1.0.0"
-__author__ = "Research Team"
+# 发出废弃警告
+warnings.warn(
+    "src.core_code 已迁移至 hace_core.core，请更新导入。"
+    "详见 docs/REFACTORING_PLAN.md",
+    DeprecationWarning,
+    stacklevel=2
+)
 
-__all__ = [
-    "UnifiedCakeAdaKVAllocator",
-    "UnifiedCacheConfig",
-    "IndicatorNormalizer",
-    "BudgetNormalizer",
-    "NormalizationConfig",
-    "StrategySelector",
-    "RobustKeyHeadDetector",
-    "AllocationStrategy",
-    "StrategyConfig",
-    "UnifiedMemoryManager",
-    "CakeAdaKVIntegration",
-    "IntegrationConfig",
-    "run_launcher"
-]
+# 从新位置重新导出所有内容
+try:
+    from hace_core.core import (
+        # Allocator
+        UnifiedCakeAdaKVAllocator,
+        UnifiedCacheConfig,
+        # Normalizer
+        IndicatorNormalizer,
+        BudgetNormalizer,
+        NormalizationConfig,
+        # Strategy
+        StrategySelector,
+        RobustKeyHeadDetector,
+        AllocationStrategy,
+        StrategyConfig,
+        # Memory
+        UnifiedMemoryManager,
+        MemoryConfig,
+        # Integration
+        CakeAdaKVIntegration,
+        IntegrationConfig,
+        create_integration,
+        # Launcher
+        run_launcher,
+    )
+
+    __version__ = "1.0.0"
+    __author__ = "Research Team"
+
+    __all__ = [
+        "UnifiedCakeAdaKVAllocator",
+        "UnifiedCacheConfig",
+        "IndicatorNormalizer",
+        "BudgetNormalizer",
+        "NormalizationConfig",
+        "StrategySelector",
+        "RobustKeyHeadDetector",
+        "AllocationStrategy",
+        "StrategyConfig",
+        "UnifiedMemoryManager",
+        "MemoryConfig",
+        "CakeAdaKVIntegration",
+        "IntegrationConfig",
+        "create_integration",
+        "run_launcher",
+    ]
+
+except ImportError as e:
+    # 如果新模块不可用，回退到原有实现
+    warnings.warn(
+        f"无法从 hace_core.core 导入，使用本地实现: {e}",
+        ImportWarning,
+        stacklevel=2
+    )
+
+    from .unified_allocator import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
+    from .indicator_normalizer import IndicatorNormalizer, BudgetNormalizer, NormalizationConfig
+    from .strategy_selector import StrategySelector, RobustKeyHeadDetector, AllocationStrategy, StrategyConfig
+    from .memory_manager import UnifiedMemoryManager
+    from .integration_framework import CakeAdaKVIntegration, IntegrationConfig
+    from .launcher import main as run_launcher
+
+    # 补充缺失的导出
+    try:
+        from .memory_manager import MemoryConfig
+    except ImportError:
+        MemoryConfig = None
+
+    try:
+        from .integration_framework import create_integration
+    except ImportError:
+        create_integration = None
+
+    __version__ = "1.0.0"
+    __author__ = "Research Team"
+
+    __all__ = [
+        "UnifiedCakeAdaKVAllocator",
+        "UnifiedCacheConfig",
+        "IndicatorNormalizer",
+        "BudgetNormalizer",
+        "NormalizationConfig",
+        "StrategySelector",
+        "RobustKeyHeadDetector",
+        "AllocationStrategy",
+        "StrategyConfig",
+        "UnifiedMemoryManager",
+        "CakeAdaKVIntegration",
+        "IntegrationConfig",
+        "run_launcher",
+    ]
