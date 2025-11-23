@@ -9,6 +9,10 @@
 - comparison: 运行对比分析 (evaluation/experiments/)
 - full_evaluation: 运行完整评估流程
 
+支持的推理后端：
+- hf: HuggingFace transformers (默认)
+- vllm: VLLM高性能推理引擎
+
 按照重构后的目录结构设计
 """
 import os
@@ -22,6 +26,53 @@ def get_project_root():
     """获取项目根目录"""
     return Path(__file__).parent
 
+
+def check_backend_availability(backend: str) -> bool:
+    """
+    检查指定的推理后端是否可用
+
+    Args:
+        backend: 后端名称 ("hf" 或 "vllm")
+
+    Returns:
+        是否可用
+    """
+    if backend in ("hf", "huggingface"):
+        return True  # HuggingFace始终可用
+
+    if backend == "vllm":
+        try:
+            import vllm
+            return True
+        except ImportError:
+            return False
+
+    return False
+
+
+def get_backend_info() -> dict:
+    """获取后端信息"""
+    info = {
+        "hf": {"available": True, "version": None},
+        "vllm": {"available": False, "version": None},
+    }
+
+    try:
+        import transformers
+        info["hf"]["version"] = transformers.__version__
+    except ImportError:
+        info["hf"]["available"] = False
+
+    try:
+        import vllm
+        info["vllm"]["available"] = True
+        info["vllm"]["version"] = getattr(vllm, "__version__", "unknown")
+    except ImportError:
+        pass
+
+    return info
+
+
 def create_run_directory(tag):
     """创建运行目录"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -32,12 +83,12 @@ def create_run_directory(tag):
 def run_baseline_experiment(run_dir, args):
     """运行基线实验"""
     print("🔵 运行基线实验...")
-    
+
     baseline_script = get_project_root() / "evaluation" / "baselines" / "fullkvcache_main.py"
     if not baseline_script.exists():
         print(f"❌ 基线脚本不存在: {baseline_script}")
         return False
-    
+
     cmd = [
         sys.executable, str(baseline_script),
         "--output_dir", str(run_dir / "baseline_results"),
@@ -45,15 +96,23 @@ def run_baseline_experiment(run_dir, args):
         "--kv_cache_lengths", args.kv_lengths,
         "--batch_sizes", args.batch_sizes
     ]
-    
+
+    # 添加后端参数
+    if hasattr(args, 'backend') and args.backend:
+        cmd.extend(["--backend", args.backend])
+
     if args.dry_run:
         print(f"将执行命令: {' '.join(cmd)}")
         return True
-    
+
     # 设置环境变量以确保Python模块能够正确导入
     env = os.environ.copy()
     env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
-    
+
+    # 设置推理后端环境变量
+    if hasattr(args, 'backend') and args.backend:
+        env['HACE_INFERENCE_BACKEND'] = args.backend
+
     print(f"执行: {' '.join(cmd)}")
     result = subprocess.run(cmd, capture_output=False, env=env)
     return result.returncode == 0
@@ -61,12 +120,12 @@ def run_baseline_experiment(run_dir, args):
 def run_cake_experiment(run_dir, args):
     """运行CAKE实验"""
     print("🟢 运行CAKE实验...")
-    
+
     cake_script = get_project_root() / "src" / "methods" / "cake" / "cake_main.py"
     if not cake_script.exists():
         print(f"❌ CAKE脚本不存在: {cake_script}")
         return False
-    
+
     cmd = [
         sys.executable, str(cake_script),
         "--output_dir", str(run_dir / "cake_results"),
@@ -74,15 +133,23 @@ def run_cake_experiment(run_dir, args):
         "--allocation_strategies", args.allocation_strategies,
         "--cache_budgets", args.cache_budgets
     ]
-    
+
+    # 添加后端参数
+    if hasattr(args, 'backend') and args.backend:
+        cmd.extend(["--backend", args.backend])
+
     if args.dry_run:
         print(f"将执行命令: {' '.join(cmd)}")
         return True
-    
+
     # 设置环境变量以确保Python模块能够正确导入
     env = os.environ.copy()
     env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
-    
+
+    # 设置推理后端环境变量
+    if hasattr(args, 'backend') and args.backend:
+        env['HACE_INFERENCE_BACKEND'] = args.backend
+
     print(f"执行: {' '.join(cmd)}")
     result = subprocess.run(cmd, capture_output=False, env=env)
     return result.returncode == 0
@@ -103,12 +170,20 @@ def run_h2o_experiment(run_dir, args):
         "--cache_budgets", args.cache_budgets,
     ]
 
+    # 添加后端参数
+    if hasattr(args, 'backend') and args.backend:
+        cmd.extend(["--backend", args.backend])
+
     if args.dry_run:
         print(f"将执行命令: {' '.join(cmd)}")
         return True
 
     env = os.environ.copy()
     env['PYTHONPATH'] = str(get_project_root()) + (os.pathsep + env.get('PYTHONPATH', ''))
+
+    # 设置推理后端环境变量
+    if hasattr(args, 'backend') and args.backend:
+        env['HACE_INFERENCE_BACKEND'] = args.backend
 
     print(f"执行: {' '.join(cmd)}")
     result = subprocess.run(cmd, capture_output=False, env=env)
@@ -175,33 +250,60 @@ def run_full_evaluation(run_dir, args):
 
 def main():
     parser = argparse.ArgumentParser(description="统一实验运行入口")
-    
+
     # 实验类型
-    parser.add_argument('--experiment', 
-                       choices=['baseline', 'cake', 'h2o', 'comparison', 'full_evaluation'], 
-                       default='full_evaluation', 
+    parser.add_argument('--experiment',
+                       choices=['baseline', 'cake', 'h2o', 'comparison', 'full_evaluation'],
+                       default='full_evaluation',
                        help='实验类型')
-    
+
+    # 推理后端
+    parser.add_argument('--backend',
+                       choices=['hf', 'vllm'],
+                       default='hf',
+                       help='推理后端: hf (HuggingFace) 或 vllm (VLLM引擎)')
+
     # 运行配置
     parser.add_argument('--tag', default='default', help='运行标签')
     parser.add_argument('--dry-run', action='store_true', help='仅显示将要运行的命令')
-    
+
     # 实验参数
-    parser.add_argument('--datasets', default='hotpotqa,multi_news', 
+    parser.add_argument('--datasets', default='hotpotqa,multi_news',
                        help='数据集列表，逗号分隔')
-    parser.add_argument('--kv_lengths', default='128,1024', 
+    parser.add_argument('--kv_lengths', default='128,1024',
                        help='KV缓存长度列表，逗号分隔 (推荐: 128,1024)')
-    parser.add_argument('--batch_sizes', default='1', 
+    parser.add_argument('--batch_sizes', default='1',
                        help='批处理大小列表，逗号分隔')
-    parser.add_argument('--allocation_strategies', default='adaptive', 
+    parser.add_argument('--allocation_strategies', default='adaptive',
                        help='CAKE分配策略')
-    parser.add_argument('--cache_budgets', default='0.7', 
+    parser.add_argument('--cache_budgets', default='0.7',
                        help='CAKE缓存预算')
-    
+
+    # VLLM特定参数
+    parser.add_argument('--vllm-tp', type=int, default=1,
+                       help='VLLM tensor parallel size (多GPU并行)')
+    parser.add_argument('--vllm-gpu-util', type=float, default=0.90,
+                       help='VLLM GPU显存利用率 (0.0-1.0)')
+
     args = parser.parse_args()
-    
+
+    # 检查后端可用性
+    if not check_backend_availability(args.backend):
+        print(f"❌ 推理后端 '{args.backend}' 不可用!")
+        if args.backend == "vllm":
+            print("   请安装VLLM: pip install vllm")
+        sys.exit(1)
+
+    # 显示后端信息
+    backend_info = get_backend_info()
+
     print("🚀 统一实验运行器")
     print(f"实验类型: {args.experiment}")
+    print(f"推理后端: {args.backend}", end="")
+    if backend_info[args.backend]["version"]:
+        print(f" (v{backend_info[args.backend]['version']})")
+    else:
+        print()
     print(f"数据集: {args.datasets}")
     print(f"项目根目录: {get_project_root()}")
     

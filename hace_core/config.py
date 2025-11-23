@@ -111,13 +111,63 @@ HARDWARE_CONFIG = {
 MODEL_CONFIG = {
     "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
-    "device": "cuda"
+    "device": "cuda",
+
+    # 推理后端配置
+    "inference_backend": "hf",  # "hf" (HuggingFace transformers) 或 "vllm" (VLLM引擎)
+}
+
+# VLLM引擎配置
+VLLM_CONFIG = {
+    # 引擎模式：inprocess（进程内引擎）或 server（HTTP服务端）
+    "mode": "inprocess",
+
+    # === 进程内模式配置 ===
+    "tensor_parallel_size": 1,  # 张量并行大小，多GPU时增加
+    "pipeline_parallel_size": 1,  # 流水线并行大小
+    "gpu_memory_utilization": 0.90,  # GPU显存利用率 (0.0-1.0)
+    "max_model_len": 4096,  # 最大模型上下文长度
+    "enforce_eager": False,  # 强制使用eager模式（禁用CUDA Graph）
+    "trust_remote_code": True,  # 信任远程代码（某些模型需要）
+    "dtype": "auto",  # 数据类型：auto, float16, bfloat16, float32
+    "quantization": None,  # 量化方式：None, "awq", "gptq", "squeezellm"
+    "swap_space": 4,  # CPU交换空间大小(GB)
+    "seed": 42,  # 随机种子
+
+    # KV Cache相关（用于自定义KV策略）
+    "block_size": 16,  # PagedAttention块大小
+    "enable_prefix_caching": False,  # 启用前缀缓存
+
+    # === Server模式配置 ===
+    "server_url": "http://localhost:8000",  # VLLM API服务器地址
+    "api_key": None,  # API密钥（如果需要）
+    "timeout": 300,  # 请求超时时间(秒)
+    "max_retries": 3,  # 最大重试次数
+
+    # === 采样参数默认值 ===
+    "sampling_params": {
+        "temperature": 0.0,  # 温度参数（0为贪婪解码）
+        "top_p": 1.0,  # Top-p采样
+        "top_k": -1,  # Top-k采样（-1为禁用）
+        "max_tokens": 256,  # 最大生成token数
+        "presence_penalty": 0.0,  # 存在惩罚
+        "frequency_penalty": 0.0,  # 频率惩罚
+    },
+
+    # === 注意力数据收集配置（用于CAKE/AdaKV策略） ===
+    "attention_collection": {
+        "enabled": False,  # 是否收集注意力数据
+        "mode": "external_warmup",  # "external_warmup" (使用HF模型预热) 或 "vllm_hook" (VLLM内部钩子)
+        "warmup_samples": 10,  # 预热采样数量
+        "cache_attention_file": None,  # 缓存注意力数据的文件路径
+    },
 }
 
 # 实验配置
 EXPERIMENT_CONFIG = {
     "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # or "bf16", "fp32"
+    "inference_backend": "hf",  # "hf" (HuggingFace) 或 "vllm" (VLLM引擎)
     "use_relative_paths": True,        # 新增：强制使用相对路径
     "auto_create_dirs": True,          # 新增：自动创建目录
     "baseline_search_patterns": [      # 新增：基线文件搜索模式
@@ -424,7 +474,7 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 # 2. HuggingFace Hub路径（如果是 organization/model 格式）
 # 3. 项目本地 ./models/模型名/ 目录
 # 4. 用户主目录 ~/models/模型名/ 目录
-# 
+#
 # 示例配置方式：
 # - 环境变量：export HACE_MODEL_PATH="C:/Users/Administrator/mistral_models/7B-Instruct-v0.3"
 # - 本地目录：./models/mistralai--Mistral-7B-Instruct-v0.3/
@@ -437,4 +487,28 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 #     print("配置验证失败:", results["errors"])
 # if results["warnings"]:
 #     print("配置警告:", results["warnings"])
+
+# ========== VLLM推理后端使用示例 ==========
+#
+# 1. 切换到VLLM后端（进程内模式）：
+# from hace_core.config import MODEL_CONFIG, VLLM_CONFIG
+# MODEL_CONFIG["inference_backend"] = "vllm"
+# VLLM_CONFIG["mode"] = "inprocess"
+# VLLM_CONFIG["tensor_parallel_size"] = 2  # 多GPU并行
+#
+# 2. 使用VLLM Server模式：
+# MODEL_CONFIG["inference_backend"] = "vllm"
+# VLLM_CONFIG["mode"] = "server"
+# VLLM_CONFIG["server_url"] = "http://localhost:8000"
+#
+# 3. 启用注意力数据收集（用于CAKE/AdaKV策略）：
+# VLLM_CONFIG["attention_collection"]["enabled"] = True
+# VLLM_CONFIG["attention_collection"]["mode"] = "external_warmup"
+# VLLM_CONFIG["attention_collection"]["warmup_samples"] = 20
+#
+# 4. 使用推理后端接口：
+# from hace_core.models.inference_backend import create_inference_backend
+# backend = create_inference_backend(MODEL_CONFIG, VLLM_CONFIG)
+# outputs = backend.generate(prompts, max_tokens=256)
+# backend.cleanup()
 """ 
