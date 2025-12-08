@@ -366,14 +366,32 @@ class VLLMAttentionAdapter:
         Returns:
             每层的缓存预算列表
         """
-        try:
-            from src.core_code.unified_allocator import (
-                UnifiedCakeAdaKVAllocator,
-                UnifiedCacheConfig
-            )
-        except ImportError:
+        # 尝试多个可能的导入路径
+        UnifiedCakeAdaKVAllocator = None
+        UnifiedCacheConfig = None
+
+        import_paths = [
+            "hace_core.core_code.unified_allocator",  # 项目内优先
+            "src.core_code.unified_allocator",        # 旧路径兼容
+            "core_code.unified_allocator",            # 相对导入兼容
+        ]
+
+        for path in import_paths:
+            try:
+                module = __import__(path, fromlist=["UnifiedCakeAdaKVAllocator", "UnifiedCacheConfig"])
+                UnifiedCakeAdaKVAllocator = getattr(module, "UnifiedCakeAdaKVAllocator", None)
+                UnifiedCacheConfig = getattr(module, "UnifiedCacheConfig", None)
+                if UnifiedCakeAdaKVAllocator and UnifiedCacheConfig:
+                    break
+            except (ImportError, ModuleNotFoundError):
+                continue
+
+        if not UnifiedCakeAdaKVAllocator or not UnifiedCacheConfig:
             logger.warning("UnifiedCakeAdaKVAllocator not available, using uniform allocation")
             num_layers = self.attention_data.num_layers
+            if num_layers == 0:
+                logger.error("num_layers is 0, returning empty budgets")
+                return []
             base_budget = total_cache_size // num_layers
             remainder = total_cache_size % num_layers
             budgets = [base_budget] * num_layers
@@ -381,21 +399,32 @@ class VLLMAttentionAdapter:
                 budgets[i] += 1
             return budgets
 
-        # 配置分配器
-        config = UnifiedCacheConfig(total_cache_size=total_cache_size)
-        if allocator_config:
-            for key, value in allocator_config.items():
-                if hasattr(config, key):
-                    setattr(config, key, value)
+        try:
+            # 配置分配器
+            config = UnifiedCacheConfig(total_cache_size=total_cache_size)
+            if allocator_config:
+                for key, value in allocator_config.items():
+                    if hasattr(config, key):
+                        setattr(config, key, value)
 
-        allocator = UnifiedCakeAdaKVAllocator(config)
+            allocator = UnifiedCakeAdaKVAllocator(config)
 
-        # 分配层级预算
-        layer_budgets = allocator.allocate_layer_budgets(
-            self.attention_data.attention_weights_list
-        )
-
-        return layer_budgets
+            # 分配层级预算
+            layer_budgets = allocator.allocate_layer_budgets(
+                self.attention_data.attention_weights_list
+            )
+            return layer_budgets
+        except Exception as e:
+            logger.warning(f"Failed to use UnifiedCakeAdaKVAllocator: {e}, falling back to uniform allocation")
+            num_layers = self.attention_data.num_layers
+            if num_layers == 0:
+                return []
+            base_budget = total_cache_size // num_layers
+            remainder = total_cache_size % num_layers
+            budgets = [base_budget] * num_layers
+            for i in range(remainder):
+                budgets[i] += 1
+            return budgets
 
     def compute_head_budgets(
         self,
@@ -412,14 +441,35 @@ class VLLMAttentionAdapter:
         Returns:
             每层每头的缓存预算列表
         """
-        try:
-            from src.core_code.unified_allocator import (
-                UnifiedCakeAdaKVAllocator,
-                UnifiedCacheConfig
-            )
-        except ImportError:
+        num_heads = self.attention_data.num_heads
+
+        # 防止除零
+        if num_heads == 0:
+            logger.warning("num_heads is 0, returning empty head budgets")
+            return [[] for _ in layer_budgets]
+
+        # 尝试多个可能的导入路径
+        UnifiedCakeAdaKVAllocator = None
+        UnifiedCacheConfig = None
+
+        import_paths = [
+            "hace_core.core_code.unified_allocator",  # 项目内优先
+            "src.core_code.unified_allocator",        # 旧路径兼容
+            "core_code.unified_allocator",            # 相对导入兼容
+        ]
+
+        for path in import_paths:
+            try:
+                module = __import__(path, fromlist=["UnifiedCakeAdaKVAllocator", "UnifiedCacheConfig"])
+                UnifiedCakeAdaKVAllocator = getattr(module, "UnifiedCakeAdaKVAllocator", None)
+                UnifiedCacheConfig = getattr(module, "UnifiedCacheConfig", None)
+                if UnifiedCakeAdaKVAllocator and UnifiedCacheConfig:
+                    break
+            except (ImportError, ModuleNotFoundError):
+                continue
+
+        if not UnifiedCakeAdaKVAllocator or not UnifiedCacheConfig:
             logger.warning("UnifiedCakeAdaKVAllocator not available, using uniform allocation")
-            num_heads = self.attention_data.num_heads
             head_budgets_list = []
             for layer_budget in layer_budgets:
                 base_budget = layer_budget // num_heads
@@ -430,26 +480,38 @@ class VLLMAttentionAdapter:
                 head_budgets_list.append(head_budgets)
             return head_budgets_list
 
-        total_cache_size = sum(layer_budgets)
-        config = UnifiedCacheConfig(total_cache_size=total_cache_size)
-        if allocator_config:
-            for key, value in allocator_config.items():
-                if hasattr(config, key):
-                    setattr(config, key, value)
+        try:
+            total_cache_size = sum(layer_budgets)
+            config = UnifiedCacheConfig(total_cache_size=total_cache_size)
+            if allocator_config:
+                for key, value in allocator_config.items():
+                    if hasattr(config, key):
+                        setattr(config, key, value)
 
-        allocator = UnifiedCakeAdaKVAllocator(config)
-        allocator.warmup(self.attention_data.attention_weights_list)
+            allocator = UnifiedCakeAdaKVAllocator(config)
+            allocator.warmup(self.attention_data.attention_weights_list)
 
-        head_budgets_list = []
-        for layer_idx, (attn_weights, layer_budget) in enumerate(
-            zip(self.attention_data.attention_weights_list, layer_budgets)
-        ):
-            head_budgets = allocator.allocate_head_budgets(
-                attn_weights, layer_budget, layer_idx
-            )
-            head_budgets_list.append(head_budgets)
+            head_budgets_list = []
+            for layer_idx, (attn_weights, layer_budget) in enumerate(
+                zip(self.attention_data.attention_weights_list, layer_budgets)
+            ):
+                head_budgets = allocator.allocate_head_budgets(
+                    attn_weights, layer_budget, layer_idx
+                )
+                head_budgets_list.append(head_budgets)
 
-        return head_budgets_list
+            return head_budgets_list
+        except Exception as e:
+            logger.warning(f"Failed to use UnifiedCakeAdaKVAllocator: {e}, falling back to uniform allocation")
+            head_budgets_list = []
+            for layer_budget in layer_budgets:
+                base_budget = layer_budget // num_heads
+                remainder = layer_budget % num_heads
+                head_budgets = [base_budget] * num_heads
+                for i in range(remainder):
+                    head_budgets[i] += 1
+                head_budgets_list.append(head_budgets)
+            return head_budgets_list
 
     def to_vllm_kv_config(
         self,

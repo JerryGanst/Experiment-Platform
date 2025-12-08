@@ -365,6 +365,7 @@ class VLLMBackend(BaseInferenceBackend):
             "enforce_eager": vllm_config.get("enforce_eager", False),
             "trust_remote_code": vllm_config.get("trust_remote_code", True),
             "seed": vllm_config.get("seed", 42),
+            "swap_space": vllm_config.get("swap_space", 4),  # CPU交换空间大小(GB)
         }
 
         # 数据类型处理
@@ -493,21 +494,38 @@ class VLLMBackend(BaseInferenceBackend):
         prompts: List[str],
         config: GenerationConfig
     ) -> List[GenerationOutput]:
-        """Server模式生成"""
+        """Server模式生成，支持VLLM原生API和OpenAI兼容API"""
         vllm_config = self.backend_config or {}
         max_retries = vllm_config.get("max_retries", 3)
+        # 检测API类型：优先使用OpenAI兼容API
+        api_type = vllm_config.get("api_type", "openai")  # "openai" 或 "native"
 
         results = []
         for prompt in prompts:
-            # 构建请求体
-            request_body = {
-                "prompt": prompt,
-                "max_tokens": config.max_new_tokens,
-                "temperature": config.temperature,
-                "top_p": config.top_p,
-                "presence_penalty": config.presence_penalty,
-                "frequency_penalty": config.frequency_penalty,
-            }
+            # 根据API类型构建请求
+            if api_type == "openai":
+                # OpenAI兼容API格式
+                request_body = {
+                    "model": self.model_config.get("model_name_or_path", "default"),
+                    "prompt": prompt,
+                    "max_tokens": config.max_new_tokens,
+                    "temperature": config.temperature if config.temperature > 0 else 0.0,
+                    "top_p": config.top_p,
+                    "presence_penalty": config.presence_penalty,
+                    "frequency_penalty": config.frequency_penalty,
+                }
+                endpoint = "/v1/completions"
+            else:
+                # VLLM原生API格式
+                request_body = {
+                    "prompt": prompt,
+                    "max_tokens": config.max_new_tokens,
+                    "temperature": config.temperature,
+                    "top_p": config.top_p,
+                    "presence_penalty": config.presence_penalty,
+                    "frequency_penalty": config.frequency_penalty,
+                }
+                endpoint = "/generate"
 
             if config.top_k > 0:
                 request_body["top_k"] = config.top_k
@@ -518,20 +536,42 @@ class VLLMBackend(BaseInferenceBackend):
             last_error = None
             for attempt in range(max_retries):
                 try:
-                    response = self._client.post("/generate", json=request_body)
+                    response = self._client.post(endpoint, json=request_body)
                     response.raise_for_status()
                     data = response.json()
 
-                    # 解析响应
-                    generated_text = data.get("text", [""])[0] if isinstance(data.get("text"), list) else data.get("text", "")
+                    # 根据API类型解析响应
+                    if api_type == "openai":
+                        # OpenAI兼容格式: {"choices": [{"text": "...", "finish_reason": "..."}], "usage": {...}}
+                        choices = data.get("choices", [{}])
+                        if choices:
+                            choice = choices[0]
+                            generated_text = choice.get("text", "")
+                            finish_reason = choice.get("finish_reason", "unknown")
+                        else:
+                            generated_text = ""
+                            finish_reason = "error"
+                        usage = data.get("usage", {})
+                        prompt_tokens = usage.get("prompt_tokens", 0)
+                        completion_tokens = usage.get("completion_tokens", 0)
+                    else:
+                        # VLLM原生格式: {"text": [...]} 或 {"text": "..."}
+                        text_data = data.get("text", "")
+                        if isinstance(text_data, list):
+                            generated_text = text_data[0] if text_data else ""
+                        else:
+                            generated_text = text_data
+                        finish_reason = data.get("finish_reason", "unknown")
+                        prompt_tokens = data.get("prompt_tokens", 0)
+                        completion_tokens = data.get("completion_tokens", 0)
 
                     results.append(GenerationOutput(
                         text=generated_text,
                         token_ids=None,
                         attention_weights=None,
-                        finish_reason=data.get("finish_reason", "unknown"),
-                        prompt_tokens=data.get("prompt_tokens", 0),
-                        completion_tokens=data.get("completion_tokens", 0),
+                        finish_reason=finish_reason,
+                        prompt_tokens=prompt_tokens,
+                        completion_tokens=completion_tokens,
                     ))
                     break
 
@@ -571,6 +611,7 @@ class VLLMBackend(BaseInferenceBackend):
             del self._tokenizer
             self._tokenizer = None
         if torch.cuda.is_available():
+            torch.cuda.synchronize()  # 确保所有CUDA操作完成
             torch.cuda.empty_cache()
         self.is_initialized = False
         logger.info("VLLM backend cleaned up")
