@@ -31,8 +31,8 @@ except ImportError as e:
 
 # 尝试导入CoreCode模块
 try:
-    from src.core_code.integration_framework import CakeAdaKVIntegration, IntegrationConfig, create_integration
-    from src.core_code.unified_allocator import UnifiedCacheConfig
+    from hace_core.core.integration_framework import CakeAdaKVIntegration, IntegrationConfig, create_integration
+    from hace_core.core.unified_allocator import UnifiedCacheConfig
     CORECODE_AVAILABLE = True
     print("✅ 成功导入CoreCode模块")
 except ImportError as e:
