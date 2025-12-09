@@ -751,7 +751,7 @@ class SerialInferencePipeline:
         self,
         prompts: List[str],
         request_id: Optional[str] = None,
-        **kwargs
+        config=None
     ):
         """
         执行推理
@@ -759,7 +759,7 @@ class SerialInferencePipeline:
         Args:
             prompts: 输入 prompts
             request_id: 请求 ID（用于预算上下文）
-            **kwargs: 传递给 generate 的其他参数
+            config: 可选的生成配置，传递给 VLLM 后端
 
         Returns:
             生成结果和预算上下文（如果可用）
@@ -775,10 +775,8 @@ class SerialInferencePipeline:
                 f"Request {request_id}: aligned budget = "
                 f"{context.aligned_budgets.total_tokens_aligned} tokens"
             )
-            # 将预算信息存储到 kwargs 中，供后续可能的 KV 策略使用
-            kwargs["_budget_context"] = context
 
-        result = self._vllm_backend.generate(prompts, **kwargs)
+        result = self._vllm_backend.generate(prompts, config=config)
 
         # 返回结果，可选择性地附带上下文信息
         if context:
