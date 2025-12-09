@@ -529,20 +529,17 @@ class UnifiedCakeAdaKVAllocator:
         # 检查在最坏情况下，预算是否足够给每个头分配至少1个token
         if layer_budget < num_heads:
             # 预算极度不足，无法满足每个头至少1个token的硬性要求
-            # 在这种情况下，我们仍然将 min_budget 设为 1，
-            # BudgetNormalizer 将会把预算分配给一部分头，直到预算用完。
-            # 这比将 min_budget 设为 0 更安全，避免了下游出现空张量错误。
-            min_budget = 1
+            # 设置 min_budget=0 允许某些头的预算为0，避免 BudgetNormalizer 抛出异常
+            min_budget = 0
             warnings.warn(
                 f"层 {layer_idx} 的预算 ({layer_budget}) 少于头的数量 ({num_heads})。"
-                f"某些头将被分配0个token，但这由BudgetNormalizer处理，而非通过min_budget=0实现。"
+                f"某些头将被分配0个token。"
             )
         elif min_budget * num_heads > layer_budget:
             # 如果理论最小预算不可行，则回退到能满足的最大可能值
             min_budget = layer_budget // num_heads
-
-        # 再次确保 min_budget 不会意外地变为0（在 num_heads > 0 的情况下，这不应该发生，但作为防御性编程）
-        min_budget = max(1, min_budget)
+            # 确保 min_budget 至少为0（防御性编程）
+            min_budget = max(0, min_budget)
 
         # 策略分发
         if strategy == AllocationStrategy.STANDARD:

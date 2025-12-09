@@ -1,15 +1,13 @@
-import importlib.util
+import sys
 from pathlib import Path
 
-# 动态加载 BudgetNormalizer 模块（无需修改包路径）
-module_path = Path('src/core-code/indicator_normalizer.py')
-if not module_path.exists():
-    raise FileNotFoundError(module_path)
+# 添加项目根目录到路径
+project_root = Path(__file__).resolve().parents[1]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
-spec = importlib.util.spec_from_file_location('indicator_normalizer', module_path)
-mod = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mod)
-BudgetNormalizer = mod.BudgetNormalizer
+# 从正确路径导入 BudgetNormalizer
+from hace_core.core.indicator_normalizer import BudgetNormalizer
 
 # 测试用例: (raw_budgets, total_budget, min_budget)
 TEST_CASES = [

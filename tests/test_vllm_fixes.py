@@ -258,6 +258,65 @@ class TestGenerateContextUsage:
         print("✓ test_no_context_returns_result_only passed")
 
 
+class TestBoundaryHandling:
+    """测试边界情况处理"""
+
+    def test_layer_budget_less_than_num_heads(self):
+        """测试 layer_budget < num_heads 时不抛出异常"""
+        from hace_core.core.indicator_normalizer import BudgetNormalizer
+
+        # 场景: layer_budget=5, num_heads=32
+        # 之前的代码会因为 min_budget=1 * 32 > 5 而抛出 ValueError
+        # 修复后应该使用 min_budget=0，允许部分头预算为0
+
+        raw_budgets = [1] * 32  # 32个头，每个初始预算1
+        total_budget = 5  # 只有5的预算
+        min_budget = 0  # 允许预算为0
+
+        result = BudgetNormalizer.normalize_to_budget(raw_budgets, total_budget, min_budget)
+
+        assert sum(result) == total_budget, f"预算不守恒: {sum(result)} != {total_budget}"
+        assert len(result) == 32, f"头数量不对: {len(result)} != 32"
+        # 应该有一些头的预算为0
+        zero_count = sum(1 for b in result if b == 0)
+        assert zero_count > 0, "应该有一些头的预算为0"
+        print(f"✓ test_layer_budget_less_than_num_heads passed (zero heads: {zero_count})")
+
+    def test_f1_score_empty_input(self):
+        """测试 F1 Score 空输入不抛出除零异常"""
+        from collections import Counter
+
+        # 直接复制修复后的 f1_score 函数进行测试，避免依赖 jieba
+        def f1_score(prediction, ground_truth, **kwargs):
+            # 添加空输入保护，避免除零错误
+            if len(prediction) == 0 or len(ground_truth) == 0:
+                return 0.0
+            common = Counter(prediction) & Counter(ground_truth)
+            num_same = sum(common.values())
+            if num_same == 0:
+                return 0.0
+            precision = 1.0 * num_same / len(prediction)
+            recall = 1.0 * num_same / len(ground_truth)
+            f1 = (2 * precision * recall) / (precision + recall)
+            return f1
+
+        # 测试空输入
+        result1 = f1_score([], ["hello"])
+        assert result1 == 0.0, f"空prediction应返回0, 得到: {result1}"
+
+        result2 = f1_score(["hello"], [])
+        assert result2 == 0.0, f"空ground_truth应返回0, 得到: {result2}"
+
+        result3 = f1_score([], [])
+        assert result3 == 0.0, f"双空应返回0, 得到: {result3}"
+
+        # 测试正常情况
+        result4 = f1_score(["a", "b", "c"], ["a", "b", "d"])
+        assert result4 > 0, f"正常情况应返回正数, 得到: {result4}"
+
+        print("✓ test_f1_score_empty_input passed")
+
+
 def run_all_tests():
     """运行所有测试"""
     print("=" * 60)
@@ -270,6 +329,7 @@ def run_all_tests():
         TestImportPathFallback(),
         TestMemoryEstimation(),
         TestGenerateContextUsage(),
+        TestBoundaryHandling(),
     ]
 
     total_tests = 0

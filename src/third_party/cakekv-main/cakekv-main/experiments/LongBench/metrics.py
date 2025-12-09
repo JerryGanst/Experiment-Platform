@@ -116,10 +116,13 @@ def rouge_zh_score(prediction, ground_truth, **kwargs):
     return score
 
 def f1_score(prediction, ground_truth, **kwargs):
+    # 添加空输入保护，避免除零错误
+    if len(prediction) == 0 or len(ground_truth) == 0:
+        return 0.0
     common = Counter(prediction) & Counter(ground_truth)
     num_same = sum(common.values())
     if num_same == 0:
-        return 0
+        return 0.0
     precision = 1.0 * num_same / len(prediction)
     recall = 1.0 * num_same / len(ground_truth)
     f1 = (2 * precision * recall) / (precision + recall)
