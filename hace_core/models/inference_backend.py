@@ -420,14 +420,117 @@ class VLLMBackend(BaseInferenceBackend):
         except Exception as e:
             logger.warning(f"Could not verify VLLM server connection: {e}")
 
-        # Server模式下，tokenizer需要单独加载
-        from transformers import AutoTokenizer
+        # Tokenizer加载策略：
+        # 1. 优先使用远程VLLM Server的tokenize端点（无需本地模型）
+        # 2. 如果配置了单独的tokenizer_path，从该路径加载
+        # 3. 如果模型名是HuggingFace Hub格式，从Hub加载（只下载tokenizer）
+        # 4. 最后尝试从本地路径加载
+
+        tokenizer_mode = vllm_config.get("tokenizer_mode", "auto")  # "remote", "local", "auto"
+        tokenizer_path = vllm_config.get("tokenizer_path")  # 单独指定的tokenizer路径
         model_path = self.model_config["model_name_or_path"]
-        self._tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
-        if self._tokenizer.pad_token is None:
-            self._tokenizer.pad_token = self._tokenizer.eos_token
+
+        self._use_remote_tokenizer = False
+        self._tokenizer = None
+
+        if tokenizer_mode == "remote" or (tokenizer_mode == "auto" and not tokenizer_path):
+            # 尝试使用远程tokenize端点
+            if self._check_remote_tokenizer_available():
+                self._use_remote_tokenizer = True
+                logger.info("Using remote VLLM server for tokenization")
+            elif tokenizer_mode == "remote":
+                raise RuntimeError("Remote tokenizer mode requested but VLLM server /tokenize endpoint not available")
+
+        if not self._use_remote_tokenizer:
+            # 需要本地tokenizer
+            from transformers import AutoTokenizer
+
+            load_path = tokenizer_path or model_path
+            try:
+                # 尝试从指定路径加载（支持HuggingFace Hub和本地路径）
+                self._tokenizer = AutoTokenizer.from_pretrained(
+                    load_path,
+                    use_fast=True,
+                    trust_remote_code=vllm_config.get("trust_remote_code", True)
+                )
+                if self._tokenizer.pad_token is None:
+                    self._tokenizer.pad_token = self._tokenizer.eos_token
+                logger.info(f"Loaded tokenizer from: {load_path}")
+            except Exception as e:
+                if self._check_remote_tokenizer_available():
+                    # 回退到远程tokenizer
+                    self._use_remote_tokenizer = True
+                    logger.warning(f"Failed to load local tokenizer ({e}), falling back to remote tokenizer")
+                else:
+                    raise RuntimeError(
+                        f"Failed to load tokenizer from '{load_path}' and remote tokenizer not available.\n"
+                        f"Options:\n"
+                        f"1. Set VLLM_CONFIG['tokenizer_path'] to a local tokenizer path\n"
+                        f"2. Ensure VLLM server supports /tokenize endpoint\n"
+                        f"3. Use a HuggingFace Hub model name (e.g., 'mistralai/Mistral-7B-Instruct-v0.3')\n"
+                        f"Original error: {e}"
+                    )
 
         logger.info("VLLM server client initialized successfully")
+
+    def _check_remote_tokenizer_available(self) -> bool:
+        """检查远程VLLM Server是否支持tokenize端点"""
+        try:
+            # 尝试调用tokenize端点
+            response = self._client.post("/tokenize", json={"prompt": "test"})
+            return response.status_code == 200
+        except Exception as e:
+            logger.debug(f"Remote tokenizer check failed: {e}")
+            return False
+
+    def tokenize(self, text: str) -> List[int]:
+        """
+        对文本进行tokenize
+
+        支持远程和本地两种模式：
+        - 远程模式：调用VLLM Server的/tokenize端点
+        - 本地模式：使用本地tokenizer
+        """
+        if self._use_remote_tokenizer:
+            return self._tokenize_remote(text)
+        else:
+            return self._tokenizer.encode(text)
+
+    def _tokenize_remote(self, text: str) -> List[int]:
+        """使用远程VLLM Server进行tokenize"""
+        try:
+            response = self._client.post("/tokenize", json={"prompt": text})
+            response.raise_for_status()
+            data = response.json()
+            # VLLM tokenize端点返回格式: {"tokens": [...]} 或 {"token_ids": [...]}
+            tokens = data.get("tokens") or data.get("token_ids") or []
+            return tokens
+        except Exception as e:
+            logger.error(f"Remote tokenization failed: {e}")
+            raise RuntimeError(f"Remote tokenization failed: {e}")
+
+    def detokenize(self, token_ids: List[int]) -> str:
+        """
+        将token IDs转换回文本
+
+        支持远程和本地两种模式
+        """
+        if self._use_remote_tokenizer:
+            return self._detokenize_remote(token_ids)
+        else:
+            return self._tokenizer.decode(token_ids, skip_special_tokens=True)
+
+    def _detokenize_remote(self, token_ids: List[int]) -> str:
+        """使用远程VLLM Server进行detokenize"""
+        try:
+            response = self._client.post("/detokenize", json={"tokens": token_ids})
+            response.raise_for_status()
+            data = response.json()
+            # VLLM detokenize端点返回格式: {"prompt": "..."} 或 {"text": "..."}
+            return data.get("prompt") or data.get("text") or ""
+        except Exception as e:
+            logger.error(f"Remote detokenization failed: {e}")
+            raise RuntimeError(f"Remote detokenization failed: {e}")
 
     def generate(
         self,

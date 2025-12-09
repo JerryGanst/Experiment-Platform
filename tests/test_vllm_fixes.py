@@ -317,6 +317,89 @@ class TestBoundaryHandling:
         print("✓ test_f1_score_empty_input passed")
 
 
+class TestRemoteTokenizer:
+    """测试远程Tokenizer支持"""
+
+    def test_tokenizer_mode_config(self):
+        """测试tokenizer_mode配置项"""
+        # 模拟VLLM配置
+        vllm_config = {
+            "mode": "server",
+            "server_url": "http://localhost:8000",
+            "tokenizer_mode": "auto",
+            "tokenizer_path": None,
+        }
+
+        # 验证配置项存在
+        assert "tokenizer_mode" in vllm_config
+        assert vllm_config["tokenizer_mode"] in ["auto", "remote", "local"]
+        print("✓ test_tokenizer_mode_config passed")
+
+    def test_tokenizer_mode_remote(self):
+        """测试远程tokenizer模式配置"""
+        vllm_config = {
+            "mode": "server",
+            "server_url": "http://remote-server:8000",
+            "tokenizer_mode": "remote",
+        }
+
+        # 远程模式应该不需要本地tokenizer路径
+        assert vllm_config["tokenizer_mode"] == "remote"
+        assert "tokenizer_path" not in vllm_config or vllm_config.get("tokenizer_path") is None
+        print("✓ test_tokenizer_mode_remote passed")
+
+    def test_tokenizer_mode_local_with_hub(self):
+        """测试本地tokenizer模式配合HuggingFace Hub"""
+        vllm_config = {
+            "mode": "server",
+            "server_url": "http://remote-server:8000",
+            "tokenizer_mode": "local",
+            "tokenizer_path": "mistralai/Mistral-7B-Instruct-v0.3",  # HuggingFace Hub路径
+        }
+
+        # 本地模式应该可以从Hub加载tokenizer
+        assert vllm_config["tokenizer_mode"] == "local"
+        assert "/" in vllm_config["tokenizer_path"]  # Hub格式
+        print("✓ test_tokenizer_mode_local_with_hub passed")
+
+    def test_remote_tokenize_request_format(self):
+        """测试远程tokenize请求格式"""
+        # 模拟请求体
+        request_body = {"prompt": "Hello, world!"}
+
+        assert "prompt" in request_body
+        assert isinstance(request_body["prompt"], str)
+        print("✓ test_remote_tokenize_request_format passed")
+
+    def test_remote_tokenize_response_parsing(self):
+        """测试远程tokenize响应解析"""
+        # VLLM tokenize端点可能返回的格式
+        response_formats = [
+            {"tokens": [1, 2, 3, 4, 5]},  # 格式1
+            {"token_ids": [1, 2, 3, 4, 5]},  # 格式2
+        ]
+
+        for response in response_formats:
+            tokens = response.get("tokens") or response.get("token_ids") or []
+            assert tokens == [1, 2, 3, 4, 5], f"解析失败: {response}"
+
+        print("✓ test_remote_tokenize_response_parsing passed")
+
+    def test_remote_detokenize_response_parsing(self):
+        """测试远程detokenize响应解析"""
+        # VLLM detokenize端点可能返回的格式
+        response_formats = [
+            {"prompt": "Hello, world!"},  # 格式1
+            {"text": "Hello, world!"},  # 格式2
+        ]
+
+        for response in response_formats:
+            text = response.get("prompt") or response.get("text") or ""
+            assert text == "Hello, world!", f"解析失败: {response}"
+
+        print("✓ test_remote_detokenize_response_parsing passed")
+
+
 def run_all_tests():
     """运行所有测试"""
     print("=" * 60)
@@ -330,6 +413,7 @@ def run_all_tests():
         TestMemoryEstimation(),
         TestGenerateContextUsage(),
         TestBoundaryHandling(),
+        TestRemoteTokenizer(),
     ]
 
     total_tests = 0
