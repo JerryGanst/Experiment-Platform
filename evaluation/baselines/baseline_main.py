@@ -42,7 +42,7 @@ from hace_core.models.model_loader import (
     prepare_model_for_baseline
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
-from src.monitoring.unified_monitor import UnifiedMonitor
+from hace_core.utils.unified_monitor import UnifiedMonitor
 
 
 # 设置日志

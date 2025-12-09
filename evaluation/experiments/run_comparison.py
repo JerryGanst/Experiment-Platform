@@ -65,7 +65,7 @@ def load_and_validate_csv(csv_path: str, method_name: str) -> pd.DataFrame | Non
 
 def generate_comparison_plots(combined_df: pd.DataFrame, metrics_config: list, vis_dir: str, plot_prefix: str):
     """生成对比图表（使用analysis.plotter模块）"""
-    from src.monitoring import plotter
+    from hace_core.utils import plotter
     
     # 分离不同方法的数据
     baseline_df = combined_df[combined_df["method_type"].str.contains("Baseline|基线", case=False, na=False)]
