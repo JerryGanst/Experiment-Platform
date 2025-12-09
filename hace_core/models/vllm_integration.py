@@ -654,6 +654,7 @@ class SerialInferencePipeline:
         self._attention_data = None
         self._request_allocator = None
         self._vllm_backend = None
+        self._last_request_context = None
 
     def phase1_collect_attention(
         self,
@@ -762,7 +763,7 @@ class SerialInferencePipeline:
             config: 可选的生成配置，传递给 VLLM 后端
 
         Returns:
-            生成结果和预算上下文（如果可用）
+            生成结果（预算上下文会被内部记录以供调试）
         """
         if self._vllm_backend is None:
             raise RuntimeError("Must run phase3_initialize_vllm first")
@@ -778,9 +779,8 @@ class SerialInferencePipeline:
 
         result = self._vllm_backend.generate(prompts, config=config)
 
-        # 返回结果，可选择性地附带上下文信息
-        if context:
-            return result, context
+        # 始终返回生成结果，保持与以往 API 兼容；上下文可用于调试
+        self._last_request_context = context
         return result
 
     def cleanup(self):
