@@ -600,8 +600,8 @@ class VLLMBackend(BaseInferenceBackend):
         """Server模式生成，支持VLLM原生API和OpenAI兼容API"""
         vllm_config = self.backend_config or {}
         max_retries = vllm_config.get("max_retries", 3)
-        # 检测API类型：优先使用OpenAI兼容API
-        api_type = vllm_config.get("api_type", "openai")  # "openai" 或 "native"
+        # 检测API类型：保持与vLLM原生端点兼容的默认行为
+        api_type = vllm_config.get("api_type", "native")  # "openai" 或 "native"
 
         results = []
         for prompt in prompts:
