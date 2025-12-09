@@ -65,21 +65,55 @@ class MemoryManager:
         logger.info("GPU memory force cleaned")
 
     @staticmethod
-    def estimate_model_memory(num_params_billions: float, precision: str = "fp16") -> float:
+    def estimate_model_memory(
+        num_params_billions: float,
+        precision: str = "fp16",
+        include_kv_cache: bool = True,
+        max_seq_len: int = 4096,
+        batch_size: int = 1,
+        num_layers: int = 32,
+        num_heads: int = 32,
+        head_dim: int = 128
+    ) -> float:
         """
         估算模型显存占用 (GB)
 
         Args:
             num_params_billions: 模型参数量（十亿）
-            precision: 精度 (fp16/bf16/fp32)
+            precision: 精度 (fp16/bf16/fp32/int8/int4)
+            include_kv_cache: 是否包含 KV Cache 估算
+            max_seq_len: 最大序列长度（用于 KV Cache 估算）
+            batch_size: 批大小
+            num_layers: 模型层数
+            num_heads: 注意力头数
+            head_dim: 每个头的维度
 
         Returns:
             预估显存占用 (GB)
         """
-        bytes_per_param = {"fp16": 2, "bf16": 2, "fp32": 4, "int8": 1, "int4": 0.5}
-        param_bytes = num_params_billions * 1e9 * bytes_per_param.get(precision, 2)
-        # 加上 KV Cache 和激活值的额外开销（约 1.2x）
-        return (param_bytes * 1.2) / (1024**3)
+        bytes_per_param = {
+            "fp16": 2, "bf16": 2, "fp32": 4,
+            "int8": 1, "int4": 0.5, "auto": 2
+        }
+        bpp = bytes_per_param.get(precision, 2)
+
+        # 模型参数显存
+        param_memory_gb = (num_params_billions * 1e9 * bpp) / (1024**3)
+
+        # CUDA 内核和激活值开销（约 10-15%）
+        activation_overhead = param_memory_gb * 0.15
+
+        total = param_memory_gb + activation_overhead
+
+        if include_kv_cache:
+            # KV Cache 显存估算
+            # 每层每个 token 需要: 2 (K+V) * num_heads * head_dim * bytes_per_param
+            kv_per_token_per_layer = 2 * num_heads * head_dim * bpp
+            kv_cache_bytes = batch_size * max_seq_len * num_layers * kv_per_token_per_layer
+            kv_cache_gb = kv_cache_bytes / (1024**3)
+            total += kv_cache_gb
+
+        return total
 
     @staticmethod
     def calculate_vllm_gpu_utilization(
@@ -172,12 +206,17 @@ class BudgetAligner:
             ]
 
         elif rounding_strategy == "importance_weighted":
+            # 除零保护：如果所有预算都为0，直接返回全0
+            total_requested_tokens = sum(layer_token_budgets)
+            if total_requested_tokens == 0:
+                logger.warning("All layer budgets are zero, returning zero blocks")
+                return [0] * num_layers
+
             # 计算基础 block 数和余数
             base_blocks = [budget // self.block_size for budget in layer_token_budgets]
             remainders = [budget % self.block_size for budget in layer_token_budgets]
 
             # 计算可分配的额外 block 数
-            total_requested_tokens = sum(layer_token_budgets)
             total_base_tokens = sum(b * self.block_size for b in base_blocks)
             extra_tokens_available = total_requested_tokens - total_base_tokens
 
@@ -399,34 +438,65 @@ class RequestScopedAllocator:
 
     def _precompute_base_budgets(self):
         """预计算基础预算（只做一次）"""
-        try:
-            from src.core_code.unified_allocator import (
-                UnifiedCakeAdaKVAllocator,
-                UnifiedCacheConfig
-            )
+        # 尝试多个可能的导入路径
+        UnifiedCakeAdaKVAllocator = None
+        UnifiedCacheConfig = None
 
-            total_cache_size = self._allocator_config.get("total_cache_size", 4096)
-            config = UnifiedCacheConfig(total_cache_size=total_cache_size)
+        import_paths = [
+            "hace_core.core_code.unified_allocator",  # 项目内优先
+            "src.core_code.unified_allocator",        # 旧路径兼容
+            "core_code.unified_allocator",            # 相对导入兼容
+        ]
 
-            allocator = UnifiedCakeAdaKVAllocator(config)
-            self._base_layer_budgets, self._base_head_budgets = allocator.unified_allocate(
-                self._attention_data.attention_weights_list
-            )
+        for path in import_paths:
+            try:
+                module = __import__(path, fromlist=["UnifiedCakeAdaKVAllocator", "UnifiedCacheConfig"])
+                UnifiedCakeAdaKVAllocator = getattr(module, "UnifiedCakeAdaKVAllocator", None)
+                UnifiedCacheConfig = getattr(module, "UnifiedCacheConfig", None)
+                if UnifiedCakeAdaKVAllocator and UnifiedCacheConfig:
+                    logger.debug(f"Successfully imported allocator from: {path}")
+                    break
+            except (ImportError, ModuleNotFoundError):
+                continue
 
-            logger.info(
-                f"Pre-computed base budgets: {len(self._base_layer_budgets)} layers, "
-                f"total={sum(self._base_layer_budgets)}"
-            )
+        if UnifiedCakeAdaKVAllocator and UnifiedCacheConfig:
+            try:
+                total_cache_size = self._allocator_config.get("total_cache_size", 4096)
+                config = UnifiedCacheConfig(total_cache_size=total_cache_size)
 
-        except ImportError:
-            logger.warning("UnifiedCakeAdaKVAllocator not available, using uniform allocation")
-            num_layers = self._attention_data.num_layers
-            num_heads = self._attention_data.num_heads
-            total = self._allocator_config.get("total_cache_size", 4096)
+                allocator = UnifiedCakeAdaKVAllocator(config)
+                self._base_layer_budgets, self._base_head_budgets = allocator.unified_allocate(
+                    self._attention_data.attention_weights_list
+                )
 
-            layer_budget = total // num_layers
-            self._base_layer_budgets = [layer_budget] * num_layers
+                logger.info(
+                    f"Pre-computed base budgets: {len(self._base_layer_budgets)} layers, "
+                    f"total={sum(self._base_layer_budgets)}"
+                )
+                return
+            except Exception as e:
+                logger.warning(f"Failed to use UnifiedCakeAdaKVAllocator: {e}")
 
+        # Fallback: 使用均匀分配
+        logger.warning("UnifiedCakeAdaKVAllocator not available, using uniform allocation")
+        num_layers = self._attention_data.num_layers
+        num_heads = self._attention_data.num_heads
+        total = self._allocator_config.get("total_cache_size", 4096)
+
+        # 防止除零
+        if num_layers == 0:
+            logger.error("num_layers is 0, cannot compute budgets")
+            self._base_layer_budgets = []
+            self._base_head_budgets = []
+            return
+
+        layer_budget = total // num_layers
+        self._base_layer_budgets = [layer_budget] * num_layers
+
+        if num_heads == 0:
+            logger.warning("num_heads is 0, setting empty head budgets")
+            self._base_head_budgets = [[] for _ in range(num_layers)]
+        else:
             head_budget = layer_budget // num_heads
             self._base_head_budgets = [[head_budget] * num_heads for _ in range(num_layers)]
 
@@ -584,6 +654,7 @@ class SerialInferencePipeline:
         self._attention_data = None
         self._request_allocator = None
         self._vllm_backend = None
+        self._last_request_context = None
 
     def phase1_collect_attention(
         self,
@@ -681,7 +752,7 @@ class SerialInferencePipeline:
         self,
         prompts: List[str],
         request_id: Optional[str] = None,
-        **kwargs
+        config=None
     ):
         """
         执行推理
@@ -689,12 +760,16 @@ class SerialInferencePipeline:
         Args:
             prompts: 输入 prompts
             request_id: 请求 ID（用于预算上下文）
-            **kwargs: 传递给 generate 的其他参数
+            config: 可选的生成配置，传递给 VLLM 后端
+
+        Returns:
+            生成结果（预算上下文会被内部记录以供调试）
         """
         if self._vllm_backend is None:
             raise RuntimeError("Must run phase3_initialize_vllm first")
 
         # 创建请求上下文
+        context = None
         if self._request_allocator and request_id:
             context = self._request_allocator.create_context(request_id)
             logger.debug(
@@ -702,7 +777,11 @@ class SerialInferencePipeline:
                 f"{context.aligned_budgets.total_tokens_aligned} tokens"
             )
 
-        return self._vllm_backend.generate(prompts, **kwargs)
+        result = self._vllm_backend.generate(prompts, config=config)
+
+        # 始终返回生成结果，保持与以往 API 兼容；上下文可用于调试
+        self._last_request_context = context
+        return result
 
     def cleanup(self):
         """清理所有资源"""

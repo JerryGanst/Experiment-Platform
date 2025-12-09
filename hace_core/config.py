@@ -144,6 +144,10 @@ VLLM_CONFIG = {
     "timeout": 300,  # 请求超时时间(秒)
     "max_retries": 3,  # 最大重试次数
 
+    # === Tokenizer配置（Server模式专用） ===
+    "tokenizer_mode": "auto",  # "remote": 仅使用远程端点, "local": 仅使用本地, "auto": 自动选择
+    "tokenizer_path": None,  # 单独指定tokenizer路径（如果与模型路径不同）
+
     # === 采样参数默认值 ===
     "sampling_params": {
         "temperature": 0.0,  # 温度参数（0为贪婪解码）
@@ -496,12 +500,21 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 # VLLM_CONFIG["mode"] = "inprocess"
 # VLLM_CONFIG["tensor_parallel_size"] = 2  # 多GPU并行
 #
-# 2. 使用VLLM Server模式：
+# 2. 使用VLLM Server模式（本地服务器）：
 # MODEL_CONFIG["inference_backend"] = "vllm"
 # VLLM_CONFIG["mode"] = "server"
 # VLLM_CONFIG["server_url"] = "http://localhost:8000"
 #
-# 3. 启用注意力数据收集（用于CAKE/AdaKV策略）：
+# 3. 连接远程VLLM服务器（模型在远端）：
+# MODEL_CONFIG["inference_backend"] = "vllm"
+# VLLM_CONFIG["mode"] = "server"
+# VLLM_CONFIG["server_url"] = "http://远程服务器IP:8000"
+# VLLM_CONFIG["tokenizer_mode"] = "remote"  # 使用远程tokenize端点，无需本地模型
+# # 或者指定单独的tokenizer路径：
+# # VLLM_CONFIG["tokenizer_mode"] = "local"
+# # VLLM_CONFIG["tokenizer_path"] = "mistralai/Mistral-7B-Instruct-v0.3"  # 从HuggingFace Hub加载tokenizer
+#
+# 4. 启用注意力数据收集（用于CAKE/AdaKV策略）：
 # VLLM_CONFIG["attention_collection"]["enabled"] = True
 # VLLM_CONFIG["attention_collection"]["mode"] = "external_warmup"
 # VLLM_CONFIG["attention_collection"]["warmup_samples"] = 20
