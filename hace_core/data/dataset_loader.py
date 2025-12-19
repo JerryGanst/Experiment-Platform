@@ -3,9 +3,36 @@
 """
 import logging
 import random
+from pathlib import Path
 from datasets import load_dataset
 
 logger = logging.getLogger(__name__)
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+
+def _load_local_longbench_subset(subset: str, split: str):
+    """
+    LongBench 在 Hub 上需要 trust_remote_code，且新版 datasets 可能直接报错。
+    项目已经缓存了对应的 JSONL 文件，优先使用本地数据以保证可复现、免网络。
+    """
+    data_dir = PROJECT_ROOT / "data"
+    # 按优先级选择可用文件
+    candidate_files = [
+        data_dir / f"{subset}.jsonl",
+        data_dir / f"{subset}_{split}.jsonl",
+        data_dir / f"{subset}.json",
+        data_dir / f"{subset}_{split}.json",
+        # 一些数据带有 _e 后缀，作为兜底
+        data_dir / f"{subset}_e.jsonl",
+        data_dir / f"{subset}_e.json",
+    ]
+    for file_path in candidate_files:
+        if file_path.exists():
+            logger.info(f"Loading LongBench subset '{subset}' from local file: {file_path}")
+            return load_dataset("json", data_files={split: str(file_path)}, split=split)
+    return None
+
 
 def load_dataset_split(dataset_config, split="validation", trust_remote_code=False):
     """
@@ -21,13 +48,20 @@ def load_dataset_split(dataset_config, split="validation", trust_remote_code=Fal
     """
     path = dataset_config["path"]
     subset = dataset_config["subset"]
+    trust_remote_code = dataset_config.get("trust_remote_code", trust_remote_code)
     
     logger.info(f"Loading dataset: {path} (subset: {subset}) - split: {split}")
     
     try:
-        if subset:
+        # 优先处理 LongBench，本地加载避免 Hub 依赖
+        if "longbench" in path.lower() and subset:
+            dataset = _load_local_longbench_subset(subset, split)
+            if dataset is None:
+                logger.warning(f"Local LongBench file for subset '{subset}' not found, falling back to hub download")
+                dataset = load_dataset(path, name=subset, split=split, trust_remote_code=False)
+        elif subset:
             # 修复HotpotQA加载问题：使用name参数而不是subset
-            dataset = load_dataset(path, name=subset, split=split, trust_remote_code=True)
+            dataset = load_dataset(path, name=subset, split=split, trust_remote_code=trust_remote_code)
         else:
             dataset = load_dataset(path, split=split, trust_remote_code=trust_remote_code)
         logger.info(f"Dataset loaded successfully with {len(dataset)} samples")

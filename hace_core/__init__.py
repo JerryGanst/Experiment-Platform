@@ -19,26 +19,8 @@ HACE Core - KV Cache 优化实验平台核心库
 """
 
 from .algorithms import BaseHACEAlgorithm, SimpleHACEAlgorithm
-
-# 延迟导入子模块以避免循环依赖
-def __getattr__(name):
-    """延迟导入子模块"""
-    if name == "core":
-        from . import core
-        return core
-    elif name == "data":
-        from . import data
-        return data
-    elif name == "models":
-        from . import models
-        return models
-    elif name == "utils":
-        from . import utils
-        return utils
-    elif name == "config":
-        from . import config
-        return config
-    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+# 直接导入核心子模块，避免 __getattr__ 导致递归
+from . import config, core, data, models, utils
 
 
 __all__ = [
