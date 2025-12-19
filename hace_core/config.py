@@ -109,12 +109,12 @@ HARDWARE_CONFIG = {
 
 # 模型配置
 MODEL_CONFIG = {
-    "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
+    "model_name_or_path": "/cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # 或 "bf16", "int8" 等
     "device": "cuda",
 
     # 推理后端配置
-    "inference_backend": "hf",  # "hf" (HuggingFace transformers) 或 "vllm" (VLLM引擎)
+    "inference_backend": "vllm",  # "hf" (HuggingFace transformers) 或 "vllm" (VLLM引擎)
 }
 
 # VLLM引擎配置
@@ -169,9 +169,9 @@ VLLM_CONFIG = {
 
 # 实验配置
 EXPERIMENT_CONFIG = {
-    "model_name_or_path": "mistralai/Mistral-7B-Instruct-v0.3",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
+    "model_name_or_path": "/cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",  # 动态解析的模型名称，支持HuggingFace Hub或本地路径
     "precision": "fp16",  # or "bf16", "fp32"
-    "inference_backend": "hf",  # "hf" (HuggingFace) 或 "vllm" (VLLM引擎)
+    "inference_backend": "vllm",  # "hf" (HuggingFace) 或 "vllm" (VLLM引擎)
     "use_relative_paths": True,        # 新增：强制使用相对路径
     "auto_create_dirs": True,          # 新增：自动创建目录
     "baseline_search_patterns": [      # 新增：基线文件搜索模式
@@ -182,9 +182,9 @@ EXPERIMENT_CONFIG = {
     # 多模型实验配置
     "multi_model_experiments": True,
     "experiment_models": [
-        "meta-llama/Llama-2-7b-chat",           # 默认主模型
-        "meta-llama/Meta-Llama-3.1-8B-Instruct",  # Llama 3.1 8B
-        "mistralai/Mistral-7B-Instruct-v0.3"      # Mistral 7B v0.3
+        "/cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
+        "/cloud/cloud-ssd1/Experiment-Platform/model/llm/Meta-Llama-3.1-8B-Instruct",
+        "/cloud/cloud-ssd1/Experiment-Platform/model/HuggingFace/deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
     ],
     
     # 显存管理配置

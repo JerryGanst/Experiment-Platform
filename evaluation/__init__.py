@@ -15,13 +15,7 @@
 4. 生成报告和可视化 (analysis + monitoring)
 """
 
-# 导入主要功能
-from .baselines import *
-from .analysis import *
-
+# 避免在导入 evaluation 时递归导入 baselines，导致缺失模块报错。
+# 需要时请在调用处显式导入对应子模块。
 __version__ = "1.0.0"
-__all__ = [
-    'baselines',
-    'analysis', 
-    'experiments'
-] 
+__all__ = []

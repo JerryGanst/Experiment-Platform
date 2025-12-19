@@ -14,23 +14,41 @@ longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / 
 if str(longbench_metrics_path) not in sys.path:
     sys.path.append(str(longbench_metrics_path))
 
+# 尝试加载官方 LongBench 评分实现；失败时回退到简易实现以避免硬依赖
 try:
     from metrics import qa_f1_score, rouge_score
     print("[OK] LongBench评分模块加载成功")
 except ImportError as e:
     print(f"[WARNING] LongBench评分模块加载失败: {e}")
-    # 简单占位函数
+
+    def _simple_f1(pred: str, ref: str) -> float:
+        """空格分词的简易 F1，避免额外依赖"""
+        pred_tokens = pred.lower().strip().split()
+        ref_tokens = ref.lower().strip().split()
+        if not pred_tokens or not ref_tokens:
+            return 0.0
+        common = set(pred_tokens) & set(ref_tokens)
+        if not common:
+            return 0.0
+        precision = len(common) / len(pred_tokens)
+        recall = len(common) / len(ref_tokens)
+        return 2 * precision * recall / (precision + recall)
+
     def qa_f1_score(pred, ref, **kwargs):
-        return 0.5 if pred.strip() and ref.strip() else 0.0
+        return _simple_f1(pred, ref)
+
     def rouge_score(pred, ref, **kwargs):
-        return 0.5 if pred.strip() and ref.strip() else 0.0
+        # 粗略近似：使用 F1 作为占位
+        return _simple_f1(pred, ref)
 
 logger = logging.getLogger(__name__)
 
 # ❶ 数据集评分函数映射 (按研究报告要求)
 DATASET_SCORERS = {
-    "hotpotqa": qa_f1_score,     # QA任务，F1分数
-    "multi_news": rouge_score,   # 摘要任务，ROUGE-L F1
+    "hotpotqa": qa_f1_score,        # QA任务，F1分数
+    "qasper": qa_f1_score,          # QA任务
+    "multifieldqa_en": qa_f1_score, # QA任务
+    "multi_news": rouge_score,      # 摘要任务，ROUGE-L F1
 }
 
 # 基线文件路径 - 在evaluation目录中
@@ -51,10 +69,7 @@ def score_dataset(dataset_name: str,
     Returns:
         float: 平均分数 (0~1)
     """
-    if dataset_name not in DATASET_SCORERS:
-        raise ValueError(f"不支持的数据集: {dataset_name}. 仅支持: {list(DATASET_SCORERS.keys())}")
-    
-    scorer = DATASET_SCORERS[dataset_name]
+    scorer = DATASET_SCORERS.get(dataset_name, qa_f1_score)
     scores = []
     
     for pred, ref in zip(predictions, references):

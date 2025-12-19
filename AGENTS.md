@@ -168,3 +168,6 @@ Codex must NOT:
 
 - Do not store passwords, API keys, tokens, private keys, or other secrets in this repository (including `AGENTS.md`).
 - Use SSH keys for server access; if a secret was ever committed or shared, rotate it immediately.
+
+## 不要乱改东西
+# AGENTS.md

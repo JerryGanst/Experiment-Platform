@@ -43,6 +43,7 @@ from hace_core.models.model_loader import (
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
 from hace_core.utils.unified_monitor import UnifiedMonitor
+from evaluation.eval_utils import score_dataset
 
 
 # 设置日志
@@ -223,9 +224,30 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             skip_special_tokens=True
         )
 
+        # 计算任务分数（粗略评估）
+        references = [s.get("reference", "") for s in batch["samples"]]
+        try:
+            raw_score = score_dataset(dataset_name, generated_texts, references)
+            logger.info(f"Task score ({dataset_name}): {raw_score:.4f}")
+        except Exception as e:
+            logger.warning(f"评分失败，跳过得分记录: {e}")
+            raw_score = None
+
         # 计算和保存指标
         metrics = monitor.get_comprehensive_metrics()
         metrics_filepath = monitor.save_metrics(output_dir)
+        if raw_score is not None:
+            # 将任务分数写回保存的指标文件
+            try:
+                with open(metrics_filepath, "r", encoding="utf-8") as f:
+                    saved = json.load(f)
+                saved["task_score"] = raw_score
+                saved["dataset"] = dataset_name
+                with open(metrics_filepath, "w", encoding="utf-8") as f:
+                    json.dump(saved, f, indent=2, ensure_ascii=False)
+                metrics = saved
+            except Exception as e:
+                logger.warning(f"写入任务分数失败，保持原始指标文件: {e}")
 
         # 保存生成的文本（可选）
         if OUTPUT_CONFIG.get("save_model_outputs", False):
@@ -235,8 +257,12 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             with open(os.path.join(outputs_dir, f"generated_texts_{experiment_id}.json"), "w", encoding="utf-8") as f:
                 json.dump({
                     "experiment_id": experiment_id,
+                    "dataset": dataset_name,
+                    "kv_cache_length": kv_cache_length,
                     "generated_texts": generated_texts,
-                    "input_texts": [tokenizer.decode(input_ids, skip_special_tokens=True) for input_ids in batch["input_ids"]]
+                    "input_texts": [tokenizer.decode(input_ids, skip_special_tokens=True) for input_ids in batch["input_ids"]],
+                    "references": references,
+                    "task_score": raw_score,
                 }, f, indent=2, ensure_ascii=False)
 
         logger.info(f"Baseline experiment {experiment_id} completed successfully")
@@ -259,6 +285,7 @@ def main():
     parser.add_argument("--output_dir", type=str, default=os.path.join(EXPERIMENT_CONFIG["output_base_dir"], "baseline_experiments"), help="Directory to save experiment results.")
     parser.add_argument("--log_level", type=str, default="INFO", help="Logging level (DEBUG, INFO, WARNING, ERROR)")
     parser.add_argument("--seed", type=int, default=EXPERIMENT_CONFIG.get("random_seed", 42), help="Random seed for reproducibility.")
+    parser.add_argument("--backend", type=str, default=None, help="Inference backend (ignored in baseline)")
 
     args = parser.parse_args()
 
