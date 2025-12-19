@@ -1,5 +1,4 @@
-# 基线实验主脚本 
-
+# 基线实验主脚本
 import sys
 import os
 
@@ -11,6 +10,8 @@ project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirna
 # 如果项目根目录不在 sys.path 中，则添加它
 if project_root_dir not in sys.path:
     sys.path.insert(0, project_root_dir)
+
+
 
 """
 基线实验执行脚本 - 使用标准KV缓存机制
@@ -134,22 +135,23 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
         logger.info(f"Loading dataset {dataset_name}...")
         dataset = load_dataset_split(dataset_config)
 
-        # 准备评估样本
+        # 准备评估样本（全量评估）
+        eval_sample_count = len(dataset)
         samples = prepare_samples_for_evaluation(
             dataset,
             dataset_name,
-            num_samples=batch_size * 2,  # 准备足够的样本
+            num_samples=eval_sample_count,  # 使用全量样本进行评估
             random_seed=EXPERIMENT_CONFIG.get("random_seed", 42)
         )
 
-        # 准备批处理 - 评估时使用drop_last=True避免偏差
+        # 准备批处理 - 全量评估不丢弃尾批
         logger.info(f"Preparing batch with size {batch_size}...")
         batch = prepare_batch(
             samples,
             tokenizer,
             batch_size,
             max_length=kv_cache_length,
-            drop_last=True  # 评估时丢弃不完整批次，避免样本重复导致的评估偏差
+            drop_last=False  # 全量评估保留所有样本
         )
         
         # 如果批次为空（样本数不足），跳过此实验

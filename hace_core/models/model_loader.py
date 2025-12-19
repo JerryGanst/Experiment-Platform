@@ -8,7 +8,6 @@
 使用方式：
 1. 传统方式（向后兼容）：
    model, tokenizer = load_model_and_tokenizer(config)
-
 2. 新的后端抽象方式：
    backend = load_inference_backend(config, vllm_config)
    output = backend.generate(prompt)
@@ -114,23 +113,18 @@ def load_model_and_tokenizer(config):
                 # 获取每个GPU的总显存（以MB为单位）
                 total_memory = torch.cuda.get_device_properties(i).total_memory
                 total_memory_mb = int(total_memory / (1024 * 1024))
-                
-                # 计算可用显存（总显存 - 缓冲区）
-                available_ratio = 1.0 - buffer_ratio
+                # 计算可用显存（总显存 * (1 - 缓冲区)），不再对大显存卡强行截顶
+                available_ratio = max(0.0, min(1.0, 1.0 - buffer_ratio))
                 max_memory_mb = int(total_memory_mb * available_ratio)
-                
-                # 为不同大小的GPU设置更保守的上限
-                if total_memory_mb >= 24000:  # 24GB+ GPU (如RTX 4090, A100等)
-                    max_memory_mb = min(23000, max_memory_mb)
-                elif total_memory_mb >= 16000:  # 16GB+ GPU (如RTX 4080等)
-                    max_memory_mb = min(15000, max_memory_mb)
-                elif total_memory_mb >= 12000:  # 12GB+ GPU (如RTX 4070Ti等)
-                    max_memory_mb = min(11000, max_memory_mb)
-                elif total_memory_mb >= 8000:   # 8GB+ GPU (如RTX 4070等)
-                    max_memory_mb = min(7000, max_memory_mb)
-                
+
+                # 避免极端情况下设置过低
+                if max_memory_mb < 1024:
+                    max_memory_mb = 1024
+
                 max_memory_config[i] = f"{max_memory_mb}MB"
-                logger.info(f"GPU {i}: 总显存 {total_memory_mb}MB, 自动设置上限 {max_memory_mb}MB (缓冲比例: {buffer_ratio:.1%})")
+                logger.info(
+                    f"GPU {i}: 总显存 {total_memory_mb}MB, 自动设置上限 {max_memory_mb}MB (缓冲比例: {buffer_ratio:.1%})"
+                )
         else:
             # 使用手动配置的显存限制
             max_memory_config = manual_max_memory.copy()
