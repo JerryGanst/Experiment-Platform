@@ -383,6 +383,25 @@ class VLLMBackend(BaseInferenceBackend):
         if pp_size > 1:
             llm_kwargs["pipeline_parallel_size"] = pp_size
 
+        # 一些参数在不同 vLLM 版本的构造函数中不一定存在，做兼容性探测后再注入
+        try:
+            import inspect
+
+            supported_params = set(inspect.signature(LLM.__init__).parameters)
+
+            def _set_if_supported(name: str, value):
+                if name in supported_params:
+                    llm_kwargs[name] = value
+
+            # Prefix caching 默认必须关闭（尤其是策略实验）
+            _set_if_supported("enable_prefix_caching", vllm_config.get("enable_prefix_caching", False))
+
+            for opt_key in ("block_size", "max_num_seqs", "max_num_batched_tokens"):
+                if opt_key in vllm_config:
+                    _set_if_supported(opt_key, vllm_config[opt_key])
+        except Exception as e:
+            logger.debug(f"VLLM init signature inspection skipped: {e}")
+
         self._llm = LLM(**llm_kwargs)
 
         # 获取tokenizer
@@ -581,6 +600,17 @@ class VLLMBackend(BaseInferenceBackend):
             token_ids = output.outputs[0].token_ids
             finish_reason = output.outputs[0].finish_reason
 
+            # 尝试提取 vLLM 内部的请求级计时信息（不同版本字段可能不同）
+            metadata: Dict[str, Any] = {}
+            metrics_obj = getattr(output, "metrics", None)
+            if metrics_obj is not None:
+                for k in ("arrival_time", "first_token_time", "finished_time", "time_in_queue"):
+                    if hasattr(metrics_obj, k):
+                        try:
+                            metadata[k] = float(getattr(metrics_obj, k))
+                        except Exception:
+                            pass
+
             results.append(GenerationOutput(
                 text=generated_text,
                 token_ids=list(token_ids) if token_ids else None,
@@ -588,6 +618,7 @@ class VLLMBackend(BaseInferenceBackend):
                 finish_reason=finish_reason or "unknown",
                 prompt_tokens=len(output.prompt_token_ids),
                 completion_tokens=len(token_ids) if token_ids else 0,
+                metadata=metadata,
             ))
 
         return results

@@ -16,6 +16,7 @@ if project_root_dir not in sys.path:
 """
 基线实验执行脚本 - 使用标准KV缓存机制
 """
+import copy
 import time
 import logging
 import argparse
@@ -40,11 +41,14 @@ MONITORING_CONFIG = config.MONITORING_CONFIG
 from hace_core.models.model_loader import (
     load_model_and_tokenizer,
     configure_model_for_kv_cache_length,
-    prepare_model_for_baseline
+    prepare_model_for_baseline,
+    load_inference_backend
 )
 from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
 from hace_core.utils.unified_monitor import UnifiedMonitor
 from evaluation.eval_utils import score_dataset
+from hace_core.models.inference_backend import GenerationConfig
+import hace_core.config as hace_core_config
 
 
 # 设置日志
@@ -85,9 +89,60 @@ def set_seed(seed):
     logger.info(f"Random seed set to {seed}")
 
 
+def normalize_backend_choice(backend: str) -> str:
+    """归一化推理后端名称"""
+    backend = (backend or "hf").strip().lower()
+    if backend in {"hf", "huggingface", "transformers"}:
+        return "hf"
+    if backend == "vllm":
+        return "vllm"
+    raise ValueError(f"Unsupported backend: {backend} (expected: hf|vllm)")
+
+
+def build_vllm_config_for_kv(
+    base_vllm_config: dict,
+    kv_cache_length: int,
+    max_new_tokens: int,
+    *,
+    extra_len_buffer: int = 8,
+) -> dict:
+    """
+    为单个 KV 长度实验构建 vLLM 配置。
+
+    vLLM 的 max_model_len 是「prompt + completion」总长度上限，
+    因此这里用 kv_cache_length + max_new_tokens (+ buffer) 来对齐实验含义。
+    """
+    vllm_cfg = copy.deepcopy(base_vllm_config or {})
+    vllm_cfg["max_model_len"] = int(kv_cache_length) + int(max_new_tokens) + int(extra_len_buffer)
+    return vllm_cfg
+
+
+def truncate_prompts_by_tokens(tokenizer, prompts, max_length: int):
+    """用 tokenizer 按 token 长度截断 prompt（对齐 HF prepare_batch 的 truncation 行为）。"""
+    if not prompts:
+        return []
+
+    enc = tokenizer(
+        prompts,
+        truncation=True,
+        max_length=max_length,
+        padding=False,
+        return_tensors=None,
+    )
+    input_ids = enc.get("input_ids", [])
+    if input_ids and isinstance(input_ids[0], int):
+        input_ids = [input_ids]
+
+    return [tokenizer.decode(ids, skip_special_tokens=True) for ids in input_ids]
+
+
 def run_baseline_experiment(model_config, dataset_name, dataset_config,
                            kv_cache_length, batch_size, max_new_tokens,
-                           output_dir, repeat_index=0):
+                           output_dir, repeat_index=0,
+                           *,
+                           backend=None,
+                           tokenizer=None,
+                           vllm_config=None):
     """
     运行单次基线实验
 
@@ -106,6 +161,7 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
     """
     experiment_id = f"baseline_{dataset_name}_kv{kv_cache_length}_bs{batch_size}_rep{repeat_index}_{datetime.now().strftime('%H%M%S')}"
     logger.info(f"Starting baseline experiment: {experiment_id}")
+    backend_type = normalize_backend_choice(model_config.get("inference_backend") or "hf")
 
     # 初始化统一监控器
     monitor = UnifiedMonitor(experiment_id=experiment_id)
@@ -120,16 +176,26 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
     })
 
     model = None  # 初始化model变量
+    owns_backend = False
+    local_backend = backend
+    local_tokenizer = tokenizer
     try:
-        # 加载模型和分词器
-        logger.info("Loading model and tokenizer...")
-        model, tokenizer = load_model_and_tokenizer(model_config)
-
-        # 配置模型的KV缓存长度
-        model = configure_model_for_kv_cache_length(model, kv_cache_length)
-
-        # 准备基线模型
-        model = prepare_model_for_baseline(model)
+        # 加载模型/后端
+        if backend_type == "vllm":
+            if local_backend is None:
+                logger.info("Loading VLLM backend...")
+                local_backend = load_inference_backend(
+                    model_config,
+                    vllm_config or hace_core_config.VLLM_CONFIG
+                )
+                owns_backend = True
+            if local_tokenizer is None:
+                local_tokenizer = local_backend.get_tokenizer()
+        else:
+            logger.info("Loading model and tokenizer (HF)...")
+            model, local_tokenizer = load_model_and_tokenizer(model_config)
+            model = configure_model_for_kv_cache_length(model, kv_cache_length)
+            model = prepare_model_for_baseline(model)
 
         # 加载数据集
         logger.info(f"Loading dataset {dataset_name}...")
@@ -144,90 +210,192 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             random_seed=EXPERIMENT_CONFIG.get("random_seed", 42)
         )
 
-        # 准备批处理 - 全量评估不丢弃尾批
-        logger.info(f"Preparing batch with size {batch_size}...")
-        batch = prepare_batch(
-            samples,
-            tokenizer,
-            batch_size,
-            max_length=kv_cache_length,
-            drop_last=False  # 全量评估保留所有样本
-        )
-        
-        # 如果批次为空（样本数不足），跳过此实验
-        if batch is None:
-            logger.warning(f"Skipping experiment: insufficient samples ({len(samples)}) for batch size {batch_size}")
+        if not samples:
+            logger.warning(f"Skipping experiment: no samples found for dataset {dataset_name}")
             return monitor.get_comprehensive_metrics()
 
-        # 将批处理数据移至设备
-        inputs = {
-            "input_ids": batch["input_ids"].to(model.device),
-            "attention_mask": batch["attention_mask"].to(model.device)
-        }
+        # 批次统计
+        total_batches = (len(samples) + batch_size - 1) // batch_size
+        logger.info(f"Preparing batches with size {batch_size}, total batches: {total_batches}")
 
-        # 预热（可选）
-        logger.info("Warming up model...")
-        with torch.no_grad():
-            model.generate(
-                **inputs,
-                max_new_tokens=5,
-                do_sample=False
-            )
+        generated_texts = []
+        references = []
 
-        # 清理GPU缓存
-        torch.cuda.empty_cache()
-
-        # 启动统一监控
         monitor.start_monitoring()
 
-        # 开始性能测量
-        logger.info("Starting performance measurement...")
-        monitor.start_generation()
+        if backend_type == "vllm":
+            # VLLM：按文本分批生成（每次调用的 prompt 数量由 batch_size 控制）
+            if not getattr(local_backend, "_baseline_warmed_up", False):
+                warmup_cfg = GenerationConfig(
+                    max_new_tokens=min(5, max_new_tokens),
+                    temperature=0.0,
+                    top_p=1.0,
+                    top_k=-1,
+                    do_sample=False,
+                )
+                try:
+                    local_backend.generate("Hello", config=warmup_cfg)
+                except Exception as e:
+                    logger.warning(f"VLLM warmup failed (ignored): {e}")
+                setattr(local_backend, "_baseline_warmed_up", True)
 
-        # 定义自定义 LogitsProcessor 来记录令牌生成时间
-        class TokenTimeLogitsProcessor(LogitsProcessor):
-            def __init__(self, monitor):
-                self.monitor = monitor
-                self.first_token_recorded = False
+            gen_start = time.time()
+            monitor.performance_metrics["start_time"] = gen_start
+            monitor.performance_metrics["token_times"] = []
+            monitor.performance_metrics["tokens_generated"] = 0
+            monitor.performance_metrics["success"] = True
 
-            def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
-                if not self.first_token_recorded:
-                    self.monitor.record_first_token()
-                    self.first_token_recorded = True
-                else:
-                    self.monitor.record_token()
-                return scores
+            total_tokens = 0
+            token_times = []
 
-        # 创建 LogitsProcessor 实例
-        token_time_processor = TokenTimeLogitsProcessor(monitor)
-        logits_processor_list = LogitsProcessorList([token_time_processor])
+            for start_idx in range(0, len(samples), batch_size):
+                batch_samples = samples[start_idx:start_idx + batch_size]
+                prompts = [s.get("prompt", "") for s in batch_samples]
+                prompts = truncate_prompts_by_tokens(local_tokenizer, prompts, max_length=kv_cache_length)
 
-        # 生成文本
-        with torch.no_grad():
-            outputs = model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                do_sample=True,
-                temperature=0.7,
-                logits_processor=logits_processor_list,
-                pad_token_id=tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id
+                gen_config = GenerationConfig(
+                    max_new_tokens=max_new_tokens,
+                    temperature=0.7,
+                    top_p=1.0,
+                    top_k=-1,
+                    do_sample=True
+                )
+
+                batch_start = time.time()
+                outputs = local_backend.generate(prompts, config=gen_config)
+                batch_end = time.time()
+
+                if not isinstance(outputs, list):
+                    outputs = [outputs]
+                if len(outputs) != len(batch_samples):
+                    logger.warning(
+                        f"VLLM output count mismatch: got {len(outputs)} expected {len(batch_samples)}"
+                    )
+
+                for out, sample in zip(outputs, batch_samples):
+                    generated_texts.append(out.text)
+                    references.append(sample.get("reference", ""))
+
+                    out_tokens = int(getattr(out, "completion_tokens", 0) or 0)
+                    if out_tokens <= 0 and getattr(out, "token_ids", None) is not None:
+                        out_tokens = len(out.token_ids or [])
+                    total_tokens += out_tokens
+
+                    if out_tokens > 0:
+                        meta = getattr(out, "metadata", None) or {}
+                        first_t = meta.get("first_token_time") or meta.get("first_token_ts")
+                        finish_t = meta.get("finished_time") or meta.get("finish_time") or meta.get("finished_ts")
+                        first_t = float(first_t) if first_t is not None else batch_start
+                        finish_t = float(finish_t) if finish_t is not None else batch_end
+                        if finish_t < first_t:
+                            first_t, finish_t = batch_start, batch_end
+
+                        if out_tokens == 1:
+                            token_times.append(first_t)
+                        else:
+                            interval = (finish_t - first_t) / max(1, out_tokens - 1)
+                            token_times.extend(first_t + i * interval for i in range(out_tokens))
+
+            gen_end = time.time()
+            total_time = gen_end - gen_start
+            monitor.performance_metrics["total_time"] = total_time
+
+            if token_times:
+                token_times.sort()
+                monitor.performance_metrics["token_times"] = token_times
+                monitor.performance_metrics["first_token_time"] = token_times[0]
+            else:
+                monitor.performance_metrics["token_times"] = [gen_end]
+                monitor.performance_metrics["first_token_time"] = gen_end
+
+            monitor.performance_metrics["tokens_generated"] = total_tokens
+
+        else:
+            # HF 路径：预热 + LogitsProcessor 记录 token 时间
+            warmup_batch = prepare_batch(
+                samples[:batch_size],
+                local_tokenizer,
+                batch_size,
+                max_length=kv_cache_length,
+                drop_last=False
             )
+            if warmup_batch is None:
+                logger.warning(f"Skipping experiment: insufficient samples ({len(samples)}) for batch size {batch_size}")
+                return monitor.get_comprehensive_metrics()
+            warmup_inputs = {
+                "input_ids": warmup_batch["input_ids"].to(model.device),
+                "attention_mask": warmup_batch["attention_mask"].to(model.device)
+            }
 
-        # 结束性能测量
-        monitor.end_generation()
+            logger.info("Warming up model...")
+            with torch.no_grad():
+                model.generate(
+                    **warmup_inputs,
+                    max_new_tokens=5,
+                    do_sample=False
+                )
+
+            torch.cuda.empty_cache()
+
+            monitor.start_generation()
+
+            class TokenTimeLogitsProcessor(LogitsProcessor):
+                def __init__(self, monitor):
+                    self.monitor = monitor
+                    self.first_token_recorded = False
+
+                def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
+                    if not self.first_token_recorded:
+                        self.monitor.record_first_token()
+                        self.first_token_recorded = True
+                    else:
+                        self.monitor.record_token()
+                    return scores
+
+            token_time_processor = TokenTimeLogitsProcessor(monitor)
+            logits_processor_list = LogitsProcessorList([token_time_processor])
+
+            for start_idx in range(0, len(samples), batch_size):
+                batch_samples = samples[start_idx:start_idx + batch_size]
+                batch = prepare_batch(
+                    batch_samples,
+                    local_tokenizer,
+                    batch_size,
+                    max_length=kv_cache_length,
+                    drop_last=False
+                )
+                if batch is None:
+                    continue
+
+                inputs = {
+                    "input_ids": batch["input_ids"].to(model.device),
+                    "attention_mask": batch["attention_mask"].to(model.device)
+                }
+
+                with torch.no_grad():
+                    outputs = model.generate(
+                        **inputs,
+                        max_new_tokens=max_new_tokens,
+                        do_sample=True,
+                        temperature=0.7,
+                        logits_processor=logits_processor_list,
+                        pad_token_id=local_tokenizer.pad_token_id,
+                        eos_token_id=local_tokenizer.eos_token_id
+                    )
+
+                batch_generated = local_tokenizer.batch_decode(
+                    outputs[:, inputs["input_ids"].shape[1]:],
+                    skip_special_tokens=True
+                )
+                generated_texts.extend(batch_generated)
+                references.extend([s.get("reference", "") for s in batch["samples"]])
+
+            monitor.end_generation()
 
         # 停止监控并收集指标
         monitor.stop_monitoring()
 
-        # 解码输出（可选，用于质量评估）
-        generated_texts = tokenizer.batch_decode(
-            outputs[:, batch["input_ids"].shape[1]:],
-            skip_special_tokens=True
-        )
-
         # 计算任务分数（粗略评估）
-        references = [s.get("reference", "") for s in batch["samples"]]
         try:
             raw_score = score_dataset(dataset_name, generated_texts, references)
             logger.info(f"Task score ({dataset_name}): {raw_score:.4f}")
@@ -262,7 +430,7 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
                     "dataset": dataset_name,
                     "kv_cache_length": kv_cache_length,
                     "generated_texts": generated_texts,
-                    "input_texts": [tokenizer.decode(input_ids, skip_special_tokens=True) for input_ids in batch["input_ids"]],
+                    "input_texts": [s.get("prompt", "") for s in samples],
                     "references": references,
                     "task_score": raw_score,
                 }, f, indent=2, ensure_ascii=False)
@@ -274,6 +442,24 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
         logger.error(f"Error during baseline experiment {experiment_id}: {e}")
         monitor.mark_failure(str(e))
         return monitor.get_comprehensive_metrics()
+    finally:
+        # 资源清理：避免多轮实验时 GPU 显存累积
+        if backend_type == "vllm":
+            if owns_backend and local_backend is not None:
+                try:
+                    local_backend.cleanup()
+                except Exception as e:
+                    logger.warning(f"Cleanup VLLM backend failed (ignored): {e}")
+        else:
+            try:
+                if model is not None:
+                    del model
+                if local_tokenizer is not None:
+                    del local_tokenizer
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+            except Exception:
+                pass
 
 
 def main():
@@ -287,7 +473,7 @@ def main():
     parser.add_argument("--output_dir", type=str, default=os.path.join(EXPERIMENT_CONFIG["output_base_dir"], "baseline_experiments"), help="Directory to save experiment results.")
     parser.add_argument("--log_level", type=str, default="INFO", help="Logging level (DEBUG, INFO, WARNING, ERROR)")
     parser.add_argument("--seed", type=int, default=EXPERIMENT_CONFIG.get("random_seed", 42), help="Random seed for reproducibility.")
-    parser.add_argument("--backend", type=str, default=None, help="Inference backend (ignored in baseline)")
+    parser.add_argument("--backend", type=str, default=None, help="Inference backend: hf or vllm")
 
     args = parser.parse_args()
 
@@ -314,37 +500,92 @@ def main():
     total_experiments = len(datasets_list) * len(kv_lengths_list) * len(batch_sizes_list) * args.repetitions
     logger.info(f"Total number of baseline experiment configurations to run: {total_experiments}")
 
+    backend_choice = normalize_backend_choice(args.backend or EXPERIMENT_CONFIG.get("inference_backend", "hf"))
+
     current_model_config = {
         "model_name_or_path": args.model_name,
-        "precision": EXPERIMENT_CONFIG["precision"]
+        "precision": EXPERIMENT_CONFIG["precision"],
+        "inference_backend": backend_choice
     }
 
     pbar = tqdm(total=total_experiments, desc="Running Baseline Experiments")
 
-    for rep in range(args.repetitions):
-        for dataset_name in datasets_list:
-            dataset_config = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
-            if not dataset_config:
-                logger.error(f"Dataset configuration for '{dataset_name}' not found. Skipping...")
-                pbar.update(len(kv_lengths_list) * len(batch_sizes_list))
-                continue
-            
-            for kv_len in kv_lengths_list:
-                for bs in batch_sizes_list:
-                    logger.info(f"Running baseline: Rep {rep+1}/{args.repetitions}, Dataset: {dataset_name}, KV_Len: {kv_len}, Batch: {bs}")
-                    
-                    experiment_metrics = run_baseline_experiment(
-                        model_config=current_model_config,
-                        dataset_name=dataset_name,
-                        dataset_config=dataset_config,
-                        kv_cache_length=kv_len,
-                        batch_size=bs,
-                        max_new_tokens=args.max_new_tokens,
-                        output_dir=args.output_dir,
-                        repeat_index=rep
-                    )
-                    all_results.append(experiment_metrics)
-                    pbar.update(1)
+    if backend_choice == "vllm":
+        # vLLM 的 max_model_len 需要覆盖「prompt + completion」总长度，
+        # 且无法在同一引擎实例上动态变更；因此按 kv_len 分组初始化引擎以避免重复加载模型。
+        for kv_len in kv_lengths_list:
+            vllm_cfg = build_vllm_config_for_kv(
+                hace_core_config.VLLM_CONFIG,
+                kv_cache_length=kv_len,
+                max_new_tokens=args.max_new_tokens,
+            )
+            logger.info(
+                f"Initializing VLLM backend for kv_len={kv_len} (max_model_len={vllm_cfg.get('max_model_len')})"
+            )
+
+            backend = load_inference_backend(current_model_config, vllm_cfg)
+            tokenizer = backend.get_tokenizer()
+            try:
+                for rep in range(args.repetitions):
+                    for dataset_name in datasets_list:
+                        dataset_config = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
+                        if not dataset_config:
+                            logger.error(f"Dataset configuration for '{dataset_name}' not found. Skipping...")
+                            pbar.update(len(batch_sizes_list))
+                            continue
+
+                        for bs in batch_sizes_list:
+                            logger.info(
+                                f"Running baseline(vllm): Rep {rep+1}/{args.repetitions}, Dataset: {dataset_name}, "
+                                f"KV_Len: {kv_len}, Batch: {bs}"
+                            )
+                            experiment_metrics = run_baseline_experiment(
+                                model_config=current_model_config,
+                                dataset_name=dataset_name,
+                                dataset_config=dataset_config,
+                                kv_cache_length=kv_len,
+                                batch_size=bs,
+                                max_new_tokens=args.max_new_tokens,
+                                output_dir=args.output_dir,
+                                repeat_index=rep,
+                                backend=backend,
+                                tokenizer=tokenizer,
+                                vllm_config=vllm_cfg,
+                            )
+                            all_results.append(experiment_metrics)
+                            pbar.update(1)
+            finally:
+                try:
+                    backend.cleanup()
+                except Exception as e:
+                    logger.warning(f"Cleanup VLLM backend failed (ignored): {e}")
+    else:
+        for rep in range(args.repetitions):
+            for dataset_name in datasets_list:
+                dataset_config = DATASET_CONFIG.get("available_datasets", {}).get(dataset_name)
+                if not dataset_config:
+                    logger.error(f"Dataset configuration for '{dataset_name}' not found. Skipping...")
+                    pbar.update(len(kv_lengths_list) * len(batch_sizes_list))
+                    continue
+
+                for kv_len in kv_lengths_list:
+                    for bs in batch_sizes_list:
+                        logger.info(
+                            f"Running baseline(hf): Rep {rep+1}/{args.repetitions}, Dataset: {dataset_name}, "
+                            f"KV_Len: {kv_len}, Batch: {bs}"
+                        )
+                        experiment_metrics = run_baseline_experiment(
+                            model_config=current_model_config,
+                            dataset_name=dataset_name,
+                            dataset_config=dataset_config,
+                            kv_cache_length=kv_len,
+                            batch_size=bs,
+                            max_new_tokens=args.max_new_tokens,
+                            output_dir=args.output_dir,
+                            repeat_index=rep
+                        )
+                        all_results.append(experiment_metrics)
+                        pbar.update(1)
 
     pbar.close()
 
@@ -356,7 +597,6 @@ def main():
         logger.info(f"All baseline experiment summaries saved to {summary_file_path}")
 
     logger.info("Baseline experiment suite finished.")
-
 
 if __name__ == "__main__":
     main() 
