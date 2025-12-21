@@ -280,6 +280,9 @@ def prepare_samples_for_evaluation(dataset, dataset_info, num_samples=100, rando
         if not processed_sample.get("prompt"):
             logger.warning(f"样本 {idx} 没有找到输入提示，数据集: {dataset_name}")
             processed_sample["prompt"] = ""
+
+        # 保留原始样本，便于上游按需构建更复杂的提示
+        processed_sample["original_sample"] = item
             
         samples.append(processed_sample)
     

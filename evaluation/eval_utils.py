@@ -48,6 +48,8 @@ DATASET_SCORERS = {
     "hotpotqa": qa_f1_score,        # QA任务，F1分数
     "qasper": qa_f1_score,          # QA任务
     "multifieldqa_en": qa_f1_score, # QA任务
+    "gov_report": rouge_score,      # 摘要任务，ROUGE-L F1
+    "qmsum": rouge_score,           # 摘要任务，ROUGE-L F1
     "multi_news": rouge_score,      # 摘要任务，ROUGE-L F1
 }
 

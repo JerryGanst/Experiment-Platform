@@ -12,7 +12,6 @@ if project_root_dir not in sys.path:
     sys.path.insert(0, project_root_dir)
 
 
-
 """
 基线实验执行脚本 - 使用标准KV缓存机制
 """
@@ -27,6 +26,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from datetime import datetime
+from pathlib import Path
+from collections import defaultdict
 from transformers import LogitsProcessor, LogitsProcessorList
 
 # 导入项目模块
@@ -117,23 +118,224 @@ def build_vllm_config_for_kv(
     return vllm_cfg
 
 
-def truncate_prompts_by_tokens(tokenizer, prompts, max_length: int):
-    """用 tokenizer 按 token 长度截断 prompt（对齐 HF prepare_batch 的 truncation 行为）。"""
+def truncate_prompts_by_tokens(tokenizer, prompts, max_length: int, mode: str = "middle"):
+    """用 tokenizer 按 token 长度截断 prompt。mode: middle(默认)/head。"""
     if not prompts:
         return []
 
-    enc = tokenizer(
-        prompts,
-        truncation=True,
-        max_length=max_length,
-        padding=False,
-        return_tensors=None,
-    )
-    input_ids = enc.get("input_ids", [])
-    if input_ids and isinstance(input_ids[0], int):
-        input_ids = [input_ids]
+    if max_length <= 0:
+        return list(prompts)
 
-    return [tokenizer.decode(ids, skip_special_tokens=True) for ids in input_ids]
+    if mode == "head":
+        enc = tokenizer(
+            prompts,
+            truncation=True,
+            max_length=max_length,
+            padding=False,
+            return_tensors=None,
+        )
+        input_ids = enc.get("input_ids", [])
+        if input_ids and isinstance(input_ids[0], int):
+            input_ids = [input_ids]
+        return [tokenizer.decode(ids, skip_special_tokens=True) for ids in input_ids]
+
+    truncated_prompts = []
+    for prompt in prompts:
+        if not prompt:
+            truncated_prompts.append(prompt)
+            continue
+
+        enc = tokenizer(prompt, truncation=False, return_tensors=None)
+        input_ids = enc.get("input_ids", [])
+        if not input_ids:
+            truncated_prompts.append(prompt)
+            continue
+        if isinstance(input_ids[0], list):
+            input_ids = input_ids[0]
+
+        if len(input_ids) <= max_length:
+            truncated_prompts.append(prompt)
+            continue
+
+        half = max_length // 2
+        truncated_ids = input_ids[:half] + input_ids[-half:]
+        truncated_prompts.append(tokenizer.decode(truncated_ids, skip_special_tokens=True))
+
+    return truncated_prompts
+
+
+CAKE_NO_CHAT_DATASETS = {
+    "trec",
+    "triviaqa",
+    "samsum",
+    "lsht",
+    "lcc",
+    "repobench-p",
+}
+
+_CAKE_DATASET_PROMPTS = None
+_CAKE_DATASET_MAXLEN = None
+
+
+def _get_logger():
+    return globals().get("logger") or logging.getLogger(__name__)
+
+
+def _load_cake_dataset_prompts():
+    global _CAKE_DATASET_PROMPTS
+    if _CAKE_DATASET_PROMPTS is not None:
+        return _CAKE_DATASET_PROMPTS
+
+    prompt_path = Path(project_root_dir) / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench" / "config" / "dataset2prompt.json"
+    try:
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            _CAKE_DATASET_PROMPTS = json.load(f)
+    except Exception as exc:
+        _get_logger().warning(f"Failed to load CAKE LongBench prompts from {prompt_path}: {exc}")
+        _CAKE_DATASET_PROMPTS = {}
+    return _CAKE_DATASET_PROMPTS
+
+
+def _load_cake_dataset_maxlen():
+    global _CAKE_DATASET_MAXLEN
+    if _CAKE_DATASET_MAXLEN is not None:
+        return _CAKE_DATASET_MAXLEN
+
+    maxlen_path = Path(project_root_dir) / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench" / "config" / "dataset2maxlen.json"
+    try:
+        with open(maxlen_path, "r", encoding="utf-8") as f:
+            _CAKE_DATASET_MAXLEN = json.load(f)
+    except Exception as exc:
+        _get_logger().warning(f"Failed to load CAKE LongBench maxlen from {maxlen_path}: {exc}")
+        _CAKE_DATASET_MAXLEN = {}
+    return _CAKE_DATASET_MAXLEN
+
+
+def _format_cake_prompt(prompt_format, raw_sample):
+    data = defaultdict(str)
+    if isinstance(raw_sample, dict):
+        data.update(raw_sample)
+    return prompt_format.format_map(data)
+
+
+def _apply_cake_chat_template(tokenizer, prompt, dataset_name, model_name):
+    if dataset_name in CAKE_NO_CHAT_DATASETS:
+        return prompt
+
+    model_id = (model_name or "").lower()
+    if "llama3" in model_id:
+        return (
+            "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
+            f"{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        )
+    if "llama2" in model_id:
+        return f"[INST] {prompt} [/INST]"
+    if "mistral" in model_id:
+        return f"<s>[INST] {prompt} [/INST]"
+    if "qwen" in model_id:
+        if hasattr(tokenizer, "apply_chat_template"):
+            messages = [
+                {"role": "system", "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."},
+                {"role": "user", "content": prompt},
+            ]
+            return tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+    return prompt
+
+
+def _resolve_chat_kind(model_name):
+    model_id = (model_name or "").lower()
+    if "llama3" in model_id:
+        return "llama3"
+    if "llama2" in model_id:
+        return "llama2"
+    if "mistral" in model_id:
+        return "mistral"
+    if "qwen" in model_id:
+        return "qwen"
+    return None
+
+
+def _estimate_chat_overhead_tokens(tokenizer, chat_kind):
+    if chat_kind is None:
+        return 0
+
+    if chat_kind == "qwen":
+        if not hasattr(tokenizer, "apply_chat_template"):
+            return 0
+        messages = [
+            {"role": "system", "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."},
+            {"role": "user", "content": ""},
+        ]
+        chat_prompt = tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+    elif chat_kind == "llama3":
+        chat_prompt = (
+            "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
+            "<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        )
+    elif chat_kind == "llama2":
+        chat_prompt = "[INST][/INST]"
+    elif chat_kind == "mistral":
+        chat_prompt = "<s>[INST]  [/INST]"
+    else:
+        return 0
+
+    enc = tokenizer(chat_prompt, truncation=False, return_tensors=None)
+    input_ids = enc.get("input_ids", [])
+    if input_ids and isinstance(input_ids[0], list):
+        input_ids = input_ids[0]
+    return len(input_ids or [])
+
+
+def apply_cake_prompting(samples, dataset_name, tokenizer, model_name, kv_cache_length):
+    prompt_map = _load_cake_dataset_prompts()
+    use_cake_prompt = dataset_name in prompt_map
+    chat_kind = _resolve_chat_kind(model_name)
+    use_chat = use_cake_prompt and dataset_name not in CAKE_NO_CHAT_DATASETS and chat_kind is not None
+    chat_overhead = _estimate_chat_overhead_tokens(tokenizer, chat_kind) if use_chat else 0
+    max_prompt_tokens = max(1, kv_cache_length - chat_overhead) if kv_cache_length else kv_cache_length
+
+    for sample in samples:
+        prompt = sample.get("prompt", "")
+        raw_sample = sample.get("original_sample") if use_cake_prompt else None
+
+        if use_cake_prompt and raw_sample:
+            try:
+                prompt = _format_cake_prompt(prompt_map[dataset_name], raw_sample)
+            except Exception as exc:
+                _get_logger().warning(f"CAKE prompt format failed for {dataset_name}: {exc}")
+
+        prompt = truncate_prompts_by_tokens(tokenizer, [prompt], max_prompt_tokens)[0]
+        if use_chat:
+            prompt = _apply_cake_chat_template(tokenizer, prompt, dataset_name, model_name)
+
+        sample["prompt"] = prompt
+
+
+def apply_prompt_truncation(samples, tokenizer, kv_cache_length, mode="head"):
+    if not kv_cache_length:
+        return
+    for sample in samples:
+        prompt = sample.get("prompt", "")
+        prompt = truncate_prompts_by_tokens(tokenizer, [prompt], kv_cache_length, mode=mode)[0]
+        sample["prompt"] = prompt
+
+
+def resolve_cake_max_new_tokens(dataset_name, fallback):
+    maxlen_map = _load_cake_dataset_maxlen()
+    if dataset_name in maxlen_map:
+        try:
+            return int(maxlen_map[dataset_name])
+        except (TypeError, ValueError):
+            pass
+    return fallback
 
 
 def run_baseline_experiment(model_config, dataset_name, dataset_config,
@@ -142,7 +344,10 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
                            *,
                            backend=None,
                            tokenizer=None,
-                           vllm_config=None):
+                           vllm_config=None,
+                           cake_prompting=True,
+                           cake_maxlen=True,
+                           greedy_decode=True):
     """
     运行单次基线实验
 
@@ -214,6 +419,27 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             logger.warning(f"Skipping experiment: no samples found for dataset {dataset_name}")
             return monitor.get_comprehensive_metrics()
 
+        if cake_prompting:
+            # 按 CAKE LongBench 规范构建 prompt（含中间截断与 chat 模板）
+            apply_cake_prompting(
+                samples,
+                dataset_name,
+                local_tokenizer,
+                model_config.get("model_name_or_path", ""),
+                kv_cache_length,
+            )
+        else:
+            apply_prompt_truncation(samples, local_tokenizer, kv_cache_length, mode="head")
+
+        if cake_maxlen:
+            dataset_max_new_tokens = resolve_cake_max_new_tokens(dataset_name, max_new_tokens)
+            if dataset_max_new_tokens != max_new_tokens:
+                logger.info(
+                    f"Using CAKE max_new_tokens={dataset_max_new_tokens} for dataset {dataset_name}"
+                )
+        else:
+            dataset_max_new_tokens = max_new_tokens
+
         # 批次统计
         total_batches = (len(samples) + batch_size - 1) // batch_size
         logger.info(f"Preparing batches with size {batch_size}, total batches: {total_batches}")
@@ -251,15 +477,23 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
             for start_idx in range(0, len(samples), batch_size):
                 batch_samples = samples[start_idx:start_idx + batch_size]
                 prompts = [s.get("prompt", "") for s in batch_samples]
-                prompts = truncate_prompts_by_tokens(local_tokenizer, prompts, max_length=kv_cache_length)
 
-                gen_config = GenerationConfig(
-                    max_new_tokens=max_new_tokens,
-                    temperature=0.7,
-                    top_p=1.0,
-                    top_k=-1,
-                    do_sample=True
-                )
+                if greedy_decode:
+                    gen_config = GenerationConfig(
+                        max_new_tokens=dataset_max_new_tokens,
+                        temperature=0.0,
+                        top_p=1.0,
+                        top_k=-1,
+                        do_sample=False
+                    )
+                else:
+                    gen_config = GenerationConfig(
+                        max_new_tokens=dataset_max_new_tokens,
+                        temperature=0.7,
+                        top_p=1.0,
+                        top_k=-1,
+                        do_sample=True
+                    )
 
                 batch_start = time.time()
                 outputs = local_backend.generate(prompts, config=gen_config)
@@ -373,15 +607,26 @@ def run_baseline_experiment(model_config, dataset_name, dataset_config,
                 }
 
                 with torch.no_grad():
-                    outputs = model.generate(
-                        **inputs,
-                        max_new_tokens=max_new_tokens,
-                        do_sample=True,
-                        temperature=0.7,
-                        logits_processor=logits_processor_list,
-                        pad_token_id=local_tokenizer.pad_token_id,
-                        eos_token_id=local_tokenizer.eos_token_id
-                    )
+                    if greedy_decode:
+                        outputs = model.generate(
+                            **inputs,
+                            max_new_tokens=dataset_max_new_tokens,
+                            do_sample=False,
+                            temperature=0.0,
+                            logits_processor=logits_processor_list,
+                            pad_token_id=local_tokenizer.pad_token_id,
+                            eos_token_id=local_tokenizer.eos_token_id
+                        )
+                    else:
+                        outputs = model.generate(
+                            **inputs,
+                            max_new_tokens=dataset_max_new_tokens,
+                            do_sample=True,
+                            temperature=0.7,
+                            logits_processor=logits_processor_list,
+                            pad_token_id=local_tokenizer.pad_token_id,
+                            eos_token_id=local_tokenizer.eos_token_id
+                        )
 
                 batch_generated = local_tokenizer.batch_decode(
                     outputs[:, inputs["input_ids"].shape[1]:],
@@ -474,6 +719,13 @@ def main():
     parser.add_argument("--log_level", type=str, default="INFO", help="Logging level (DEBUG, INFO, WARNING, ERROR)")
     parser.add_argument("--seed", type=int, default=EXPERIMENT_CONFIG.get("random_seed", 42), help="Random seed for reproducibility.")
     parser.add_argument("--backend", type=str, default=None, help="Inference backend: hf or vllm")
+    parser.add_argument("--cake_prompting", dest="cake_prompting", action="store_true", help="Enable CAKE prompt alignment (default: on)")
+    parser.add_argument("--no_cake_prompting", dest="cake_prompting", action="store_false", help="Disable CAKE prompt alignment")
+    parser.add_argument("--cake_maxlen", dest="cake_maxlen", action="store_true", help="Enable CAKE per-dataset max_new_tokens (default: on)")
+    parser.add_argument("--no_cake_maxlen", dest="cake_maxlen", action="store_false", help="Disable CAKE per-dataset max_new_tokens")
+    parser.add_argument("--greedy_decode", dest="greedy_decode", action="store_true", help="Use greedy decoding (default: on)")
+    parser.add_argument("--no_greedy_decode", dest="greedy_decode", action="store_false", help="Use sampling decoding")
+    parser.set_defaults(cake_prompting=True, cake_maxlen=True, greedy_decode=True)
 
     args = parser.parse_args()
 
@@ -508,6 +760,20 @@ def main():
         "inference_backend": backend_choice
     }
 
+    vllm_max_new_tokens = args.max_new_tokens
+    if backend_choice == "vllm" and args.cake_maxlen:
+        dataset_max_new_tokens = [
+            resolve_cake_max_new_tokens(dataset_name, args.max_new_tokens)
+            for dataset_name in datasets_list
+        ]
+        if dataset_max_new_tokens:
+            vllm_max_new_tokens = max(dataset_max_new_tokens)
+        if vllm_max_new_tokens != args.max_new_tokens:
+            logger.info(
+                "Using vLLM max_new_tokens=%s to cover CAKE per-dataset overrides",
+                vllm_max_new_tokens,
+            )
+
     pbar = tqdm(total=total_experiments, desc="Running Baseline Experiments")
 
     if backend_choice == "vllm":
@@ -517,7 +783,7 @@ def main():
             vllm_cfg = build_vllm_config_for_kv(
                 hace_core_config.VLLM_CONFIG,
                 kv_cache_length=kv_len,
-                max_new_tokens=args.max_new_tokens,
+                max_new_tokens=vllm_max_new_tokens,
             )
             logger.info(
                 f"Initializing VLLM backend for kv_len={kv_len} (max_model_len={vllm_cfg.get('max_model_len')})"
@@ -551,6 +817,9 @@ def main():
                                 backend=backend,
                                 tokenizer=tokenizer,
                                 vllm_config=vllm_cfg,
+                                cake_prompting=args.cake_prompting,
+                                cake_maxlen=args.cake_maxlen,
+                                greedy_decode=args.greedy_decode,
                             )
                             all_results.append(experiment_metrics)
                             pbar.update(1)
@@ -582,7 +851,10 @@ def main():
                             batch_size=bs,
                             max_new_tokens=args.max_new_tokens,
                             output_dir=args.output_dir,
-                            repeat_index=rep
+                            repeat_index=rep,
+                            cake_prompting=args.cake_prompting,
+                            cake_maxlen=args.cake_maxlen,
+                            greedy_decode=args.greedy_decode,
                         )
                         all_results.append(experiment_metrics)
                         pbar.update(1)

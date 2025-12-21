@@ -12,6 +12,8 @@
 4. **Token-to-Block 对齐**: CAKE/AdaKV 的 Token 级预算会被对齐到 VLLM 的 Block 级
 5. **Attention 无法直接获取**: VLLM 的 fused kernel 不导出 attention scores，必须用 HF 外部预热
 
+
+
 ## 目录
 
 1. [概述](#概述)
@@ -96,6 +98,15 @@ MODEL_CONFIG = {
 VLLM_CONFIG = {
     # 引擎模式
     "mode": "inprocess",  # "inprocess" 或 "server"
+
+    # 多进程启动方式（重要）：CUDA 场景推荐使用 spawn，避免 fork 后 CUDA 复初始化报错
+    # 等价环境变量：VLLM_WORKER_MULTIPROC_METHOD=spawn
+    "worker_multiproc_method": "spawn",
+
+    # 注意力后端（可选）：默认 FLASH_ATTN 在部分新 GPU/驱动组合下可能不兼容，可切到 TRITON_ATTN
+    # 等价环境变量：VLLM_ATTENTION_BACKEND=TRITON_ATTN
+    # 可选值示例：FLASH_ATTN / TRITON_ATTN / FLASHINFER / ...
+    "attention_backend": "TRITON_ATTN",
 
     # 进程内模式配置
     "tensor_parallel_size": 1,      # 张量并行（多GPU）
@@ -477,6 +488,20 @@ if not is_aligned:
 ```
 
 ## 常见问题
+
+### 1) `Cannot re-initialize CUDA in forked subprocess`
+
+vLLM 0.12+ 默认可能用 `fork` 启动子进程，在父进程触发过 CUDA 初始化后就会报这个错。解决：
+
+- 设置环境变量：`VLLM_WORKER_MULTIPROC_METHOD=spawn`
+- 或在代码里把 `VLLM_CONFIG["worker_multiproc_method"] = "spawn"`
+
+### 2) `cudaErrorUnsupportedPtxVersion` / `unsupported toolchain`
+
+通常是默认 `FLASH_ATTN` 后端与当前 GPU/驱动/二进制不兼容导致。可切到 Triton 后端：
+
+- 设置环境变量：`VLLM_ATTENTION_BACKEND=TRITON_ATTN`
+- 或在代码里把 `VLLM_CONFIG["attention_backend"] = "TRITON_ATTN"`
 
 ### Q: VLLM 安装失败
 

@@ -29,6 +29,8 @@ logger = logging.getLogger(__name__)
 # ❶ 数据集评分函数映射 (按研究报告要求)
 DATASET_SCORERS = {
     "hotpotqa": qa_f1_score,     # QA任务，F1分数
+    "gov_report": rouge_score,  # 摘要任务，ROUGE-L F1
+    "qmsum": rouge_score,        # 摘要任务，ROUGE-L F1
     "multi_news": rouge_score,   # 摘要任务，ROUGE-L F1
 }
 

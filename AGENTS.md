@@ -8,7 +8,7 @@ Codex must follow these rules for all future interactions within this project.
 ---
 
 ## 1. Workspace & Execution Environment
-
+ 
 - This project runs **on a remote GPU server** accessed via SSH:
   `root@117.50.175.133` (port 23)
 - The **remote interpreter** is Python 3.10+ inside an environment labeled `py312`.

@@ -23,6 +23,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
+
 @dataclass
 class GenerationOutput:
     """生成输出的统一数据结构"""
@@ -343,6 +344,50 @@ class VLLMBackend(BaseInferenceBackend):
 
     def _initialize_inprocess(self) -> None:
         """初始化进程内VLLM引擎"""
+        # vLLM 0.12+ 默认会用 fork 启动 worker/core 子进程，这会导致 CUDA 已初始化后 fork 的经典报错：
+        # "Cannot re-initialize CUDA in forked subprocess"
+        # 这里在导入 vllm 之前强制切到 spawn（除非用户显式指定了其它方法）。
+        try:
+            import multiprocessing as mp
+
+            requested_mp_method = (self.backend_config or {}).get("worker_multiproc_method")
+            if requested_mp_method:
+                requested_mp_method = str(requested_mp_method).strip().lower()
+
+            mp_method = requested_mp_method or os.environ.get("VLLM_WORKER_MULTIPROC_METHOD")
+            if not mp_method:
+                # 有 CUDA 时默认使用 spawn；无 CUDA 时保留默认（fork）
+                mp_method = "spawn" if torch.cuda.is_available() else "fork"
+
+            if mp_method:
+                os.environ.setdefault("VLLM_WORKER_MULTIPROC_METHOD", mp_method)
+                # 同步设置 python multiprocessing 的默认启动方式，便于 vLLM/其它组件一致行为
+                try:
+                    mp.set_start_method(mp_method, force=True)
+                except RuntimeError:
+                    # 已设置过 start_method 时忽略
+                    pass
+        except Exception as e:
+            logger.debug(f"Failed to configure multiprocessing start method for vLLM: {e}")
+
+        # 注意力后端选择：
+        # - 某些新 GPU/驱动组合下，vLLM 默认 FLASH_ATTN 可能因二进制/内核不兼容报错（如 PTX toolchain 不匹配）。
+        # - 允许通过 backend_config["attention_backend"] 显式指定（例如 "TRITON_ATTN"）。
+        # - 若未指定且在较新的算力（例如 sm_120）上运行，默认切到 TRITON_ATTN 提升兼容性。
+        try:
+            vllm_config = self.backend_config or {}
+            requested_attn_backend = vllm_config.get("attention_backend")
+            if requested_attn_backend:
+                requested_attn_backend = str(requested_attn_backend).strip().upper()
+                os.environ["VLLM_ATTENTION_BACKEND"] = requested_attn_backend
+            else:
+                if os.environ.get("VLLM_ATTENTION_BACKEND") is None and torch.cuda.is_available():
+                    major, _minor = torch.cuda.get_device_capability(0)
+                    if major >= 12:
+                        os.environ["VLLM_ATTENTION_BACKEND"] = "TRITON_ATTN"
+        except Exception as e:
+            logger.debug(f"Failed to configure attention backend for vLLM: {e}")
+
         try:
             from vllm import LLM, SamplingParams
         except ImportError as e:
@@ -387,10 +432,14 @@ class VLLMBackend(BaseInferenceBackend):
         try:
             import inspect
 
-            supported_params = set(inspect.signature(LLM.__init__).parameters)
+            sig = inspect.signature(LLM.__init__)
+            supported_params = set(sig.parameters)
+            accepts_kwargs = any(
+                p.kind == inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values()
+            )
 
             def _set_if_supported(name: str, value):
-                if name in supported_params:
+                if name in supported_params or accepts_kwargs:
                     llm_kwargs[name] = value
 
             # Prefix caching 默认必须关闭（尤其是策略实验）

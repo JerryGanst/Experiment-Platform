@@ -238,7 +238,7 @@ EXPERIMENT_CONFIG = {
     "head_selection_strategy": "top_k", # e.g., top_k, threshold-based
     "head_k_value": 10, # Number of heads to keep if strategy is top_k
     
-    "output_base_dir": "./results",
+    "output_base_dir": "./results_clean",
     "enable_monitoring": True,
     "monitor_interval": 0.5 # seconds
 }

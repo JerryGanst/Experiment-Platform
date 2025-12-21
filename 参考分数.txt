@@ -1,0 +1,23 @@
+CAKE ICLR 2025 论文 LongBench 参考分数 (Table 8, Qwen2.5-7B-Instruct)
+来源: https://openreview.net/pdf?id=EQgEMAD4kv
+说明: 以下为论文 Table 8 文本提取结果，分数为 0-100 的百分制。
+
+Btotal=Full (Full KV baseline)
+- gov_report: 31.78
+- qmsum: 23.64
+- multi_news: 23.96
+- avg: 48.87
+
+Btotal=128L (CAKE)
+- gov_report: 19.51
+- qmsum: 20.95
+- multi_news: 15.82
+- avg: 41.68
+
+Btotal=1024L (CAKE)
+- gov_report: 26.86
+- qmsum: 23.12
+- multi_news: 22.72
+- avg: 47.70
+
+备注: 这些值来自论文表格，非本地跑分。LongBench 的官方指标对这些数据集使用 ROUGE-L F1。

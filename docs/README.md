@@ -181,6 +181,22 @@ python run_experiments.py --experiment full_evaluation --dry-run
 - **精度**: float16
 - **最大新令牌**: 100
 
+## 🧪 LongBench 基线对齐（CAKE）
+
+为保证 LongBench 评测与 CAKE 官方流程一致，基线评测做了如下对齐：
+
+- **Prompt 模板**：使用 CAKE 的 `dataset2prompt.json`（包含 `{context}` + `{input}`）
+- **中间截断**：超长 prompt 采用“前半 + 后半”的中间截断
+- **Chat 模板**：对 Llama2/Llama3/Mistral/Qwen 使用对应聊天格式；对 `trec/triviaqa/samsum/lsht/lcc/repobench-p` 跳过 chat 包装
+- **样本保留**：评测样本保留 `original_sample`，便于复现原始字段
+- **解码与长度**：使用贪心解码（`do_sample=False`），并按 `dataset2maxlen.json` 设置每任务 `max_new_tokens`
+- **可选开关**：`--no_cake_prompting` / `--no_cake_maxlen` / `--no_greedy_decode` 可关闭对应对齐策略
+
+对应实现位置：
+
+- `evaluation/baselines/baseline_main.py`
+- `hace_core/data/dataset_loader.py`
+
 ### 📋 完整参数列表
 
 ```bash
