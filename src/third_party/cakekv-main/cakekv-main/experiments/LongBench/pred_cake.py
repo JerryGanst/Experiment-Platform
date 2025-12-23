@@ -142,10 +142,7 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
         dtype = torch.float16
    
     tokenizer = AutoTokenizer.from_pretrained(path)
-    model = AutoModelForCausalLM.from_pretrained(
-        path, torch_dtype=dtype,
-        attn_implementation="flash_attention_2"
-    ).to(device)
+    model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=dtype).to(device)
     config = AutoConfig.from_pretrained(path)
     if hasattr(config, 'num_hidden_layers'):
         layers = config.num_hidden_layers
@@ -159,12 +156,16 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
             model.model.layers[i].self_attn.config.tau1 = compress_config.hyper[0]
             model.model.layers[i].self_attn.config.tau2 = compress_config.hyper[1] 
             model.model.layers[i].self_attn.config.gamma = compress_config.hyper[2] 
+            # Fix: Qwen2 uses num_key_value_heads instead of num_heads
+            attn_layer = model.model.layers[i].self_attn
+            num_heads = getattr(attn_layer, 'num_heads', None) or getattr(attn_layer, 'num_key_value_heads', 32)
+
             model.model.layers[i].self_attn.config.prefill_cake_evict = [CakeprefillKVCache(
                 cache_size=compress_config.cache_size,
                 window_size=compress_config.window_size,
                 k_seq_dim=2,
                 v_seq_dim=2,
-                num_heads=model.model.layers[i].self_attn.num_heads,
+                num_heads=num_heads,
                 num_layers=layers,
                 use_cascading=compress_config.cascading
             )]*layers

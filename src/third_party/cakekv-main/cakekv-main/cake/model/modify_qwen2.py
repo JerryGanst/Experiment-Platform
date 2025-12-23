@@ -1,4 +1,5 @@
 import math
+import os
 
 import torch
 import torch.nn.functional as F
@@ -129,7 +130,23 @@ def qwen2_attn_forward_cake(
         disp = calculate_entropy(tmp_attn_weights[:,:,-self.config.window_size[self.layer_idx]:,:-self.config.window_size[self.layer_idx]])
         var = torch.var(tmp_attn_weights[:,:,-self.config.window_size[self.layer_idx]:,:-self.config.window_size[self.layer_idx]],dim=-2).sum(0).sum(0).sum(0)
 
-        pref_score = (disp**(1/self.config.tau1)*var**(1/self.config.tau2)).cpu().numpy()
+        pref_mode = os.environ.get("HACE_PREF_MODE", "").strip().lower()
+
+        # Log pref_mode once at layer 0
+        if self.layer_idx == 0:
+            mode_name = pref_mode if pref_mode else "normal (default)"
+            print(f"[HACE] Using pref_mode: {mode_name}")
+
+        if pref_mode in ("reverse", "invert"):
+            eps = 1e-8
+            pref_score = ((1.0 / (disp + eps)) ** (1 / self.config.tau1) *
+                          (1.0 / (var + eps)) ** (1 / self.config.tau2)).cpu().numpy()
+        elif pref_mode in ("reverse_disp", "invert_disp"):
+            eps = 1e-8
+            pref_score = ((1.0 / (disp + eps)) ** (1 / self.config.tau1) *
+                          (var ** (1 / self.config.tau2))).cpu().numpy()
+        else:
+            pref_score = (disp ** (1 / self.config.tau1) * var ** (1 / self.config.tau2)).cpu().numpy()
 
         #compute preference score and hh score
         attention_score = tmp_attn_weights[:, :, -self.config.window_size[self.layer_idx]:, :] 
@@ -271,9 +288,15 @@ def qwen2_model_forward_cake(
     if position_ids is None:
         position_ids = cache_position.unsqueeze(0)
 
-    causal_mask = self._update_causal_mask(
-        attention_mask, inputs_embeds, cache_position, past_key_values, output_attentions
-    )
+    # Fix: Handle both old and new transformers API
+    if hasattr(self, '_update_causal_mask'):
+        # Old API (transformers < 4.46)
+        causal_mask = self._update_causal_mask(
+            attention_mask, inputs_embeds, cache_position, past_key_values, output_attentions
+        )
+    else:
+        # New API (transformers >= 4.46)
+        causal_mask = attention_mask
 
     hidden_states = inputs_embeds
 
