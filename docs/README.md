@@ -265,6 +265,69 @@ for dataset in hotpotqa multi_news; do
 done
 ```
 
+
+## HACE 注意力权重存储与 Glue 实验
+
+### 注意力权重存储（HACE 方法）
+- 存储实现：`hace_core/models/attention_collector.py`（`AttentionData.save`）
+- 保存格式：`.pkl/.pickle`（推荐）或 `.json`（体积大、慢）
+- 触发条件：在 `hace_core/config.py` 的 `VLLM_CONFIG["attention_collection"]["cache_attention_file"]` 指定路径；否则不会落盘
+- 数据结构：`attention_weights_list`（list of `[batch, heads, seq, seq]` 数组）、`num_layers`、`num_heads`、`seq_length`、`model_name`、`collection_mode`（可选 `layer_statistics/head_statistics`）
+
+### 实验命令（示例）
+
+#### 1) 采样收集注意力权重（小样本）
+```bash
+python - <<'PY'
+from hace_core.models.attention_collector import AttentionCollector, AttentionCollectionConfig
+from hace_core import config
+
+sample_prompts = [
+    "Summarize the meeting in one sentence.",
+    "What is the main decision?",
+]
+cfg = AttentionCollectionConfig(
+    warmup_samples=2,
+    max_seq_length=1024,
+    cache_file="/cloud/cloud-ssd1/Experiment-Platform/runs/attn_cache.pkl",
+    use_cache=False,
+    precision="fp16",
+)
+collector = AttentionCollector(cfg)
+data = collector.collect_from_hf_model(
+    {"model_name_or_path": config.EXPERIMENT_CONFIG["model_name_or_path"]},
+    sample_prompts,
+)
+data.save(cfg.cache_file)
+print("saved", cfg.cache_file)
+PY
+```
+> 说明：这一步会加载 HF 模型并占用显存，建议在 GPU 空闲时运行。
+
+#### 2) Glue/统一分配器（HACE）计算预算
+```bash
+python - <<'PY'
+from hace_core.models.attention_collector import AttentionData
+from hace_core.core import CakeAdaKVIntegration, IntegrationConfig
+
+data = AttentionData.load("/cloud/cloud-ssd1/Experiment-Platform/runs/attn_cache.pkl")
+integration = CakeAdaKVIntegration(IntegrationConfig(total_cache_size=4096, enable_monitoring=True))
+layer_budgets, head_budgets = integration.optimize_cache(data.attention_weights_list)
+
+print("layers", layer_budgets)
+print("heads[0]", head_budgets[0][:8])
+PY
+```
+
+### 注意力熵方向验证实验（建议方案）
+- **数据**：`qmsum/gov_report/multi_news` 各 50 条样本，`max_seq_length=1024`
+- **信号**：注意力熵 `H_attn`（归一化 `H/log L`）与预测熵/置信度 `H_pred`
+- **方向 A/B**：高熵保留 vs 低熵保留，固定相同预算（如 60%）
+- **评价**：ROUGE-L/PPL + 实际耗时/预算 + 相关性 `corr(H_attn, delta_LL)`
+  - `delta_LL = LL_full - LL_layer` 用来衡量“继续计算的边际收益”
+  - 若 `corr(H_attn, delta_LL) > 0` → 高熵更应保留；反之低熵更应保留
+
+
 ## 🆘 故障排除
 
 ### 常见问题

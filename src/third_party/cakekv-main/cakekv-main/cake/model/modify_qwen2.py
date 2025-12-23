@@ -38,10 +38,14 @@ def qwen2_attn_forward_cake(
     attention_mask: Optional[torch.Tensor] = None,
     position_ids: Optional[torch.LongTensor] = None,
     past_key_value: Optional[Cache] = None,
+    past_key_values: Optional[Cache] = None,  # Fix: New API uses past_key_values
     output_attentions: bool = False,
     use_cache: bool = False,
     cache_position: Optional[torch.LongTensor] = None,
 ):
+    # Fix: Handle both old (past_key_value) and new (past_key_values) API
+    if past_key_values is not None:
+        past_key_value = past_key_values
 
     if isinstance(past_key_value, DynamicCache):
         past_key_value = CakeCache.from_dynamic_cache(past_key_value)

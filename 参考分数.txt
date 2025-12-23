@@ -7,13 +7,17 @@ Btotal=Full (Full KV baseline)
 - qmsum: 23.64
 - multi_news: 23.96
 - avg: 48.87
+我跑的:
+- gov_report: 31.78
+- qmsum: 24.22
+- multi_news: 23.9
+
 
 Btotal=128L (CAKE)
 - gov_report: 19.51
 - qmsum: 20.95
 - multi_news: 15.82
-- avg: 41.68
-
+- avg: 41.68,
 Btotal=1024L (CAKE)
 - gov_report: 26.86
 - qmsum: 23.12
@@ -21,3 +25,38 @@ Btotal=1024L (CAKE)
 - avg: 47.70
 
 备注: 这些值来自论文表格，非本地跑分。LongBench 的官方指标对这些数据集使用 ROUGE-L F1。
+
+运行命令（可复制）
+
+
+前置：在远端执行
+cd /cloud/cloud-ssd1/Experiment-Platform
+
+Btotal=Full（baseline，vLLM）
+python evaluation/baselines/baseline_main.py \
+  --backend vllm \
+  --datasets gov_report,qmsum,multi_news \
+  --kv_cache_lengths 31500 \
+  --batch_sizes 1 \
+  --repetitions 1 \
+  --max_new_tokens 256 \
+  --output_dir results_clean/baseline_full \
+  --model_name /model/ModelScope/Qwen/Qwen2.5-7B-Instruct
+
+CAKE 官方 LongBench 复现（Table 8 对应）
+注意：确保 `src/third_party/cakekv-main/cakekv-main/experiments/LongBench/config/model2path.json`
+中 `qwen2.5-7b-instruct` 指向 `/model/ModelScope/Qwen/Qwen2.5-7B-Instruct`。
+
+cd /cloud/cloud-ssd1/Experiment-Platform/src/third_party/cakekv-main/cakekv-main/experiments/LongBench
+
+Btotal=Full（Full Cache baseline）
+python pred_cake.py --model qwen2.5-7b-instruct --pred_name qwen2.5_full --device 0
+python eval.py --model qwen2.5-7b-instruct --dir_path pred_result/cachefull/qwen2.5_full --eval_avg
+
+Btotal=128L（CAKE）
+python pred_cake.py --model qwen2.5-7b-instruct --compress --cascading --cache_size 128 --window_size 32 --pred_name qwen2.5_cake_128 --device 0
+python eval.py --model qwen2.5-7b-instruct --dir_path pred_result/cache128/qwen2.5_cake_128 --eval_avg
+
+Btotal=1024L（CAKE）
+python pred_cake.py --model qwen2.5-7b-instruct --compress --cascading --cache_size 1024 --window_size 32 --pred_name qwen2.5_cake_1024 --device 0
+python eval.py --model qwen2.5-7b-instruct --dir_path pred_result/cache1024/qwen2.5_cake_1024 --eval_avg
