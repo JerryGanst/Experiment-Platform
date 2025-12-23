@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 import os
 import sys
@@ -157,6 +158,11 @@ def main() -> None:
                 ensure_ascii=False,
             )
             f.write("\n")
+
+        # Clear GPU cache and trigger garbage collection after each sample
+        del output, inputs
+        torch.cuda.empty_cache()
+        gc.collect()
 
     print(f"Saved predictions to {out_path}")
 
