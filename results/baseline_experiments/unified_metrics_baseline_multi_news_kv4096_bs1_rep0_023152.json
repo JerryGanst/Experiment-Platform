@@ -1,0 +1,38 @@
+{
+  "experiment_id": "baseline_multi_news_kv4096_bs1_rep0_023152",
+  "timestamp": "2025-12-21T02:47:40.683290",
+  "performance": {
+    "success": true,
+    "ttft_ms": 0.01049041748046875,
+    "tpot_ms": 10.636229873658962,
+    "throughput_tokens_per_sec": 94.019337800555,
+    "total_time_sec": 935.6160345077515,
+    "tokens_generated": 87966,
+    "model_name": "/cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 4096,
+    "max_new_tokens": 256,
+    "use_baseline": true,
+    "dataset": "multi_news"
+  },
+  "gpu": {
+    "total_devices": 1,
+    "device_0": {
+      "peak_memory_mb": 0.0,
+      "average_memory_mb": 0.0,
+      "sample_count": 8373
+    },
+    "total_peak_memory_mb": 0.0
+  },
+  "system": {
+    "peak_cpu_percent": 16.2,
+    "average_cpu_percent": 6.841031149301826,
+    "peak_memory_percent": 6.4,
+    "peak_memory_used_gb": 5.040367126464844,
+    "sample_count": 931
+  },
+  "monitoring_duration": 945.3665142059326,
+  "task_score": 0.2561237941575546,
+  "dataset": "multi_news"
+}

@@ -38,10 +38,12 @@ def qwen2_attn_forward_cake(
     attention_mask: Optional[torch.Tensor] = None,
     position_ids: Optional[torch.LongTensor] = None,
     past_key_value: Optional[Cache] = None,
-    past_key_values: Optional[Cache] = None,  # Fix: New API uses past_key_values
+    past_key_values: Optional[Cache] = None,
     output_attentions: bool = False,
     use_cache: bool = False,
     cache_position: Optional[torch.LongTensor] = None,
+    position_embeddings: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,  # New in 4.46+
+    **kwargs,  # Catch any future API changes
 ):
     # Fix: Handle both old (past_key_value) and new (past_key_values) API
     if past_key_values is not None:
