@@ -8,9 +8,9 @@ Btotal=Full (Full KV baseline)
 - multi_news: 23.96
 - avg: 48.87
 我跑的:
-- gov_report: 31.78
+- gov_report: 33.74
 - qmsum: 24.22
-- multi_news: 23.9
+- multi_news: 25.86
 
 
 Btotal=128L (CAKE)

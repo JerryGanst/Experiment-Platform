@@ -1,7 +1,7 @@
 # 同步到服务器检查清单
 
 ## 需要同步的新文件（3个）
-✅ `scripts/run_hace_qmsum.py` - 主运行脚本（已添加日志和文件清理）
+✅ `scripts/run_hace_qmsum.py` - 主运行脚本（已添加日志、文件清理和GPU内存清理）
 ✅ `run_hace_experiments.sh` - 自动化实验脚本
 ✅ `RUNNING_INSTRUCTIONS.md` - 运行指南
 
@@ -48,8 +48,8 @@ grep -A 5 "HACE_PREF_MODE" src/third_party/cakekv-main/cakekv-main/cake/model/mo
 # 应该能看到第133-149行的pref_mode逻辑
 
 # 检查run_hace_qmsum.py的修改
-grep -A 3 "Clear old results" scripts/run_hace_qmsum.py
-# 应该能看到第117-120行的文件清理逻辑
+grep -A 3 "Clear GPU cache" scripts/run_hace_qmsum.py
+# 应该能看到GPU内存清理逻辑（del output, torch.cuda.empty_cache(), gc.collect()）
 ```
 
 ## 快速测试（在服务器上）
