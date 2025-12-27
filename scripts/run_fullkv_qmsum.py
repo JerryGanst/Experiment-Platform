@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run HACE (Glue) variant on QMSum using CAKE LongBench pipeline."""
+"""Run Full KV Cache baseline on QMSum using same data as HACE."""
 from __future__ import annotations
 
 import argparse
@@ -11,6 +11,7 @@ from pathlib import Path
 
 import torch
 from datasets import load_dataset
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ROOT = Path(__file__).resolve().parents[1]
 CAKE_ROOT = ROOT / "src" / "third_party" / "cakekv-main" / "cakekv-main"
@@ -19,28 +20,21 @@ LONG_BENCH_DIR = CAKE_ROOT / "experiments" / "LongBench"
 if str(CAKE_ROOT) not in sys.path:
     sys.path.insert(0, str(CAKE_ROOT))
 
-from cake.utils import CompressConfig  # noqa: E402
-from experiments.LongBench.pred_cake import build_chat, load_model_and_tokenizer  # noqa: E402
-
+from experiments.LongBench.pred_cake import build_chat  # noqa: E402
 
 NO_CHAT_DATASETS = {"trec", "triviaqa", "samsum", "lsht", "lcc", "repobench-p"}
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run HACE on QMSum (LongBench format)")
-    parser.add_argument("--model", default="qwen2.5-7b-instruct", help="Model key used in CAKE config")
-    parser.add_argument("--model_path", default=None, help="Override model path (optional)")
-    parser.add_argument("--dataset", default="qmsum", help="Dataset name (default: qmsum)")
-    parser.add_argument("--cache_size", type=int, default=128, help="Total cache size (Btotal)")
-    parser.add_argument("--window_size", type=int, default=32, help="Window size")
-    parser.add_argument("--pred_name", default="qwen2.5_hace_128", help="Prediction run name")
-    parser.add_argument("--device", type=int, default=0, help="CUDA device index")
-    parser.add_argument("--max_length", type=int, default=None, help="Override max prompt length")
-    parser.add_argument("--max_gen", type=int, default=None, help="Override max generation length")
-    parser.add_argument("--pref_mode", default="reverse_disp", help="HACE pref mode: normal | reverse | reverse_disp")
-    parser.add_argument("--head_mode", default="", help="HACE head mode: '' (disabled) | lh1 (low conc -> high budget) | lh2 (high conc -> high budget)")
+    parser = argparse.ArgumentParser(description="Run Full KV Cache baseline on QMSum")
+    parser.add_argument("--model", default="qwen2.5-7b-instruct", help="Model key")
+    parser.add_argument("--model_path", default=None, help="Override model path")
+    parser.add_argument("--dataset", default="qmsum", help="Dataset name")
+    parser.add_argument("--pred_name", default="fullkv_baseline", help="Prediction run name")
+    parser.add_argument("--device", type=int, default=0, help="CUDA device")
+    parser.add_argument("--max_length", type=int, default=None, help="Max prompt length")
+    parser.add_argument("--max_gen", type=int, default=None, help="Max generation length")
     parser.add_argument("--output_dir", default=None, help="Output dir")
-    parser.add_argument("--use_cascading", action="store_true", help="Enable CAKE cascading")
     return parser.parse_args()
 
 
@@ -62,33 +56,22 @@ def main() -> None:
     if args.output_dir is None:
         args.output_dir = str(ROOT / "results_clean" / args.pred_name)
 
-    os.environ["HACE_PREF_MODE"] = args.pref_mode
-    os.environ["HACE_HEAD_MODE"] = args.head_mode
-
     model2path = json.load(open(LONG_BENCH_DIR / "config" / "model2path.json", "r"))
     model2maxlen = json.load(open(LONG_BENCH_DIR / "config" / "model2maxlen.json", "r"))
     dataset2prompt = json.load(open(LONG_BENCH_DIR / "config" / "dataset2prompt.json", "r"))
     dataset2maxlen = json.load(open(LONG_BENCH_DIR / "config" / "dataset2maxlen.json", "r"))
-    model2tau = json.load(open(LONG_BENCH_DIR / "config" / "model2tau.json", "r"))
 
     model_name = args.model
     model_path = args.model_path or model2path[model_name]
 
+    # Model path fallback
     if model_path and Path(model_path).is_absolute() and not Path(model_path).exists():
         print(f"WARNING: model path not found: {model_path}")
-        candidates = []
-        if model_name == "qwen2.5-7b-instruct":
-            candidates.extend([
-                "/cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
-                "/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
-                "/model/Qwen2.5-7B-Instruct",
-                str(ROOT / "model" / "Qwen2.5-7B-Instruct"),
-            ])
-        base = Path(model_path).name
-        candidates.extend([
-            f"/model/{base}",
-            str(ROOT / "model" / base),
-        ])
+        candidates = [
+            "/cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
+            "/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
+            str(ROOT / "model" / "ModelScope" / "Qwen" / "Qwen2.5-7B-Instruct"),
+        ]
         for cand in candidates:
             if Path(cand).exists():
                 model_path = cand
@@ -98,18 +81,17 @@ def main() -> None:
     max_length = args.max_length or model2maxlen[model_name]
     max_gen = args.max_gen or dataset2maxlen[args.dataset]
 
-    compress_config = CompressConfig(True, args.use_cascading)
-    compress_config.cache_size = args.cache_size
-    compress_config.window_size = args.window_size
-
-    tau1 = model2tau.get(model_name, {}).get(str(args.cache_size), {}).get("tau1", 1.0)
-    tau2 = model2tau.get(model_name, {}).get(str(args.cache_size), {}).get("tau2", 1.0)
-    gamma = 200.0
-    compress_config.hyper = [tau1, tau2, gamma]
-
     device = torch.device(f"cuda:{args.device}" if torch.cuda.is_available() else "cpu")
-    model, tokenizer = load_model_and_tokenizer(model_path, model_name, device, compress_config)
 
+    # Load model WITHOUT compression (Full KV Cache)
+    print(f"Loading model from {model_path}...")
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_path,
+        torch_dtype=torch.bfloat16
+    ).to(device)
+
+    # Load data - same as HACE
     data_files = {"train": str(ROOT / "data" / f"{args.dataset}.jsonl")}
     data = load_dataset("json", data_files=data_files, split="train")
 
@@ -117,26 +99,22 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     out_path = output_dir / f"{args.dataset}.jsonl"
 
-    # Clear old results to prevent pollution
     if out_path.exists():
-        print(f"WARNING: {out_path} already exists, removing...")
+        print(f"WARNING: {out_path} exists, removing...")
         out_path.unlink()
 
     prompt_format = dataset2prompt[args.dataset]
 
     print(f"\n{'='*60}")
-    print(f"HACE Experiment Configuration:")
+    print(f"Full KV Cache Baseline Configuration:")
     print(f"  Model: {model_name}")
     print(f"  Dataset: {args.dataset}")
-    print(f"  Pref Mode (Layer): {args.pref_mode}")
-    print(f"  Head Mode: {args.head_mode if args.head_mode else 'disabled (uniform)'}")
-    print(f"  Cache Size: {args.cache_size}")
-    print(f"  Window Size: {args.window_size}")
+    print(f"  Max Length: {max_length}")
+    print(f"  Max Gen: {max_gen}")
     print(f"  Output: {out_path}")
     print(f"{'='*60}\n")
 
-    print(f"DEBUG: About to start loop with {len(data)} samples"); import sys; sys.stdout.flush()
-    for sample in data:
+    for i, sample in enumerate(data):
         prompt = build_prompt(tokenizer, prompt_format, sample, args.dataset, max_length, model_name)
         inputs = tokenizer(prompt, truncation=False, return_tensors="pt").to(device)
         context_length = inputs.input_ids.shape[-1]
@@ -163,7 +141,9 @@ def main() -> None:
             )
             f.write("\n")
 
-        # Clear GPU cache and trigger garbage collection after each sample
+        if (i + 1) % 10 == 0:
+            print(f"Processed {i + 1}/{len(data)} samples")
+
         del output, inputs
         torch.cuda.empty_cache()
         gc.collect()

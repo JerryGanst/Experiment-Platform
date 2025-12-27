@@ -20,6 +20,7 @@ class CakeCache(Cache):
         self.pref_scores = []
         self.evict_scores = []
         self.layer_budget = []
+        self.head_concentrations = []  # HACE: Per-layer head concentration scores
     def __getitem__(self, layer_idx: int) -> List[Tuple[torch.Tensor]]:
         """
         Support for backwards-compatible `past_key_value` indexing, e.g. `past_key_value[0][0].shape[2]` to get the
@@ -86,9 +87,12 @@ class CakeCache(Cache):
         self,
         pref_score: torch.Tensor,
         evict_score: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]],
+        head_concentration: Optional[torch.Tensor] = None,  # HACE: [num_kv_heads]
     ):
         self.pref_scores.append(pref_score)
         self.evict_scores.append(evict_score)
+        if head_concentration is not None:
+            self.head_concentrations.append(head_concentration)
 
     def get_seq_length(self, layer_idx: Optional[int] = 0) -> int:
         """Returns the sequence length of the cached states. A layer index can be optionally passed."""
@@ -199,9 +203,10 @@ class CakeprefillKVCache:
         window_size=512,
         k_seq_dim=2,
         v_seq_dim=2,
-        num_heads = 32, 
+        num_heads = 32,
         num_layers = 32,
-        use_cascading = False
+        use_cascading = False,
+        use_head_adaptive = False,  # HACE: Enable head-level adaptive allocation
     ):
 
         self.window_size = window_size
@@ -212,6 +217,7 @@ class CakeprefillKVCache:
         self.num_heads = num_heads
         self.num_layers = num_layers
         self.use_cascading = use_cascading  # If true, ensure high attention precision
+        self.use_head_adaptive = use_head_adaptive  # HACE: head-level optimization
 
         # print(f"CakeprefillKVCache: {self.total_size}, {self.window_size}")
         
@@ -220,10 +226,16 @@ class CakeprefillKVCache:
             return past_key_values
 
         pref_scores = past_key_values.pref_scores
-  
+
         layer_budgets = [pref_score/sum(pref_scores)*self.total_size for pref_score in pref_scores]
-    
+
         layer_budgets = adjust_budgets(layer_budgets, self.total_size, seq_len-self.window_size,  self.num_layers)
+
+        # HACE: Get head-level mode
+        import os
+        head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
+        # Supported modes: adakv (Ada-KV algorithm), lh1, lh2 (simple concentration-based)
+        use_head_alloc = self.use_head_adaptive and head_mode in ("adakv", "lh1", "lh2")
 
         if self.use_cascading:
             layer_idx = 0
@@ -231,7 +243,24 @@ class CakeprefillKVCache:
             for budget in layer_budgets:
                 if budget>= seq_len-self.window_size:
                     budget = seq_len-self.window_size
-                past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget)
+
+                head_budgets = None
+                if use_head_alloc:
+                    if head_mode == "adakv":
+                        # Ada-KV: use hh_score for counting-based allocation
+                        head_budgets = self._compute_head_budgets_adakv(
+                            past_key_values.evict_scores[layer_idx],
+                            budget
+                        )
+                    elif layer_idx < len(past_key_values.head_concentrations):
+                        # lh1/lh2: use concentration-based allocation
+                        head_budgets = self._compute_head_budgets_simple(
+                            past_key_values.head_concentrations[layer_idx],
+                            budget,
+                            head_mode
+                        )
+
+                past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget, head_budgets)
                 past_key_values.layer_budget[layer_idx]=budget
                 layer_idx +=1
         else:
@@ -240,35 +269,194 @@ class CakeprefillKVCache:
                 for budget in layer_budgets:
                     if budget>= seq_len-self.window_size:
                         budget = seq_len-self.window_size
-                    past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget)
+
+                    head_budgets = None
+                    if use_head_alloc:
+                        if head_mode == "adakv":
+                            # Ada-KV: use hh_score for counting-based allocation
+                            head_budgets = self._compute_head_budgets_adakv(
+                                past_key_values.evict_scores[layer_idx],
+                                budget
+                            )
+                        elif layer_idx < len(past_key_values.head_concentrations):
+                            # lh1/lh2: use concentration-based allocation
+                            head_budgets = self._compute_head_budgets_simple(
+                                past_key_values.head_concentrations[layer_idx],
+                                budget,
+                                head_mode
+                            )
+
+                    past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget, head_budgets)
                     past_key_values.layer_budget[layer_idx]=budget
                     layer_idx +=1
 
         return past_key_values
 
-    def evcit_layer_kvcache(self, past_key_values, layer_idx, budget):
+    def _compute_head_budgets_adakv(self, hh_score, layer_budget, alpha=0.5):
+        """
+        Compute per-head budgets using Ada-KV's counting-based algorithm.
 
+        Ada-KV Algorithm (Algorithm 2 from paper):
+        1. Concatenate attention weights across all heads
+        2. Select top-B indices globally
+        3. Count frequency of each head in top-B
+        4. Allocate budget proportional to frequency
+        5. Blend with uniform allocation using alpha
+
+        Args:
+            hh_score: Tensor [bsz, num_kv_heads, seq_len] - attention scores per head
+            layer_budget: Total budget for this layer
+            alpha: Blending factor (default 0.5)
+                   final_budget = alpha * adaptive + (1-alpha) * uniform
+
+        Returns:
+            Tensor [num_kv_heads] - budget per head
+        """
+        bsz, num_kv_heads, seq_len = hh_score.shape
+
+        # Step 1: Flatten across heads -> [bsz, num_kv_heads * seq_len]
+        flat_scores = hh_score.reshape(bsz, -1)
+
+        # Step 2: Create head indicators
+        head_ids = torch.arange(num_kv_heads, device=hh_score.device)
+        head_ids = head_ids.unsqueeze(1).expand(-1, seq_len).reshape(-1)  # [num_kv_heads * seq_len]
+
+        # Step 3: Select top-B indices globally
+        total_budget = int(layer_budget)
+        _, top_indices = flat_scores.topk(min(total_budget, flat_scores.shape[-1]), dim=-1)
+
+        # Step 4: Count frequency of each head in top-B
+        # top_indices: [bsz, B] -> map to head_ids
+        top_head_ids = head_ids[top_indices[0]]  # Take first batch item
+        head_counts = torch.zeros(num_kv_heads, device=hh_score.device)
+        for h in range(num_kv_heads):
+            head_counts[h] = (top_head_ids == h).sum().float()
+
+        # Step 5: Normalize to get adaptive budget
+        if head_counts.sum() > 0:
+            adaptive_budget = head_counts / head_counts.sum() * layer_budget
+        else:
+            adaptive_budget = torch.ones(num_kv_heads, device=hh_score.device) * layer_budget / num_kv_heads
+
+        # Step 6: Blend with uniform allocation
+        uniform_budget = layer_budget / num_kv_heads
+        head_budgets = alpha * adaptive_budget + (1 - alpha) * uniform_budget
+
+        # Ensure minimum budget of 1 per head
+        head_budgets = head_budgets.clamp(min=1)
+
+        return head_budgets
+
+    def _compute_head_budgets_simple(self, head_concentration, layer_budget, head_mode):
+        """
+        Simple head budget allocation based on concentration (our experimental version).
+
+        This is a simplified alternative to Ada-KV for hypothesis testing:
+        - lh1: Low concentration heads get more budget (attention is dispersed)
+        - lh2: High concentration heads get more budget (attention is focused)
+
+        Args:
+            head_concentration: Tensor [num_kv_heads] - concentration score per head
+            layer_budget: Total budget for this layer
+            head_mode: 'lh1' or 'lh2'
+
+        Returns:
+            Tensor [num_kv_heads] - budget per head
+        """
+        if head_mode == "lh1":
+            # Low concentration -> high budget (dispersed attention needs more tokens)
+            weights = 1.0 / (head_concentration + 1e-8)
+        elif head_mode == "lh2":
+            # High concentration -> high budget (focused attention is important)
+            weights = head_concentration
+        else:
+            weights = torch.ones_like(head_concentration)
+
+        weights = weights / weights.sum()
+        head_budgets = weights * layer_budget
+        head_budgets = head_budgets.clamp(min=1)
+
+        return head_budgets
+
+    def evcit_layer_kvcache(self, past_key_values, layer_idx, budget, head_budgets=None):
+        """
+        Evict tokens from layer's KV cache.
+
+        Args:
+            past_key_values: Cache object
+            layer_idx: Layer index
+            budget: Total layer budget (used when head_budgets is None)
+            head_budgets: Optional per-head budgets tensor [num_kv_heads]
+                         If provided, each head gets its own budget allocation
+        """
         bsz, num_key_value_heads, seq_len, head_dim = past_key_values.key_cache[layer_idx].shape
 
         num_key_value_groups = self.num_heads // num_key_value_heads
         hh_score = past_key_values.evict_scores[layer_idx]
 
-        if budget> hh_score.shape[-1]:
-            budget=hh_score.shape[-1]
-  
-        indices = hh_score.topk(budget, dim=-1).indices
-        hh_score_compress = hh_score.gather(dim=2, index=indices)
-        past_key_values.evict_scores[layer_idx] = hh_score_compress
+        if budget > hh_score.shape[-1]:
+            budget = hh_score.shape[-1]
 
-        indices = indices.unsqueeze(-1).expand(-1, -1, -1, head_dim)
+        # HACE: Head-level adaptive allocation
+        if head_budgets is not None and self.use_head_adaptive:
+            # Per-head differentiated eviction
+            k_past = past_key_values.key_cache[layer_idx][:, :, :-self.window_size, :]
+            v_past = past_key_values.value_cache[layer_idx][:, :, :-self.window_size, :]
 
-        k_past_compress = past_key_values.key_cache[layer_idx][:, :, :-self.window_size, :].gather(dim=2, index=indices)
-        v_past_compress = past_key_values.value_cache[layer_idx][:, :, :-self.window_size, :].gather(dim=2, index=indices)
+            k_compressed_list = []
+            v_compressed_list = []
+            hh_compressed_list = []
+
+            for h in range(num_key_value_heads):
+                h_budget = int(head_budgets[h].item())
+                h_budget = min(h_budget, hh_score.shape[-1])
+                h_budget = max(h_budget, 1)  # At least 1 token
+
+                # Get top-k indices for this head
+                h_indices = hh_score[:, h:h+1, :].topk(h_budget, dim=-1).indices
+                h_hh_compress = hh_score[:, h:h+1, :].gather(dim=2, index=h_indices)
+
+                h_indices_expanded = h_indices.unsqueeze(-1).expand(-1, -1, -1, head_dim)
+                k_h_compress = k_past[:, h:h+1, :, :].gather(dim=2, index=h_indices_expanded)
+                v_h_compress = v_past[:, h:h+1, :, :].gather(dim=2, index=h_indices_expanded)
+
+                k_compressed_list.append(k_h_compress)
+                v_compressed_list.append(v_h_compress)
+                hh_compressed_list.append(h_hh_compress)
+
+            # Pad to max head budget for concatenation
+            max_budget = max(k.shape[2] for k in k_compressed_list)
+
+            for i in range(num_key_value_heads):
+                curr_len = k_compressed_list[i].shape[2]
+                if curr_len < max_budget:
+                    pad_len = max_budget - curr_len
+                    # Pad with zeros (will be masked during attention)
+                    k_compressed_list[i] = F.pad(k_compressed_list[i], (0, 0, 0, pad_len))
+                    v_compressed_list[i] = F.pad(v_compressed_list[i], (0, 0, 0, pad_len))
+                    hh_compressed_list[i] = F.pad(hh_compressed_list[i], (0, pad_len))
+
+            k_past_compress = torch.cat(k_compressed_list, dim=1)
+            v_past_compress = torch.cat(v_compressed_list, dim=1)
+            hh_score_compress = torch.cat(hh_compressed_list, dim=1)
+
+            past_key_values.evict_scores[layer_idx] = hh_score_compress
+        else:
+            # Original: all heads share the same indices
+            indices = hh_score.topk(budget, dim=-1).indices
+            hh_score_compress = hh_score.gather(dim=2, index=indices)
+            past_key_values.evict_scores[layer_idx] = hh_score_compress
+
+            indices = indices.unsqueeze(-1).expand(-1, -1, -1, head_dim)
+
+            k_past_compress = past_key_values.key_cache[layer_idx][:, :, :-self.window_size, :].gather(dim=2, index=indices)
+            v_past_compress = past_key_values.value_cache[layer_idx][:, :, :-self.window_size, :].gather(dim=2, index=indices)
+
         k_cur = past_key_values.key_cache[layer_idx][:, :, -self.window_size:, :]
         v_cur = past_key_values.value_cache[layer_idx][:, :, -self.window_size:, :]
         key_states = torch.cat([k_past_compress, k_cur], dim=2)
         value_states = torch.cat([v_past_compress, v_cur], dim=2)
-        
+
         past_key_values.key_cache[layer_idx] = key_states
         past_key_values.value_cache[layer_idx] = value_states
 

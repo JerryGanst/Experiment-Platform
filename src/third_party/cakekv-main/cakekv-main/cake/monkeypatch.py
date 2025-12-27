@@ -30,6 +30,7 @@ def replace_flashmistral_attn_with_cakeattn():
 
 def replace_flashqwen2_attn_with_cakeattn():
     """替换Qwen2 attention实现，兼容不同transformers版本"""
+    print("[PATCH] replace_flashqwen2_attn_with_cakeattn called")
     transformers.models.qwen2.modeling_qwen2.Qwen2Model.forward = qwen2_model_forward_cake
     
     # 检查FlashAttention2是否存在
@@ -39,4 +40,9 @@ def replace_flashqwen2_attn_with_cakeattn():
     # 检查标准Qwen2Attention是否存在
     if hasattr(transformers.models.qwen2.modeling_qwen2, 'Qwen2Attention'):
         transformers.models.qwen2.modeling_qwen2.Qwen2Attention.forward = qwen2_attn_forward_cake
+
+    # 检查SDPA Attention是否存在（独立检查，不依赖上面的if）
+    if hasattr(transformers.models.qwen2.modeling_qwen2, "Qwen2SdpaAttention"):
+        transformers.models.qwen2.modeling_qwen2.Qwen2SdpaAttention.forward = qwen2_attn_forward_cake
+        print("[PATCH] Replaced Qwen2SdpaAttention.forward")
 

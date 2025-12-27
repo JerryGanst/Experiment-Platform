@@ -328,6 +328,154 @@ PY
   - 若 `corr(H_attn, delta_LL) > 0` → 高熵更应保留；反之低熵更应保留
 
 
+## 🔬 HACE pref_mode 实验
+
+### 实验目的
+
+对比不同的注意力预算分配策略：
+
+| 模式 | 公式 | 含义 |
+|------|------|------|
+| `normal` | H^(+) * V^(+) | 高熵高方差 → 高预算（原设计） |
+| `reverse_disp` | (1/H)^(+) * V^(+) | 低熵 → 高预算（导师建议） |
+| `reverse` | (1/H)^(+) * (1/V)^(+) | 低熵低方差 → 高预算（更激进） |
+
+### 运行实验
+
+```bash
+# SSH连接服务器
+ssh -p 23 root@117.50.34.209
+
+# 激活环境
+cd /cloud/cloud-ssd1/Experiment-Platform
+source /usr/local/miniconda3/bin/activate py312
+
+# 运行 reverse_disp 模式
+CUDA_VISIBLE_DEVICES=0 python scripts/run_hace_qmsum.py \
+    --pref_mode reverse_disp \
+    --pred_name hace_reverse_disp_128 \
+    --device 0
+
+# 运行 normal 模式
+CUDA_VISIBLE_DEVICES=0 python scripts/run_hace_qmsum.py \
+    --pref_mode normal \
+    --pred_name hace_normal_128 \
+    --device 0
+
+# 后台运行（推荐）
+nohup python scripts/run_hace_qmsum.py \
+    --pref_mode reverse_disp \
+    --pred_name hace_reverse_disp_128 \
+    --device 0 > logs/reverse_disp.log 2>&1 &
+```
+
+### 监控实验进度
+
+```bash
+# 使用监控脚本
+bash scripts/monitor_experiment.sh
+
+# 手动检查进度
+wc -l results_clean/*/qmsum.jsonl
+
+# 查看GPU状态
+nvidia-smi
+
+# 查看运行中的进程
+ps aux | grep run_hace
+
+# 查看日志
+tail -f logs/reverse_disp.log
+```
+
+### 评估结果
+
+```bash
+# 计算ROUGE分数
+python scripts/eval_rouge.py results_clean/hace_normal_128/qmsum.jsonl
+python scripts/eval_rouge.py results_clean/hace_reverse_disp_128/qmsum.jsonl
+
+# 对比结果
+python scripts/compare_hace_results.py
+```
+
+### 结果解读
+
+- 如果 `reverse_disp` ROUGE > `normal` → 导师对了，低熵层应该分配更多预算
+- 如果 `normal` > `reverse_disp` → 原设计正确，高熵层需要更多预算
+- 如果差不多 → 熵信号可能本身不够好
+
+---
+
+## 🔬 HACE 头级自适应优化 (Ada-KV 集成)
+
+### 代码位置
+
+**重要**: HACE 使用的 CAKE 代码位于 `src/third_party/cakekv-main/cakekv-main/`。修改此目录会影响所有使用 CAKE 的实验。
+
+关键文件：
+- `cake/cake_cache.py` - KV 缓存管理和预算分配
+- `cake/model/modify_qwen2.py` - 注意力前向计算和分数计算
+- `experiments/LongBench/pred_cake.py` - 实验运行入口
+
+### 头级优化模式
+
+| 模式 | 环境变量 | 算法 | 含义 |
+|------|----------|------|------|
+| `adakv` | `HACE_HEAD_MODE=adakv` | Ada-KV counting | 论文原版：全局 top-B 计数分配 |
+| `lh1` | `HACE_HEAD_MODE=lh1` | 浓度反比 | 低浓度 head → 高预算 (我们的假设) |
+| `lh2` | `HACE_HEAD_MODE=lh2` | 浓度正比 | 高浓度 head → 高预算 (导师假设) |
+| (空) | `HACE_HEAD_MODE=` | 均匀分配 | 原始 CAKE 行为 |
+
+### Ada-KV 算法原理 (论文: arXiv:2407.11550)
+
+```
+Algorithm 2 (Ada-KV):
+1. 拼接所有 head 的 attention weights
+2. 全局选取 top-B 个最大权重
+3. 统计每个 head 在 top-B 中出现的频率
+4. 按频率比例分配预算
+5. 用 α=0.5 混合：budget = α × adaptive + (1-α) × uniform
+```
+
+### 运行头级实验
+
+```bash
+# SSH 连接服务器
+ssh -p 23 root@117.50.34.209
+cd /cloud/cloud-ssd1/Experiment-Platform
+source /usr/local/miniconda3/bin/activate py312
+
+# 方式1: 使用实验脚本
+nohup bash scripts/run_head_level_experiments.sh > logs/head_experiments.log 2>&1 &
+
+# 方式2: 手动运行单个配置
+CUDA_VISIBLE_DEVICES=0 python scripts/run_hace_qmsum.py \
+    --pref_mode normal \
+    --head_mode adakv \
+    --pred_name hace_adakv_128 \
+    --device 0
+```
+
+### 同步代码到服务器
+
+```bash
+rsync -avz --progress \
+    -e "ssh -p 23" \
+    --include='src/third_party/cakekv-main/cakekv-main/cake/cake_cache.py' \
+    --include='src/third_party/cakekv-main/cakekv-main/cake/model/modify_qwen2.py' \
+    --include='src/third_party/cakekv-main/cakekv-main/experiments/LongBench/pred_cake.py' \
+    --include='scripts/run_hace_qmsum.py' \
+    --include='scripts/run_head_level_experiments.sh' \
+    --include='hace_core/models/cake_converter.py' \
+    --include='hace_core/models/cake_subprocess_adapter.py' \
+    --include='*/' \
+    --exclude='*' \
+    ./ root@117.50.34.209:/cloud/cloud-ssd1/Experiment-Platform/
+```
+
+---
+
 ## 🆘 故障排除
 
 ### 常见问题

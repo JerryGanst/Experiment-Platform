@@ -160,6 +160,13 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
             attn_layer = model.model.layers[i].self_attn
             num_heads = getattr(attn_layer, 'num_heads', None) or getattr(attn_layer, 'num_key_value_heads', 32)
 
+            # HACE: Check if head-level adaptive mode is enabled
+            # Supported modes: adakv (Ada-KV counting), lh1/lh2 (concentration-based)
+            head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
+            use_head_adaptive = head_mode in ("adakv", "lh1", "lh2")
+            if use_head_adaptive and i == 0:
+                print(f"[HACE] Head-level adaptive mode enabled: {head_mode}")
+
             model.model.layers[i].self_attn.config.prefill_cake_evict = [CakeprefillKVCache(
                 cache_size=compress_config.cache_size,
                 window_size=compress_config.window_size,
@@ -167,7 +174,8 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
                 v_seq_dim=2,
                 num_heads=num_heads,
                 num_layers=layers,
-                use_cascading=compress_config.cascading
+                use_cascading=compress_config.cascading,
+                use_head_adaptive=use_head_adaptive,  # HACE: head-level optimization
             )]*layers
 
     model = model.eval()

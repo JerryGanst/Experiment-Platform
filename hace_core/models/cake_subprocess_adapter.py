@@ -208,15 +208,18 @@ class CAKESubprocessAdapter:
                 logger.warning(f"环境变量CAKE_ROOT路径无效: {env_cake_root}")
         
         # 3. 自动搜索可能的位置
-        current_dir = Path(__file__).parent.parent
+        current_dir = Path(__file__).parent.parent  # hace_core
+        project_root = current_dir.parent  # Experiment-Platform
         possible_paths = [
+            # 正确的CAKE位置: src/third_party/cakekv-main/cakekv-main
+            project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main",
             current_dir / "third_party" / "CAKE",
-            current_dir / "cakekv-main" / "cakekv-main",  # 实际CAKE代码位置
+            current_dir / "cakekv-main" / "cakekv-main",
             current_dir / "CAKE",
         ]
-        
-        # 4. 搜索third_party下的所有子目录
-        third_party_dir = current_dir / "third_party"
+
+        # 4. 搜索third_party下的所有子目录 (优先搜索 src/third_party)
+        third_party_dir = project_root / "src" / "third_party"
         if third_party_dir.exists():
             for subdir in third_party_dir.iterdir():
                 if subdir.is_dir():

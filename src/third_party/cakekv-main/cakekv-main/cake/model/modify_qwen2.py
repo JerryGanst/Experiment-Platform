@@ -46,6 +46,12 @@ def qwen2_attn_forward_cake(
     **kwargs,  # Catch any future API changes
 ):
     # Fix: Handle both old (past_key_value) and new (past_key_values) API
+    # DEBUG
+    if not hasattr(qwen2_attn_forward_cake, "dbg"):
+        import os
+        pm = os.environ.get("HACE_PREF_MODE", "NONE")
+        print("[DBG] Forward called, pref_mode=" + str(pm))
+        qwen2_attn_forward_cake.dbg = 1
     if past_key_values is not None:
         past_key_value = past_key_values
 
@@ -120,6 +126,13 @@ def qwen2_attn_forward_cake(
     dropout_rate = 0.0 if not self.training else self.attention_dropout
     
     if self.config.prefill[self.layer_idx]:
+        # Log pref_mode once (first time entering prefill)
+        if not hasattr(self.__class__, "_pref_mode_logged"):
+            pref_mode_env = os.environ.get("HACE_PREF_MODE", "").strip().lower()
+            mode_display = pref_mode_env if pref_mode_env else "normal (default)"
+            print(f"[HACE] Using pref_mode: {mode_display}")
+            self.__class__._pref_mode_logged = True
+        
         tmp_attn_weights = torch.matmul(query_states[..., -self.config.window_size[self.layer_idx]:, :], key_states.transpose(2, 3)) / math.sqrt(self.head_dim)
 
         if q_len !=1:
@@ -155,7 +168,7 @@ def qwen2_attn_forward_cake(
             pref_score = (disp ** (1 / self.config.tau1) * var ** (1 / self.config.tau2)).cpu().numpy()
 
         #compute preference score and hh score
-        attention_score = tmp_attn_weights[:, :, -self.config.window_size[self.layer_idx]:, :] 
+        attention_score = tmp_attn_weights[:, :, -self.config.window_size[self.layer_idx]:, :]
 
         attn_mean = attention_score.mean(dim = -2)
         attn_var = attention_score.var(dim = -2)
@@ -165,7 +178,29 @@ def qwen2_attn_forward_cake(
 
         attn_cache = attn_cache.reshape(bsz, self.num_key_value_heads, self.num_key_value_groups, -1)
         hh_score = attn_cache.mean(dim=-2)
-        past_key_value.update_score(pref_score, hh_score)
+
+        # HACE: Compute head-level concentration scores
+        # concentration = 1 / (1 + variance) -> high when attention is focused
+        head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
+        head_concentration = None
+        if head_mode in ("lh1", "lh2"):
+            # Compute per-head variance across sequence positions
+            # attention_score: [bsz, num_heads, window, seq_len]
+            # We want variance across the last dimension for each head
+            attn_for_conc = attention_score[:, :, :, :-self.config.window_size[self.layer_idx]]
+            # Mean across batch and window dimensions: [num_heads, seq_len]
+            attn_per_head = attn_for_conc.mean(dim=0).mean(dim=1)  # [num_heads, seq_len]
+            # Variance per head: [num_heads]
+            head_var = attn_per_head.var(dim=-1)
+            # Group by kv_heads: [num_kv_heads]
+            head_var = head_var.reshape(self.num_key_value_heads, self.num_key_value_groups).mean(dim=-1)
+            # Concentration: high variance = low concentration
+            head_concentration = 1.0 / (1.0 + head_var)
+
+            if self.layer_idx == 0:
+                print(f"[HACE] Head mode: {head_mode}, concentration shape: {head_concentration.shape}")
+
+        past_key_value.update_score(pref_score, hh_score, head_concentration)
 
 
         past_key_value.layer_budget.append(self.config.key_size[self.layer_idx])
@@ -229,7 +264,7 @@ def qwen2_attn_forward_cake(
         dropout=dropout_rate,
         sliding_window=sliding_window,
         is_causal=self.is_causal,
-        use_top_left_mask=self._flash_attn_uses_top_left_mask,
+        use_top_left_mask=getattr(self, "_flash_attn_uses_top_left_mask", True),
     )
 
     attn_output = attn_output.reshape(bsz, q_len, self.hidden_size).contiguous()

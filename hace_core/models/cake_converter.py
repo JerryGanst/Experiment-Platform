@@ -12,8 +12,9 @@ from typing import Optional, Dict, Any
 
 # 添加cakekv-main到Python路径
 current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(os.path.dirname(current_dir))  # 向上两级到hace-kv-optimization
-cakekv_path = os.path.join(project_root, "cakekv-main", "cakekv-main")
+project_root = os.path.dirname(os.path.dirname(current_dir))  # 向上两级到Experiment-Platform
+# CAKE代码在 src/third_party/cakekv-main/cakekv-main/
+cakekv_path = os.path.join(project_root, "src", "third_party", "cakekv-main", "cakekv-main")
 if cakekv_path not in sys.path:
     sys.path.insert(0, cakekv_path)
 
