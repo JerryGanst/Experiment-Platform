@@ -161,9 +161,9 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
             num_heads = getattr(attn_layer, 'num_heads', None) or getattr(attn_layer, 'num_key_value_heads', 32)
 
             # HACE: Check if head-level adaptive mode is enabled
-            # Supported modes: adakv (Ada-KV counting), lh1/lh2 (concentration-based)
+            # Supported modes: adakv (Ada-KV counting), high_entropy/low_entropy (entropy-based)
             head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
-            use_head_adaptive = head_mode in ("adakv", "lh1", "lh2")
+            use_head_adaptive = head_mode in ("adakv", "high_entropy", "low_entropy")
             if use_head_adaptive and i == 0:
                 print(f"[HACE] Head-level adaptive mode enabled: {head_mode}")
 

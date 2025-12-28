@@ -20,7 +20,7 @@ class CakeCache(Cache):
         self.pref_scores = []
         self.evict_scores = []
         self.layer_budget = []
-        self.head_concentrations = []  # HACE: Per-layer head concentration scores
+        self.head_entropies = []  # HACE: Per-layer head entropy scores
     def __getitem__(self, layer_idx: int) -> List[Tuple[torch.Tensor]]:
         """
         Support for backwards-compatible `past_key_value` indexing, e.g. `past_key_value[0][0].shape[2]` to get the
@@ -87,19 +87,32 @@ class CakeCache(Cache):
         self,
         pref_score: torch.Tensor,
         evict_score: Union[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]],
-        head_concentration: Optional[torch.Tensor] = None,  # HACE: [num_kv_heads]
+        head_entropy: Optional[torch.Tensor] = None,
     ):
+        """
+        Update layer scores for CAKE budget allocation.
+
+        Args:
+            pref_score: Layer preference score for layer-level budget allocation (Cake)
+            evict_score: Per-head attention scores [bsz, num_kv_heads, seq_len] for:
+                        - Token selection (which tokens to keep)
+                        - Ada-KV head-level budget allocation (counting in global top-B)
+            head_entropy: Optional per-head entropy scores [num_kv_heads] for HACE
+        """
         self.pref_scores.append(pref_score)
         self.evict_scores.append(evict_score)
-        if head_concentration is not None:
-            self.head_concentrations.append(head_concentration)
+        if head_entropy is not None:
+            self.head_entropies.append(head_entropy)
 
     def get_seq_length(self, layer_idx: Optional[int] = 0) -> int:
         """Returns the sequence length of the cached states. A layer index can be optionally passed."""
         # TODO: deprecate this function in favor of `cache_position`
         if len(self.key_cache) <= layer_idx:
             return 0
-        return self.key_cache[layer_idx].shape[-2]
+        key = self.key_cache[layer_idx]
+        if key is None:
+            return 0
+        return key.shape[-2]
 
     def get_max_length(self) -> Optional[int]:
         """Returns the maximum sequence length of the cached states. CakeCache does not have a maximum length."""
@@ -127,9 +140,14 @@ class CakeCache(Cache):
     def from_dynamic_cache(cls, past_key_values: Optional[DynamicCache] = None) -> "CakeCache":
         cache = cls()
         if past_key_values is not None:
-            cache.key_cache = past_key_values.key_cache
-            cache.value_cache = past_key_values.value_cache
-
+            # Handle both old API (key_cache) and new API (layers)
+            if hasattr(past_key_values, 'key_cache'):
+                cache.key_cache = past_key_values.key_cache
+                cache.value_cache = past_key_values.value_cache
+            elif hasattr(past_key_values, 'layers'):
+                # New transformers >= 4.57 API
+                cache.key_cache = [layer.keys for layer in past_key_values.layers]
+                cache.value_cache = [layer.values for layer in past_key_values.layers]
         return cache
     @classmethod
     def from_hybrid_cache(cls, past_key_values: Optional[HybridCache] = None) -> "CakeCache":
@@ -234,8 +252,11 @@ class CakeprefillKVCache:
         # HACE: Get head-level mode
         import os
         head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
-        # Supported modes: adakv (Ada-KV algorithm), lh1, lh2 (simple concentration-based)
-        use_head_alloc = self.use_head_adaptive and head_mode in ("adakv", "lh1", "lh2")
+        # Supported modes:
+        #   - adakv: Ada-KV counting-based algorithm (arXiv:2407.11550)
+        #   - high_entropy: high entropy heads get more budget
+        #   - low_entropy: low entropy heads get more budget (导师建议)
+        use_head_alloc = self.use_head_adaptive and head_mode in ("adakv", "high_entropy", "low_entropy")
 
         if self.use_cascading:
             layer_idx = 0
@@ -247,15 +268,15 @@ class CakeprefillKVCache:
                 head_budgets = None
                 if use_head_alloc:
                     if head_mode == "adakv":
-                        # Ada-KV: use hh_score for counting-based allocation
+                        # Ada-KV: use attention weights for counting-based allocation
                         head_budgets = self._compute_head_budgets_adakv(
                             past_key_values.evict_scores[layer_idx],
                             budget
                         )
-                    elif layer_idx < len(past_key_values.head_concentrations):
-                        # lh1/lh2: use concentration-based allocation
-                        head_budgets = self._compute_head_budgets_simple(
-                            past_key_values.head_concentrations[layer_idx],
+                    elif head_mode in ("high_entropy", "low_entropy") and layer_idx < len(past_key_values.head_entropies):
+                        # Entropy-based allocation
+                        head_budgets = self._compute_head_budgets_entropy(
+                            past_key_values.head_entropies[layer_idx],
                             budget,
                             head_mode
                         )
@@ -273,15 +294,15 @@ class CakeprefillKVCache:
                     head_budgets = None
                     if use_head_alloc:
                         if head_mode == "adakv":
-                            # Ada-KV: use hh_score for counting-based allocation
+                            # Ada-KV: use attention weights for counting-based allocation
                             head_budgets = self._compute_head_budgets_adakv(
                                 past_key_values.evict_scores[layer_idx],
                                 budget
                             )
-                        elif layer_idx < len(past_key_values.head_concentrations):
-                            # lh1/lh2: use concentration-based allocation
-                            head_budgets = self._compute_head_budgets_simple(
-                                past_key_values.head_concentrations[layer_idx],
+                        elif head_mode in ("high_entropy", "low_entropy") and layer_idx < len(past_key_values.head_entropies):
+                            # Entropy-based allocation
+                            head_budgets = self._compute_head_budgets_entropy(
+                                past_key_values.head_entropies[layer_idx],
                                 budget,
                                 head_mode
                             )
@@ -292,88 +313,132 @@ class CakeprefillKVCache:
 
         return past_key_values
 
-    def _compute_head_budgets_adakv(self, hh_score, layer_budget, alpha=0.5):
+    def _compute_head_budgets_adakv(self, attn_weights, layer_budget, alpha=0.2):
         """
         Compute per-head budgets using Ada-KV's counting-based algorithm.
 
-        Ada-KV Algorithm (Algorithm 2 from paper):
+        Ada-KV Algorithm (from paper arXiv:2407.11550):
         1. Concatenate attention weights across all heads
-        2. Select top-B indices globally
-        3. Count frequency of each head in top-B
-        4. Allocate budget proportional to frequency
-        5. Blend with uniform allocation using alpha
+        2. Select top-B indices globally (based on attention weight magnitude)
+        3. Count frequency of each head in top-B (fi)
+        4. Allocate budget proportional to frequency: B*i = fi
+        5. Blend with uniform allocation: final = alpha * adaptive + (1-alpha) * uniform
+
+        Key insight from paper:
+        - "Assigns larger budgets to dispersed heads" (attention spread across many tokens)
+        - "Conservatively adjusts budgets for sparse heads" (attention focused on few tokens)
+        - Dispersed heads have more tokens in global top-B -> higher fi -> larger budget
 
         Args:
-            hh_score: Tensor [bsz, num_kv_heads, seq_len] - attention scores per head
-            layer_budget: Total budget for this layer
-            alpha: Blending factor (default 0.5)
+            attn_weights: Tensor [bsz, num_heads, query_len, seq_len] - softmax attention weights
+                         OR [bsz, num_kv_heads, seq_len] - aggregated attention scores
+            layer_budget: Total budget for this layer (sum across all heads)
+            alpha: Blending factor (default 0.2 per paper)
                    final_budget = alpha * adaptive + (1-alpha) * uniform
 
         Returns:
             Tensor [num_kv_heads] - budget per head
         """
-        bsz, num_kv_heads, seq_len = hh_score.shape
+        # Handle different input shapes
+        if attn_weights.dim() == 4:
+            # [bsz, num_heads, query_len, seq_len] -> aggregate to [bsz, num_heads, seq_len]
+            # Use mean across query positions (like SnapKV observation window)
+            attn_scores = attn_weights.mean(dim=2)  # [bsz, num_heads, seq_len]
+        elif attn_weights.dim() == 3:
+            attn_scores = attn_weights  # Already [bsz, num_heads, seq_len]
+        else:
+            raise ValueError(f"Unexpected attn_weights shape: {attn_weights.shape}")
 
-        # Step 1: Flatten across heads -> [bsz, num_kv_heads * seq_len]
-        flat_scores = hh_score.reshape(bsz, -1)
+        bsz, num_heads, seq_len = attn_scores.shape
 
-        # Step 2: Create head indicators
-        head_ids = torch.arange(num_kv_heads, device=hh_score.device)
-        head_ids = head_ids.unsqueeze(1).expand(-1, seq_len).reshape(-1)  # [num_kv_heads * seq_len]
+        # Step 1: Flatten across heads -> [bsz, num_heads * seq_len]
+        flat_scores = attn_scores.reshape(bsz, -1)
+
+        # Step 2: Create head indicators for each position
+        # head_ids[i] tells us which head position i belongs to
+        head_ids = torch.arange(num_heads, device=attn_weights.device)
+        head_ids = head_ids.unsqueeze(1).expand(-1, seq_len).reshape(-1)  # [num_heads * seq_len]
 
         # Step 3: Select top-B indices globally
+        # B = layer_budget (total tokens to keep across all heads)
         total_budget = int(layer_budget)
-        _, top_indices = flat_scores.topk(min(total_budget, flat_scores.shape[-1]), dim=-1)
+        k = min(total_budget, flat_scores.shape[-1])
+        _, top_indices = flat_scores.topk(k, dim=-1)  # [bsz, B]
 
         # Step 4: Count frequency of each head in top-B
-        # top_indices: [bsz, B] -> map to head_ids
-        top_head_ids = head_ids[top_indices[0]]  # Take first batch item
-        head_counts = torch.zeros(num_kv_heads, device=hh_score.device)
-        for h in range(num_kv_heads):
+        # fi = how many tokens from head i appear in global top-B
+        # Use first batch item (assume similar distribution across batch)
+        top_head_ids = head_ids[top_indices[0]]  # [B]
+
+        # Vectorized counting
+        head_counts = torch.zeros(num_heads, device=attn_weights.device)
+        for h in range(num_heads):
             head_counts[h] = (top_head_ids == h).sum().float()
 
-        # Step 5: Normalize to get adaptive budget
+        # Step 5: Compute adaptive budget proportional to frequency
+        # B*i = fi (from paper Algorithm 1)
         if head_counts.sum() > 0:
+            # Normalize to sum to layer_budget
             adaptive_budget = head_counts / head_counts.sum() * layer_budget
         else:
-            adaptive_budget = torch.ones(num_kv_heads, device=hh_score.device) * layer_budget / num_kv_heads
+            adaptive_budget = torch.ones(num_heads, device=attn_weights.device) * layer_budget / num_heads
 
-        # Step 6: Blend with uniform allocation
-        uniform_budget = layer_budget / num_kv_heads
+        # Step 6: Blend with uniform allocation (safeguard from paper)
+        # "α × {B*i} + (1−α) × (B/h)" where α=0.2 default
+        uniform_budget = layer_budget / num_heads
         head_budgets = alpha * adaptive_budget + (1 - alpha) * uniform_budget
 
         # Ensure minimum budget of 1 per head
         head_budgets = head_budgets.clamp(min=1)
 
+        # Rescale to ensure total budget is preserved
+        head_budgets = head_budgets / head_budgets.sum() * layer_budget
+        head_budgets = head_budgets.clamp(min=1)
+
         return head_budgets
 
-    def _compute_head_budgets_simple(self, head_concentration, layer_budget, head_mode):
+    def _compute_head_budgets_entropy(self, head_entropy, layer_budget, head_mode, alpha=0.3):
         """
-        Simple head budget allocation based on concentration (our experimental version).
+        Compute per-head budgets based on head entropy.
 
-        This is a simplified alternative to Ada-KV for hypothesis testing:
-        - lh1: Low concentration heads get more budget (attention is dispersed)
-        - lh2: High concentration heads get more budget (attention is focused)
+        HACE Entropy-based allocation:
+        - high_entropy: High entropy heads get more budget
+          (dispersed attention needs more tokens to preserve information)
+        - low_entropy: Low entropy heads get more budget
+          (focused attention is more important, needs protection)
 
         Args:
-            head_concentration: Tensor [num_kv_heads] - concentration score per head
+            head_entropy: Tensor [num_kv_heads] - entropy per head
             layer_budget: Total budget for this layer
-            head_mode: 'lh1' or 'lh2'
+            head_mode: 'high_entropy' or 'low_entropy'
+            alpha: Blending factor with uniform allocation (default 0.3)
 
         Returns:
             Tensor [num_kv_heads] - budget per head
         """
-        if head_mode == "lh1":
-            # Low concentration -> high budget (dispersed attention needs more tokens)
-            weights = 1.0 / (head_concentration + 1e-8)
-        elif head_mode == "lh2":
-            # High concentration -> high budget (focused attention is important)
-            weights = head_concentration
-        else:
-            weights = torch.ones_like(head_concentration)
+        num_heads = head_entropy.shape[0]
 
-        weights = weights / weights.sum()
-        head_budgets = weights * layer_budget
+        if head_mode == "high_entropy":
+            # High entropy -> more budget
+            # Normalize entropy to weights
+            weights = head_entropy / (head_entropy.sum() + 1e-8)
+        elif head_mode == "low_entropy":
+            # Low entropy -> more budget (inverse)
+            inv_entropy = 1.0 / (head_entropy + 1e-8)
+            weights = inv_entropy / (inv_entropy.sum() + 1e-8)
+        else:
+            weights = torch.ones_like(head_entropy) / num_heads
+
+        # Compute adaptive budget
+        adaptive_budget = weights * layer_budget
+
+        # Blend with uniform allocation (safeguard)
+        uniform_budget = layer_budget / num_heads
+        head_budgets = alpha * adaptive_budget + (1 - alpha) * uniform_budget
+
+        # Ensure minimum budget and rescale
+        head_budgets = head_budgets.clamp(min=1)
+        head_budgets = head_budgets / head_budgets.sum() * layer_budget
         head_budgets = head_budgets.clamp(min=1)
 
         return head_budgets

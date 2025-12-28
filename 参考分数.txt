@@ -60,3 +60,11 @@ python eval.py --model qwen2.5-7b-instruct --dir_path pred_result/cache128/qwen2
 Btotal=1024L（CAKE）
 python pred_cake.py --model qwen2.5-7b-instruct --compress --cascading --cache_size 1024 --window_size 32 --pred_name qwen2.5_cake_1024 --device 0
 python eval.py --model qwen2.5-7b-instruct --dir_path pred_result/cache1024/qwen2.5_cake_1024 --eval_avg
+
+
+服务器SSH方式：
+通用做法：只把现有公钥装到新服务器
+
+  ssh-copy-id -i ~/.ssh/id_ed25519.pub -p PORT USER@HOST
+例子：
+ssh-copy-id -i ~/.ssh/id_ed25519.pub -p 23 root@117.50.173.5

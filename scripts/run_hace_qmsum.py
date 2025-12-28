@@ -38,7 +38,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max_length", type=int, default=None, help="Override max prompt length")
     parser.add_argument("--max_gen", type=int, default=None, help="Override max generation length")
     parser.add_argument("--pref_mode", default="reverse_disp", help="HACE pref mode: normal | reverse | reverse_disp")
-    parser.add_argument("--head_mode", default="", help="HACE head mode: '' (disabled) | lh1 (low conc -> high budget) | lh2 (high conc -> high budget)")
+    parser.add_argument("--head_mode", default="", help="HACE head mode: '' (disabled) | high_entropy (高熵头→大预算) | low_entropy (低熵头→大预算，导师建议) | adakv (Ada-KV counting)")
     parser.add_argument("--output_dir", default=None, help="Output dir")
     parser.add_argument("--use_cascading", action="store_true", help="Enable CAKE cascading")
     return parser.parse_args()

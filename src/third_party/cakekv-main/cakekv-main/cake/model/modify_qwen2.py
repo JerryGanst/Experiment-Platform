@@ -55,7 +55,8 @@ def qwen2_attn_forward_cake(
     if past_key_values is not None:
         past_key_value = past_key_values
 
-    if isinstance(past_key_value, DynamicCache):
+    # Convert DynamicCache to CakeCache if needed (only if not already CakeCache)
+    if isinstance(past_key_value, DynamicCache) and not isinstance(past_key_value, CakeCache):
         past_key_value = CakeCache.from_dynamic_cache(past_key_value)
     if self.config.decoding_evict[self.layer_idx] is None and len(past_key_value.layer_budget) == self.config.prefill_cake_evict[self.layer_idx].num_layers:
         self.config.decoding_evict[self.layer_idx] =CakeDecodingKVCache_LayerWise(
@@ -70,9 +71,14 @@ def qwen2_attn_forward_cake(
     key_states = self.k_proj(hidden_states)
     value_states = self.v_proj(hidden_states)
 
-    query_states = query_states.view(bsz, q_len, self.num_heads, self.head_dim).transpose(1, 2)
-    key_states = key_states.view(bsz, q_len, self.num_key_value_heads, self.head_dim).transpose(1, 2)
-    value_states = value_states.view(bsz, q_len, self.num_key_value_heads, self.head_dim).transpose(1, 2)
+    # Handle both old and new transformers API for head counts
+    num_heads = getattr(self, 'num_heads', None) or self.config.num_attention_heads
+    num_key_value_heads = getattr(self, 'num_key_value_heads', None) or self.config.num_key_value_heads
+    head_dim = getattr(self, 'head_dim', None) or self.config.hidden_size // num_heads
+
+    query_states = query_states.view(bsz, q_len, num_heads, head_dim).transpose(1, 2)
+    key_states = key_states.view(bsz, q_len, num_key_value_heads, head_dim).transpose(1, 2)
+    value_states = value_states.view(bsz, q_len, num_key_value_heads, head_dim).transpose(1, 2)
 
     kv_seq_len = key_states.shape[-2]
     if past_key_value is not None:
@@ -121,8 +127,9 @@ def qwen2_attn_forward_cake(
         key_states, value_states = past_key_value.update(key_states, value_states, self.layer_idx, cache_kwargs)
 
     # repeat k/v heads if n_kv_heads < n_heads
-    key_states = repeat_kv(key_states, self.num_key_value_groups)
-    value_states = repeat_kv(value_states, self.num_key_value_groups)
+    num_key_value_groups = getattr(self, 'num_key_value_groups', None) or (num_heads // num_key_value_heads)
+    key_states = repeat_kv(key_states, num_key_value_groups)
+    value_states = repeat_kv(value_states, num_key_value_groups)
     dropout_rate = 0.0 if not self.training else self.attention_dropout
     
     if self.config.prefill[self.layer_idx]:
@@ -133,7 +140,7 @@ def qwen2_attn_forward_cake(
             print(f"[HACE] Using pref_mode: {mode_display}")
             self.__class__._pref_mode_logged = True
         
-        tmp_attn_weights = torch.matmul(query_states[..., -self.config.window_size[self.layer_idx]:, :], key_states.transpose(2, 3)) / math.sqrt(self.head_dim)
+        tmp_attn_weights = torch.matmul(query_states[..., -self.config.window_size[self.layer_idx]:, :], key_states.transpose(2, 3)) / math.sqrt(head_dim)
 
         if q_len !=1:
             mask = torch.full((self.config.window_size[self.layer_idx], self.config.window_size[self.layer_idx]), torch.finfo(tmp_attn_weights.dtype).min, device=tmp_attn_weights.device)
@@ -176,31 +183,41 @@ def qwen2_attn_forward_cake(
         attn_cache = attn_cache[:, :, :-self.config.window_size[self.layer_idx]]
         attn_cache = F.avg_pool1d(attn_cache, kernel_size=5, padding=5//2, stride=1)
 
-        attn_cache = attn_cache.reshape(bsz, self.num_key_value_heads, self.num_key_value_groups, -1)
+        attn_cache = attn_cache.reshape(bsz, num_key_value_heads, num_key_value_groups, -1)
         hh_score = attn_cache.mean(dim=-2)
 
-        # HACE: Compute head-level concentration scores
-        # concentration = 1 / (1 + variance) -> high when attention is focused
+        # HACE: Compute per-head entropy for head-level budget allocation
+        # head_mode controls how entropy affects budget:
+        #   - high_entropy: high entropy heads get more budget (dispersed attention needs more tokens)
+        #   - low_entropy: low entropy heads get more budget (focused attention is important)
+        #   - adakv: use Ada-KV's counting-based algorithm (original paper method)
         head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
-        head_concentration = None
-        if head_mode in ("lh1", "lh2"):
-            # Compute per-head variance across sequence positions
+        head_entropy = None
+
+        if head_mode in ("high_entropy", "low_entropy"):
+            # Compute per-head entropy
             # attention_score: [bsz, num_heads, window, seq_len]
-            # We want variance across the last dimension for each head
-            attn_for_conc = attention_score[:, :, :, :-self.config.window_size[self.layer_idx]]
-            # Mean across batch and window dimensions: [num_heads, seq_len]
-            attn_per_head = attn_for_conc.mean(dim=0).mean(dim=1)  # [num_heads, seq_len]
-            # Variance per head: [num_heads]
-            head_var = attn_per_head.var(dim=-1)
-            # Group by kv_heads: [num_kv_heads]
-            head_var = head_var.reshape(self.num_key_value_heads, self.num_key_value_groups).mean(dim=-1)
-            # Concentration: high variance = low concentration
-            head_concentration = 1.0 / (1.0 + head_var)
+            # We compute entropy across the sequence dimension for each head
+            attn_for_entropy = attention_score[:, :, :, :-self.config.window_size[self.layer_idx]]
+
+            # Average across batch and window: [num_heads, seq_len]
+            attn_per_head = attn_for_entropy.mean(dim=0).mean(dim=1)  # [num_heads, seq_len]
+
+            # Normalize to get distribution per head
+            attn_dist = attn_per_head / (attn_per_head.sum(dim=-1, keepdim=True) + 1e-8)
+
+            # Compute entropy per head: H = -Σ p log p
+            log_attn = torch.log(attn_dist + 1e-8)
+            head_entropy_full = -(attn_dist * log_attn).sum(dim=-1)  # [num_heads]
+
+            # Group by kv_heads if using GQA
+            head_entropy = head_entropy_full.reshape(num_key_value_heads, num_key_value_groups).mean(dim=-1)
 
             if self.layer_idx == 0:
-                print(f"[HACE] Head mode: {head_mode}, concentration shape: {head_concentration.shape}")
+                print(f"[HACE] Head mode: {head_mode}")
+                print(f"[HACE] Head entropy range: [{head_entropy.min().item():.3f}, {head_entropy.max().item():.3f}]")
 
-        past_key_value.update_score(pref_score, hh_score, head_concentration)
+        past_key_value.update_score(pref_score, hh_score, head_entropy)
 
 
         past_key_value.layer_budget.append(self.config.key_size[self.layer_idx])
@@ -211,7 +228,7 @@ def qwen2_attn_forward_cake(
 
     if self.config.decoding_evict[self.layer_idx] is not None:
 
-        tmp_attn_weights = torch.matmul(query_states[..., -self.config.window_size[self.layer_idx]:, :], key_states.transpose(2, 3)) / math.sqrt(self.head_dim)
+        tmp_attn_weights = torch.matmul(query_states[..., -self.config.window_size[self.layer_idx]:, :], key_states.transpose(2, 3)) / math.sqrt(head_dim)
 
         tmp_attn_weights = nn.functional.softmax(tmp_attn_weights, dim=-1, dtype=torch.float32).to(query_states.dtype)
 
@@ -267,7 +284,8 @@ def qwen2_attn_forward_cake(
         use_top_left_mask=getattr(self, "_flash_attn_uses_top_left_mask", True),
     )
 
-    attn_output = attn_output.reshape(bsz, q_len, self.hidden_size).contiguous()
+    hidden_size = getattr(self, 'hidden_size', None) or self.config.hidden_size
+    attn_output = attn_output.reshape(bsz, q_len, hidden_size).contiguous()
     attn_output = self.o_proj(attn_output)
 
     if not output_attentions:
