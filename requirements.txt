@@ -1,5 +1,11 @@
-# Experiment Platform - 项目依赖
-# 注意：torch/transformers/accelerate 等核心框架通常已预装，不在此列出
+# ========== 核心深度学习框架 (Qwen 2.5 必需) ==========
+# 注意：如果环境中已预装 torch，pip 会自动跳过
+torch>=2.0.0
+transformers>=4.37.0,<=4.45.2
+accelerate>=0.26.0
+sentencepiece
+tiktoken
+einops
 
 # ========== 数据处理和科学计算 ==========
 numpy>=1.20.0
@@ -15,6 +21,7 @@ rouge>=1.0.1
 rouge_score>=0.1.2
 fuzzywuzzy>=0.18.0
 jieba>=0.42.1
+python-Levenshtein>=0.12.0  # 配合 fuzzywuzzy 加速使用
 
 # ========== 进度条和可视化 ==========
 tqdm>=4.66.0
@@ -26,11 +33,12 @@ jinja2>=3.1.0
 pyyaml>=6.0
 toml>=0.10.2
 
-
-
 # ========== HTTP客户端（VLLM Server模式需要） ==========
 httpx>=0.24.0
 aiohttp>=3.8.0
+
+# ========== 模型下载工具 ==========
+huggingface_hub[cli]>=0.20.0
 
 # ========== 其他工具 ==========
 packaging>=21.0
