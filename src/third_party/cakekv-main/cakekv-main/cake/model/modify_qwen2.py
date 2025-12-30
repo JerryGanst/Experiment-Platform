@@ -48,7 +48,6 @@ def qwen2_attn_forward_cake(
     # Fix: Handle both old (past_key_value) and new (past_key_values) API
     # DEBUG
     if not hasattr(qwen2_attn_forward_cake, "dbg"):
-        import os
         pm = os.environ.get("HACE_PREF_MODE", "NONE")
         print("[DBG] Forward called, pref_mode=" + str(pm))
         qwen2_attn_forward_cake.dbg = 1
@@ -91,11 +90,18 @@ def qwen2_attn_forward_cake(
         kv_seq_len += past_key_value.get_usable_length(kv_seq_len, self.layer_idx)
 
     print(position_ids)
-    # Because the input can be padded, the absolute sequence length depends on the max position id.
-    rotary_seq_len = max(kv_seq_len, position_ids[:, -1].max().item()) + 1
-    cos, sin = self.rotary_emb(value_states, seq_len=rotary_seq_len)
+    # Handle both old and new transformers API for rotary embeddings
+    if position_embeddings is not None:
+        # New API (transformers >= 4.46): position_embeddings passed from model
+        cos, sin = position_embeddings
+    elif hasattr(self, 'rotary_emb'):
+        # Old API: rotary_emb is on attention layer
+        rotary_seq_len = max(kv_seq_len, position_ids[:, -1].max().item()) + 1
+        cos, sin = self.rotary_emb(value_states, seq_len=rotary_seq_len)
+    else:
+        raise RuntimeError("No rotary embeddings available. Check transformers version compatibility.")
 
-    query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin, position_ids)
+    query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
 
     if past_key_value is not None:
         # Activate slicing cache only if the config has a value `sliding_windows` attribute
@@ -258,31 +264,28 @@ def qwen2_attn_forward_cake(
         key_states = key_states.to(target_dtype)
         value_states = value_states.to(target_dtype)
 
-    # Reashape to the expected shape for Flash Attention
-    query_states = query_states.transpose(1, 2)
-    key_states = key_states.transpose(1, 2)
-    value_states = value_states.transpose(1, 2)
+    # Use PyTorch SDPA (Scaled Dot Product Attention) for better compatibility
+    # query/key/value are in shape [bsz, num_heads, seq_len, head_dim]
 
-    if (
-        self.config.use_sliding_window
-        and getattr(self.config, "sliding_window", None) is not None
-        and self.layer_idx >= self.config.max_window_layers
-    ):
-        sliding_window = self.config.sliding_window
+    # Prepare causal mask for SDPA
+    if attention_mask is not None:
+        # attention_mask shape: [bsz, 1, q_len, kv_len]
+        causal_mask = attention_mask
     else:
-        sliding_window = None
+        causal_mask = None
 
-    attn_output = _flash_attention_forward(
+    # Use PyTorch's native scaled_dot_product_attention
+    attn_output = F.scaled_dot_product_attention(
         query_states,
         key_states,
         value_states,
-        attention_mask,
-        q_len,
-        dropout=dropout_rate,
-        sliding_window=sliding_window,
-        is_causal=self.is_causal,
-        use_top_left_mask=getattr(self, "_flash_attn_uses_top_left_mask", True),
+        attn_mask=causal_mask,
+        dropout_p=dropout_rate if self.training else 0.0,
+        is_causal=causal_mask is None and q_len > 1,  # Only use is_causal when no explicit mask
     )
+
+    # Transpose back: [bsz, num_heads, q_len, head_dim] -> [bsz, q_len, num_heads, head_dim]
+    attn_output = attn_output.transpose(1, 2)
 
     hidden_size = getattr(self, 'hidden_size', None) or self.config.hidden_size
     attn_output = attn_output.reshape(bsz, q_len, hidden_size).contiguous()
@@ -359,6 +362,11 @@ def qwen2_model_forward_cake(
 
     hidden_states = inputs_embeds
 
+    # Compute position embeddings (new API in transformers >= 4.46)
+    position_embeddings = None
+    if hasattr(self, 'rotary_emb'):
+        position_embeddings = self.rotary_emb(hidden_states, position_ids)
+
     # decoder layers
     all_hidden_states = () if output_hidden_states else None
     all_self_attns = () if output_attentions else None
@@ -388,6 +396,7 @@ def qwen2_model_forward_cake(
                 output_attentions=output_attentions,
                 use_cache=use_cache,
                 cache_position=cache_position,
+                position_embeddings=position_embeddings,
             )
 
         hidden_states = layer_outputs[0]

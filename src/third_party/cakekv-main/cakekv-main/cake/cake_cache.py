@@ -118,6 +118,15 @@ class CakeCache(Cache):
         """Returns the maximum sequence length of the cached states. CakeCache does not have a maximum length."""
         return None
 
+    def get_usable_length(self, new_seq_length: int, layer_idx: Optional[int] = 0) -> int:
+        """Given the sequence length of the new inputs, returns the usable length of the cache."""
+        # For CakeCache, we don't have a max length, so we just return the current sequence length
+        max_length = self.get_max_length()
+        previous_seq_length = self.get_seq_length(layer_idx)
+        if max_length is not None and previous_seq_length + new_seq_length > max_length:
+            return max_length - new_seq_length
+        return previous_seq_length
+
     def to_legacy_cache(self) -> Tuple[Tuple[torch.Tensor], Tuple[torch.Tensor]]:
         """Converts the `CakeCache` instance into the its equivalent in the legacy cache format. Used for
         backward compatibility."""
@@ -250,13 +259,10 @@ class CakeprefillKVCache:
         layer_budgets = adjust_budgets(layer_budgets, self.total_size, seq_len-self.window_size,  self.num_layers)
 
         # HACE: Get head-level mode
-        import os
-        head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
-        # Supported modes:
-        #   - adakv: Ada-KV counting-based algorithm (arXiv:2407.11550)
-        #   - high_entropy: high entropy heads get more budget
-        #   - low_entropy: low entropy heads get more budget (导师建议)
-        use_head_alloc = self.use_head_adaptive and head_mode in ("adakv", "high_entropy", "low_entropy")
+        # When use_head_adaptive=True, each head independently selects its own top-k positions
+        # (same quantity, different positions - this is the correct Ada-KV approach)
+        # The head_mode env var is checked but head_budgets are no longer used
+        # (all heads get the same budget quantity, just different positions)
 
         if self.use_cascading:
             layer_idx = 0
@@ -265,23 +271,8 @@ class CakeprefillKVCache:
                 if budget>= seq_len-self.window_size:
                     budget = seq_len-self.window_size
 
-                head_budgets = None
-                if use_head_alloc:
-                    if head_mode == "adakv":
-                        # Ada-KV: use attention weights for counting-based allocation
-                        head_budgets = self._compute_head_budgets_adakv(
-                            past_key_values.evict_scores[layer_idx],
-                            budget
-                        )
-                    elif head_mode in ("high_entropy", "low_entropy") and layer_idx < len(past_key_values.head_entropies):
-                        # Entropy-based allocation
-                        head_budgets = self._compute_head_budgets_entropy(
-                            past_key_values.head_entropies[layer_idx],
-                            budget,
-                            head_mode
-                        )
-
-                past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget, head_budgets)
+                # head_budgets is deprecated, pass None
+                past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget, None)
                 past_key_values.layer_budget[layer_idx]=budget
                 layer_idx +=1
         else:
@@ -291,23 +282,8 @@ class CakeprefillKVCache:
                     if budget>= seq_len-self.window_size:
                         budget = seq_len-self.window_size
 
-                    head_budgets = None
-                    if use_head_alloc:
-                        if head_mode == "adakv":
-                            # Ada-KV: use attention weights for counting-based allocation
-                            head_budgets = self._compute_head_budgets_adakv(
-                                past_key_values.evict_scores[layer_idx],
-                                budget
-                            )
-                        elif head_mode in ("high_entropy", "low_entropy") and layer_idx < len(past_key_values.head_entropies):
-                            # Entropy-based allocation
-                            head_budgets = self._compute_head_budgets_entropy(
-                                past_key_values.head_entropies[layer_idx],
-                                budget,
-                                head_mode
-                            )
-
-                    past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget, head_budgets)
+                    # head_budgets is deprecated, pass None
+                    past_key_values = self.evcit_layer_kvcache(past_key_values, layer_idx, budget, None)
                     past_key_values.layer_budget[layer_idx]=budget
                     layer_idx +=1
 
@@ -450,10 +426,20 @@ class CakeprefillKVCache:
         Args:
             past_key_values: Cache object
             layer_idx: Layer index
-            budget: Total layer budget (used when head_budgets is None)
-            head_budgets: Optional per-head budgets tensor [num_kv_heads]
-                         If provided, each head gets its own budget allocation
+            budget: Total layer budget (number of tokens to keep per head)
+            head_budgets: Deprecated - no longer used (kept for API compatibility)
+
+        HACE Fix (2024-12):
+        - All heads select the SAME NUMBER of tokens (= budget)
+        - But each head INDEPENDENTLY chooses which positions to keep
+        - This avoids padding issues with shared attention mask
+
+        HACE Entropy Strategy (2024-12):
+        - Entropy doesn't change quantity, but affects score weighting
+        - high_entropy: boost scores for high-entropy heads -> their tokens are more likely to be selected
+        - low_entropy: boost scores for low-entropy heads -> their tokens are more likely to be selected
         """
+        import os
         bsz, num_key_value_heads, seq_len, head_dim = past_key_values.key_cache[layer_idx].shape
 
         num_key_value_groups = self.num_heads // num_key_value_heads
@@ -462,23 +448,61 @@ class CakeprefillKVCache:
         if budget > hh_score.shape[-1]:
             budget = hh_score.shape[-1]
 
-        # HACE: Head-level adaptive allocation
-        if head_budgets is not None and self.use_head_adaptive:
-            # Per-head differentiated eviction
+        # HACE: Per-head INDEPENDENT position selection (same quantity, different positions)
+        if self.use_head_adaptive:
+            # Each head selects its own top-k positions, but k is the same for all heads
+            uniform_budget = int(budget)
+
             k_past = past_key_values.key_cache[layer_idx][:, :, :-self.window_size, :]
             v_past = past_key_values.value_cache[layer_idx][:, :, :-self.window_size, :]
+
+            # HACE: Apply entropy-based score weighting
+            head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
+
+            # Get head entropy if available
+            head_entropy = None
+            if hasattr(past_key_values, 'head_entropies') and len(past_key_values.head_entropies) > layer_idx:
+                head_entropy = past_key_values.head_entropies[layer_idx]
+
+            # Compute entropy-weighted scores
+            weighted_hh_score = hh_score.clone()
+            if head_entropy is not None and head_mode in ("high_entropy", "low_entropy"):
+                # Normalize entropy to [0, 1] range per layer
+                entropy_min = head_entropy.min()
+                entropy_max = head_entropy.max()
+                if entropy_max > entropy_min:
+                    normalized_entropy = (head_entropy - entropy_min) / (entropy_max - entropy_min + 1e-8)
+                else:
+                    normalized_entropy = torch.ones_like(head_entropy) * 0.5
+
+                # Apply entropy weighting: boost certain heads' scores
+                # alpha controls the strength of entropy influence (0.5 = moderate)
+                alpha = 0.5
+
+                if head_mode == "high_entropy":
+                    # High entropy heads get score boost: more dispersed attention -> need more tokens
+                    # weight = 1 + α * normalized_entropy (range: [1, 1+α])
+                    weights = 1.0 + alpha * normalized_entropy
+                elif head_mode == "low_entropy":
+                    # Low entropy heads get score boost: focused attention is important
+                    # weight = 1 + α * (1 - normalized_entropy) (range: [1, 1+α])
+                    weights = 1.0 + alpha * (1.0 - normalized_entropy)
+
+                # Apply weights to each head's scores: [num_heads] -> [1, num_heads, 1]
+                weights = weights.view(1, -1, 1).to(hh_score.device)
+                weighted_hh_score = hh_score * weights
+
+                if layer_idx == 0:
+                    print(f"[HACE] Layer {layer_idx}: head_entropy range [{entropy_min:.3f}, {entropy_max:.3f}], mode={head_mode}")
 
             k_compressed_list = []
             v_compressed_list = []
             hh_compressed_list = []
 
             for h in range(num_key_value_heads):
-                h_budget = int(head_budgets[h].item())
-                h_budget = min(h_budget, hh_score.shape[-1])
-                h_budget = max(h_budget, 1)  # At least 1 token
-
-                # Get top-k indices for this head
-                h_indices = hh_score[:, h:h+1, :].topk(h_budget, dim=-1).indices
+                # Each head uses its (weighted) score to select its own top-k positions
+                h_indices = weighted_hh_score[:, h:h+1, :].topk(uniform_budget, dim=-1).indices
+                # Store original (unweighted) scores for future use
                 h_hh_compress = hh_score[:, h:h+1, :].gather(dim=2, index=h_indices)
 
                 h_indices_expanded = h_indices.unsqueeze(-1).expand(-1, -1, -1, head_dim)
@@ -489,18 +513,7 @@ class CakeprefillKVCache:
                 v_compressed_list.append(v_h_compress)
                 hh_compressed_list.append(h_hh_compress)
 
-            # Pad to max head budget for concatenation
-            max_budget = max(k.shape[2] for k in k_compressed_list)
-
-            for i in range(num_key_value_heads):
-                curr_len = k_compressed_list[i].shape[2]
-                if curr_len < max_budget:
-                    pad_len = max_budget - curr_len
-                    # Pad with zeros (will be masked during attention)
-                    k_compressed_list[i] = F.pad(k_compressed_list[i], (0, 0, 0, pad_len))
-                    v_compressed_list[i] = F.pad(v_compressed_list[i], (0, 0, 0, pad_len))
-                    hh_compressed_list[i] = F.pad(hh_compressed_list[i], (0, pad_len))
-
+            # All heads have the same length, direct concat without padding!
             k_past_compress = torch.cat(k_compressed_list, dim=1)
             v_past_compress = torch.cat(v_compressed_list, dim=1)
             hh_score_compress = torch.cat(hh_compressed_list, dim=1)

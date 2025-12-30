@@ -140,9 +140,14 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
         dtype = torch.bfloat16
     else:
         dtype = torch.float16
-   
+
     tokenizer = AutoTokenizer.from_pretrained(path)
-    model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=dtype).to(device)
+    # Use SDPA (scaled dot product attention) instead of flash_attn to avoid compatibility issues
+    model = AutoModelForCausalLM.from_pretrained(
+        path,
+        torch_dtype=dtype,
+        attn_implementation="sdpa"  # Use PyTorch native attention instead of flash_attn
+    ).to(device)
     config = AutoConfig.from_pretrained(path)
     if hasattr(config, 'num_hidden_layers'):
         layers = config.num_hidden_layers

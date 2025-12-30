@@ -1,0 +1,4 @@
+{
+    "qwen2.5-7b-instruct": "/mnt/disks/experiment/models/Qwen2.5-7B-Instruct",
+    "llama3.1-8b-128k": "/mnt/disks/experiment/models/Meta-Llama-3.1-8B-Instruct"
+}
