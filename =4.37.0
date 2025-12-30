@@ -1,0 +1,6 @@
+Collecting transformers
+  Downloading transformers-4.57.3-py3-none-any.whl (12.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.0/12.0 MB 161.9 MB/s eta 0:00:00
+Collecting accelerate
+  Downloading accelerate-1.12.0-py3-none-any.whl (380 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 380.9/380.9 kB 78.6 MB/s eta 0:00:00
