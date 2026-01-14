@@ -41,6 +41,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--head_mode", default="", help="HACE head mode: '' (disabled) | high_entropy (高熵头→大预算) | low_entropy (低熵头→大预算，导师建议) | adakv (Ada-KV counting)")
     parser.add_argument("--output_dir", default=None, help="Output dir")
     parser.add_argument("--use_cascading", action="store_true", help="Enable CAKE cascading")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed for sampling (enables reproducible randomness)")
     return parser.parse_args()
 
 
@@ -58,6 +59,11 @@ def build_prompt(tokenizer, prompt_format: str, sample: dict, dataset: str, max_
 
 def main() -> None:
     args = parse_args()
+
+    # Set random seed for reproducible sampling
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
 
     if args.output_dir is None:
         args.output_dir = str(ROOT / "results_clean" / args.pred_name)
@@ -132,6 +138,8 @@ def main() -> None:
     print(f"  Head Mode: {args.head_mode if args.head_mode else 'disabled (uniform)'}")
     print(f"  Cache Size: {args.cache_size}")
     print(f"  Window Size: {args.window_size}")
+    print(f"  Seed: {args.seed}")
+    print(f"  Sampling: do_sample=True, temperature=0.7, top_p=0.95")
     print(f"  Output: {out_path}")
     print(f"{'='*60}\n")
 
@@ -145,8 +153,9 @@ def main() -> None:
             **inputs,
             max_new_tokens=max_gen,
             num_beams=1,
-            do_sample=False,
-            temperature=1.0,
+            do_sample=True,       # Enable sampling for randomness
+            temperature=0.7,      # Moderate randomness (industry default)
+            top_p=0.95,           # Nucleus sampling
         )[0]
 
         pred = tokenizer.decode(output[context_length:], skip_special_tokens=True)

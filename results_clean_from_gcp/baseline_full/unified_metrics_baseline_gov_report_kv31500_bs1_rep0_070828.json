@@ -1,0 +1,38 @@
+{
+  "experiment_id": "baseline_gov_report_kv31500_bs1_rep0_070828",
+  "timestamp": "2025-12-22T07:37:54.121394",
+  "performance": {
+    "success": true,
+    "ttft_ms": 0.014066696166992188,
+    "tpot_ms": 19.259830159256687,
+    "throughput_tokens_per_sec": 51.92211223472891,
+    "total_time_sec": 1734.3477783203125,
+    "tokens_generated": 90051,
+    "model_name": "/model/ModelScope/Qwen/Qwen2.5-7B-Instruct",
+    "precision": "fp16",
+    "batch_size": 1,
+    "kv_cache_length": 31500,
+    "max_new_tokens": 256,
+    "use_baseline": true,
+    "dataset": "gov_report"
+  },
+  "gpu": {
+    "total_devices": 1,
+    "device_0": {
+      "peak_memory_mb": 0.0,
+      "average_memory_mb": 0.0,
+      "sample_count": 15504
+    },
+    "total_peak_memory_mb": 0.0
+  },
+  "system": {
+    "peak_cpu_percent": 19.3,
+    "average_cpu_percent": 6.722518862449216,
+    "peak_memory_percent": 6.4,
+    "peak_memory_used_gb": 5.016033172607422,
+    "sample_count": 1723
+  },
+  "monitoring_duration": 1758.982437133789,
+  "task_score": 0.33735188234852864,
+  "dataset": "gov_report"
+}

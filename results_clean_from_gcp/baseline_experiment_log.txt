@@ -1,0 +1,25 @@
+2025-12-21 05:49:00,660 - __main__ - INFO - Starting baseline experiment suite
+2025-12-21 05:49:01,888 - __main__ - INFO - Random seed set to 42
+2025-12-21 05:49:01,888 - __main__ - INFO - Total number of baseline experiment configurations to run: 1
+2025-12-21 05:49:01,888 - __main__ - INFO - Using vLLM max_new_tokens=512 to cover CAKE per-dataset overrides
+2025-12-21 05:49:01,890 - __main__ - INFO - Initializing VLLM backend for kv_len=4096 (max_model_len=4616)
+2025-12-21 05:49:01,890 - hace_core.models.inference_backend - INFO - Creating VLLM backend (mode: inprocess)
+2025-12-21 05:49:05,460 - hace_core.models.inference_backend - INFO - Initializing VLLM inprocess engine for model: /cloud/cloud-ssd1/Experiment-Platform/model/ModelScope/Qwen/Qwen2.5-7B-Instruct
+2025-12-21 05:50:02,587 - hace_core.models.inference_backend - INFO - VLLM inprocess engine initialized successfully
+2025-12-21 05:50:02,587 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-12-21 05:50:02,587 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-12-21 05:50:04,617 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 200 samples
+2025-12-21 05:50:04,640 - hace_core.data.dataset_loader - INFO - Prepared 200 samples successfully
+2025-12-21 05:50:11,121 - __main__ - INFO - Preparing batches with size 1, total batches: 200
+2025-12-21 05:50:11,121 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-12-21 05:50:11,121 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-12-21 05:50:11,121 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-12-21 05:53:48,779 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-12-21 05:53:48,779 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=0.0MB, 最终峰值=0.0MB
+2025-12-21 05:53:49,455 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=1949
+2025-12-21 05:53:49,455 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-21 05:53:49,457 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=1949
+2025-12-21 05:53:49,458 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-21 05:53:50,242 - hace_core.models.inference_backend - INFO - VLLM backend cleaned up
+2025-12-21 05:53:50,249 - __main__ - INFO - All baseline experiment summaries saved to results_clean/all_baseline_experiments_summary.csv
+2025-12-21 05:53:50,249 - __main__ - INFO - Baseline experiment suite finished.
