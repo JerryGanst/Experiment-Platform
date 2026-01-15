@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nvidia-smi:*)",
+      "Bash(source:*)",
+      "Bash(python:*)",
+      "Bash(pip show:*)",
+      "Bash(VLLM_ATTENTION_BACKEND=FLASHINFER python:*)",
+      "Bash(ls:*)",
+      "Bash(export LD_LIBRARY_PATH=/mnt/disks/experiment/my_env/lib/python3.10/site-packages/nvidia/cuda_runtime/lib:$LD_LIBRARY_PATH:*)",
+      "Bash(export:*)",
+      "Bash(pip install:*)",
+      "Bash(git clone:*)",
+      "Bash(ldd:*)",
+      "Bash(pip uninstall:*)",
+      "Bash(chmod:*)",
+      "Bash(ln:*)",
+      "Bash(find:*)",
+      "Bash(sort:*)",
+      "Bash(cat:*)",
+      "Bash(for exp in L1_cake_normal_256 LH1_hace_high_entropy_256 LH2_hace_low_entropy_256 LH3_reverse_high_entropy_256 LH4_reverse_low_entropy_256)",
+      "Bash(do echo \"=== $exp ===\" python eval.py --dir_path pred_result/cache256/$exp/qwen2.5-7b-instruct cat pred_result/cache256/$exp/qwen2.5-7b-instruct/result.json)",
+      "Bash(done)",
+      "Bash(while read f)",
+      "Bash(HACE_MAX_SAMPLES=20 python scripts/run_hace_qmsum.py:*)",
+      "Bash(git -C /mnt/disk1/Experiment-Platform stash list:*)",
+      "Bash(git -C /mnt/disk1/Experiment-Platform checkout:*)",
+      "Bash(git -C /mnt/disk1/Experiment-Platform diff --name-only --diff-filter=U)",
+      "Bash(grep:*)",
+      "Bash(while read line)",
+      "Bash(do echo \"$line\")",
+      "Bash(if echo \"$line\")",
+      "Bash(then break)",
+      "Bash(fi)",
+      "Bash(python3:*)",
+      "Bash(HACE_MAX_SAMPLES=3 python:*)"
+    ]
+  }
+}

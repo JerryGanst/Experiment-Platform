@@ -1,6 +1,5 @@
 import math
 import os
-import json
 
 import torch
 import torch.nn.functional as F
@@ -8,62 +7,6 @@ from torch import nn
 import torch.utils.checkpoint
 
 import transformers
-
-
-# === HACE Diagnostic Recorder ===
-class DiagnosticRecorder:
-    """记录 token 保留情况的诊断工具"""
-    
-    def __init__(self):
-        self.records = []  # 存储每层每头的保留情况
-        self.enabled = os.environ.get("HACE_DIAGNOSTIC", "0") == "1"
-        self.sample_id = 0
-        
-    def record(self, layer_idx: int, head_idx: int, 
-               kept_indices: list, head_budget: int, 
-               head_entropy: float, total_seq_len: int):
-        """记录一个 head 的 token 保留情况"""
-        if not self.enabled:
-            return
-            
-        self.records.append({
-            "sample_id": self.sample_id,
-            "layer_idx": layer_idx,
-            "head_idx": head_idx,
-            "kept_indices": kept_indices,  # 保留的 token 位置
-            "head_budget": head_budget,
-            "head_entropy": head_entropy,
-            "total_seq_len": total_seq_len,
-            "kept_ratio": len(kept_indices) / total_seq_len if total_seq_len > 0 else 0
-        })
-    
-    def next_sample(self):
-        """处理下一个样本时调用"""
-        self.sample_id += 1
-        
-    def save(self, path: str):
-        """保存诊断结果"""
-        with open(path, 'w') as f:
-            json.dump(self.records, f, indent=2)
-        print(f"[HACE Diagnostic] Saved to {path}, {len(self.records)} records")
-        
-    def clear(self):
-        self.records = []
-        self.sample_id = 0
-        
-    def get_stats(self):
-        """获取诊断统计信息"""
-        if not self.records:
-            return {}
-        return {
-            "num_records": len(self.records),
-            "num_samples": self.sample_id + 1,
-            "num_layers": len(set(r["layer_idx"] for r in self.records)),
-            "num_heads": len(set(r["head_idx"] for r in self.records)),
-        }
-
-# 全局诊断实例
-DIAGNOSTIC = DiagnosticRecorder()
 
 from transformers.cache_utils import Cache, DynamicCache, StaticCache
 from transformers.models.qwen2.configuration_qwen2 import Qwen2Config
@@ -146,7 +89,6 @@ def qwen2_attn_forward_cake(
             )
         kv_seq_len += past_key_value.get_usable_length(kv_seq_len, self.layer_idx)
 
-    print(position_ids)
     # Handle both old and new transformers API for rotary embeddings
     if position_embeddings is not None:
         # New API (transformers >= 4.46): position_embeddings passed from model
@@ -257,7 +199,7 @@ def qwen2_attn_forward_cake(
         head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
         head_entropy = None
 
-        if head_mode in ("high_entropy", "low_entropy"):
+        if head_mode in ("high_entropy", "low_entropy", "budget_realloc"):
             # Compute per-head entropy
             # attention_score: [bsz, num_heads, window, seq_len]
             # We compute entropy across the sequence dimension for each head

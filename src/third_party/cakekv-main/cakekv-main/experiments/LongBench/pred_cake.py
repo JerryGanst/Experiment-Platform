@@ -2,7 +2,11 @@ import os
 from datasets import load_dataset
 import torch
 import json
-from transformers import AutoTokenizer, LlamaTokenizer, LlamaForCausalLM, AutoModelForCausalLM, AutoConfig, Gemma2ForCausalLM
+from transformers import AutoTokenizer, LlamaTokenizer, LlamaForCausalLM, AutoModelForCausalLM, AutoConfig
+try:
+    from transformers import Gemma2ForCausalLM
+except ImportError:
+    Gemma2ForCausalLM = None  # Not available in older transformers versions
 from tqdm import tqdm
 import numpy as np
 import random
@@ -168,7 +172,7 @@ def load_model_and_tokenizer(path, model_name, device, compress_config):
             # HACE: Check if head-level adaptive mode is enabled
             # Supported modes: adakv (Ada-KV counting), high_entropy/low_entropy (entropy-based)
             head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
-            use_head_adaptive = head_mode in ("adakv", "high_entropy", "low_entropy")
+            use_head_adaptive = head_mode in ("adakv", "high_entropy", "low_entropy", "budget_realloc")
             if use_head_adaptive and i == 0:
                 print(f"[HACE] Head-level adaptive mode enabled: {head_mode}")
 
@@ -246,6 +250,12 @@ if __name__ == '__main__':
         prompt_format = dataset2prompt[dataset]
         max_gen = dataset2maxlen[dataset]
         data_all = [data_sample for data_sample in data]
+
+        # HACE: Support sample limit for quick testing
+        max_samples = int(os.environ.get("HACE_MAX_SAMPLES", "0"))
+        if max_samples > 0:
+            data_all = data_all[:max_samples]
+            print(f"[HACE] Limited to {max_samples} samples for testing")
 
         if os.path.exists(out_path):
             with open(out_path, 'r', encoding='utf-8') as file:

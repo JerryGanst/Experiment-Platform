@@ -1,0 +1,102 @@
+2025-12-22 06:32:29,996 - __main__ - INFO - Starting baseline experiment suite
+2025-12-22 06:32:29,996 - __main__ - INFO - Arguments: Namespace(model_name='/model/ModelScope/Qwen/Qwen2.5-7B-Instruct', datasets='qmsum', kv_cache_lengths='31500', batch_sizes='1', max_new_tokens=256, repetitions=1, output_dir='results_clean/baseline_full', log_level='INFO', seed=42, backend='vllm', cake_prompting=True, cake_maxlen=True, greedy_decode=True)
+2025-12-22 06:32:31,142 - __main__ - INFO - Random seed set to 42
+2025-12-22 06:32:31,142 - __main__ - INFO - Total number of baseline experiment configurations to run: 1
+2025-12-22 06:32:31,143 - __main__ - INFO - Using vLLM max_new_tokens=512 to cover CAKE per-dataset overrides
+2025-12-22 06:32:31,146 - __main__ - INFO - Initializing VLLM backend for kv_len=31500 (max_model_len=32020)
+2025-12-22 06:32:31,146 - hace_core.models.inference_backend - INFO - Creating VLLM backend (mode: inprocess)
+2025-12-22 06:32:35,683 - hace_core.models.inference_backend - INFO - Initializing VLLM inprocess engine for model: /model/ModelScope/Qwen/Qwen2.5-7B-Instruct
+2025-12-22 06:33:49,939 - hace_core.models.inference_backend - INFO - VLLM inprocess engine initialized successfully
+2025-12-22 06:33:49,939 - __main__ - INFO - Running baseline(vllm): Rep 1/1, Dataset: qmsum, KV_Len: 31500, Batch: 1
+2025-12-22 06:33:49,939 - __main__ - INFO - Starting baseline experiment: baseline_qmsum_kv31500_bs1_rep0_063349
+2025-12-22 06:33:49,939 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-12-22 06:33:49,939 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: baseline_qmsum_kv31500_bs1_rep0_063349
+2025-12-22 06:33:49,939 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-12-22 06:33:49,939 - __main__ - INFO - Loading dataset qmsum...
+2025-12-22 06:33:49,939 - hace_core.data.dataset_loader - INFO - Loading dataset: THUDM/longbench (subset: qmsum) - split: validation
+2025-12-22 06:33:49,940 - hace_core.data.dataset_loader - INFO - Loading LongBench subset 'qmsum' from local file: /cloud/cloud-ssd1/Experiment-Platform/data/qmsum.jsonl
+2025-12-22 06:33:50,978 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 200 samples
+2025-12-22 06:33:50,978 - hace_core.data.dataset_loader - INFO - Preparing 200 samples from qmsum
+2025-12-22 06:33:51,005 - hace_core.data.dataset_loader - INFO - Prepared 200 samples successfully
+2025-12-22 06:33:57,314 - __main__ - INFO - Using CAKE max_new_tokens=512 for dataset qmsum
+2025-12-22 06:33:57,314 - __main__ - INFO - Preparing batches with size 1, total batches: 200
+2025-12-22 06:33:57,314 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-12-22 06:33:57,315 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-12-22 06:33:57,315 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-12-22 06:44:00,547 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-12-22 06:44:00,548 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=0.0MB, 最终峰值=0.0MB
+2025-12-22 06:44:01,239 - evaluation.eval_utils - INFO - 数据集 qmsum 平均分: 0.2422
+2025-12-22 06:44:01,239 - __main__ - INFO - Task score (qmsum): 0.2422
+2025-12-22 06:44:01,243 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=5394
+2025-12-22 06:44:01,243 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-22 06:44:01,246 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=5394
+2025-12-22 06:44:01,246 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-22 06:44:01,246 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results_clean/baseline_full/unified_metrics_baseline_qmsum_kv31500_bs1_rep0_063349.json
+2025-12-22 06:44:01,346 - __main__ - INFO - Baseline experiment baseline_qmsum_kv31500_bs1_rep0_063349 completed successfully
+2025-12-22 06:44:02,467 - hace_core.models.inference_backend - INFO - VLLM backend cleaned up
+2025-12-22 06:44:02,490 - __main__ - INFO - All baseline experiment summaries saved to results_clean/baseline_full/all_baseline_experiments_summary.csv
+2025-12-22 06:44:02,490 - __main__ - INFO - Baseline experiment suite finished.
+2025-12-22 07:07:31,220 - __main__ - INFO - Starting baseline experiment suite
+2025-12-22 07:07:31,220 - __main__ - INFO - Arguments: Namespace(model_name='/model/ModelScope/Qwen/Qwen2.5-7B-Instruct', datasets='gov_report,multi_news', kv_cache_lengths='31500', batch_sizes='1', max_new_tokens=256, repetitions=1, output_dir='results_clean/baseline_full', log_level='INFO', seed=42, backend='vllm', cake_prompting=True, cake_maxlen=True, greedy_decode=True)
+2025-12-22 07:07:32,339 - __main__ - INFO - Random seed set to 42
+2025-12-22 07:07:32,339 - __main__ - INFO - Total number of baseline experiment configurations to run: 2
+2025-12-22 07:07:32,339 - __main__ - INFO - Using vLLM max_new_tokens=512 to cover CAKE per-dataset overrides
+2025-12-22 07:07:32,341 - __main__ - INFO - Initializing VLLM backend for kv_len=31500 (max_model_len=32020)
+2025-12-22 07:07:32,341 - hace_core.models.inference_backend - INFO - Creating VLLM backend (mode: inprocess)
+2025-12-22 07:07:35,664 - hace_core.models.inference_backend - INFO - Initializing VLLM inprocess engine for model: /model/ModelScope/Qwen/Qwen2.5-7B-Instruct
+2025-12-22 07:08:28,309 - hace_core.models.inference_backend - INFO - VLLM inprocess engine initialized successfully
+2025-12-22 07:08:28,309 - __main__ - INFO - Running baseline(vllm): Rep 1/1, Dataset: gov_report, KV_Len: 31500, Batch: 1
+2025-12-22 07:08:28,310 - __main__ - INFO - Starting baseline experiment: baseline_gov_report_kv31500_bs1_rep0_070828
+2025-12-22 07:08:28,310 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-12-22 07:08:28,310 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: baseline_gov_report_kv31500_bs1_rep0_070828
+2025-12-22 07:08:28,310 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-12-22 07:08:28,310 - __main__ - INFO - Loading dataset gov_report...
+2025-12-22 07:08:28,310 - hace_core.data.dataset_loader - INFO - Loading dataset: THUDM/longbench (subset: gov_report) - split: validation
+2025-12-22 07:08:28,310 - hace_core.data.dataset_loader - INFO - Loading LongBench subset 'gov_report' from local file: /cloud/cloud-ssd1/Experiment-Platform/data/gov_report.jsonl
+2025-12-22 07:08:29,371 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 200 samples
+2025-12-22 07:08:29,371 - hace_core.data.dataset_loader - INFO - Preparing 200 samples from gov_report
+2025-12-22 07:08:29,399 - hace_core.data.dataset_loader - INFO - Prepared 200 samples successfully
+2025-12-22 07:08:35,138 - __main__ - INFO - Using CAKE max_new_tokens=512 for dataset gov_report
+2025-12-22 07:08:35,138 - __main__ - INFO - Preparing batches with size 1, total batches: 200
+2025-12-22 07:08:35,138 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-12-22 07:08:35,139 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-12-22 07:08:35,139 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-12-22 07:37:29,574 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-12-22 07:37:29,575 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=0.0MB, 最终峰值=0.0MB
+2025-12-22 07:37:54,091 - evaluation.eval_utils - INFO - 数据集 gov_report 平均分: 0.3374
+2025-12-22 07:37:54,091 - __main__ - INFO - Task score (gov_report): 0.3374
+2025-12-22 07:37:54,107 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=15504
+2025-12-22 07:37:54,107 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-22 07:37:54,121 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=15504
+2025-12-22 07:37:54,121 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-22 07:37:54,121 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results_clean/baseline_full/unified_metrics_baseline_gov_report_kv31500_bs1_rep0_070828.json
+2025-12-22 07:37:54,221 - __main__ - INFO - Baseline experiment baseline_gov_report_kv31500_bs1_rep0_070828 completed successfully
+2025-12-22 07:37:54,224 - __main__ - INFO - Running baseline(vllm): Rep 1/1, Dataset: multi_news, KV_Len: 31500, Batch: 1
+2025-12-22 07:37:54,225 - __main__ - INFO - Starting baseline experiment: baseline_multi_news_kv31500_bs1_rep0_073754
+2025-12-22 07:37:54,225 - hace_core.utils.unified_monitor - INFO - 发现1个GPU设备
+2025-12-22 07:37:54,225 - hace_core.utils.unified_monitor - INFO - 统一监控器初始化完成，实验ID: baseline_multi_news_kv31500_bs1_rep0_073754
+2025-12-22 07:37:54,225 - hace_core.utils.unified_monitor - INFO - 记录实验配置
+2025-12-22 07:37:54,225 - __main__ - INFO - Loading dataset multi_news...
+2025-12-22 07:37:54,225 - hace_core.data.dataset_loader - INFO - Loading dataset: THUDM/longbench (subset: multi_news) - split: validation
+2025-12-22 07:37:54,225 - hace_core.data.dataset_loader - INFO - Loading LongBench subset 'multi_news' from local file: /cloud/cloud-ssd1/Experiment-Platform/data/multi_news.jsonl
+2025-12-22 07:37:55,169 - hace_core.data.dataset_loader - INFO - Dataset loaded successfully with 200 samples
+2025-12-22 07:37:55,170 - hace_core.data.dataset_loader - INFO - Preparing 200 samples from multi_news
+2025-12-22 07:37:55,189 - hace_core.data.dataset_loader - INFO - Prepared 200 samples successfully
+2025-12-22 07:37:56,641 - __main__ - INFO - Using CAKE max_new_tokens=512 for dataset multi_news
+2025-12-22 07:37:56,641 - __main__ - INFO - Preparing batches with size 1, total batches: 200
+2025-12-22 07:37:56,641 - hace_core.utils.unified_monitor - INFO - 启动统一监控
+2025-12-22 07:37:56,641 - hace_core.utils.unified_monitor - INFO - GPU 0 峰值内存统计已重置
+2025-12-22 07:37:56,642 - hace_core.utils.unified_monitor - INFO - 统一监控循环已启动
+2025-12-22 08:02:26,735 - hace_core.utils.unified_monitor - INFO - 停止统一监控
+2025-12-22 08:02:26,738 - hace_core.utils.unified_monitor - INFO - GPU 0 最终内存状态: 当前分配=0.0MB, 最终峰值=0.0MB
+2025-12-22 08:02:36,365 - evaluation.eval_utils - INFO - 数据集 multi_news 平均分: 0.2586
+2025-12-22 08:02:36,365 - __main__ - INFO - Task score (multi_news): 0.2586
+2025-12-22 08:02:36,383 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=13139
+2025-12-22 08:02:36,383 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-22 08:02:36,396 - hace_core.utils.unified_monitor - INFO - 设备 0 统计: 峰值=0.0MB, 平均=0.0MB, 样本=13139
+2025-12-22 08:02:36,396 - hace_core.utils.unified_monitor - INFO - GPU统计摘要: 总峰值内存 0.0MB
+2025-12-22 08:02:36,398 - hace_core.utils.unified_monitor - INFO - 统一监控指标已保存到: results_clean/baseline_full/unified_metrics_baseline_multi_news_kv31500_bs1_rep0_073754.json
+2025-12-22 08:02:36,426 - __main__ - INFO - Baseline experiment baseline_multi_news_kv31500_bs1_rep0_073754 completed successfully
+2025-12-22 08:02:40,640 - hace_core.models.inference_backend - INFO - VLLM backend cleaned up
+2025-12-22 08:02:40,658 - __main__ - INFO - All baseline experiment summaries saved to results_clean/baseline_full/all_baseline_experiments_summary.csv
+2025-12-22 08:02:40,658 - __main__ - INFO - Baseline experiment suite finished.

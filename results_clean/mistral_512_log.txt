@@ -1,0 +1,1423 @@
+[PATCH] replace_flashmistral_attn_with_cakeattn called
+[PATCH] Replaced MistralFlashAttention2.forward
+[PATCH] Replaced MistralAttention.forward
+[PATCH] Replaced MistralSdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:00<00:00,  3.61it/s]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:00<00:00,  3.64it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00,  3.81it/s]Loading checkpoint shards: 100%|██████████| 3/3 [00:00<00:00,  3.76it/s]
+[HACE] Head-level adaptive mode enabled: budget_realloc
+
+============================================================
+HACE Experiment Configuration:
+  Model: mistral-0.3-7b-32k
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: budget_realloc
+  Cache Size: 512
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/results_clean/mistral_budget_512_fixed/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.375, 9.086]
+[HACE] Budget realloc enabled: [309, 226, 609, 327, 1080, 279, 603, 291]
+[HACE] Head entropy: [6.2734375, 5.375, 7.88671875, 6.421875, 9.0859375, 5.9921875, 7.8671875, 6.109375]
+[HACE] Padded to max_budget=1080, actual budgets=[309, 226, 609, 327, 1080, 279, 603, 291]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.410, 9.070]
+[HACE] Budget realloc enabled: [327, 236, 641, 348, 1120, 303, 626, 310]
+[HACE] Head entropy: [6.3359375, 5.41015625, 7.9140625, 6.5, 9.0703125, 6.13671875, 7.86328125, 6.1953125]
+[HACE] Padded to max_budget=1120, actual budgets=[327, 236, 641, 348, 1120, 303, 626, 310]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.055, 9.578]
+[HACE] Budget realloc enabled: [298, 225, 608, 383, 1040, 329, 521, 218]
+[HACE] Head entropy: [6.90625, 6.1484375, 8.515625, 7.5078125, 9.578125, 7.1484375, 8.1875, 6.0546875]
+[HACE] Padded to max_budget=1040, actual budgets=[298, 225, 608, 383, 1040, 329, 521, 218]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.184, 9.539]
+[HACE] Budget realloc enabled: [274, 205, 589, 339, 980, 268, 488, 217]
+[HACE] Head entropy: [6.9375, 6.18359375, 8.578125, 7.4375, 9.5390625, 6.890625, 8.203125, 6.33984375]
+[HACE] Padded to max_budget=980, actual budgets=[274, 205, 589, 339, 980, 268, 488, 217]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.828, 9.438]
+[HACE] Budget realloc enabled: [291, 197, 546, 314, 940, 257, 501, 222]
+[HACE] Head entropy: [6.8984375, 5.828125, 8.3359375, 7.0859375, 9.4375, 6.578125, 8.1484375, 6.171875]
+[HACE] Padded to max_budget=940, actual budgets=[291, 197, 546, 314, 940, 257, 501, 222]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.984, 8.672]
+[HACE] Budget realloc enabled: [272, 229, 565, 328, 1093, 339, 633, 313]
+[HACE] Head entropy: [5.484375, 4.984375, 7.28515625, 5.9921875, 8.671875, 6.078125, 7.53515625, 5.875]
+[HACE] Padded to max_budget=1093, actual budgets=[272, 229, 565, 328, 1093, 339, 633, 313]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.230, 9.547]
+[HACE] Budget realloc enabled: [225, 168, 477, 277, 798, 225, 403, 167]
+[HACE] Head entropy: [6.99609375, 6.25, 8.5859375, 7.47265625, 9.546875, 7.00390625, 8.2578125, 6.23046875]
+[HACE] Padded to max_budget=798, actual budgets=[225, 168, 477, 277, 798, 225, 403, 167]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.266, 9.633]
+[HACE] Budget realloc enabled: [245, 188, 514, 312, 907, 246, 448, 193]
+[HACE] Head entropy: [6.95703125, 6.265625, 8.5546875, 7.515625, 9.6328125, 6.96484375, 8.28125, 6.3359375]
+[HACE] Padded to max_budget=907, actual budgets=[245, 188, 514, 312, 907, 246, 448, 193]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.555, 8.469]
+[HACE] Budget realloc enabled: [306, 243, 595, 335, 1157, 312, 717, 364]
+[HACE] Head entropy: [5.265625, 4.5546875, 6.98828125, 5.52734375, 8.46875, 5.328125, 7.4140625, 5.7578125]
+[HACE] Padded to max_budget=1157, actual budgets=[306, 243, 595, 335, 1157, 312, 717, 364]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.445, 9.141]
+[HACE] Budget realloc enabled: [265, 222, 565, 325, 1065, 318, 585, 268]
+[HACE] Head entropy: [5.9609375, 5.4453125, 7.80859375, 6.5078125, 9.140625, 6.45703125, 7.87890625, 5.9921875]
+[HACE] Padded to max_budget=1065, actual budgets=[265, 222, 565, 325, 1065, 318, 585, 268]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.859, 9.500]
+[HACE] Budget realloc enabled: [275, 195, 526, 302, 931, 256, 488, 218]
+[HACE] Head entropy: [6.8203125, 5.859375, 8.328125, 7.05859375, 9.5, 6.6328125, 8.1640625, 6.19921875]
+[HACE] Padded to max_budget=931, actual budgets=[275, 195, 526, 302, 931, 256, 488, 218]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.148, 9.070]
+[HACE] Budget realloc enabled: [319, 232, 629, 334, 1104, 297, 610, 306]
+[HACE] Head entropy: [6.1171875, 5.1484375, 7.8203125, 6.2421875, 9.0703125, 5.9140625, 7.74609375, 6.0]
+[HACE] Padded to max_budget=1104, actual budgets=[319, 232, 629, 334, 1104, 297, 610, 306]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.809, 9.406]
+[HACE] Budget realloc enabled: [256, 168, 486, 293, 785, 257, 434, 190]
+[HACE] Head entropy: [6.98046875, 5.80859375, 8.4296875, 7.3046875, 9.40625, 6.984375, 8.1953125, 6.18359375]
+[HACE] Padded to max_budget=785, actual budgets=[256, 168, 486, 293, 785, 257, 434, 190]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.102, 9.531]
+[HACE] Budget realloc enabled: [284, 211, 605, 346, 1007, 283, 503, 239]
+[HACE] Head entropy: [6.890625, 6.1015625, 8.546875, 7.359375, 9.53125, 6.88671875, 8.171875, 6.4453125]
+[HACE] Padded to max_budget=1007, actual budgets=[284, 211, 605, 346, 1007, 283, 503, 239]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.203, 9.109]
+[HACE] Budget realloc enabled: [294, 234, 623, 342, 1114, 333, 619, 303]
+[HACE] Head entropy: [5.91015625, 5.203125, 7.828125, 6.3359375, 9.109375, 6.265625, 7.8125, 6.0]
+[HACE] Padded to max_budget=1114, actual budgets=[294, 234, 623, 342, 1114, 333, 619, 303]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.922, 9.508]
+[HACE] Budget realloc enabled: [262, 184, 493, 287, 881, 240, 471, 210]
+[HACE] Head entropy: [6.890625, 5.921875, 8.3359375, 7.11328125, 9.5078125, 6.6640625, 8.234375, 6.30859375]
+[HACE] Padded to max_budget=881, actual budgets=[262, 184, 493, 287, 881, 240, 471, 210]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.797, 8.625]
+[HACE] Budget realloc enabled: [300, 235, 588, 331, 1113, 318, 675, 358]
+[HACE] Head entropy: [5.54296875, 4.796875, 7.234375, 5.81640625, 8.625, 5.703125, 7.546875, 6.0234375]
+[HACE] Padded to max_budget=1113, actual budgets=[300, 235, 588, 331, 1113, 318, 675, 358]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.988, 9.602]
+[HACE] Budget realloc enabled: [244, 190, 515, 323, 912, 297, 450, 193]
+[HACE] Head entropy: [6.6953125, 5.98828125, 8.4375, 7.39453125, 9.6015625, 7.1953125, 8.1484375, 6.03515625]
+[HACE] Padded to max_budget=912, actual budgets=[244, 190, 515, 323, 912, 297, 450, 193]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.062, 9.453]
+[HACE] Budget realloc enabled: [272, 185, 552, 334, 861, 301, 480, 204]
+[HACE] Head entropy: [7.08203125, 6.0625, 8.59375, 7.55078125, 9.453125, 7.3203125, 8.3203125, 6.3359375]
+[HACE] Padded to max_budget=861, actual budgets=[272, 185, 552, 334, 861, 301, 480, 204]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.656, 9.969]
+[HACE] Budget realloc enabled: [262, 171, 517, 287, 773, 239, 391, 165]
+[HACE] Head entropy: [7.8125, 6.7578125, 9.21875, 8.0234375, 9.96875, 7.609375, 8.671875, 6.65625]
+[HACE] Padded to max_budget=773, actual budgets=[262, 171, 517, 287, 773, 239, 391, 165]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.023, 9.578]
+[HACE] Budget realloc enabled: [248, 185, 509, 315, 883, 281, 437, 188]
+[HACE] Head entropy: [6.83984375, 6.0234375, 8.4765625, 7.421875, 9.578125, 7.140625, 8.1484375, 6.07421875]
+[HACE] Padded to max_budget=883, actual budgets=[248, 185, 509, 315, 883, 281, 437, 188]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.695, 9.406]
+[HACE] Budget realloc enabled: [288, 209, 598, 310, 996, 280, 514, 250]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Head entropy: [6.6171875, 5.6953125, 8.34375, 6.80859375, 9.40625, 6.5390625, 8.0078125, 6.234375]
+[HACE] Padded to max_budget=996, actual budgets=[288, 209, 598, 310, 996, 280, 514, 250]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.816, 9.375]
+[HACE] Budget realloc enabled: [291, 217, 584, 334, 1040, 296, 533, 240]
+[HACE] Head entropy: [6.625, 5.81640625, 8.21875, 6.96484375, 9.375, 6.6640625, 8.0234375, 6.11328125]
+[HACE] Padded to max_budget=1040, actual budgets=[291, 217, 584, 334, 1040, 296, 533, 240]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.320, 9.062]
+[HACE] Budget realloc enabled: [305, 219, 592, 325, 1043, 284, 584, 284]
+[HACE] Head entropy: [6.2734375, 5.3203125, 7.8671875, 6.4375, 9.0625, 6.078125, 7.83203125, 6.0859375]
+[HACE] Padded to max_budget=1043, actual budgets=[305, 219, 592, 325, 1043, 284, 584, 284]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.047, 9.375]
+[HACE] Budget realloc enabled: [272, 199, 540, 309, 951, 262, 479, 226]
+[HACE] Head entropy: [6.8515625, 6.046875, 8.3046875, 7.140625, 9.375, 6.76171875, 8.0703125, 6.390625]
+[HACE] Padded to max_budget=951, actual budgets=[272, 199, 540, 309, 951, 262, 479, 226]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.863, 9.414]
+[HACE] Budget realloc enabled: [356, 254, 734, 379, 1209, 332, 632, 301]
+[HACE] Head entropy: [6.78125, 5.86328125, 8.4140625, 6.9375, 9.4140625, 6.609375, 8.1015625, 6.34765625]
+[HACE] Padded to max_budget=1209, actual budgets=[356, 254, 734, 379, 1209, 332, 632, 301]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.969, 8.883]
+[HACE] Budget realloc enabled: [287, 230, 589, 333, 1101, 309, 609, 308]
+[HACE] Head entropy: [5.65625, 4.96875, 7.49609375, 6.0703125, 8.8828125, 5.859375, 7.5703125, 5.8515625]
+[HACE] Padded to max_budget=1101, actual budgets=[287, 230, 589, 333, 1101, 309, 609, 308]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.762, 10.047]
+[HACE] Budget realloc enabled: [215, 145, 439, 265, 682, 232, 341, 149]
+[HACE] Head entropy: [7.75, 6.76171875, 9.234375, 8.21875, 10.046875, 7.92578125, 8.7421875, 6.83984375]
+[HACE] Padded to max_budget=682, actual budgets=[215, 145, 439, 265, 682, 232, 341, 149]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.105, 9.602]
+[HACE] Budget realloc enabled: [308, 241, 639, 406, 1103, 357, 560, 232]
+[HACE] Head entropy: [6.875, 6.21484375, 8.5234375, 7.546875, 9.6015625, 7.24609375, 8.25, 6.10546875]
+[HACE] Padded to max_budget=1103, actual budgets=[308, 241, 639, 406, 1103, 357, 560, 232]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.250, 9.070]
+[HACE] Budget realloc enabled: [340, 247, 667, 354, 1178, 308, 658, 320]
+[HACE] Head entropy: [6.19140625, 5.25, 7.84375, 6.30078125, 9.0703125, 5.92578125, 7.80859375, 6.0234375]
+[HACE] Padded to max_budget=1178, actual budgets=[340, 247, 667, 354, 1178, 308, 658, 320]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.621, 9.984]
+[HACE] Budget realloc enabled: [313, 213, 615, 352, 928, 294, 475, 199]
+[HACE] Head entropy: [7.7890625, 6.828125, 9.203125, 8.0546875, 9.984375, 7.6484375, 8.6875, 6.62109375]
+[HACE] Padded to max_budget=928, actual budgets=[313, 213, 615, 352, 928, 294, 475, 199]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.113, 9.406]
+[HACE] Budget realloc enabled: [238, 159, 442, 278, 752, 232, 410, 174]
+[HACE] Head entropy: [7.125, 6.11328125, 8.421875, 7.47265625, 9.40625, 7.06640625, 8.2734375, 6.359375]
+[HACE] Padded to max_budget=752, actual budgets=[238, 159, 442, 278, 752, 232, 410, 174]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.344, 9.453]
+[HACE] Budget realloc enabled: [199, 144, 413, 261, 676, 220, 367, 149]
+[HACE] Head entropy: [7.140625, 6.34375, 8.5859375, 7.71484375, 9.453125, 7.35546875, 8.375, 6.4375]
+[HACE] Padded to max_budget=676, actual budgets=[199, 144, 413, 261, 676, 220, 367, 149]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.020, 9.125]
+[HACE] Budget realloc enabled: [223, 165, 473, 292, 775, 260, 429, 180]
+[HACE] Head entropy: [6.75, 6.01953125, 8.2578125, 7.3359375, 9.125, 7.08984375, 8.078125, 6.25]
+[HACE] Padded to max_budget=775, actual budgets=[223, 165, 473, 292, 775, 260, 429, 180]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.973, 9.445]
+[HACE] Budget realloc enabled: [215, 136, 390, 246, 631, 217, 357, 158]
+[HACE] Head entropy: [7.203125, 5.97265625, 8.5, 7.5078125, 9.4453125, 7.2265625, 8.3125, 6.41796875]
+[HACE] Padded to max_budget=631, actual budgets=[215, 136, 390, 246, 631, 217, 357, 158]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.348, 9.062]
+[HACE] Budget realloc enabled: [303, 223, 602, 330, 1064, 286, 588, 289]
+[HACE] Head entropy: [6.2265625, 5.34765625, 7.86328125, 6.453125, 9.0625, 6.0703125, 7.81640625, 6.09765625]
+[HACE] Padded to max_budget=1064, actual budgets=[303, 223, 602, 330, 1064, 286, 588, 289]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.555, 9.156]
+[HACE] Budget realloc enabled: [266, 212, 566, 326, 1014, 284, 542, 258]
+[HACE] Head entropy: [6.19921875, 5.5546875, 7.96875, 6.72265625, 9.15625, 6.375, 7.87890625, 6.125]
+[HACE] Padded to max_budget=1014, actual budgets=[266, 212, 566, 326, 1014, 284, 542, 258]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.027, 9.578]
+[HACE] Budget realloc enabled: [226, 174, 490, 291, 832, 266, 420, 178]
+[HACE] Head entropy: [6.75, 6.02734375, 8.515625, 7.37109375, 9.578125, 7.15625, 8.1875, 6.08203125]
+[HACE] Padded to max_budget=832, actual budgets=[226, 174, 490, 291, 832, 266, 420, 178]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.285, 9.102]
+[HACE] Budget realloc enabled: [295, 235, 644, 351, 1119, 329, 610, 303]
+[HACE] Head entropy: [5.96875, 5.28515625, 7.90625, 6.4453125, 9.1015625, 6.2734375, 7.7890625, 6.046875]
+[HACE] Padded to max_budget=1119, actual budgets=[295, 235, 644, 351, 1119, 329, 610, 303]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.953, 9.438]
+[HACE] Budget realloc enabled: [218, 138, 379, 246, 644, 220, 364, 164]
+[HACE] Head entropy: [7.1640625, 5.953125, 8.390625, 7.453125, 9.4375, 7.1953125, 8.3125, 6.44921875]
+[HACE] Padded to max_budget=644, actual budgets=[218, 138, 379, 246, 644, 220, 364, 164]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.500, 8.461]
+[HACE] Budget realloc enabled: [302, 239, 588, 331, 1135, 309, 704, 358]
+[HACE] Head entropy: [5.234375, 4.5, 6.97265625, 5.49609375, 8.4609375, 5.3046875, 7.3984375, 5.72265625]
+[HACE] Padded to max_budget=1135, actual budgets=[302, 239, 588, 331, 1135, 309, 704, 358]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.766, 9.094]
+[HACE] Budget realloc enabled: [255, 182, 491, 302, 860, 254, 486, 208]
+[HACE] Head entropy: [6.6328125, 5.765625, 8.03125, 7.02734375, 9.09375, 6.62890625, 8.015625, 6.13671875]
+[HACE] Padded to max_budget=860, actual budgets=[255, 182, 491, 302, 860, 254, 486, 208]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [3.324, 7.703]
+[HACE] Budget realloc enabled: [387, 293, 614, 353, 1384, 360, 972, 521]
+[HACE] Head entropy: [4.28515625, 3.32421875, 5.640625, 3.990234375, 7.703125, 4.046875, 6.8359375, 5.18359375]
+[HACE] Padded to max_budget=1384, actual budgets=[387, 293, 614, 353, 1384, 360, 972, 521]
+======== mistral build chat ========
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.383, 9.586]
+[HACE] Budget realloc enabled: [298, 228, 656, 355, 1097, 288, 538, 233]
+[HACE] Head entropy: [7.04296875, 6.3828125, 8.65625, 7.4375, 9.5859375, 6.9609375, 8.28125, 6.44140625]
+[HACE] Padded to max_budget=1097, actual budgets=[298, 228, 656, 355, 1097, 288, 538, 233]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.426, 8.445]
+[HACE] Budget realloc enabled: [396, 289, 727, 376, 1371, 327, 870, 475]
+[HACE] Head entropy: [5.40625, 4.42578125, 6.9921875, 5.2578125, 8.4453125, 4.828125, 7.41796875, 5.9140625]
+[HACE] Padded to max_budget=1371, actual budgets=[396, 289, 727, 376, 1371, 327, 870, 475]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.090, 9.422]
+[HACE] Budget realloc enabled: [162, 117, 337, 207, 548, 190, 294, 134]
+[HACE] Head entropy: [6.9453125, 6.08984375, 8.5078125, 7.50390625, 9.421875, 7.3125, 8.2421875, 6.46484375]
+[HACE] Padded to max_budget=548, actual budgets=[162, 117, 337, 207, 548, 190, 294, 134]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.754, 9.297]
+[HACE] Budget realloc enabled: [281, 200, 556, 290, 957, 256, 514, 246]
+[HACE] Head entropy: [6.671875, 5.75390625, 8.2109375, 6.7578125, 9.296875, 6.4375, 8.046875, 6.328125]
+[HACE] Padded to max_budget=957, actual budgets=[281, 200, 556, 290, 957, 256, 514, 246]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.406, 9.141]
+[HACE] Budget realloc enabled: [230, 190, 499, 286, 912, 259, 486, 238]
+[HACE] Head entropy: [5.9609375, 5.40625, 7.86328125, 6.5546875, 9.140625, 6.2890625, 7.80078125, 6.0625]
+[HACE] Padded to max_budget=912, actual budgets=[230, 190, 499, 286, 912, 259, 486, 238]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.359, 9.016]
+[HACE] Budget realloc enabled: [361, 262, 696, 393, 1241, 350, 676, 354]
+[HACE] Head entropy: [6.2734375, 5.359375, 7.8125, 6.484375, 9.015625, 6.1875, 7.74609375, 6.21875]
+[HACE] Padded to max_budget=1241, actual budgets=[361, 262, 696, 393, 1241, 350, 676, 354]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.035, 9.062]
+[HACE] Budget realloc enabled: [288, 212, 572, 299, 1008, 276, 562, 282]
+[HACE] Head entropy: [5.9921875, 5.03515625, 7.765625, 6.1015625, 9.0625, 5.87109375, 7.72265625, 5.9296875]
+[HACE] Padded to max_budget=1008, actual budgets=[288, 212, 572, 299, 1008, 276, 562, 282]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.094, 9.398]
+[HACE] Budget realloc enabled: [249, 166, 464, 291, 785, 241, 424, 178]
+[HACE] Head entropy: [7.11328125, 6.09375, 8.4140625, 7.4609375, 9.3984375, 7.04296875, 8.2421875, 6.28125]
+[HACE] Padded to max_budget=785, actual budgets=[249, 166, 464, 291, 785, 241, 424, 178]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.852, 9.148]
+[HACE] Budget realloc enabled: [268, 178, 482, 323, 834, 285, 474, 211]
+[HACE] Head entropy: [6.8828125, 5.8515625, 8.1171875, 7.3046875, 9.1484375, 7.02734375, 8.0859375, 6.30078125]
+[HACE] Padded to max_budget=834, actual budgets=[268, 178, 482, 323, 834, 285, 474, 211]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.227, 9.008]
+[HACE] Budget realloc enabled: [311, 229, 608, 332, 1093, 311, 600, 298]
+[HACE] Head entropy: [6.1171875, 5.2265625, 7.75390625, 6.296875, 9.0078125, 6.1171875, 7.7265625, 6.00390625]
+[HACE] Padded to max_budget=1093, actual budgets=[311, 229, 608, 332, 1093, 311, 600, 298]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.250, 9.008]
+[HACE] Budget realloc enabled: [312, 230, 627, 339, 1094, 317, 585, 301]
+[HACE] Head entropy: [6.140625, 5.25, 7.8203125, 6.359375, 9.0078125, 6.18359375, 7.66796875, 6.0390625]
+[HACE] Padded to max_budget=1094, actual budgets=[312, 230, 627, 339, 1094, 317, 585, 301]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.172, 9.531]
+[HACE] Budget realloc enabled: [284, 207, 592, 341, 986, 275, 493, 234]
+[HACE] Head entropy: [6.9921875, 6.171875, 8.5703125, 7.421875, 9.53125, 6.921875, 8.203125, 6.51171875]
+[HACE] Padded to max_budget=986, actual budgets=[284, 207, 592, 341, 986, 275, 493, 234]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.867, 9.102]
+[HACE] Budget realloc enabled: [252, 186, 515, 315, 876, 287, 496, 207]
+[HACE] Head entropy: [6.6484375, 5.8671875, 8.1328125, 7.14453125, 9.1015625, 6.93359375, 8.0625, 6.1640625]
+[HACE] Padded to max_budget=876, actual budgets=[252, 186, 515, 315, 876, 287, 496, 207]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.227, 8.438]
+[HACE] Budget realloc enabled: [334, 247, 614, 313, 1170, 286, 745, 409]
+[HACE] Head entropy: [5.22265625, 4.2265625, 6.88671875, 5.015625, 8.4375, 4.73046875, 7.3671875, 5.80859375]
+[HACE] Padded to max_budget=1170, actual budgets=[334, 247, 614, 313, 1170, 286, 745, 409]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.730, 9.094]
+[HACE] Budget realloc enabled: [278, 197, 533, 327, 927, 280, 536, 225]
+[HACE] Head entropy: [6.6328125, 5.73046875, 8.03125, 7.01171875, 9.09375, 6.6484375, 8.046875, 6.1015625]
+[HACE] Padded to max_budget=927, actual budgets=[278, 197, 533, 327, 927, 280, 536, 225]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.141, 9.102]
+[HACE] Budget realloc enabled: [277, 223, 602, 328, 1058, 317, 582, 291]
+[HACE] Head entropy: [5.828125, 5.140625, 7.83203125, 6.30859375, 9.1015625, 6.21484375, 7.75, 5.96875]
+[HACE] Padded to max_budget=1058, actual budgets=[277, 223, 602, 328, 1058, 317, 582, 291]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.707, 8.625]
+[HACE] Budget realloc enabled: [295, 233, 585, 328, 1103, 319, 664, 359]
+[HACE] Head entropy: [5.44140625, 4.70703125, 7.20703125, 5.74609375, 8.625, 5.671875, 7.50390625, 5.9921875]
+[HACE] Padded to max_budget=1103, actual budgets=[295, 233, 585, 328, 1103, 319, 664, 359]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.227, 9.062]
+[HACE] Budget realloc enabled: [283, 211, 574, 306, 1008, 266, 559, 276]
+[HACE] Head entropy: [6.1015625, 5.2265625, 7.84375, 6.3125, 9.0625, 5.921875, 7.78125, 6.02734375]
+[HACE] Padded to max_budget=1008, actual budgets=[283, 211, 574, 306, 1008, 266, 559, 276]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.535, 9.148]
+[HACE] Budget realloc enabled: [282, 231, 602, 348, 1110, 308, 590, 279]
+[HACE] Head entropy: [6.1015625, 5.53515625, 7.8984375, 6.64453125, 9.1484375, 6.3359375, 7.8515625, 6.078125]
+[HACE] Padded to max_budget=1110, actual budgets=[282, 231, 602, 348, 1110, 308, 590, 279]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.426, 9.430]
+[HACE] Budget realloc enabled: [241, 188, 541, 333, 891, 277, 474, 188]
+[HACE] Head entropy: [7.015625, 6.42578125, 8.5859375, 7.6875, 9.4296875, 7.31640625, 8.3515625, 6.4296875]
+[HACE] Padded to max_budget=891, actual budgets=[241, 188, 541, 333, 891, 277, 474, 188]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.168, 9.547]
+[HACE] Budget realloc enabled: [283, 207, 581, 326, 995, 263, 496, 221]
+[HACE] Head entropy: [6.98046875, 6.16796875, 8.5234375, 7.3125, 9.546875, 6.796875, 8.2109375, 6.34765625]
+[HACE] Padded to max_budget=995, actual budgets=[283, 207, 581, 326, 995, 263, 496, 221]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [7.004, 9.922]
+[HACE] Budget realloc enabled: [186, 130, 417, 250, 568, 226, 312, 124]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Head entropy: [7.9296875, 7.125, 9.4140625, 8.515625, 9.921875, 8.3203125, 8.9140625, 7.00390625]
+[HACE] Padded to max_budget=568, actual budgets=[186, 130, 417, 250, 568, 226, 312, 124]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.777, 8.844]
+[HACE] Budget realloc enabled: [325, 253, 680, 364, 1200, 319, 717, 379]
+[HACE] Head entropy: [5.57421875, 4.77734375, 7.53125, 5.9140625, 8.84375, 5.5234375, 7.66015625, 6.0234375]
+[HACE] Padded to max_budget=1200, actual budgets=[325, 253, 680, 364, 1200, 319, 717, 379]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.082, 9.062]
+[HACE] Budget realloc enabled: [297, 217, 603, 311, 1032, 279, 574, 286]
+[HACE] Head entropy: [6.0546875, 5.08203125, 7.85546875, 6.18359375, 9.0625, 5.87109375, 7.7421875, 5.9453125]
+[HACE] Padded to max_budget=1032, actual budgets=[297, 217, 603, 311, 1032, 279, 574, 286]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.918, 8.844]
+[HACE] Budget realloc enabled: [354, 272, 737, 391, 1287, 338, 767, 405]
+[HACE] Head entropy: [5.7265625, 4.91796875, 7.59765625, 6.015625, 8.84375, 5.59375, 7.69140625, 6.10546875]
+[HACE] Padded to max_budget=1287, actual budgets=[354, 272, 737, 391, 1287, 338, 767, 405]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.867, 9.375]
+[HACE] Budget realloc enabled: [301, 221, 595, 347, 1057, 299, 547, 247]
+[HACE] Head entropy: [6.703125, 5.8671875, 8.234375, 7.046875, 9.375, 6.6875, 8.0546875, 6.1875]
+[HACE] Padded to max_budget=1057, actual budgets=[301, 221, 595, 347, 1057, 299, 547, 247]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.113, 9.398]
+[HACE] Budget realloc enabled: [193, 154, 428, 269, 728, 233, 398, 162]
+[HACE] Head entropy: [6.70703125, 6.11328125, 8.4140625, 7.46875, 9.3984375, 7.15234375, 8.2734375, 6.2578125]
+[HACE] Padded to max_budget=728, actual budgets=[193, 154, 428, 269, 728, 233, 398, 162]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [7.027, 9.914]
+[HACE] Budget realloc enabled: [167, 119, 362, 227, 518, 204, 279, 113]
+[HACE] Head entropy: [7.9140625, 7.1640625, 9.328125, 8.515625, 9.9140625, 8.3125, 8.8828125, 7.02734375]
+[HACE] Padded to max_budget=518, actual budgets=[167, 119, 362, 227, 518, 204, 279, 113]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.965, 9.391]
+[HACE] Budget realloc enabled: [262, 176, 500, 306, 824, 262, 446, 197]
+[HACE] Head entropy: [7.015625, 5.96484375, 8.4140625, 7.3828125, 9.390625, 7.01171875, 8.1875, 6.29296875]
+[HACE] Padded to max_budget=824, actual budgets=[262, 176, 500, 306, 824, 262, 446, 197]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.590, 9.406]
+[HACE] Budget realloc enabled: [303, 219, 637, 325, 1042, 297, 546, 268]
+[HACE] Head entropy: [6.54296875, 5.58984375, 8.3515625, 6.73046875, 9.40625, 6.48828125, 8.0, 6.20703125]
+[HACE] Padded to max_budget=1042, actual budgets=[303, 219, 637, 325, 1042, 297, 546, 268]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.867, 9.125]
+[HACE] Budget realloc enabled: [223, 160, 446, 286, 748, 252, 429, 182]
+[HACE] Head entropy: [6.71484375, 5.8671875, 8.171875, 7.2734375, 9.125, 7.0, 8.09375, 6.21484375]
+[HACE] Padded to max_budget=748, actual budgets=[223, 160, 446, 286, 748, 252, 429, 182]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.789, 8.820]
+[HACE] Budget realloc enabled: [294, 236, 639, 334, 1115, 296, 663, 364]
+[HACE] Head entropy: [5.5, 4.7890625, 7.546875, 5.875, 8.8203125, 5.51953125, 7.6328125, 6.1171875]
+[HACE] Padded to max_budget=1115, actual budgets=[294, 236, 639, 334, 1115, 296, 663, 364]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.906, 8.883]
+[HACE] Budget realloc enabled: [289, 234, 588, 340, 1122, 314, 633, 310]
+[HACE] Head entropy: [5.578125, 4.90625, 7.4296875, 6.0390625, 8.8828125, 5.8125, 7.6015625, 5.7734375]
+[HACE] Padded to max_budget=1122, actual budgets=[289, 234, 588, 340, 1122, 314, 633, 310]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.586, 9.258]
+[HACE] Budget realloc enabled: [267, 195, 544, 303, 926, 271, 485, 239]
+[HACE] Head entropy: [6.48828125, 5.5859375, 8.15625, 6.80859375, 9.2578125, 6.5234375, 7.90234375, 6.1875]
+[HACE] Padded to max_budget=926, actual budgets=[267, 195, 544, 303, 926, 271, 485, 239]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.621, 9.969]
+[HACE] Budget realloc enabled: [265, 179, 515, 298, 794, 249, 407, 169]
+[HACE] Head entropy: [7.76953125, 6.7890625, 9.15625, 8.03125, 9.96875, 7.6171875, 8.6875, 6.62109375]
+[HACE] Padded to max_budget=794, actual budgets=[265, 179, 515, 298, 794, 249, 407, 169]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.699, 9.109]
+[HACE] Budget realloc enabled: [275, 191, 528, 338, 893, 316, 500, 220]
+[HACE] Head entropy: [6.671875, 5.69921875, 8.09375, 7.1484375, 9.109375, 6.99609375, 7.98046875, 6.10546875]
+[HACE] Padded to max_budget=893, actual budgets=[275, 191, 528, 338, 893, 316, 500, 220]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.309, 9.547]
+[HACE] Budget realloc enabled: [228, 169, 467, 280, 801, 221, 401, 167]
+[HACE] Head entropy: [7.078125, 6.33203125, 8.5546875, 7.5390625, 9.546875, 7.015625, 8.265625, 6.30859375]
+[HACE] Padded to max_budget=801, actual budgets=[228, 169, 467, 280, 801, 221, 401, 167]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.344, 9.562]
+[HACE] Budget realloc enabled: [306, 230, 603, 374, 1043, 294, 536, 219]
+[HACE] Head entropy: [7.17578125, 6.484375, 8.5703125, 7.61328125, 9.5625, 7.0859375, 8.34375, 6.34375]
+[HACE] Padded to max_budget=1043, actual budgets=[306, 230, 603, 374, 1043, 294, 536, 219]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [7.020, 9.805]
+[HACE] Budget realloc enabled: [233, 145, 441, 276, 649, 223, 346, 141]
+[HACE] Head entropy: [8.09375, 7.0859375, 9.1953125, 8.3984375, 9.8046875, 8.0078125, 8.796875, 7.01953125]
+[HACE] Padded to max_budget=649, actual budgets=[233, 145, 441, 276, 649, 223, 346, 141]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.926, 9.148]
+[HACE] Budget realloc enabled: [288, 194, 528, 355, 905, 305, 521, 228]
+[HACE] Head entropy: [6.90234375, 5.92578125, 8.15625, 7.3671875, 9.1484375, 7.0390625, 8.1328125, 6.35546875]
+[HACE] Padded to max_budget=905, actual budgets=[288, 194, 528, 355, 905, 305, 521, 228]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.355, 9.008]
+[HACE] Budget realloc enabled: [358, 258, 699, 398, 1226, 356, 665, 340]
+[HACE] Head entropy: [6.28125, 5.35546875, 7.84765625, 6.546875, 9.0078125, 6.265625, 7.73828125, 6.14453125]
+[HACE] Padded to max_budget=1226, actual budgets=[358, 258, 699, 398, 1226, 356, 665, 340]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.938, 9.125]
+[HACE] Budget realloc enabled: [209, 147, 402, 275, 689, 226, 398, 172]
+[HACE] Head entropy: [6.8125, 5.9375, 8.1484375, 7.40234375, 9.125, 6.984375, 8.1328125, 6.34375]
+[HACE] Padded to max_budget=689, actual budgets=[209, 147, 402, 275, 689, 226, 398, 172]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.266, 9.109]
+[HACE] Budget realloc enabled: [316, 254, 688, 371, 1208, 356, 672, 325]
+[HACE] Head entropy: [5.9375, 5.265625, 7.8828125, 6.37890625, 9.109375, 6.265625, 7.83203125, 6.01171875]
+[HACE] Padded to max_budget=1208, actual budgets=[316, 254, 688, 371, 1208, 356, 672, 325]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.758, 8.523]
+[HACE] Budget realloc enabled: [297, 239, 572, 334, 1140, 298, 700, 338]
+[HACE] Head entropy: [5.41015625, 4.7578125, 7.04296875, 5.734375, 8.5234375, 5.421875, 7.4921875, 5.7578125]
+[HACE] Padded to max_budget=1140, actual budgets=[297, 239, 572, 334, 1140, 298, 700, 338]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.812, 9.805]
+[HACE] Budget realloc enabled: [208, 134, 401, 247, 585, 208, 318, 127]
+[HACE] Head entropy: [7.94921875, 6.953125, 9.171875, 8.2890625, 9.8046875, 7.9453125, 8.7578125, 6.8125]
+[HACE] Padded to max_budget=585, actual budgets=[208, 134, 401, 247, 585, 208, 318, 127]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.242, 9.422]
+[HACE] Budget realloc enabled: [223, 176, 495, 310, 834, 265, 450, 182]
+[HACE] Head entropy: [6.84375, 6.2421875, 8.484375, 7.5625, 9.421875, 7.23046875, 8.3046875, 6.328125]
+[HACE] Padded to max_budget=834, actual budgets=[223, 176, 495, 310, 834, 265, 450, 182]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.871, 9.805]
+[HACE] Budget realloc enabled: [222, 144, 432, 263, 597, 215, 322, 131]
+[HACE] Head entropy: [8.0546875, 7.1171875, 9.2734375, 8.390625, 9.8046875, 8.0, 8.7578125, 6.87109375]
+[HACE] Padded to max_budget=597, actual budgets=[222, 144, 432, 263, 597, 215, 322, 131]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.777, 9.117]
+[HACE] Budget realloc enabled: [290, 197, 538, 346, 923, 317, 533, 236]
+[HACE] Head entropy: [6.76953125, 5.77734375, 8.09375, 7.17578125, 9.1171875, 6.9765625, 8.078125, 6.26953125]
+[HACE] Padded to max_budget=923, actual budgets=[290, 197, 538, 346, 923, 317, 533, 236]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.625, 8.469]
+[HACE] Budget realloc enabled: [293, 232, 561, 319, 1105, 292, 691, 345]
+[HACE] Head entropy: [5.33203125, 4.625, 6.98046875, 5.56640625, 8.46875, 5.328125, 7.453125, 5.78125]
+[HACE] Padded to max_budget=1105, actual budgets=[293, 232, 561, 319, 1105, 292, 691, 345]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.582, 9.406]
+[HACE] Budget realloc enabled: [294, 213, 604, 311, 1012, 294, 531, 266]
+[HACE] Head entropy: [6.53125, 5.58203125, 8.2890625, 6.6875, 9.40625, 6.53125, 8.0, 6.2578125]
+[HACE] Padded to max_budget=1012, actual budgets=[294, 213, 604, 311, 1012, 294, 531, 266]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.875, 9.109]
+[HACE] Budget realloc enabled: [289, 203, 566, 345, 952, 308, 539, 226]
+[HACE] Head entropy: [6.765625, 5.875, 8.15625, 7.16015625, 9.109375, 6.9140625, 8.0625, 6.171875]
+[HACE] Padded to max_budget=952, actual budgets=[289, 203, 566, 345, 952, 308, 539, 226]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.082, 9.586]
+[HACE] Budget realloc enabled: [266, 197, 540, 336, 939, 298, 463, 197]
+[HACE] Head entropy: [6.90625, 6.08203125, 8.4921875, 7.46484375, 9.5859375, 7.17578125, 8.171875, 6.08203125]
+[HACE] Padded to max_budget=939, actual budgets=[266, 197, 540, 336, 939, 298, 463, 197]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.309, 9.453]
+[HACE] Budget realloc enabled: [181, 130, 365, 235, 612, 203, 331, 141]
+[HACE] Head entropy: [7.12109375, 6.30859375, 8.5390625, 7.68359375, 9.453125, 7.3671875, 8.3515625, 6.51953125]
+[HACE] Padded to max_budget=612, actual budgets=[181, 130, 365, 235, 612, 203, 331, 141]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.184, 8.906]
+[HACE] Budget realloc enabled: [346, 271, 703, 397, 1294, 351, 730, 353]
+[HACE] Head entropy: [5.90234375, 5.18359375, 7.6171875, 6.265625, 8.90625, 5.94140625, 7.69921875, 5.953125]
+[HACE] Padded to max_budget=1294, actual budgets=[346, 271, 703, 397, 1294, 351, 730, 353]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.914, 9.492]
+[HACE] Budget realloc enabled: [270, 190, 517, 297, 911, 248, 474, 212]
+[HACE] Head entropy: [6.8671875, 5.9140625, 8.34375, 7.1015625, 9.4921875, 6.64453125, 8.1640625, 6.234375]
+[HACE] Padded to max_budget=911, actual budgets=[270, 190, 517, 297, 911, 248, 474, 212]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.934, 9.133]
+[HACE] Budget realloc enabled: [236, 164, 448, 305, 769, 255, 440, 188]
+[HACE] Head entropy: [6.8359375, 5.93359375, 8.15625, 7.390625, 9.1328125, 7.0078125, 8.1171875, 6.2890625]
+[HACE] Padded to max_budget=769, actual budgets=[236, 164, 448, 305, 769, 255, 440, 188]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.211, 9.547]
+[HACE] Budget realloc enabled: [307, 225, 669, 365, 1073, 298, 531, 234]
+[HACE] Head entropy: [7.01171875, 6.2109375, 8.65625, 7.4140625, 9.546875, 6.9453125, 8.203125, 6.328125]
+[HACE] Padded to max_budget=1073, actual budgets=[307, 225, 669, 365, 1073, 298, 531, 234]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.242, 9.117]
+[HACE] Budget realloc enabled: [310, 246, 658, 363, 1170, 347, 651, 319]
+[HACE] Head entropy: [5.95703125, 5.2421875, 7.85546875, 6.390625, 9.1171875, 6.2734375, 7.83203125, 6.0390625]
+[HACE] Padded to max_budget=1170, actual budgets=[310, 246, 658, 363, 1170, 347, 651, 319]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.727, 8.844]
+[HACE] Budget realloc enabled: [322, 246, 644, 351, 1159, 310, 704, 389]
+[HACE] Head entropy: [5.609375, 4.7265625, 7.46875, 5.8671875, 8.84375, 5.4921875, 7.6875, 6.15625]
+[HACE] Padded to max_budget=1159, actual budgets=[322, 246, 644, 351, 1159, 310, 704, 389]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.852, 8.523]
+[HACE] Budget realloc enabled: [324, 258, 610, 368, 1229, 318, 761, 394]
+[HACE] Head entropy: [5.5078125, 4.8515625, 7.046875, 5.84375, 8.5234375, 5.45703125, 7.53125, 6.015625]
+[HACE] Padded to max_budget=1229, actual budgets=[324, 258, 610, 368, 1229, 318, 761, 394]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.016, 9.547]
+[HACE] Budget realloc enabled: [277, 197, 566, 312, 939, 265, 473, 226]
+[HACE] Head entropy: [6.94140625, 6.015625, 8.5390625, 7.234375, 9.546875, 6.828125, 8.1640625, 6.40625]
+[HACE] Padded to max_budget=939, actual budgets=[277, 197, 566, 312, 939, 265, 473, 226]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.148, 9.539]
+[HACE] Budget realloc enabled: [268, 198, 577, 312, 948, 258, 465, 227]
+[HACE] Head entropy: [6.93359375, 6.1484375, 8.5859375, 7.296875, 9.5390625, 6.83984375, 8.15625, 6.51953125]
+[HACE] Padded to max_budget=948, actual budgets=[268, 198, 577, 312, 948, 258, 465, 227]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.461, 9.141]
+[HACE] Budget realloc enabled: [248, 197, 510, 301, 943, 265, 510, 254]
+[HACE] Head entropy: [6.125, 5.4609375, 7.85546875, 6.6328125, 9.140625, 6.30078125, 7.85546875, 6.1953125]
+[HACE] Padded to max_budget=943, actual budgets=[248, 197, 510, 301, 943, 265, 510, 254]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.840, 9.109]
+[HACE] Budget realloc enabled: [274, 192, 508, 334, 903, 294, 526, 230]
+[HACE] Head entropy: [6.75, 5.83984375, 8.046875, 7.19140625, 9.109375, 6.90625, 8.109375, 6.32421875]
+[HACE] Padded to max_budget=903, actual budgets=[274, 192, 508, 334, 903, 294, 526, 230]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.039, 9.594]
+[HACE] Budget realloc enabled: [234, 188, 499, 320, 901, 288, 450, 188]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Head entropy: [6.65625, 6.046875, 8.40625, 7.4296875, 9.59375, 7.1796875, 8.1875, 6.0390625]
+[HACE] Padded to max_budget=901, actual budgets=[234, 188, 499, 320, 901, 288, 450, 188]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.695, 8.516]
+[HACE] Budget realloc enabled: [263, 217, 509, 303, 1036, 272, 640, 318]
+[HACE] Head entropy: [5.28515625, 4.6953125, 6.9609375, 5.67578125, 8.515625, 5.375, 7.48046875, 5.8046875]
+[HACE] Padded to max_budget=1036, actual budgets=[263, 217, 509, 303, 1036, 272, 640, 318]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.328, 9.641]
+[HACE] Budget realloc enabled: [257, 198, 541, 327, 952, 258, 466, 198]
+[HACE] Head entropy: [7.0078125, 6.328125, 8.5859375, 7.5546875, 9.640625, 7.015625, 8.296875, 6.3359375]
+[HACE] Padded to max_budget=952, actual budgets=[257, 198, 541, 327, 952, 258, 466, 198]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.648, 9.141]
+[HACE] Budget realloc enabled: [314, 262, 672, 390, 1259, 365, 683, 302]
+[HACE] Head entropy: [6.15234375, 5.6484375, 7.8984375, 6.6953125, 9.140625, 6.53515625, 7.9296875, 6.046875]
+[HACE] Padded to max_budget=1259, actual budgets=[314, 262, 672, 390, 1259, 365, 683, 302]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.953, 9.375]
+[HACE] Budget realloc enabled: [316, 233, 650, 361, 1120, 313, 575, 252]
+[HACE] Head entropy: [6.75, 5.953125, 8.328125, 7.0703125, 9.375, 6.7265625, 8.078125, 6.16796875]
+[HACE] Padded to max_budget=1120, actual budgets=[316, 233, 650, 361, 1120, 313, 575, 252]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.934, 9.445]
+[HACE] Budget realloc enabled: [162, 121, 342, 209, 568, 199, 320, 147]
+[HACE] Head entropy: [6.7421875, 5.93359375, 8.4375, 7.3671875, 9.4453125, 7.25, 8.296875, 6.4765625]
+[HACE] Padded to max_budget=568, actual budgets=[162, 121, 342, 209, 568, 199, 320, 147]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.258, 9.555]
+[HACE] Budget realloc enabled: [310, 219, 639, 348, 1049, 276, 524, 234]
+[HACE] Head entropy: [7.12890625, 6.2578125, 8.6328125, 7.390625, 9.5546875, 6.8515625, 8.25, 6.4296875]
+[HACE] Padded to max_budget=1049, actual budgets=[310, 219, 639, 348, 1049, 276, 524, 234]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.383, 9.125]
+[HACE] Budget realloc enabled: [344, 270, 743, 401, 1281, 378, 716, 345]
+[HACE] Head entropy: [6.09765625, 5.3828125, 7.96484375, 6.51171875, 9.125, 6.3515625, 7.8828125, 6.1015625]
+[HACE] Padded to max_budget=1281, actual budgets=[344, 270, 743, 401, 1281, 378, 716, 345]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.887, 9.422]
+[HACE] Budget realloc enabled: [255, 173, 483, 278, 822, 221, 437, 193]
+[HACE] Head entropy: [6.94140625, 5.88671875, 8.359375, 7.14453125, 9.421875, 6.5703125, 8.15625, 6.203125]
+[HACE] Padded to max_budget=822, actual budgets=[255, 173, 483, 278, 822, 221, 437, 193]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.852, 9.422]
+[HACE] Budget realloc enabled: [334, 235, 682, 356, 1119, 311, 584, 273]
+[HACE] Head entropy: [6.81640625, 5.8515625, 8.421875, 6.96875, 9.421875, 6.62890625, 8.09375, 6.28125]
+[HACE] Padded to max_budget=1119, actual budgets=[334, 235, 682, 356, 1119, 311, 584, 273]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.664, 9.258]
+[HACE] Budget realloc enabled: [279, 204, 566, 318, 973, 279, 507, 247]
+[HACE] Head entropy: [6.52734375, 5.6640625, 8.15625, 6.859375, 9.2578125, 6.53125, 7.921875, 6.20703125]
+[HACE] Padded to max_budget=973, actual budgets=[279, 204, 566, 318, 973, 279, 507, 247]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.027, 9.438]
+[HACE] Budget realloc enabled: [294, 198, 565, 317, 943, 250, 492, 217]
+[HACE] Head entropy: [7.0546875, 6.02734375, 8.453125, 7.2265625, 9.4375, 6.65625, 8.171875, 6.27734375]
+[HACE] Padded to max_budget=943, actual budgets=[294, 198, 565, 317, 943, 250, 492, 217]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.988, 9.922]
+[HACE] Budget realloc enabled: [183, 129, 389, 245, 555, 221, 298, 121]
+[HACE] Head entropy: [7.93359375, 7.14453125, 9.3359375, 8.515625, 9.921875, 8.3125, 8.8671875, 6.98828125]
+[HACE] Padded to max_budget=555, actual budgets=[183, 129, 389, 245, 555, 221, 298, 121]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.078, 8.891]
+[HACE] Budget realloc enabled: [323, 258, 659, 374, 1235, 338, 691, 336]
+[HACE] Head entropy: [5.7578125, 5.078125, 7.53125, 6.15625, 8.890625, 5.87890625, 7.640625, 5.86328125]
+[HACE] Padded to max_budget=1235, actual budgets=[323, 258, 659, 374, 1235, 338, 691, 336]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.922, 9.414]
+[HACE] Budget realloc enabled: [308, 224, 629, 335, 1072, 288, 558, 263]
+[HACE] Head entropy: [6.78125, 5.921875, 8.359375, 6.984375, 9.4140625, 6.6015625, 8.1171875, 6.3671875]
+[HACE] Padded to max_budget=1072, actual budgets=[308, 224, 629, 335, 1072, 288, 558, 263]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.645, 9.102]
+[HACE] Budget realloc enabled: [265, 182, 491, 298, 857, 262, 496, 220]
+[HACE] Head entropy: [6.6484375, 5.64453125, 8.0078125, 6.9296875, 9.1015625, 6.62109375, 8.03125, 6.171875]
+[HACE] Padded to max_budget=857, actual budgets=[265, 182, 491, 298, 857, 262, 496, 220]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.852, 9.812]
+[HACE] Budget realloc enabled: [216, 140, 416, 258, 613, 217, 333, 133]
+[HACE] Head entropy: [7.953125, 6.984375, 9.1640625, 8.3046875, 9.8125, 7.96484375, 8.7734375, 6.8515625]
+[HACE] Padded to max_budget=613, actual budgets=[216, 140, 416, 258, 613, 217, 333, 133]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.648, 9.148]
+[HACE] Budget realloc enabled: [238, 201, 507, 300, 966, 282, 525, 242]
+[HACE] Head entropy: [6.125, 5.6484375, 7.8671875, 6.703125, 9.1484375, 6.5546875, 7.93359375, 6.1640625]
+[HACE] Padded to max_budget=966, actual budgets=[238, 201, 507, 300, 966, 282, 525, 242]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.355, 9.555]
+[HACE] Budget realloc enabled: [238, 182, 494, 295, 829, 235, 423, 174]
+[HACE] Head entropy: [7.1328125, 6.47265625, 8.625, 7.60546875, 9.5546875, 7.1015625, 8.328125, 6.35546875]
+[HACE] Padded to max_budget=829, actual budgets=[238, 182, 494, 295, 829, 235, 423, 174]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.648, 8.508]
+[HACE] Budget realloc enabled: [267, 223, 519, 313, 1067, 277, 657, 324]
+[HACE] Head entropy: [5.203125, 4.6484375, 6.91796875, 5.65234375, 8.5078125, 5.30859375, 7.45703125, 5.75]
+[HACE] Padded to max_budget=1067, actual budgets=[267, 223, 519, 313, 1067, 277, 657, 324]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.270, 9.633]
+[HACE] Budget realloc enabled: [245, 189, 518, 311, 910, 248, 446, 193]
+[HACE] Head entropy: [6.94921875, 6.26953125, 8.5625, 7.50390625, 9.6328125, 6.9765625, 8.265625, 6.3203125]
+[HACE] Padded to max_budget=910, actual budgets=[245, 189, 518, 311, 910, 248, 446, 193]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.020, 8.875]
+[HACE] Budget realloc enabled: [279, 228, 580, 330, 1096, 302, 610, 299]
+[HACE] Head entropy: [5.6328125, 5.01953125, 7.484375, 6.09765625, 8.875, 5.85546875, 7.6015625, 5.828125]
+[HACE] Padded to max_budget=1096, actual budgets=[279, 228, 580, 330, 1096, 302, 610, 299]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.121, 9.578]
+[HACE] Budget realloc enabled: [288, 218, 608, 341, 1047, 286, 512, 234]
+[HACE] Head entropy: [6.8671875, 6.12109375, 8.5234375, 7.27734375, 9.578125, 6.8515625, 8.171875, 6.32421875]
+[HACE] Padded to max_budget=1047, actual budgets=[288, 218, 608, 341, 1047, 286, 512, 234]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.750, 9.289]
+[HACE] Budget realloc enabled: [338, 231, 658, 345, 1097, 297, 586, 301]
+[HACE] Head entropy: [6.78125, 5.75, 8.265625, 6.828125, 9.2890625, 6.44921875, 8.0234375, 6.48828125]
+[HACE] Padded to max_budget=1097, actual budgets=[338, 231, 658, 345, 1097, 297, 586, 301]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.383, 8.422]
+[HACE] Budget realloc enabled: [419, 304, 766, 401, 1436, 343, 907, 509]
+[HACE] Head entropy: [5.3984375, 4.3828125, 6.9765625, 5.2734375, 8.421875, 4.79296875, 7.37890625, 5.94140625]
+[HACE] Padded to max_budget=1436, actual budgets=[419, 304, 766, 401, 1436, 343, 907, 509]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.918, 8.641]
+[HACE] Budget realloc enabled: [334, 255, 652, 366, 1205, 340, 727, 383]
+[HACE] Head entropy: [5.7109375, 4.91796875, 7.3359375, 5.95703125, 8.640625, 5.76171875, 7.578125, 6.0703125]
+[HACE] Padded to max_budget=1205, actual budgets=[334, 255, 652, 366, 1205, 340, 727, 383]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [7.008, 9.922]
+[HACE] Budget realloc enabled: [179, 122, 387, 241, 561, 218, 303, 123]
+[HACE] Head entropy: [7.89453125, 7.0078125, 9.3046875, 8.46875, 9.921875, 8.28125, 8.8828125, 7.0234375]
+[HACE] Padded to max_budget=561, actual budgets=[179, 122, 387, 241, 561, 218, 303, 123]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.469, 9.070]
+[HACE] Budget realloc enabled: [345, 248, 674, 362, 1179, 311, 661, 314]
+[HACE] Head entropy: [6.3828125, 5.46875, 7.9296875, 6.5078125, 9.0703125, 6.1171875, 7.8828125, 6.140625]
+[HACE] Padded to max_budget=1179, actual budgets=[345, 248, 674, 362, 1179, 311, 661, 314]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [7.023, 9.930]
+[HACE] Budget realloc enabled: [203, 147, 452, 281, 637, 252, 349, 139]
+[HACE] Head entropy: [7.8984375, 7.15625, 9.3671875, 8.53125, 9.9296875, 8.3203125, 8.921875, 7.0234375]
+[HACE] Padded to max_budget=637, actual budgets=[203, 147, 452, 281, 637, 252, 349, 139]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.285, 9.414]
+[HACE] Budget realloc enabled: [233, 185, 524, 325, 878, 278, 465, 189]
+[HACE] Head entropy: [6.85546875, 6.28515625, 8.5, 7.578125, 9.4140625, 7.25390625, 8.28125, 6.34375]
+[HACE] Padded to max_budget=878, actual budgets=[233, 185, 524, 325, 878, 278, 465, 189]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.574, 9.273]
+[HACE] Budget realloc enabled: [311, 217, 611, 321, 1029, 284, 550, 283]
+[HACE] Head entropy: [6.6015625, 5.57421875, 8.1875, 6.68359375, 9.2734375, 6.359375, 7.953125, 6.3515625]
+[HACE] Padded to max_budget=1029, actual budgets=[311, 217, 611, 321, 1029, 284, 550, 283]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.066, 9.531]
+[HACE] Budget realloc enabled: [288, 214, 619, 355, 1015, 289, 516, 231]
+[HACE] Head entropy: [6.8671875, 6.06640625, 8.5625, 7.3671875, 9.53125, 6.875, 8.1875, 6.2890625]
+[HACE] Padded to max_budget=1015, actual budgets=[288, 214, 619, 355, 1015, 289, 516, 231]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.508, 9.297]
+[HACE] Budget realloc enabled: [319, 222, 630, 322, 1051, 298, 570, 289]
+[HACE] Head entropy: [6.5625, 5.5078125, 8.203125, 6.5859375, 9.296875, 6.3828125, 7.9765625, 6.29296875]
+[HACE] Padded to max_budget=1051, actual budgets=[319, 222, 630, 322, 1051, 298, 570, 289]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.410, 9.641]
+[HACE] Budget realloc enabled: [307, 238, 638, 388, 1096, 296, 549, 229]
+[HACE] Head entropy: [7.140625, 6.51953125, 8.65625, 7.66796875, 9.640625, 7.05859375, 8.3671875, 6.41015625]
+[HACE] Padded to max_budget=1096, actual budgets=[307, 238, 638, 388, 1096, 296, 549, 229]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.863, 9.102]
+[HACE] Budget realloc enabled: [252, 182, 500, 307, 863, 251, 491, 207]
+[HACE] Head entropy: [6.6796875, 5.86328125, 8.09375, 7.11328125, 9.1015625, 6.66796875, 8.0625, 6.1953125]
+[HACE] Padded to max_budget=863, actual budgets=[252, 182, 500, 307, 863, 251, 491, 207]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.145, 9.578]
+[HACE] Budget realloc enabled: [274, 209, 597, 326, 1002, 272, 496, 222]
+[HACE] Head entropy: [6.875, 6.14453125, 8.578125, 7.29296875, 9.578125, 6.8515625, 8.203125, 6.32421875]
+[HACE] Padded to max_budget=1002, actual budgets=[274, 209, 597, 326, 1002, 272, 496, 222]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.148, 9.508]
+[HACE] Budget realloc enabled: [355, 247, 674, 389, 1183, 313, 631, 262]
+[HACE] Head entropy: [7.0703125, 6.1484375, 8.4375, 7.28515625, 9.5078125, 6.76171875, 8.3046875, 6.3046875]
+[HACE] Padded to max_budget=1183, actual budgets=[355, 247, 674, 389, 1183, 313, 631, 262]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.770, 9.242]
+[HACE] Budget realloc enabled: [265, 203, 556, 315, 978, 270, 499, 231]
+[HACE] Head entropy: [6.4765625, 5.76953125, 8.140625, 6.90625, 9.2421875, 6.53125, 7.9140625, 6.125]
+[HACE] Padded to max_budget=978, actual budgets=[265, 203, 556, 315, 978, 270, 499, 231]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.586, 9.977]
+[HACE] Budget realloc enabled: [272, 182, 547, 306, 835, 262, 423, 177]
+[HACE] Head entropy: [7.6875, 6.6640625, 9.171875, 7.9609375, 9.9765625, 7.6015625, 8.65625, 6.5859375]
+[HACE] Padded to max_budget=835, actual budgets=[272, 182, 547, 306, 835, 262, 423, 177]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.945, 9.812]
+[HACE] Budget realloc enabled: [226, 141, 442, 263, 654, 231, 338, 142]
+[HACE] Head entropy: [7.98046875, 6.9453125, 9.1796875, 8.2734375, 9.8125, 8.0234375, 8.7265625, 6.96875]
+[HACE] Padded to max_budget=654, actual budgets=[226, 141, 442, 263, 654, 231, 338, 142]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.574, 9.141]
+[HACE] Budget realloc enabled: [243, 201, 531, 308, 969, 267, 500, 249]
+[HACE] Head entropy: [6.10546875, 5.57421875, 7.9296875, 6.70703125, 9.140625, 6.3515625, 7.8046875, 6.16796875]
+[HACE] Padded to max_budget=969, actual budgets=[243, 201, 531, 308, 969, 267, 500, 249]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.000, 9.586]
+[HACE] Budget realloc enabled: [230, 183, 493, 313, 880, 280, 439, 186]
+[HACE] Head entropy: [6.640625, 6.0, 8.421875, 7.41015625, 9.5859375, 7.140625, 8.1640625, 6.0390625]
+[HACE] Padded to max_budget=880, actual budgets=[230, 183, 493, 313, 880, 280, 439, 186]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.863, 8.828]
+[HACE] Budget realloc enabled: [304, 237, 638, 345, 1120, 295, 667, 352]
+[HACE] Head entropy: [5.64453125, 4.86328125, 7.5625, 6.01171875, 8.828125, 5.5625, 7.66796875, 6.0625]
+[HACE] Padded to max_budget=1120, actual budgets=[304, 237, 638, 345, 1120, 295, 667, 352]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.766, 9.406]
+[HACE] Budget realloc enabled: [324, 236, 662, 347, 1127, 310, 588, 283]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Head entropy: [6.65234375, 5.765625, 8.3125, 6.83203125, 9.40625, 6.546875, 8.0546875, 6.296875]
+[HACE] Padded to max_budget=1127, actual budgets=[324, 236, 662, 347, 1127, 310, 588, 283]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.043, 9.578]
+[HACE] Budget realloc enabled: [266, 198, 558, 318, 948, 265, 480, 222]
+[HACE] Head entropy: [6.84375, 6.04296875, 8.5234375, 7.28515625, 9.578125, 6.8359375, 8.203125, 6.36328125]
+[HACE] Padded to max_budget=948, actual budgets=[266, 198, 558, 318, 948, 265, 480, 222]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.566, 8.453]
+[HACE] Budget realloc enabled: [327, 257, 634, 363, 1220, 331, 752, 394]
+[HACE] Head entropy: [5.30859375, 4.56640625, 7.0078125, 5.6015625, 8.453125, 5.34765625, 7.3984375, 5.828125]
+[HACE] Padded to max_budget=1220, actual budgets=[327, 257, 634, 363, 1220, 331, 752, 394]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.867, 8.656]
+[HACE] Budget realloc enabled: [316, 233, 609, 340, 1095, 330, 662, 364]
+[HACE] Head entropy: [5.78125, 4.8671875, 7.390625, 5.9765625, 8.65625, 5.8984375, 7.578125, 6.15625]
+[HACE] Padded to max_budget=1095, actual budgets=[316, 233, 609, 340, 1095, 330, 662, 364]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.535, 9.148]
+[HACE] Budget realloc enabled: [241, 198, 492, 295, 949, 280, 526, 249]
+[HACE] Head entropy: [6.09375, 5.53515625, 7.796875, 6.62109375, 9.1484375, 6.48828125, 7.9375, 6.19140625]
+[HACE] Padded to max_budget=949, actual budgets=[241, 198, 492, 295, 949, 280, 526, 249]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.770, 9.812]
+[HACE] Budget realloc enabled: [261, 168, 501, 305, 711, 258, 381, 155]
+[HACE] Head entropy: [7.98046875, 6.98046875, 9.2109375, 8.296875, 9.8125, 7.9609375, 8.71875, 6.76953125]
+[HACE] Padded to max_budget=711, actual budgets=[261, 168, 501, 305, 711, 258, 381, 155]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.863, 8.523]
+[HACE] Budget realloc enabled: [333, 270, 650, 377, 1289, 329, 789, 383]
+[HACE] Head entropy: [5.47265625, 4.86328125, 7.09375, 5.8046875, 8.5234375, 5.4453125, 7.515625, 5.84765625]
+[HACE] Padded to max_budget=1289, actual budgets=[333, 270, 650, 377, 1289, 329, 789, 383]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.281, 9.633]
+[HACE] Budget realloc enabled: [249, 191, 523, 316, 924, 252, 451, 195]
+[HACE] Head entropy: [6.95703125, 6.28125, 8.5625, 7.51171875, 9.6328125, 7.0, 8.265625, 6.328125]
+[HACE] Padded to max_budget=924, actual budgets=[249, 191, 523, 316, 924, 252, 451, 195]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.859, 8.680]
+[HACE] Budget realloc enabled: [328, 271, 681, 388, 1287, 413, 747, 369]
+[HACE] Head entropy: [5.4453125, 4.859375, 7.29296875, 5.91015625, 8.6796875, 6.078125, 7.50390625, 5.7734375]
+[HACE] Padded to max_budget=1287, actual budgets=[328, 271, 681, 388, 1287, 413, 747, 369]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.734, 8.516]
+[HACE] Budget realloc enabled: [268, 221, 538, 313, 1054, 277, 642, 317]
+[HACE] Head entropy: [5.31640625, 4.734375, 7.0625, 5.7421875, 8.515625, 5.4140625, 7.4609375, 5.77734375]
+[HACE] Padded to max_budget=1054, actual budgets=[268, 221, 538, 313, 1054, 277, 642, 317]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.848, 9.805]
+[HACE] Budget realloc enabled: [225, 146, 443, 267, 613, 220, 333, 134]
+[HACE] Head entropy: [8.0234375, 7.06640625, 9.265625, 8.359375, 9.8046875, 7.984375, 8.765625, 6.84765625]
+[HACE] Padded to max_budget=613, actual budgets=[225, 146, 443, 267, 613, 220, 333, 134]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.117, 9.539]
+[HACE] Budget realloc enabled: [277, 201, 569, 321, 961, 257, 477, 221]
+[HACE] Head entropy: [6.9609375, 6.1171875, 8.53125, 7.3125, 9.5390625, 6.78125, 8.1640625, 6.375]
+[HACE] Padded to max_budget=961, actual budgets=[277, 201, 569, 321, 961, 257, 477, 221]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.234, 9.117]
+[HACE] Budget realloc enabled: [314, 248, 664, 365, 1177, 353, 657, 324]
+[HACE] Head entropy: [5.96484375, 5.234375, 7.85546875, 6.3828125, 9.1171875, 6.29296875, 7.83203125, 6.05078125]
+[HACE] Padded to max_budget=1177, actual budgets=[314, 248, 664, 365, 1177, 353, 657, 324]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.730, 8.680]
+[HACE] Budget realloc enabled: [290, 238, 587, 337, 1131, 369, 666, 332]
+[HACE] Head entropy: [5.3515625, 4.73046875, 7.203125, 5.7890625, 8.6796875, 6.03515625, 7.49609375, 5.73828125]
+[HACE] Padded to max_budget=1131, actual budgets=[290, 238, 587, 337, 1131, 369, 666, 332]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.320, 8.438]
+[HACE] Budget realloc enabled: [406, 301, 765, 387, 1421, 344, 896, 494]
+[HACE] Head entropy: [5.2890625, 4.3203125, 6.98046875, 5.140625, 8.4375, 4.77734375, 7.3671875, 5.8515625]
+[HACE] Padded to max_budget=1421, actual budgets=[406, 301, 765, 387, 1421, 344, 896, 494]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.797, 8.680]
+[HACE] Budget realloc enabled: [323, 264, 663, 377, 1256, 408, 735, 364]
+[HACE] Head entropy: [5.41796875, 4.796875, 7.26953125, 5.859375, 8.6796875, 6.0703125, 7.5078125, 5.76171875]
+[HACE] Padded to max_budget=1256, actual budgets=[323, 264, 663, 377, 1256, 408, 735, 364]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.977, 10.047]
+[HACE] Budget realloc enabled: [224, 153, 468, 277, 684, 229, 342, 147]
+[HACE] Head entropy: [7.96875, 7.0859375, 9.390625, 8.4140625, 10.046875, 8.0234375, 8.8203125, 6.9765625]
+[HACE] Padded to max_budget=684, actual budgets=[224, 153, 468, 277, 684, 229, 342, 147]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.547, 8.469]
+[HACE] Budget realloc enabled: [338, 268, 641, 368, 1276, 342, 796, 402]
+[HACE] Head entropy: [5.26953125, 4.546875, 6.9296875, 5.51171875, 8.46875, 5.30859375, 7.4296875, 5.7578125]
+[HACE] Padded to max_budget=1276, actual budgets=[338, 268, 641, 368, 1276, 342, 796, 402]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.125, 9.297]
+[HACE] Budget realloc enabled: [298, 218, 607, 327, 1046, 255, 539, 251]
+[HACE] Head entropy: [6.88671875, 6.125, 8.328125, 7.09375, 9.296875, 6.52734375, 8.1015625, 6.4921875]
+[HACE] Padded to max_budget=1046, actual budgets=[298, 218, 607, 327, 1046, 255, 539, 251]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.207, 9.586]
+[HACE] Budget realloc enabled: [235, 177, 504, 281, 852, 235, 423, 186]
+[HACE] Head entropy: [6.94140625, 6.20703125, 8.59375, 7.36328125, 9.5859375, 6.9453125, 8.2421875, 6.3359375]
+[HACE] Padded to max_budget=852, actual budgets=[235, 177, 504, 281, 852, 235, 423, 186]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.781, 9.250]
+[HACE] Budget realloc enabled: [284, 212, 594, 335, 1009, 287, 518, 245]
+[HACE] Head entropy: [6.57421875, 5.78125, 8.2109375, 6.96875, 9.25, 6.59375, 7.9296875, 6.19140625]
+[HACE] Padded to max_budget=1009, actual budgets=[284, 212, 594, 335, 1009, 287, 518, 245]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.152, 9.406]
+[HACE] Budget realloc enabled: [245, 156, 445, 280, 732, 232, 398, 181]
+[HACE] Head entropy: [7.265625, 6.15234375, 8.4921875, 7.5625, 9.40625, 7.14453125, 8.2734375, 6.5546875]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Padded to max_budget=732, actual budgets=[245, 156, 445, 280, 732, 232, 398, 181]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [7.180, 9.812]
+[HACE] Budget realloc enabled: [241, 152, 474, 288, 695, 230, 351, 150]
+[HACE] Head entropy: [8.140625, 7.2109375, 9.2421875, 8.4453125, 9.8125, 8.0546875, 8.7734375, 7.1796875]
+[HACE] Padded to max_budget=695, actual budgets=[241, 152, 474, 288, 695, 230, 351, 150]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.750, 9.156]
+[HACE] Budget realloc enabled: [232, 197, 489, 291, 947, 272, 514, 239]
+[HACE] Head entropy: [6.19921875, 5.75, 7.87890625, 6.75, 9.15625, 6.59375, 7.9765625, 6.265625]
+[HACE] Padded to max_budget=947, actual budgets=[232, 197, 489, 291, 947, 272, 514, 239]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.562, 8.461]
+[HACE] Budget realloc enabled: [314, 249, 616, 343, 1184, 319, 733, 375]
+[HACE] Head entropy: [5.27734375, 4.5625, 7.00390625, 5.52734375, 8.4609375, 5.32421875, 7.41015625, 5.76953125]
+[HACE] Padded to max_budget=1184, actual budgets=[314, 249, 616, 343, 1184, 319, 733, 375]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.891, 9.133]
+[HACE] Budget realloc enabled: [301, 210, 573, 346, 990, 293, 579, 250]
+[HACE] Head entropy: [6.7890625, 5.890625, 8.125, 7.09765625, 9.1328125, 6.72265625, 8.140625, 6.3515625]
+[HACE] Padded to max_budget=990, actual budgets=[301, 210, 573, 346, 990, 293, 579, 250]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.645, 9.359]
+[HACE] Budget realloc enabled: [270, 196, 540, 305, 935, 276, 492, 229]
+[HACE] Head entropy: [6.5546875, 5.64453125, 8.203125, 6.875, 9.359375, 6.62109375, 8.0, 6.109375]
+[HACE] Padded to max_budget=935, actual budgets=[270, 196, 540, 305, 935, 276, 492, 229]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.844, 8.672]
+[HACE] Budget realloc enabled: [290, 244, 605, 348, 1166, 370, 676, 331]
+[HACE] Head entropy: [5.37109375, 4.84375, 7.24609375, 5.87890625, 8.671875, 6.04296875, 7.49609375, 5.7421875]
+[HACE] Padded to max_budget=1166, actual budgets=[290, 244, 605, 348, 1166, 370, 676, 331]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.898, 9.430]
+[HACE] Budget realloc enabled: [235, 150, 407, 276, 700, 237, 402, 181]
+[HACE] Head entropy: [7.109375, 5.8984375, 8.3359375, 7.48046875, 9.4296875, 7.12890625, 8.3125, 6.44140625]
+[HACE] Padded to max_budget=700, actual budgets=[235, 150, 407, 276, 700, 237, 402, 181]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.113, 9.547]
+[HACE] Budget realloc enabled: [310, 232, 676, 377, 1110, 313, 550, 246]
+[HACE] Head entropy: [6.88671875, 6.11328125, 8.59375, 7.3515625, 9.546875, 6.90625, 8.171875, 6.27734375]
+[HACE] Padded to max_budget=1110, actual budgets=[310, 232, 676, 377, 1110, 313, 550, 246]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.402, 9.625]
+[HACE] Budget realloc enabled: [261, 207, 552, 336, 968, 261, 483, 201]
+[HACE] Head entropy: [7.046875, 6.46875, 8.6015625, 7.6171875, 9.625, 7.046875, 8.34375, 6.40234375]
+[HACE] Padded to max_budget=968, actual budgets=[261, 207, 552, 336, 968, 261, 483, 201]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.492, 9.016]
+[HACE] Budget realloc enabled: [353, 257, 706, 388, 1222, 348, 661, 334]
+[HACE] Head entropy: [6.35546875, 5.4921875, 7.921875, 6.59375, 9.015625, 6.3203125, 7.78125, 6.2109375]
+[HACE] Padded to max_budget=1222, actual budgets=[353, 257, 706, 388, 1222, 348, 661, 334]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.938, 10.047]
+[HACE] Budget realloc enabled: [235, 159, 485, 287, 700, 237, 350, 151]
+[HACE] Head entropy: [8.0, 7.078125, 9.3984375, 8.4140625, 10.046875, 8.015625, 8.796875, 6.9375]
+[HACE] Padded to max_budget=700, actual budgets=[235, 159, 485, 287, 700, 237, 350, 151]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.137, 9.070]
+[HACE] Budget realloc enabled: [303, 221, 604, 321, 1052, 286, 581, 294]
+[HACE] Head entropy: [6.10546875, 5.13671875, 7.83984375, 6.265625, 9.0703125, 5.9375, 7.75, 6.01953125]
+[HACE] Padded to max_budget=1052, actual budgets=[303, 221, 604, 321, 1052, 286, 581, 294]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.812, 9.297]
+[HACE] Budget realloc enabled: [328, 231, 661, 336, 1100, 290, 588, 279]
+[HACE] Head entropy: [6.74609375, 5.8125, 8.296875, 6.8125, 9.296875, 6.44140625, 8.0546875, 6.34375]
+[HACE] Padded to max_budget=1100, actual budgets=[328, 231, 661, 336, 1100, 290, 588, 279]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.309, 9.547]
+[HACE] Budget realloc enabled: [226, 168, 464, 279, 795, 220, 399, 166]
+[HACE] Head entropy: [7.078125, 6.33984375, 8.5625, 7.54296875, 9.546875, 7.015625, 8.2734375, 6.30859375]
+[HACE] Padded to max_budget=795, actual budgets=[226, 168, 464, 279, 795, 220, 399, 166]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.867, 10.055]
+[HACE] Budget realloc enabled: [251, 171, 494, 307, 754, 257, 385, 162]
+[HACE] Head entropy: [7.9453125, 7.0234375, 9.296875, 8.375, 10.0546875, 7.99609375, 8.8203125, 6.8671875]
+[HACE] Padded to max_budget=754, actual budgets=[251, 171, 494, 307, 754, 257, 385, 162]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.922, 8.695]
+[HACE] Budget realloc enabled: [338, 276, 688, 391, 1310, 417, 773, 380]
+[HACE] Head entropy: [5.53125, 4.921875, 7.3125, 5.9375, 8.6953125, 6.1015625, 7.5703125, 5.85546875]
+[HACE] Padded to max_budget=1310, actual budgets=[338, 276, 688, 391, 1310, 417, 773, 380]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.324, 9.102]
+[HACE] Budget realloc enabled: [277, 225, 599, 332, 1077, 308, 595, 290]
+[HACE] Head entropy: [5.94140625, 5.32421875, 7.8515625, 6.44140625, 9.1015625, 6.23828125, 7.83203125, 6.0703125]
+[HACE] Padded to max_budget=1077, actual budgets=[277, 225, 599, 332, 1077, 308, 595, 290]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.824, 9.812]
+[HACE] Budget realloc enabled: [235, 151, 468, 277, 652, 236, 357, 142]
+[HACE] Head entropy: [7.97265625, 6.98046875, 9.25, 8.296875, 9.8125, 7.98046875, 8.7734375, 6.82421875]
+[HACE] Padded to max_budget=652, actual budgets=[235, 151, 468, 277, 652, 236, 357, 142]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.219, 8.430]
+[HACE] Budget realloc enabled: [352, 262, 649, 333, 1241, 303, 788, 430]
+[HACE] Head entropy: [5.1953125, 4.21875, 6.87109375, 5.0234375, 8.4296875, 4.72265625, 7.3515625, 5.78125]
+[HACE] Padded to max_budget=1241, actual budgets=[352, 262, 649, 333, 1241, 303, 788, 430]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.262, 9.008]
+[HACE] Budget realloc enabled: [314, 232, 610, 341, 1102, 310, 614, 307]
+[HACE] Head entropy: [6.1484375, 5.26171875, 7.75, 6.3671875, 9.0078125, 6.109375, 7.76171875, 6.0859375]
+[HACE] Padded to max_budget=1102, actual budgets=[314, 232, 610, 341, 1102, 310, 614, 307]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.230, 8.875]
+[HACE] Budget realloc enabled: [319, 260, 654, 389, 1245, 331, 694, 337]
+[HACE] Head entropy: [5.828125, 5.23046875, 7.546875, 6.34375, 8.875, 5.9296875, 7.67578125, 5.9765625]
+[HACE] Padded to max_budget=1245, actual budgets=[319, 260, 654, 389, 1245, 331, 694, 337]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.242, 9.578]
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+[HACE] Budget realloc enabled: [272, 209, 596, 328, 1004, 267, 487, 218]
+[HACE] Head entropy: [6.92578125, 6.2421875, 8.6015625, 7.359375, 9.578125, 6.8828125, 8.203125, 6.3671875]
+[HACE] Padded to max_budget=1004, actual budgets=[272, 209, 596, 328, 1004, 267, 487, 218]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.668, 9.094]
+[HACE] Budget realloc enabled: [270, 192, 503, 320, 908, 264, 543, 237]
+[HACE] Head entropy: [6.5703125, 5.66796875, 7.94140625, 6.96875, 9.09375, 6.51171875, 8.09375, 6.2421875]
+[HACE] Padded to max_budget=908, actual budgets=[270, 192, 503, 320, 908, 264, 543, 237]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.230, 9.078]
+[HACE] Budget realloc enabled: [305, 218, 594, 311, 1039, 275, 586, 286]
+[HACE] Head entropy: [6.22265625, 5.23046875, 7.859375, 6.26953125, 9.078125, 5.9375, 7.828125, 6.04296875]
+[HACE] Padded to max_budget=1039, actual budgets=[305, 218, 594, 311, 1039, 275, 586, 286]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.230, 9.555]
+[HACE] Budget realloc enabled: [228, 169, 480, 280, 810, 228, 408, 169]
+[HACE] Head entropy: [7.0078125, 6.234375, 8.578125, 7.46875, 9.5546875, 7.0078125, 8.2578125, 6.23046875]
+[HACE] Padded to max_budget=810, actual budgets=[228, 169, 480, 280, 810, 228, 408, 169]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [5.379, 9.023]
+[HACE] Budget realloc enabled: [369, 265, 723, 388, 1261, 350, 691, 344]
+[HACE] Head entropy: [6.30859375, 5.37890625, 7.8828125, 6.4375, 9.0234375, 6.171875, 7.78125, 6.125]
+[HACE] Padded to max_budget=1261, actual budgets=[369, 265, 723, 388, 1261, 350, 691, 344]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [6.117, 9.469]
+[HACE] Budget realloc enabled: [244, 167, 474, 300, 781, 272, 436, 185]
+[HACE] Head entropy: [7.1015625, 6.1171875, 8.515625, 7.5703125, 9.46875, 7.3515625, 8.3515625, 6.3984375]
+[HACE] Padded to max_budget=781, actual budgets=[244, 167, 474, 300, 781, 272, 436, 185]
+======== mistral build chat ========
+[HACE] Head mode: budget_realloc
+[HACE] Head entropy range: [4.957, 8.891]
+[HACE] Budget realloc enabled: [289, 224, 574, 329, 1067, 308, 608, 311]
+[HACE] Head entropy: [5.734375, 4.95703125, 7.50390625, 6.10546875, 8.890625, 5.91796875, 7.63671875, 5.9453125]
+[HACE] Padded to max_budget=1067, actual budgets=[289, 224, 574, 329, 1067, 308, 608, 311]
+Saved predictions to /mnt/disk1/Experiment-Platform/results_clean/mistral_budget_512_fixed/qmsum.jsonl
