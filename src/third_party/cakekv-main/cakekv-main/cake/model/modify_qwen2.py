@@ -89,7 +89,6 @@ def qwen2_attn_forward_cake(
             )
         kv_seq_len += past_key_value.get_usable_length(kv_seq_len, self.layer_idx)
 
-    print(position_ids)
     # Handle both old and new transformers API for rotary embeddings
     if position_embeddings is not None:
         # New API (transformers >= 4.46): position_embeddings passed from model
@@ -200,7 +199,7 @@ def qwen2_attn_forward_cake(
         head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
         head_entropy = None
 
-        if head_mode in ("high_entropy", "low_entropy"):
+        if head_mode in ("high_entropy", "low_entropy", "budget_realloc"):
             # Compute per-head entropy
             # attention_score: [bsz, num_heads, window, seq_len]
             # We compute entropy across the sequence dimension for each head

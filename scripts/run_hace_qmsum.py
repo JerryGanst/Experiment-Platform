@@ -38,7 +38,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max_length", type=int, default=None, help="Override max prompt length")
     parser.add_argument("--max_gen", type=int, default=None, help="Override max generation length")
     parser.add_argument("--pref_mode", default="reverse_disp", help="HACE pref mode: normal | reverse | reverse_disp")
-    parser.add_argument("--head_mode", default="", help="HACE head mode: '' (disabled) | high_entropy (高熵头→大预算) | low_entropy (低熵头→大预算，导师建议) | adakv (Ada-KV counting)")
+    parser.add_argument("--head_mode", default="", help="HACE head mode: '' (disabled) | high_entropy (分数加权) | low_entropy (分数加权) | budget_realloc (真正的预算重分配) | adakv (Ada-KV counting)")
     parser.add_argument("--output_dir", default=None, help="Output dir")
     parser.add_argument("--use_cascading", action="store_true", help="Enable CAKE cascading")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for sampling (enables reproducible randomness)")
@@ -143,8 +143,15 @@ def main() -> None:
     print(f"  Output: {out_path}")
     print(f"{'='*60}\n")
 
-    print(f"DEBUG: About to start loop with {len(data)} samples"); import sys; sys.stdout.flush()
-    for sample in data:
+    # Support sample limit for quick testing
+    max_samples = int(os.environ.get("HACE_MAX_SAMPLES", "0"))
+    data_list = list(data)
+    if max_samples > 0:
+        data_list = data_list[:max_samples]
+        print(f"[HACE] Limited to {max_samples} samples for testing")
+
+    print(f"DEBUG: About to start loop with {len(data_list)} samples"); import sys; sys.stdout.flush()
+    for sample in data_list:
         prompt = build_prompt(tokenizer, prompt_format, sample, args.dataset, max_length, model_name)
         inputs = tokenizer(prompt, truncation=False, return_tensors="pt").to(device)
         context_length = inputs.input_ids.shape[-1]
@@ -171,6 +178,12 @@ def main() -> None:
                 ensure_ascii=False,
             )
             f.write("\n")
+
+        # Reset prefill state for next sample (CRITICAL for budget_realloc to work!)
+        layers = len(model.model.layers)
+        for i in range(layers):
+            model.model.layers[i].self_attn.config.prefill = [True]*layers
+            model.model.layers[i].self_attn.config.decoding_evict = [None]*layers
 
         # Clear GPU cache and trigger garbage collection after each sample
         del output, inputs

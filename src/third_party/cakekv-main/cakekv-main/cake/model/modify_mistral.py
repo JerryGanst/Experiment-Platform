@@ -143,9 +143,26 @@ def mistral_attn_forward_cake(
 
         attn_cache = attn_cache.reshape(bsz, self.num_key_value_heads, self.num_key_value_groups, -1)
         hh_score = attn_cache.mean(dim=-2)
-        past_key_value.update_score(pref_score, hh_score)
 
+        # HACE: Compute per-head entropy for budget allocation
+        import os
+        head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
+        head_entropy = None
 
+        if head_mode in ("high_entropy", "low_entropy", "budget_realloc"):
+            # Compute per-head entropy from attention distribution
+            attn_for_entropy = attention_score[:, :, :, :-self.config.window_size[self.layer_idx]]
+            attn_per_head = attn_for_entropy.mean(dim=0).mean(dim=1)  # [num_heads, seq_len]
+            attn_dist = attn_per_head / (attn_per_head.sum(dim=-1, keepdim=True) + 1e-8)
+            log_attn = torch.log(attn_dist + 1e-8)
+            head_entropy_full = -(attn_dist * log_attn).sum(dim=-1)  # [num_heads]
+            head_entropy = head_entropy_full.reshape(self.num_key_value_heads, self.num_key_value_groups).mean(dim=-1)
+
+            if self.layer_idx == 0:
+                print(f"[HACE] Head mode: {head_mode}")
+                print(f"[HACE] Head entropy range: [{head_entropy.min().item():.3f}, {head_entropy.max().item():.3f}]")
+
+        past_key_value.update_score(pref_score, hh_score, head_entropy)
         past_key_value.layer_budget.append(self.config.key_size[self.layer_idx])
         self.config.prefill[self.layer_idx] =False
         past_key_value = self.config.prefill_cake_evict[self.layer_idx](past_key_value, q_len)
@@ -183,24 +200,52 @@ def mistral_attn_forward_cake(
         key_states = key_states.to(target_dtype)
         value_states = value_states.to(target_dtype)
 
-    # Reashape to the expected shape for Flash Attention
-    query_states = query_states.transpose(1, 2)
-    key_states = key_states.transpose(1, 2)
-    value_states = value_states.transpose(1, 2)
+    # Check if we should use SDPA or Flash Attention
+    use_sdpa = hasattr(self, 'is_causal') and not hasattr(self, '_flash_attn_uses_top_left_mask')
 
-    attn_output = _flash_attention_forward(
-        query_states,
-        key_states,
-        value_states,
-        attention_mask,
-        q_len,
-        dropout=dropout_rate,
-        sliding_window=getattr(self.config, "sliding_window", None),
-        use_top_left_mask=self._flash_attn_uses_top_left_mask,
-        is_causal=self.is_causal,
-    )
+    if use_sdpa:
+        # SDPA path - query_states is already [bsz, num_heads, q_len, head_dim]
+        causal_mask = attention_mask
+        if attention_mask is not None:
+            causal_mask = causal_mask[:, :, :, : key_states.shape[-2]]
 
-    attn_output = attn_output.reshape(bsz, q_len, self.num_heads * self.head_dim).contiguous()
+        if query_states.device.type == "cuda" and causal_mask is not None:
+            query_states = query_states.contiguous()
+            key_states = key_states.contiguous()
+            value_states = value_states.contiguous()
+
+        is_causal = True if causal_mask is None and q_len > 1 else False
+
+        attn_output = torch.nn.functional.scaled_dot_product_attention(
+            query_states,
+            key_states,
+            value_states,
+            attn_mask=causal_mask,
+            dropout_p=dropout_rate,
+            is_causal=is_causal,
+        )
+
+        attn_output = attn_output.transpose(1, 2).contiguous()
+        attn_output = attn_output.view(bsz, q_len, -1)
+    else:
+        # Flash Attention path - reshape for Flash Attention
+        query_states = query_states.transpose(1, 2)
+        key_states = key_states.transpose(1, 2)
+        value_states = value_states.transpose(1, 2)
+
+        attn_output = _flash_attention_forward(
+            query_states,
+            key_states,
+            value_states,
+            attention_mask,
+            q_len,
+            dropout=dropout_rate,
+            sliding_window=getattr(self.config, "sliding_window", None),
+            use_top_left_mask=self._flash_attn_uses_top_left_mask,
+            is_causal=self.is_causal,
+        )
+
+        attn_output = attn_output.reshape(bsz, q_len, self.num_heads * self.head_dim).contiguous()
     attn_output = self.o_proj(attn_output)
 
     if not output_attentions:

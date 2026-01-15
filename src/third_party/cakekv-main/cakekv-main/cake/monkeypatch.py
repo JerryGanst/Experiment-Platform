@@ -18,15 +18,23 @@ def replace_flashllama_attn_with_cakeattn():
 
 def replace_flashmistral_attn_with_cakeattn():
     """替换Mistral attention实现，兼容不同transformers版本"""
+    print("[PATCH] replace_flashmistral_attn_with_cakeattn called")
     transformers.models.mistral.modeling_mistral.MistralModel.forward = mistral_model_forward_cake
-    
+
     # 检查FlashAttention2是否存在
     if hasattr(transformers.models.mistral.modeling_mistral, 'MistralFlashAttention2'):
         transformers.models.mistral.modeling_mistral.MistralFlashAttention2.forward = mistral_attn_forward_cake
-    
+        print("[PATCH] Replaced MistralFlashAttention2.forward")
+
     # 检查标准MistralAttention是否存在
     if hasattr(transformers.models.mistral.modeling_mistral, 'MistralAttention'):
         transformers.models.mistral.modeling_mistral.MistralAttention.forward = mistral_attn_forward_cake
+        print("[PATCH] Replaced MistralAttention.forward")
+
+    # 检查 MistralSdpaAttention (SDPA 实现)
+    if hasattr(transformers.models.mistral.modeling_mistral, 'MistralSdpaAttention'):
+        transformers.models.mistral.modeling_mistral.MistralSdpaAttention.forward = mistral_attn_forward_cake
+        print("[PATCH] Replaced MistralSdpaAttention.forward")
 
 def replace_flashqwen2_attn_with_cakeattn():
     """替换Qwen2 attention实现，兼容不同transformers版本"""

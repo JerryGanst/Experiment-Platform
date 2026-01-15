@@ -1,0 +1,1927 @@
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 12.87it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.64it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.34it/s]
+[HACE] Head-level adaptive mode enabled: high_entropy
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: high_entropy
+  Cache Size: 512
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/high_entropy_512_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+[HACE] Head mode: high_entropy
+[HACE] Head entropy range: [6.812, 7.562]
+[HACE] Layer 0: head_entropy range [6.812, 7.562], mode=high_entropy
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/high_entropy_512_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 13.46it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 15.47it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 15.13it/s]
+[HACE] Head-level adaptive mode enabled: high_entropy
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: high_entropy
+  Cache Size: 2048
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/high_entropy_2048_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+[HACE] Head mode: high_entropy
+[HACE] Head entropy range: [6.812, 7.562]
+[HACE] Layer 0: head_entropy range [6.812, 7.562], mode=high_entropy
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/high_entropy_2048_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 13.32it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.90it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.63it/s]
+[HACE] Head-level adaptive mode enabled: low_entropy
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: low_entropy
+  Cache Size: 128
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_128_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+[HACE] Head mode: low_entropy
+[HACE] Head entropy range: [6.812, 7.562]
+[HACE] Layer 0: head_entropy range [6.812, 7.562], mode=low_entropy
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_128_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 13.48it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 15.19it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.89it/s]
+[HACE] Head-level adaptive mode enabled: low_entropy
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: low_entropy
+  Cache Size: 512
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_512_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+[HACE] Head mode: low_entropy
+[HACE] Head entropy range: [6.812, 7.562]
+[HACE] Layer 0: head_entropy range [6.812, 7.562], mode=low_entropy
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_512_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 13.84it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 16.06it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 15.67it/s]
+[HACE] Head-level adaptive mode enabled: low_entropy
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: low_entropy
+  Cache Size: 2048
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_2048_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+[HACE] Head mode: low_entropy
+[HACE] Head entropy range: [6.812, 7.562]
+[HACE] Layer 0: head_entropy range [6.812, 7.562], mode=low_entropy
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_2048_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 13.18it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.57it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.33it/s]
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: disabled (uniform)
+  Cache Size: 128
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_128_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_128_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 13.21it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 13.85it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 13.75it/s]
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: disabled (uniform)
+  Cache Size: 512
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_512_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_512_qmsum_42/qmsum.jsonl
+[PATCH] replace_flashqwen2_attn_with_cakeattn called
+[PATCH] Replaced Qwen2SdpaAttention.forward
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 14.13it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 16.13it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 15.78it/s]
+
+============================================================
+HACE Experiment Configuration:
+  Model: qwen2.5-7b-instruct
+  Dataset: qmsum
+  Pref Mode (Layer): normal
+  Head Mode: disabled (uniform)
+  Cache Size: 2048
+  Window Size: 32
+  Seed: 42
+  Sampling: do_sample=True, temperature=0.7, top_p=0.95
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_2048_qmsum_42/qmsum.jsonl
+============================================================
+
+DEBUG: About to start loop with 200 samples
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+======== qwen build chat ========
+[DBG] Forward called, pref_mode=normal
+[HACE] Using pref_mode: normal
+[HACE] Using pref_mode: normal
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+======== qwen build chat ========
+Saved predictions to /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_2048_qmsum_42/qmsum.jsonl
+
+############################################################
+Phase 2A: 快速验证交互效应存在性
+  实验数: 9
+  预估时间: 5-6小时
+  已完成: 1
+############################################################
+
+跳过 high_entropy_128_qmsum_42 (已完成)
+
+============================================================
+[12:18:15] Running: high_entropy_512_qmsum_42
+  Strategy: high_entropy (head_mode=high_entropy)
+  Cache size: 512
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/high_entropy_512_qmsum_42
+============================================================
+
+
+✓ high_entropy_512_qmsum_42 completed in 7.4 min
+
+============================================================
+[12:25:38] Running: high_entropy_2048_qmsum_42
+  Strategy: high_entropy (head_mode=high_entropy)
+  Cache size: 2048
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/high_entropy_2048_qmsum_42
+============================================================
+
+
+✓ high_entropy_2048_qmsum_42 completed in 7.9 min
+
+============================================================
+[12:33:30] Running: low_entropy_128_qmsum_42
+  Strategy: low_entropy (head_mode=low_entropy)
+  Cache size: 128
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_128_qmsum_42
+============================================================
+
+
+✓ low_entropy_128_qmsum_42 completed in 8.5 min
+
+============================================================
+[12:42:00] Running: low_entropy_512_qmsum_42
+  Strategy: low_entropy (head_mode=low_entropy)
+  Cache size: 512
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_512_qmsum_42
+============================================================
+
+
+✓ low_entropy_512_qmsum_42 completed in 7.4 min
+
+============================================================
+[12:49:23] Running: low_entropy_2048_qmsum_42
+  Strategy: low_entropy (head_mode=low_entropy)
+  Cache size: 2048
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/low_entropy_2048_qmsum_42
+============================================================
+
+
+✓ low_entropy_2048_qmsum_42 completed in 7.9 min
+
+============================================================
+[12:57:14] Running: uniform_128_qmsum_42
+  Strategy: uniform (head_mode=disabled)
+  Cache size: 128
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_128_qmsum_42
+============================================================
+
+
+✓ uniform_128_qmsum_42 completed in 8.7 min
+
+============================================================
+[13:05:58] Running: uniform_512_qmsum_42
+  Strategy: uniform (head_mode=disabled)
+  Cache size: 512
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_512_qmsum_42
+============================================================
+
+
+✓ uniform_512_qmsum_42 completed in 7.5 min
+
+============================================================
+[13:13:25] Running: uniform_2048_qmsum_42
+  Strategy: uniform (head_mode=disabled)
+  Cache size: 2048
+  Output: /mnt/disk1/Experiment-Platform/pre-experiment/results/raw/uniform_2048_qmsum_42
+============================================================
+
+
+✓ uniform_2048_qmsum_42 completed in 7.9 min
+
+============================================================
+ANOVA 初步分析
+============================================================
+  high_entropy_128_qmsum_42: ROUGE-L = 19.85%
+  high_entropy_512_qmsum_42: ROUGE-L = 22.16%
+  high_entropy_2048_qmsum_42: ROUGE-L = 22.98%
+  low_entropy_128_qmsum_42: ROUGE-L = 19.95%
+  low_entropy_512_qmsum_42: ROUGE-L = 22.16%
+  low_entropy_2048_qmsum_42: ROUGE-L = 22.86%
+  uniform_128_qmsum_42: ROUGE-L = 19.76%
+  uniform_512_qmsum_42: ROUGE-L = 21.96%
+  uniform_2048_qmsum_42: ROUGE-L = 22.98%
+
+=== ROUGE-L 矩阵 ===
+Strategy        | cache=128 | cache=512 | cache=2048
+-------------------------------------------------------
+high_entropy    |     19.85 |     22.16 |     22.98
+low_entropy     |     19.95 |     22.16 |     22.86
+uniform         |     19.76 |     21.96 |     22.98
+
+=== 交互效应初步判断 ===
+cache_size=128: low_entropy > high_entropy > uniform
+cache_size=512: high_entropy > low_entropy > uniform
+cache_size=2048: uniform > high_entropy > low_entropy
+
+✅ 可能存在交互效应: 策略排名随压缩率变化
+   建议: 继续完整的 Phase 0 验证 (54个实验)
+
+============================================================
+Phase 2A 完成
+  成功: 9/9
+  失败: 0
+============================================================

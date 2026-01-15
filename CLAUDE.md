@@ -48,6 +48,23 @@ pytest tests/
 
 **HACE requires HuggingFace, not VLLM**: HACE's head-level differentiation needs attention weights during inference. VLLM's Flash Attention kernels don't expose intermediate attention weights. See `docs/VLLM_HACE_incompatibility.md`.
 
+## Dependency Versions (CRITICAL)
+
+The CAKE codebase has specific version requirements due to transformers API changes:
+
+```
+# Verified working combination (2025-01-14)
+transformers==4.45.0
+torch==2.11.0.dev20260113+cu128  # PyTorch Nightly for Blackwell GPU (sm_120)
+```
+
+**Known compatibility issues fixed:**
+- transformers >= 4.46: `DynamicCache.key_cache` structure changed from `List[Tensor]` to `List[List[Tensor]]`
+- transformers >= 4.57: New `layers` API in DynamicCache
+- Blackwell GPU (RTX PRO 6000, sm_120): Requires PyTorch Nightly with cu128
+
+**If you get garbage output (000000...)**: Check transformers version compatibility with CAKE's attention patching code.
+
 ## HACE Configuration
 
 Environment variables:

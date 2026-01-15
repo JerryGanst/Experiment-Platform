@@ -1,7 +1,11 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
-from transformers.cache_utils import DynamicCache, Cache, HybridCache
+from transformers.cache_utils import DynamicCache, Cache
+try:
+    from transformers.cache_utils import HybridCache
+except ImportError:
+    HybridCache = None  # Not available in older transformers versions
 from typing import Any, Dict, List, Optional, Tuple, Union
 from cake.utils import adjust_budgets
 
@@ -77,6 +81,10 @@ class CakeCache(Cache):
         if len(self.key_cache) <= layer_idx:
             self.key_cache.append(key_states)
             self.value_cache.append(value_states)
+        elif self.key_cache[layer_idx] is None:
+            # Handle case where cache was converted from empty DynamicCache
+            self.key_cache[layer_idx] = key_states
+            self.value_cache[layer_idx] = value_states
         else:
             self.key_cache[layer_idx] = torch.cat([self.key_cache[layer_idx], key_states], dim=-2)
             self.value_cache[layer_idx] = torch.cat([self.value_cache[layer_idx], value_states], dim=-2)
@@ -112,6 +120,9 @@ class CakeCache(Cache):
         key = self.key_cache[layer_idx]
         if key is None:
             return 0
+        # Handle case where key is an empty list (transformers >= 4.45 with num_hidden_layers)
+        if isinstance(key, list):
+            return 0 if len(key) == 0 else key[0].shape[-2] if hasattr(key[0], 'shape') else 0
         return key.shape[-2]
 
     def get_max_length(self) -> Optional[int]:
@@ -151,8 +162,25 @@ class CakeCache(Cache):
         if past_key_values is not None:
             # Handle both old API (key_cache) and new API (layers)
             if hasattr(past_key_values, 'key_cache'):
-                cache.key_cache = past_key_values.key_cache
-                cache.value_cache = past_key_values.value_cache
+                # In transformers >= 4.45 with num_hidden_layers, key_cache is [[], [], ...]
+                # We need to filter out empty lists and convert to proper structure
+                key_cache = past_key_values.key_cache
+                value_cache = past_key_values.value_cache
+
+                # Check if it's the new format with nested lists
+                if key_cache and isinstance(key_cache[0], list):
+                    # Filter out empty lists and concatenate non-empty ones
+                    cache.key_cache = [
+                        torch.cat(k, dim=-2) if k and len(k) > 0 else None
+                        for k in key_cache
+                    ]
+                    cache.value_cache = [
+                        torch.cat(v, dim=-2) if v and len(v) > 0 else None
+                        for v in value_cache
+                    ]
+                else:
+                    cache.key_cache = key_cache
+                    cache.value_cache = value_cache
             elif hasattr(past_key_values, 'layers'):
                 # New transformers >= 4.57 API
                 cache.key_cache = [layer.keys for layer in past_key_values.layers]
@@ -251,7 +279,6 @@ class CakeprefillKVCache:
     def __call__(self, past_key_values, seq_len):
         if seq_len<=self.cache_size+self.window_size:
             return past_key_values
-
         pref_scores = past_key_values.pref_scores
 
         layer_budgets = [pref_score/sum(pref_scores)*self.total_size for pref_score in pref_scores]
@@ -266,7 +293,6 @@ class CakeprefillKVCache:
 
         if self.use_cascading:
             layer_idx = 0
-            print(layer_budgets)
             for budget in layer_budgets:
                 if budget>= seq_len-self.window_size:
                     budget = seq_len-self.window_size
@@ -394,14 +420,19 @@ class CakeprefillKVCache:
         """
         num_heads = head_entropy.shape[0]
 
+        # Use softmax with temperature based on entropy range
+        # Adaptive temperature: wider entropy range -> higher temperature for smoother allocation
+        entropy_range = head_entropy.max() - head_entropy.min()
+        # Temperature scales with entropy range: ~0.5 for small range (Qwen), ~2.0 for large range (Mistral)
+        temperature = max(0.5, entropy_range * 0.5)  # Dynamic temperature
+
         if head_mode == "high_entropy":
             # High entropy -> more budget
-            # Normalize entropy to weights
-            weights = head_entropy / (head_entropy.sum() + 1e-8)
+            # softmax(entropy / T) amplifies small differences
+            weights = torch.softmax(head_entropy / temperature, dim=0)
         elif head_mode == "low_entropy":
             # Low entropy -> more budget (inverse)
-            inv_entropy = 1.0 / (head_entropy + 1e-8)
-            weights = inv_entropy / (inv_entropy.sum() + 1e-8)
+            weights = torch.softmax(-head_entropy / temperature, dim=0)
         else:
             weights = torch.ones_like(head_entropy) / num_heads
 
@@ -441,22 +472,18 @@ class CakeprefillKVCache:
         """
         import os
         bsz, num_key_value_heads, seq_len, head_dim = past_key_values.key_cache[layer_idx].shape
-
         num_key_value_groups = self.num_heads // num_key_value_heads
         hh_score = past_key_values.evict_scores[layer_idx]
 
         if budget > hh_score.shape[-1]:
             budget = hh_score.shape[-1]
 
-        # HACE: Per-head INDEPENDENT position selection (same quantity, different positions)
+        # HACE: Per-head INDEPENDENT position selection
         if self.use_head_adaptive:
-            # Each head selects its own top-k positions, but k is the same for all heads
-            uniform_budget = int(budget)
-
             k_past = past_key_values.key_cache[layer_idx][:, :, :-self.window_size, :]
             v_past = past_key_values.value_cache[layer_idx][:, :, :-self.window_size, :]
 
-            # HACE: Apply entropy-based score weighting
+            # HACE: Get head mode and entropy
             head_mode = os.environ.get("HACE_HEAD_MODE", "").strip().lower()
 
             # Get head entropy if available
@@ -464,7 +491,28 @@ class CakeprefillKVCache:
             if hasattr(past_key_values, 'head_entropies') and len(past_key_values.head_entropies) > layer_idx:
                 head_entropy = past_key_values.head_entropies[layer_idx]
 
-            # Compute entropy-weighted scores
+            # HACE: Compute per-head budgets (the key difference!)
+            # - budget_realloc: Different budget per head based on entropy
+            # - high_entropy/low_entropy: Same budget, different score weighting
+            # - uniform: Same budget, same scores
+            if head_mode == "budget_realloc" and head_entropy is not None:
+                # TRUE budget reallocation: high entropy heads get MORE tokens
+                # alpha=0.8: 80% adaptive, 20% uniform (more aggressive allocation)
+                head_budgets = self._compute_head_budgets_entropy(
+                    head_entropy, budget * num_key_value_heads, "high_entropy", alpha=0.8
+                )
+                head_budgets = head_budgets.int().tolist()
+                use_variable_budget = True
+                if layer_idx == 0:
+                    print(f"[HACE] Budget realloc enabled: {head_budgets}")
+                    print(f"[HACE] Head entropy: {head_entropy.tolist()}")
+            else:
+                # Uniform budget for all heads
+                uniform_budget = int(budget)
+                head_budgets = [uniform_budget] * num_key_value_heads
+                use_variable_budget = False
+
+            # Compute entropy-weighted scores (for high_entropy/low_entropy modes)
             weighted_hh_score = hh_score.clone()
             if head_entropy is not None and head_mode in ("high_entropy", "low_entropy"):
                 # Normalize entropy to [0, 1] range per layer
@@ -476,19 +524,13 @@ class CakeprefillKVCache:
                     normalized_entropy = torch.ones_like(head_entropy) * 0.5
 
                 # Apply entropy weighting: boost certain heads' scores
-                # alpha controls the strength of entropy influence (0.5 = moderate)
                 alpha = 0.5
 
                 if head_mode == "high_entropy":
-                    # High entropy heads get score boost: more dispersed attention -> need more tokens
-                    # weight = 1 + α * normalized_entropy (range: [1, 1+α])
                     weights = 1.0 + alpha * normalized_entropy
                 elif head_mode == "low_entropy":
-                    # Low entropy heads get score boost: focused attention is important
-                    # weight = 1 + α * (1 - normalized_entropy) (range: [1, 1+α])
                     weights = 1.0 + alpha * (1.0 - normalized_entropy)
 
-                # Apply weights to each head's scores: [num_heads] -> [1, num_heads, 1]
                 weights = weights.view(1, -1, 1).to(hh_score.device)
                 weighted_hh_score = hh_score * weights
 
@@ -500,8 +542,9 @@ class CakeprefillKVCache:
             hh_compressed_list = []
 
             for h in range(num_key_value_heads):
-                # Each head uses its (weighted) score to select its own top-k positions
-                h_indices = weighted_hh_score[:, h:h+1, :].topk(uniform_budget, dim=-1).indices
+                # Each head uses its own budget (variable or uniform)
+                h_budget = head_budgets[h]
+                h_indices = weighted_hh_score[:, h:h+1, :].topk(h_budget, dim=-1).indices
                 # Store original (unweighted) scores for future use
                 h_hh_compress = hh_score[:, h:h+1, :].gather(dim=2, index=h_indices)
 
@@ -513,10 +556,43 @@ class CakeprefillKVCache:
                 v_compressed_list.append(v_h_compress)
                 hh_compressed_list.append(h_hh_compress)
 
-            # All heads have the same length, direct concat without padding!
-            k_past_compress = torch.cat(k_compressed_list, dim=1)
-            v_past_compress = torch.cat(v_compressed_list, dim=1)
-            hh_score_compress = torch.cat(hh_compressed_list, dim=1)
+            # Handle variable-length budgets (need padding) vs uniform budgets (direct concat)
+            if use_variable_budget:
+                # Variable budgets: pad shorter sequences to max length
+                max_budget = max(head_budgets)
+                padded_k_list = []
+                padded_v_list = []
+                padded_hh_list = []
+
+                for h, (k_h, v_h, hh_h) in enumerate(zip(k_compressed_list, v_compressed_list, hh_compressed_list)):
+                    h_budget = head_budgets[h]
+                    pad_len = max_budget - h_budget
+
+                    if pad_len > 0:
+                        # Pad with zeros (minimal attention impact due to near-zero Q@K scores)
+                        k_pad = torch.zeros(bsz, 1, pad_len, head_dim, device=k_h.device, dtype=k_h.dtype)
+                        v_pad = torch.zeros(bsz, 1, pad_len, head_dim, device=v_h.device, dtype=v_h.dtype)
+                        hh_pad = torch.zeros(bsz, 1, pad_len, device=hh_h.device, dtype=hh_h.dtype)
+
+                        k_h = torch.cat([k_h, k_pad], dim=2)
+                        v_h = torch.cat([v_h, v_pad], dim=2)
+                        hh_h = torch.cat([hh_h, hh_pad], dim=2)
+
+                    padded_k_list.append(k_h)
+                    padded_v_list.append(v_h)
+                    padded_hh_list.append(hh_h)
+
+                k_past_compress = torch.cat(padded_k_list, dim=1)
+                v_past_compress = torch.cat(padded_v_list, dim=1)
+                hh_score_compress = torch.cat(padded_hh_list, dim=1)
+
+                if layer_idx == 0:
+                    print(f"[HACE] Padded to max_budget={max_budget}, actual budgets={head_budgets}")
+            else:
+                # Uniform budget: all heads have same length, direct concat
+                k_past_compress = torch.cat(k_compressed_list, dim=1)
+                v_past_compress = torch.cat(v_compressed_list, dim=1)
+                hh_score_compress = torch.cat(hh_compressed_list, dim=1)
 
             past_key_values.evict_scores[layer_idx] = hh_score_compress
         else:

@@ -19,7 +19,8 @@ STRATEGIES = ["high_entropy", "low_entropy", "uniform"]
 CACHE_SIZES = [128, 512, 2048]
 
 # 数据集: 摘要任务 + QA任务
-DATASETS = ["qmsum", "hotpotqa"]
+# Stage B: 仅 qmsum; Stage C: 添加 hotpotqa
+DATASETS = ["qmsum"]
 
 # 随机种子: 3次重复
 SEEDS = [42, 123, 456]
