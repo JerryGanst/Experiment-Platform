@@ -33,7 +33,12 @@
       "Bash(then break)",
       "Bash(fi)",
       "Bash(python3:*)",
-      "Bash(HACE_MAX_SAMPLES=3 python:*)"
+      "Bash(HACE_MAX_SAMPLES=3 python:*)",
+      "Bash(tar czf:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(ssh:*)",
+      "Bash(rsync:*)"
     ]
   }
 }

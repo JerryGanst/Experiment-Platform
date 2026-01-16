@@ -12,6 +12,8 @@ from transformers.cache_utils import Cache, DynamicCache, StaticCache
 from transformers.models.qwen2.configuration_qwen2 import Qwen2Config
 
 from transformers.models.qwen2.modeling_qwen2 import *
+# Explicit imports for functions not exported via __all__ in newer transformers
+from transformers.models.qwen2.modeling_qwen2 import apply_rotary_pos_emb, repeat_kv
 
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
 from transformers.modeling_outputs import BaseModelOutputWithPast

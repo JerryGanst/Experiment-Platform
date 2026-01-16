@@ -393,8 +393,14 @@ class CakeprefillKVCache:
         # Ensure minimum budget of 1 per head
         head_budgets = head_budgets.clamp(min=1)
 
-        # Rescale to ensure total budget is preserved
+        # Rescale to ensure total budget is EXACTLY preserved
         head_budgets = head_budgets / head_budgets.sum() * layer_budget
+        head_budgets = head_budgets.round()  # 四舍五入保证整数
+        # 修正舍入误差：调整最大值
+        diff = int(layer_budget) - int(head_budgets.sum())
+        if diff != 0:
+            max_idx = head_budgets.argmax()
+            head_budgets[max_idx] += diff
         head_budgets = head_budgets.clamp(min=1)
 
         return head_budgets
@@ -506,6 +512,22 @@ class CakeprefillKVCache:
                 if layer_idx == 0:
                     print(f"[HACE] Budget realloc enabled: {head_budgets}")
                     print(f"[HACE] Head entropy: {head_entropy.tolist()}")
+            elif head_mode == "adakv":
+                # AdaKV: dispersion-based budget allocation
+                # Heads with more dispersed attention get more budget
+                # NOTE: Using alpha=0.8 (80% uniform + 20% adaptive) to reduce padding impact
+                # Original AdaKV paper uses alpha=0.2 but CAKE's padding causes performance degradation
+                total_layer_budget = budget * num_key_value_heads
+                head_budgets = self._compute_head_budgets_adakv(
+                    hh_score,  # [bsz, num_kv_heads, seq_len]
+                    total_layer_budget,
+                    alpha=0.8  # 20% adaptive + 80% uniform (modified to reduce padding)
+                ).int().tolist()
+                use_variable_budget = True
+                if layer_idx == 0:
+                    actual_sum = sum(head_budgets)
+                    max_b, min_b = max(head_budgets), min(head_budgets)
+                    print(f"[HACE] AdaKV enabled: {head_budgets}, sum={actual_sum}, target={int(total_layer_budget)}, range={max_b-min_b}")
             else:
                 # Uniform budget for all heads
                 uniform_budget = int(budget)
