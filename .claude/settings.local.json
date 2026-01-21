@@ -39,7 +39,9 @@
       "Bash(git commit:*)",
       "Bash(git mv:*)",
       "Bash(tree:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(du:*)"
     ]
   }
 }
