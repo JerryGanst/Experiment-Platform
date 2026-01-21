@@ -88,22 +88,49 @@ Preference modes:
 - `reverse_disp`: (1/H)^(+) * V^(+) - Low entropy → high budget
 - `reverse`: (1/H)^(+) * (1/V)^(+) - Low entropy + low variance → high budget
 
-### Known Issues (2025-01-15)
+### Known Issues (2025-01-21 Updated)
 
-**budget_realloc incompatible with Mistral**: The `budget_realloc` head mode produces garbage output on Mistral models.
+#### Zero-Padding Problem (Critical)
 
-**Root cause**: Zero-padding for variable-length head budgets interferes with Mistral's attention mechanism. When heads have different budgets (e.g., [36, 173]), shorter sequences are zero-padded. These zero-vectors cause attention score anomalies that Mistral cannot recover from.
+**Variable budget 方案在 CAKE 框架下都有性能问题**，包括 `budget_realloc` 和 `adakv`。
 
-**Why Qwen works but Mistral doesn't**:
-- Qwen entropy range: ~0.75 (small) → moderate budget variance → tolerable padding
-- Mistral entropy range: ~3.7 (large) → extreme budget variance (e.g., 36 vs 173) → 79% zero padding → catastrophic failure
+**根本原因**：
+1. Variable budget 产生不同长度的 KV cache（如 [152, 134, 178, 140]）
+2. CAKE 框架要求所有 head 的 KV cache 长度相同
+3. 因此需要 padding 到 max_budget
+4. **Padding 使用零向量**（`vendor/cake/cake_cache.py` 第 593-597 行），会干扰注意力计算
 
-| Model | budget_realloc | high_entropy | low_entropy | uniform |
-|-------|---------------|--------------|-------------|---------|
-| Qwen2.5-7B | ✅ Works | ✅ Works | ✅ Works | ✅ Works |
-| Mistral-7B | ❌ Garbage | ✅ Works | ✅ Works | ✅ Works |
+**Padding 比例示例** (budget=[152, 134, 178, 140], max=178)：
+| Head | 真实 tokens | Padding | Padding 比例 |
+|------|------------|---------|-------------|
+| 0 | 152 | 26 | 14.6% |
+| 1 | 134 | 44 | 24.7% |
+| 2 | 178 | 0 | 0% |
+| 3 | 140 | 38 | 21.3% |
 
-**Workaround**: For Mistral, use `high_entropy`, `low_entropy`, or empty (uniform) modes only.
+**重要澄清**：Qwen 在 `budget_realloc` 上"能用"**不是因为有 mask fix**，而是因为熵范围小（~0.75），budget variance 较小，padding 比例可容忍。
+
+#### 模型兼容性矩阵
+
+| Model | budget_realloc | adakv | high_entropy | low_entropy | uniform |
+|-------|---------------|-------|--------------|-------------|---------|
+| Qwen2.5-7B | ⚠️ 有损 | ⚠️ 有损 | ✅ Works | ✅ Works | ✅ Works |
+| Mistral-7B | ❌ Garbage | ❌ Garbage | ✅ Works | ✅ Works | ✅ Works |
+
+- ⚠️ 有损：能运行但性能下降（如 AdaKV 14.55% vs uniform 21.75%）
+- ❌ Garbage：输出乱码
+
+#### 解决方案选项
+
+| 方案 | 工作量 | 效果预期 | 代码位置 |
+|-----|--------|---------|---------|
+| 1. 放弃 variable budget | 0 | 无 | - |
+| 2. 调高 alpha（增加 uniform 比例） | 低 | 折中 | `cake_cache.py` L524 |
+| 3. 实现 attention mask | 高 | 最优 | 需新增 |
+
+**当前 AdaKV alpha 设置**：`alpha=0.8`（80% uniform + 20% adaptive），已经很保守但仍有性能损失。
+
+**Workaround**: 对于需要可靠性能的实验，使用 `high_entropy`、`low_entropy` 或 `uniform` 模式。
 
 ### Experiment Quality Control (Critical Lesson)
 
@@ -408,12 +435,12 @@ import scipy.stats as stats
 
 ```bash
 # 正确: 各卡独立跑实验
-CUDA_VISIBLE_DEVICES=0 python scripts/run_hace_qmsum.py --device 0 --pred_name exp1 &
-CUDA_VISIBLE_DEVICES=1 python scripts/run_hace_qmsum.py --device 0 --pred_name exp2 &
+CUDA_VISIBLE_DEVICES=0 python scripts/experiments/run_hace.py --device 0 --pred_name exp1 &
+CUDA_VISIBLE_DEVICES=1 python scripts/experiments/run_hace.py --device 0 --pred_name exp2 &
 wait
 
 # 错误: 不要这样 (会尝试张量并行)
-CUDA_VISIBLE_DEVICES=0,1 python scripts/run_hace_qmsum.py
+CUDA_VISIBLE_DEVICES=0,1 python scripts/experiments/run_hace.py
 ```
 
 这样可以同时运行两个独立实验，最大化 GPU 利用率。
