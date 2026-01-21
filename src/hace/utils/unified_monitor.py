@@ -46,7 +46,7 @@ class UnifiedMonitor:
         try:
             from .. import config as global_config
         except ImportError:
-            # 回退到hace_core.config
+            # 回退到 src.hace.config
             import sys
             import os
             project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))

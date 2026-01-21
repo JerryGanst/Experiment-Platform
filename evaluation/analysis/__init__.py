@@ -8,7 +8,7 @@
 - generate_report: HTML/Excel报告生成器
 
 与基线模块紧密配合，提供完整的实验分析流程。
-注意：图表生成功能位于hace_core.utils.plotter模块。
+注意：图表生成功能位于 src.hace.utils.plotter 模块。
 """
 
 from .statistical_tests import StatisticsAnalyzer

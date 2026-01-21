@@ -9,7 +9,9 @@ import logging
 
 # 导入LongBench评分函数
 import sys
-longbench_metrics_path = os.path.join(os.path.dirname(__file__), 'cakekv-main', 'cakekv-main', 'experiments', 'LongBench')
+# 从 src/hace/methods/cake/ 向上 4 级到项目根目录，再进入 vendor/cake/longbench
+project_root = Path(__file__).resolve().parents[4]
+longbench_metrics_path = str(project_root / "vendor" / "cake" / "longbench")
 if longbench_metrics_path not in sys.path:
     sys.path.append(longbench_metrics_path)
 

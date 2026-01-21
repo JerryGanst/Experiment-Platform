@@ -246,8 +246,8 @@ class TestHuggingFaceBackendMock:
 
         assert backend.supports_attention_output() is True
 
-    @patch('hace_core.models.inference_backend.AutoModelForCausalLM')
-    @patch('hace_core.models.inference_backend.AutoTokenizer')
+    @patch('src.hace.models.inference_backend.AutoModelForCausalLM')
+    @patch('src.hace.models.inference_backend.AutoTokenizer')
     def test_hf_backend_initialize_mock(self, mock_tokenizer, mock_model, model_config):
         """测试 HF 后端初始化（模拟）"""
         from src.hace.models.inference_backend import HuggingFaceBackend

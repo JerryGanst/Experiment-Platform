@@ -443,7 +443,7 @@ class RequestScopedAllocator:
         UnifiedCacheConfig = None
 
         import_paths = [
-            "hace_core.core_code.unified_allocator",  # 项目内优先
+            "src.hace.core.unified_allocator",        # 新路径
             "src.core_code.unified_allocator",        # 旧路径兼容
             "core_code.unified_allocator",            # 相对导入兼容
         ]

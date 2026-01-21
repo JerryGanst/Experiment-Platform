@@ -78,8 +78,8 @@ class DataSource:
 def get_project_root() -> Path:
     """获取项目根目录路径"""
     current_file = Path(__file__).resolve()
-    # 从 hace_core/data/ 回到项目根目录
-    return current_file.parents[2]
+    # 从 src/hace/data/ 回到项目根目录 (向上 3 级)
+    return current_file.parents[3]
 
 
 def get_data_root() -> Path:

@@ -37,7 +37,9 @@
       "Bash(tar czf:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(tree:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

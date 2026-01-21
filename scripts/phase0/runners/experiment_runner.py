@@ -1,7 +1,7 @@
 """
 单次实验执行器
 
-封装 scripts/run_hace_qmsum.py 的调用
+封装 scripts/experiments/run_hace.py 的调用
 """
 import os
 import subprocess

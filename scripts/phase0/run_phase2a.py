@@ -58,7 +58,7 @@ def run_single_experiment(strategy, cache_size, device=0):
 
     cmd = [
         sys.executable,
-        str(PROJECT_ROOT / "scripts" / "run_hace_qmsum.py"),
+        str(PROJECT_ROOT / "scripts" / "experiments" / "run_hace.py"),
         "--model", MODEL,
         "--dataset", DATASET,
         "--cache_size", str(cache_size),

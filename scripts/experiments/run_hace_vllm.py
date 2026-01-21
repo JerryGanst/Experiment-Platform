@@ -15,9 +15,9 @@ from datetime import datetime
 from tqdm import tqdm
 
 # 添加项目路径
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]  # scripts/experiments/ -> 向上 2 级
 sys.path.insert(0, str(PROJECT_ROOT))
-sys.path.insert(0, str(PROJECT_ROOT / "hace_core"))
+sys.path.insert(0, str(PROJECT_ROOT / "vendor"))
 
 def parse_args():
     parser = argparse.ArgumentParser(description="HACE Experiments with VLLM")

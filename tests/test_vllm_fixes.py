@@ -132,13 +132,13 @@ class TestImportPathFallback:
     def test_import_path_priority(self):
         """测试导入路径优先级正确"""
         import_paths = [
-            "hace_core.core_code.unified_allocator",  # 项目内优先
+            "src.hace.core.unified_allocator",        # 新路径
             "src.core_code.unified_allocator",        # 旧路径兼容
             "core_code.unified_allocator",            # 相对导入兼容
         ]
 
-        # 验证 hace_core 路径在最前面
-        assert import_paths[0] == "hace_core.core_code.unified_allocator"
+        # 验证 src.hace 路径在最前面
+        assert import_paths[0] == "src.hace.core.unified_allocator"
         print("✓ test_import_path_priority passed")
 
     def test_fallback_uniform_allocation(self):

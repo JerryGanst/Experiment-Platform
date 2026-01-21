@@ -89,7 +89,7 @@ INTERACTION_PLOT_PNG = RESULTS_DIR / "interaction_plot.png"
 DECISION_MD = RESULTS_DIR / "decision.md"
 
 # 依赖的外部脚本
-HACE_RUNNER_SCRIPT = PROJECT_ROOT / "scripts" / "run_hace_qmsum.py"
+HACE_RUNNER_SCRIPT = PROJECT_ROOT / "scripts" / "experiments" / "run_hace.py"
 EVAL_SCRIPT = PROJECT_ROOT / "vendor" / "cake" / "longbench" / "eval.py"
 
 # =============================================================================

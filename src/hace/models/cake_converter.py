@@ -1,7 +1,7 @@
 """
 CAKE模型转换模块
 
-此模块作为您现有CAKE实验平台与cakekv-main核心功能的桥接层。
+此模块作为您现有CAKE实验平台与 vendor/cake 核心功能的桥接层。
 它提供统一的接口来应用CAKE优化到模型上。
 """
 import sys
@@ -9,14 +9,14 @@ import os
 import torch
 import logging
 from typing import Optional, Dict, Any
+from pathlib import Path
 
-# 添加cakekv-main到Python路径
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(os.path.dirname(current_dir))  # 向上两级到Experiment-Platform
-# CAKE代码在 vendor/cake/
-cakekv_path = os.path.join(project_root, "src", "third_party", "cakekv-main", "cakekv-main")
-if cakekv_path not in sys.path:
-    sys.path.insert(0, cakekv_path)
+# 添加 vendor/cake 到 Python 路径
+current_dir = Path(__file__).resolve().parent
+project_root = current_dir.parents[2]  # src/hace/models/ -> 向上 3 级到项目根目录
+vendor_path = str(project_root / "vendor")
+if vendor_path not in sys.path:
+    sys.path.insert(0, vendor_path)
 
 # 导入CAKE核心功能
 try:
@@ -110,7 +110,7 @@ class CAKEModelAdapter:
             应用了CAKE的模型
         """
         if not CAKE_AVAILABLE:
-            raise ImportError("CAKE核心功能不可用，请检查cakekv-main目录")
+            raise ImportError("CAKE核心功能不可用，请检查vendor/cake 目录")
             
         model_type = model_config_hf.get("model_type", "").lower()
         logger.info(f"开始为 {model_type} 模型应用CAKE")
@@ -242,7 +242,7 @@ def apply_cake_to_model(
         应用了CAKE的模型
     """
     if not CAKE_AVAILABLE:
-        logger.error("CAKE核心功能不可用，请检查cakekv-main目录是否存在且正确")
+        logger.error("CAKE核心功能不可用，请检查vendor/cake 目录是否存在且正确")
         raise ImportError("CAKE核心功能不可用")
     
     # 检查模型是否已经应用了CAKE
@@ -298,7 +298,7 @@ def get_supported_model_types() -> list:
         return []
     return ["llama", "mistral", "qwen2"]
 
-# 为了向后兼容，保留一些类定义（但实际功能由cakekv-main提供）
+# 为了向后兼容，保留一些类定义（但实际功能由 vendor/cake 提供）
 class LayerAnalyzer:
     """向后兼容的层级分析器类（实际功能由CAKE核心提供）"""
     
@@ -358,4 +358,4 @@ if __name__ == '__main__':
         logger.info(f"CAKE实验配置创建成功: {config.allocation_strategy}")
         
     else:
-        logger.error("❌ CAKE核心功能不可用，请检查cakekv-main目录") 
+        logger.error("❌ CAKE核心功能不可用，请检查vendor/cake 目录") 
