@@ -4,8 +4,8 @@ import os
 
 # 获取项目根目录路径配置
 current_file_path = os.path.abspath(__file__)
-# 从src/third_party/fullkv/向上三级到达项目根目录
-project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(current_file_path))))
+# 从 evaluation/baselines/ 向上两级到达项目根目录
+project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path)))
 
 # 如果项目根目录不在 sys.path 中，则添加它
 if project_root_dir not in sys.path:

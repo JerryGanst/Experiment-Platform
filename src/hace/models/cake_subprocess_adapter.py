@@ -218,10 +218,10 @@ class CAKESubprocessAdapter:
             current_dir / "CAKE",
         ]
 
-        # 4. 搜索third_party下的所有子目录 (优先搜索 src/third_party)
-        third_party_dir = project_root / "src" / "third_party"
-        if third_party_dir.exists():
-            for subdir in third_party_dir.iterdir():
+        # 4. 搜索 vendor 下的所有子目录
+        vendor_dir = project_root / "vendor"
+        if vendor_dir.exists():
+            for subdir in vendor_dir.iterdir():
                 if subdir.is_dir():
                     possible_paths.append(subdir)
         

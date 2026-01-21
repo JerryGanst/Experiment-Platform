@@ -10,17 +10,17 @@ KV Cache optimization research platform for LLM inference. Implements HACE (Hier
 
 ```bash
 # Run unified experiments
-python scripts/run_experiments.py --experiment full_evaluation --tag production
-python scripts/run_experiments.py --experiment baseline --datasets hotpotqa --dry-run
+python scripts/experiments/run_experiments.py --experiment full_evaluation --tag production
+python scripts/experiments/run_experiments.py --experiment baseline --datasets hotpotqa --dry-run
 
 # HACE experiments (uses HuggingFace, not VLLM)
-python scripts/run_hace_qmsum.py --pref_mode reverse_disp --pred_name hace_test --device 0
+python scripts/experiments/run_hace.py --pref_mode reverse_disp --pred_name hace_test --device 0
 
 # Full HACE comparison (3 modes)
-./run_hace_experiments.sh
+./scripts/shell/run_hace_experiments.sh
 
 # Evaluation
-python src/third_party/cakekv-main/cakekv-main/experiments/LongBench/eval.py \
+python vendor/cake/longbench/eval.py \
     --model qwen2.5-7b-instruct --dir_path results_clean/hace_test
 
 # Tests
@@ -29,18 +29,30 @@ pytest tests/
 
 ## Architecture
 
-- **hace_core/**: Core framework
+- **src/hace/**: Core framework (formerly hace_core/)
   - `config.py` - Central configuration (MODEL_CONFIG, EXPERIMENT_CONFIG, DATASET_CONFIG)
   - `models/` - Model loading, attention collection, CAKE/H2O converters
   - `core/` - Unified allocator, strategy selector, integration framework
+  - `methods/base.py` - Base class for KV cache methods
 
-- **src/third_party/cakekv-main/cakekv-main/**: CAKE implementation
-  - `cake/cake_cache.py` - KV cache management and budget allocation
-  - `cake/model/modify_qwen2.py` - Attention patching with HACE head-level entropy
-  - `experiments/LongBench/pred_cake.py` - Experiment entry point
-  - `experiments/LongBench/config/*.json` - Model paths, prompts, max lengths
+- **vendor/cake/**: CAKE implementation (扁平化的第三方代码)
+  - `cake_cache.py` - KV cache management and budget allocation
+  - `model/modify_qwen2.py` - Attention patching with HACE head-level entropy
+  - `longbench/pred_cake.py` - Experiment entry point
+  - `longbench/eval.py` - Evaluation script
 
-- **scripts/**: Experiment runners and utilities
+- **config/**: 统一配置目录
+  - `models/` - model2path.json, model2maxlen.json, model2tau.json
+  - `datasets/` - dataset2prompt.json, dataset2maxlen.json
+  - `experiments/` - cake_grid.csv, kv_lengths.yaml
+
+- **scripts/**: 脚本 (分类组织)
+  - `experiments/` - run_hace.py, run_fullkv.py, run_experiments.py
+  - `phase0/` - Phase 0 验证脚本
+  - `maintenance/` - 维护脚本
+  - `diagnostics/` - 诊断脚本
+  - `shell/` - Shell 脚本
+
 - **evaluation/**: Baseline evaluation framework with statistical analysis
 - **data/**: 37 LongBench datasets (*.jsonl)
 
@@ -133,7 +145,7 @@ Environment: `source /usr/local/miniconda3/bin/activate py312`
 rsync -avz -e "ssh -p 23" ./ root@117.50.34.209:/cloud/cloud-ssd1/Experiment-Platform/
 
 # Monitor experiments
-bash scripts/monitor_experiment.sh
+bash scripts/shell/monitor_experiment.sh
 nvidia-smi
 wc -l results_clean/*/qmsum.jsonl
 ```
@@ -146,7 +158,7 @@ export CORECODE_MODEL_PATH="/mnt/models/model-name"
 export HACE_MODEL_PATH="$CORECODE_MODEL_PATH"
 ```
 
-Or place models in: `./models/`, `~/models/`, or configure in `experiments/LongBench/config/model2path.json`
+Or place models in: `./models/`, `~/models/`, or configure in `config/models/model2path.json`
 
 ## Key Metrics
 
@@ -295,7 +307,7 @@ export HACE_MAX_SAMPLES=20
 ### Quick Single-Condition Test
 ```bash
 # Test one configuration to verify pipeline works
-python scripts/run_hace_qmsum.py \
+python scripts/experiments/run_hace.py \
     --model qwen2.5-7b-instruct \
     --dataset qmsum \
     --cache_size 512 \
@@ -306,7 +318,7 @@ python scripts/run_hace_qmsum.py \
     --device 0
 
 # Evaluate
-python src/third_party/cakekv-main/cakekv-main/experiments/LongBench/eval.py \
+python vendor/cake/longbench/eval.py \
     --model qwen2.5-7b-instruct \
     --dir_path results_clean/phase0_test_high_512
 ```
@@ -320,7 +332,7 @@ for cache in 128 512 2048; do
     for mode in high_entropy low_entropy uniform; do
         for dataset in qmsum hotpotqa; do
             for seed in 42 123 456; do
-                python scripts/run_hace_qmsum.py \
+                python scripts/experiments/run_hace.py \
                     --cache_size $cache \
                     --head_mode $mode \
                     --dataset $dataset \
