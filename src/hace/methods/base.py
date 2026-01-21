@@ -23,13 +23,10 @@ except ModuleNotFoundError:  # pragma: no cover
 
 
 class BaseKVCacheMethod(ABC):
-    """Abstract base class for KV cache manipulation methods (H2O package local copy).
+    """Abstract base class for KV cache manipulation methods.
 
-    We keep a local copy here to avoid cross-package relative-import issues when
-    users install only the `src` package or run code outside the project root.
-    The implementation is intentionally kept minimal and mirrors the version in
-    `evaluation.baselines.base_method` to prevent hard dependencies between the
-    two sub-packages. If you update one copy, please update the other as well.
+    This is the single source of truth for the base class.
+    Import from: from src.hace.methods.base import BaseKVCacheMethod
     """
 
     @abstractmethod
