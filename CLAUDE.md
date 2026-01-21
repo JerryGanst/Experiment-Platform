@@ -387,3 +387,21 @@ import scipy.stats as stats
 | Phase 4 | 2 weeks | Paper draft completed |
 
 **Critical**: If Phase 0 fails (H0 not rejected), stop immediately. Do not invest in Phases 1-4 for a non-existent effect.
+
+---
+
+## GPU 使用规则 (双卡机器)
+
+**不要使用张量并行分摊，一张卡跑一个实验**：
+
+```bash
+# 正确: 各卡独立跑实验
+CUDA_VISIBLE_DEVICES=0 python scripts/run_hace_qmsum.py --device 0 --pred_name exp1 &
+CUDA_VISIBLE_DEVICES=1 python scripts/run_hace_qmsum.py --device 0 --pred_name exp2 &
+wait
+
+# 错误: 不要这样 (会尝试张量并行)
+CUDA_VISIBLE_DEVICES=0,1 python scripts/run_hace_qmsum.py
+```
+
+这样可以同时运行两个独立实验，最大化 GPU 利用率。
