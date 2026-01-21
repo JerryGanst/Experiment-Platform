@@ -14,13 +14,14 @@ from datasets import load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ROOT = Path(__file__).resolve().parents[1]
-CAKE_ROOT = ROOT / "src" / "third_party" / "cakekv-main" / "cakekv-main"
-LONG_BENCH_DIR = CAKE_ROOT / "experiments" / "LongBench"
+CAKE_ROOT = ROOT / "vendor" / "cake"
+LONG_BENCH_DIR = CAKE_ROOT / "longbench"
+CONFIG_DIR = ROOT / "config"
 
-if str(CAKE_ROOT) not in sys.path:
-    sys.path.insert(0, str(CAKE_ROOT))
+if str(ROOT / "vendor") not in sys.path:
+    sys.path.insert(0, str(ROOT / "vendor"))
 
-from experiments.LongBench.pred_cake import build_chat  # noqa: E402
+from cake.longbench.pred_cake import build_chat  # noqa: E402
 
 NO_CHAT_DATASETS = {"trec", "triviaqa", "samsum", "lsht", "lcc", "repobench-p"}
 

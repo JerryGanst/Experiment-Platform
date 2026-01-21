@@ -6,13 +6,13 @@ from pathlib import Path
 
 # 设置路径
 ROOT = Path(__file__).resolve().parents[1]
-CAKE_ROOT = ROOT / "src" / "third_party" / "cakekv-main" / "cakekv-main"
-sys.path.insert(0, str(CAKE_ROOT))
+CAKE_ROOT = ROOT / "vendor" / "cake"
+sys.path.insert(0, str(ROOT / "vendor"))
 
 import torch
 import json
 from datasets import load_dataset
-from experiments.LongBench.pred_cake import load_model_and_tokenizer, build_chat
+from cake.longbench.pred_cake import load_model_and_tokenizer, build_chat
 from cake.compress_config import CompressConfig
 
 

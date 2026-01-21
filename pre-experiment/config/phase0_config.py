@@ -90,7 +90,7 @@ DECISION_MD = RESULTS_DIR / "decision.md"
 
 # 依赖的外部脚本
 HACE_RUNNER_SCRIPT = PROJECT_ROOT / "scripts" / "run_hace_qmsum.py"
-EVAL_SCRIPT = PROJECT_ROOT / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench" / "eval.py"
+EVAL_SCRIPT = PROJECT_ROOT / "vendor" / "cake" / "longbench" / "eval.py"
 
 # =============================================================================
 # 辅助函数

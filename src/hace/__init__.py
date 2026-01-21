@@ -9,13 +9,13 @@ HACE Core - KV Cache 优化实验平台核心库
 
 使用示例:
     # 核心分配器
-    from hace_core.core import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
+    from src.hace.core import UnifiedCakeAdaKVAllocator, UnifiedCacheConfig
 
     # 数据加载
-    from hace_core.data import load_data
+    from src.hace.data import load_data
 
     # 模型加载
-    from hace_core.models import load_model_and_tokenizer
+    from src.hace.models import load_model_and_tokenizer
 """
 
 from .algorithms import BaseHACEAlgorithm, SimpleHACEAlgorithm

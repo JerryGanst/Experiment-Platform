@@ -829,7 +829,7 @@ def create_inference_backend(
         BaseInferenceBackend 实例
 
     Example:
-        >>> from hace_core.config import MODEL_CONFIG, VLLM_CONFIG
+        >>> from src.hace.config import MODEL_CONFIG, VLLM_CONFIG
         >>> backend = create_inference_backend(MODEL_CONFIG, VLLM_CONFIG)
         >>> output = backend.generate("Hello, world!")
         >>> print(output.text)
@@ -843,7 +843,7 @@ def create_inference_backend(
     elif backend_type == "vllm":
         if vllm_config is None:
             # 使用默认VLLM配置
-            from hace_core.config import VLLM_CONFIG
+            from src.hace.config import VLLM_CONFIG
             vllm_config = VLLM_CONFIG
         logger.info(f"Creating VLLM backend (mode: {vllm_config.get('mode', 'inprocess')})")
         return VLLMBackend(model_config, vllm_config)

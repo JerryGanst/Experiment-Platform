@@ -12,7 +12,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
-from hace_core import config
+from src.hace import config
 
 STATISTICS_CONFIG = config.STATISTICS_CONFIG
 import json

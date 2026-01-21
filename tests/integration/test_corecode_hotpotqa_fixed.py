@@ -31,8 +31,8 @@ except ImportError as e:
 
 # 尝试导入CoreCode模块
 try:
-    from hace_core.core.integration_framework import CakeAdaKVIntegration, IntegrationConfig, create_integration
-    from hace_core.core.unified_allocator import UnifiedCacheConfig
+    from src.hace.core.integration_framework import CakeAdaKVIntegration, IntegrationConfig, create_integration
+    from src.hace.core.unified_allocator import UnifiedCacheConfig
     CORECODE_AVAILABLE = True
     print("✅ 成功导入CoreCode模块")
 except ImportError as e:
@@ -42,7 +42,7 @@ except ImportError as e:
 
 # 尝试导入CAKE模型转换器
 try:
-    from hace_core.models.cake_converter import apply_cake_to_model, is_cake_available
+    from src.hace.models.cake_converter import apply_cake_to_model, is_cake_available
     CAKE_CONVERTER_AVAILABLE = is_cake_available()
     print(f"✅ CAKE转换器可用: {CAKE_CONVERTER_AVAILABLE}")
 except ImportError as e:

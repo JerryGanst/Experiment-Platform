@@ -7,7 +7,7 @@ if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
 # 从正确路径导入 BudgetNormalizer
-from hace_core.core.indicator_normalizer import BudgetNormalizer
+from src.hace.core.indicator_normalizer import BudgetNormalizer
 
 # 测试用例: (raw_budgets, total_budget, min_budget)
 TEST_CASES = [

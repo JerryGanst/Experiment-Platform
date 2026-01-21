@@ -93,7 +93,7 @@ def prepare_samples_for_evaluation(dataset, dataset_info, num_samples=100, rando
         # 如果仍然为空，尝试根据全局配置反向查找
         if not dataset_name:
             try:
-                from hace_core import config as _global_cfg
+                from src.hace import config as _global_cfg
                 for _name, _cfg in _global_cfg.DATASET_CONFIG.get("available_datasets", {}).items():
                     if _cfg == dataset_info:
                         dataset_name = _name

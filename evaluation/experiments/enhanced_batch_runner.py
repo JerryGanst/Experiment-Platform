@@ -32,18 +32,18 @@ from config_yaml_example import (
 )
 
 # 导入两种执行模式
-from hace_core.models.cake_converter import (
+from src.hace.models.cake_converter import (
     is_cake_available, apply_cake_to_model, 
     CAKEExperimentConfig, CAKEModelAdapter
 )
-from hace_core.models.cake_subprocess_adapter import (
+from src.hace.models.cake_subprocess_adapter import (
     CAKESubprocessAdapter, CAKESubprocessConfig, run_cake_via_subprocess
 )
-from hace_core.models.model_loader import (
+from src.hace.models.model_loader import (
     load_model_and_tokenizer, prepare_model_for_cake, 
     is_model_type_supported_by_cake
 )
-from hace_core import config
+from src.hace import config
 
 # 设置日志
 logging.basicConfig(

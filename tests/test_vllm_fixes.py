@@ -263,7 +263,7 @@ class TestBoundaryHandling:
 
     def test_layer_budget_less_than_num_heads(self):
         """测试 layer_budget < num_heads 时不抛出异常"""
-        from hace_core.core.indicator_normalizer import BudgetNormalizer
+        from src.hace.core.indicator_normalizer import BudgetNormalizer
 
         # 场景: layer_budget=5, num_heads=32
         # 之前的代码会因为 min_budget=1 * 32 > 5 而抛出 ValueError

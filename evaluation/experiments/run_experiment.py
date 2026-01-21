@@ -17,7 +17,7 @@ project_root = os.path.dirname(pkg_dir)  # project root
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from hace_core import config as global_config  # 项目根目录的config
+from src.hace import config as global_config  # 项目根目录的config
 
 # 实验类型
 EXPERIMENT_TYPES = {

@@ -16,7 +16,7 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 
-from hace_core.data.unified_loader import find_data_file  # noqa: E402
+from src.hace.data.unified_loader import find_data_file  # noqa: E402
 
 
 def extract_ground_truth_from_sample(sample, dataset_source="local"):

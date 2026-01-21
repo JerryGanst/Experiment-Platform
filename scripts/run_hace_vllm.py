@@ -111,7 +111,7 @@ def get_data_path(dataset: str, custom_path: str = None) -> str:
 
     candidates = [
         PROJECT_ROOT / "data" / f"{dataset}.jsonl",
-        PROJECT_ROOT / "src/third_party/cakekv-main/cakekv-main/data" / f"{dataset}.jsonl",
+        PROJECT_ROOT / "vendor/cake/data" / f"{dataset}.jsonl",
         Path(f"/mnt/disks/experiment/Experiment-Platform/data/{dataset}.jsonl"),
     ]
 
@@ -277,7 +277,7 @@ def main():
 
     # 运行评估
     print("\nRunning evaluation...")
-    eval_script = PROJECT_ROOT / "src/third_party/cakekv-main/cakekv-main/experiments/LongBench/eval.py"
+    eval_script = PROJECT_ROOT / "vendor/cake/longbench/eval.py"
     if eval_script.exists():
         import subprocess
         result = subprocess.run([

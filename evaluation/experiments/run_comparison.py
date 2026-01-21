@@ -22,7 +22,7 @@ project_root = os.path.dirname(pkg_dir)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from hace_core import config as global_config
+from src.hace import config as global_config
 from evaluation.analysis.statistical_tests import StatisticsAnalyzer
 # 注意：experiments模块主要负责实验执行和协调，复杂的分析功能由analysis模块提供
 
@@ -65,7 +65,7 @@ def load_and_validate_csv(csv_path: str, method_name: str) -> pd.DataFrame | Non
 
 def generate_comparison_plots(combined_df: pd.DataFrame, metrics_config: list, vis_dir: str, plot_prefix: str):
     """生成对比图表（使用analysis.plotter模块）"""
-    from hace_core.utils import plotter
+    from src.hace.utils import plotter
     
     # 分离不同方法的数据
     baseline_df = combined_df[combined_df["method_type"].str.contains("Baseline|基线", case=False, na=False)]

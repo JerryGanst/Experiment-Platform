@@ -211,8 +211,8 @@ class CAKESubprocessAdapter:
         current_dir = Path(__file__).parent.parent  # hace_core
         project_root = current_dir.parent  # Experiment-Platform
         possible_paths = [
-            # 正确的CAKE位置: src/third_party/cakekv-main/cakekv-main
-            project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main",
+            # 正确的CAKE位置: vendor/cake
+            project_root / "vendor" / "cake",
             current_dir / "third_party" / "CAKE",
             current_dir / "cakekv-main" / "cakekv-main",
             current_dir / "CAKE",

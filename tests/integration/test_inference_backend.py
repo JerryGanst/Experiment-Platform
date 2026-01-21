@@ -97,7 +97,7 @@ class TestInferenceBackendImport:
 
     def test_import_inference_backend(self):
         """测试 inference_backend 模块导入"""
-        from hace_core.models.inference_backend import (
+        from src.hace.models.inference_backend import (
             BaseInferenceBackend,
             HuggingFaceBackend,
             VLLMBackend,
@@ -113,7 +113,7 @@ class TestInferenceBackendImport:
 
     def test_import_attention_collector(self):
         """测试 attention_collector 模块导入"""
-        from hace_core.models.attention_collector import (
+        from src.hace.models.attention_collector import (
             AttentionCollector,
             AttentionCollectionConfig,
             AttentionData,
@@ -127,7 +127,7 @@ class TestInferenceBackendImport:
 
     def test_import_model_loader_new_functions(self):
         """测试 model_loader 新增函数导入"""
-        from hace_core.models.model_loader import (
+        from src.hace.models.model_loader import (
             load_inference_backend,
             get_backend_for_optimization,
             detect_available_backends,
@@ -145,7 +145,7 @@ class TestBackendDetection:
 
     def test_detect_available_backends(self):
         """测试后端可用性检测"""
-        from hace_core.models.model_loader import detect_available_backends
+        from src.hace.models.model_loader import detect_available_backends
 
         backends = detect_available_backends()
 
@@ -155,7 +155,7 @@ class TestBackendDetection:
 
     def test_get_recommended_backend_default(self, model_config):
         """测试默认后端推荐"""
-        from hace_core.models.model_loader import get_recommended_backend
+        from src.hace.models.model_loader import get_recommended_backend
 
         model_config["inference_backend"] = "hf"
         recommended = get_recommended_backend(model_config)
@@ -165,7 +165,7 @@ class TestBackendDetection:
     @requires_vllm
     def test_get_recommended_backend_vllm(self, model_config):
         """测试 VLLM 后端推荐"""
-        from hace_core.models.model_loader import get_recommended_backend
+        from src.hace.models.model_loader import get_recommended_backend
 
         model_config["inference_backend"] = "vllm"
         recommended = get_recommended_backend(model_config)
@@ -178,7 +178,7 @@ class TestGenerationConfig:
 
     def test_generation_config_defaults(self):
         """测试默认生成配置"""
-        from hace_core.models.inference_backend import GenerationConfig
+        from src.hace.models.inference_backend import GenerationConfig
 
         config = GenerationConfig()
 
@@ -189,7 +189,7 @@ class TestGenerationConfig:
 
     def test_generation_config_custom(self):
         """测试自定义生成配置"""
-        from hace_core.models.inference_backend import GenerationConfig
+        from src.hace.models.inference_backend import GenerationConfig
 
         config = GenerationConfig(
             max_new_tokens=128,
@@ -209,7 +209,7 @@ class TestGenerationOutput:
 
     def test_generation_output_basic(self):
         """测试基本生成输出"""
-        from hace_core.models.inference_backend import GenerationOutput
+        from src.hace.models.inference_backend import GenerationOutput
 
         output = GenerationOutput(
             text="Hello, world!",
@@ -231,7 +231,7 @@ class TestHuggingFaceBackendMock:
 
     def test_hf_backend_creation(self, model_config):
         """测试 HF 后端创建"""
-        from hace_core.models.inference_backend import HuggingFaceBackend
+        from src.hace.models.inference_backend import HuggingFaceBackend
 
         backend = HuggingFaceBackend(model_config)
 
@@ -240,7 +240,7 @@ class TestHuggingFaceBackendMock:
 
     def test_hf_backend_supports_attention(self, model_config):
         """测试 HF 后端支持注意力输出"""
-        from hace_core.models.inference_backend import HuggingFaceBackend
+        from src.hace.models.inference_backend import HuggingFaceBackend
 
         backend = HuggingFaceBackend(model_config)
 
@@ -250,7 +250,7 @@ class TestHuggingFaceBackendMock:
     @patch('hace_core.models.inference_backend.AutoTokenizer')
     def test_hf_backend_initialize_mock(self, mock_tokenizer, mock_model, model_config):
         """测试 HF 后端初始化（模拟）"""
-        from hace_core.models.inference_backend import HuggingFaceBackend
+        from src.hace.models.inference_backend import HuggingFaceBackend
 
         # 设置模拟
         mock_tokenizer.from_pretrained.return_value = MagicMock()
@@ -271,7 +271,7 @@ class TestVLLMBackendMock:
 
     def test_vllm_backend_creation(self, model_config, vllm_config):
         """测试 VLLM 后端创建"""
-        from hace_core.models.inference_backend import VLLMBackend
+        from src.hace.models.inference_backend import VLLMBackend
 
         model_config["inference_backend"] = "vllm"
         backend = VLLMBackend(model_config, vllm_config)
@@ -281,7 +281,7 @@ class TestVLLMBackendMock:
 
     def test_vllm_backend_modes(self, model_config, vllm_config):
         """测试 VLLM 后端模式"""
-        from hace_core.models.inference_backend import VLLMBackend
+        from src.hace.models.inference_backend import VLLMBackend
 
         # 进程内模式
         vllm_config["mode"] = "inprocess"
@@ -295,7 +295,7 @@ class TestVLLMBackendMock:
 
     def test_vllm_backend_no_attention_support(self, model_config, vllm_config):
         """测试 VLLM 后端默认不支持注意力输出"""
-        from hace_core.models.inference_backend import VLLMBackend
+        from src.hace.models.inference_backend import VLLMBackend
 
         backend = VLLMBackend(model_config, vllm_config)
 
@@ -309,7 +309,7 @@ class TestBackendFactory:
 
     def test_create_hf_backend(self, model_config):
         """测试创建 HF 后端"""
-        from hace_core.models.inference_backend import create_inference_backend
+        from src.hace.models.inference_backend import create_inference_backend
 
         model_config["inference_backend"] = "hf"
         backend = create_inference_backend(model_config)
@@ -318,7 +318,7 @@ class TestBackendFactory:
 
     def test_create_vllm_backend(self, model_config, vllm_config):
         """测试创建 VLLM 后端"""
-        from hace_core.models.inference_backend import create_inference_backend
+        from src.hace.models.inference_backend import create_inference_backend
 
         model_config["inference_backend"] = "vllm"
         backend = create_inference_backend(model_config, vllm_config)
@@ -327,7 +327,7 @@ class TestBackendFactory:
 
     def test_create_backend_invalid_type(self, model_config):
         """测试无效后端类型"""
-        from hace_core.models.inference_backend import create_inference_backend
+        from src.hace.models.inference_backend import create_inference_backend
 
         model_config["inference_backend"] = "invalid_backend"
 
@@ -342,7 +342,7 @@ class TestAttentionCollector:
 
     def test_attention_config_defaults(self):
         """测试注意力收集配置默认值"""
-        from hace_core.models.attention_collector import AttentionCollectionConfig
+        from src.hace.models.attention_collector import AttentionCollectionConfig
 
         config = AttentionCollectionConfig()
 
@@ -353,7 +353,7 @@ class TestAttentionCollector:
     def test_attention_data_structure(self):
         """测试注意力数据结构"""
         import numpy as np
-        from hace_core.models.attention_collector import AttentionData
+        from src.hace.models.attention_collector import AttentionData
 
         # 创建模拟注意力数据
         attention_weights = [
@@ -378,7 +378,7 @@ class TestAttentionCollector:
     def test_vllm_attention_adapter(self):
         """测试 VLLM 注意力适配器"""
         import numpy as np
-        from hace_core.models.attention_collector import (
+        from src.hace.models.attention_collector import (
             AttentionData,
             VLLMAttentionAdapter,
         )
@@ -411,14 +411,14 @@ class TestVLLMConfig:
 
     def test_vllm_config_exists(self):
         """测试 VLLM_CONFIG 存在"""
-        from hace_core.config import VLLM_CONFIG
+        from src.hace.config import VLLM_CONFIG
 
         assert VLLM_CONFIG is not None
         assert isinstance(VLLM_CONFIG, dict)
 
     def test_vllm_config_structure(self):
         """测试 VLLM_CONFIG 结构"""
-        from hace_core.config import VLLM_CONFIG
+        from src.hace.config import VLLM_CONFIG
 
         # 必要字段
         assert "mode" in VLLM_CONFIG
@@ -430,14 +430,14 @@ class TestVLLMConfig:
 
     def test_model_config_backend_field(self):
         """测试 MODEL_CONFIG 中的 inference_backend 字段"""
-        from hace_core.config import MODEL_CONFIG
+        from src.hace.config import MODEL_CONFIG
 
         assert "inference_backend" in MODEL_CONFIG
         assert MODEL_CONFIG["inference_backend"] in ("hf", "vllm")
 
     def test_experiment_config_backend_field(self):
         """测试 EXPERIMENT_CONFIG 中的 inference_backend 字段"""
-        from hace_core.config import EXPERIMENT_CONFIG
+        from src.hace.config import EXPERIMENT_CONFIG
 
         assert "inference_backend" in EXPERIMENT_CONFIG
 
@@ -451,7 +451,7 @@ class TestHuggingFaceBackendReal:
     @pytest.mark.slow
     def test_hf_backend_load_small_model(self):
         """测试加载小型模型"""
-        from hace_core.models.inference_backend import HuggingFaceBackend
+        from src.hace.models.inference_backend import HuggingFaceBackend
 
         # 使用小型模型进行测试
         config = {
@@ -478,7 +478,7 @@ class TestVLLMBackendReal:
     @pytest.mark.slow
     def test_vllm_check_available(self):
         """测试 VLLM 可用性检查"""
-        from hace_core.models.inference_backend import check_vllm_available
+        from src.hace.models.inference_backend import check_vllm_available
 
         is_available, message = check_vllm_available()
 
@@ -493,7 +493,7 @@ class TestHybridPipeline:
 
     def test_create_pipeline_hf(self, model_config):
         """测试创建 HF 管道"""
-        from hace_core.models.model_loader import create_hybrid_inference_pipeline
+        from src.hace.models.model_loader import create_hybrid_inference_pipeline
 
         model_config["inference_backend"] = "hf"
         pipeline = create_hybrid_inference_pipeline(model_config)
@@ -503,7 +503,7 @@ class TestHybridPipeline:
 
     def test_create_pipeline_vllm_with_optimization(self, model_config, vllm_config):
         """测试创建带优化的 VLLM 管道"""
-        from hace_core.models.model_loader import create_hybrid_inference_pipeline
+        from src.hace.models.model_loader import create_hybrid_inference_pipeline
 
         model_config["inference_backend"] = "vllm"
         pipeline = create_hybrid_inference_pipeline(

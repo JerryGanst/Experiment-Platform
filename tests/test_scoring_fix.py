@@ -13,10 +13,10 @@ project_root = Path(__file__).resolve().parents[1]
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench"
+longbench_metrics_path = project_root / "vendor" / "cake" / "longbench"
 sys.path.append(str(longbench_metrics_path))
 
-from hace_core.data.unified_loader import find_data_file  # noqa: E402
+from src.hace.data.unified_loader import find_data_file  # noqa: E402
 
 def test_eval_utils_import():
     """测试eval_utils导入"""

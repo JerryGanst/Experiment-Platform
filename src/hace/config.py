@@ -458,7 +458,7 @@ def validate_config():
 --------
 
 # 在下游代码中使用时，需要解析实际路径：
-from hace_core.config import MODEL_CONFIG, get_resolved_model_path
+from src.hace.config import MODEL_CONFIG, get_resolved_model_path
 
 # 错误的用法（会收到模型名称而不是解析后的路径）：
 model_path = MODEL_CONFIG["model_name_or_path"]  # 'mistralai/Mistral-7B-Instruct-v0.3'
@@ -467,7 +467,7 @@ model_path = MODEL_CONFIG["model_name_or_path"]  # 'mistralai/Mistral-7B-Instruc
 model_path = get_resolved_model_path(MODEL_CONFIG)  # 实际路径，如本地路径或HuggingFace Hub路径
 
 # 对于多模型实验：
-from hace_core.config import EXPERIMENT_CONFIG, get_model_path
+from src.hace.config import EXPERIMENT_CONFIG, get_model_path
 
 for model_name in EXPERIMENT_CONFIG["experiment_models"]:
     resolved_path = get_model_path(model_name)
@@ -485,7 +485,7 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 # - HuggingFace：直接使用 "mistralai/Mistral-7B-Instruct-v0.3"
 
 # 配置验证：
-# from hace_core.config import validate_config
+# from src.hace.config import validate_config
 # results = validate_config()
 # if not results["passed"]:
 #     print("配置验证失败:", results["errors"])
@@ -495,7 +495,7 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 # ========== VLLM推理后端使用示例 ==========
 #
 # 1. 切换到VLLM后端（进程内模式）：
-# from hace_core.config import MODEL_CONFIG, VLLM_CONFIG
+# from src.hace.config import MODEL_CONFIG, VLLM_CONFIG
 # MODEL_CONFIG["inference_backend"] = "vllm"
 # VLLM_CONFIG["mode"] = "inprocess"
 # VLLM_CONFIG["tensor_parallel_size"] = 2  # 多GPU并行
@@ -520,7 +520,7 @@ for model_name in EXPERIMENT_CONFIG["experiment_models"]:
 # VLLM_CONFIG["attention_collection"]["warmup_samples"] = 20
 #
 # 4. 使用推理后端接口：
-# from hace_core.models.inference_backend import create_inference_backend
+# from src.hace.models.inference_backend import create_inference_backend
 # backend = create_inference_backend(MODEL_CONFIG, VLLM_CONFIG)
 # outputs = backend.generate(prompts, max_tokens=256)
 # backend.cleanup()

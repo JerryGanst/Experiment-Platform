@@ -152,7 +152,7 @@ def test_cake_conversion():
     
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
-        from hace_core.models.cake_converter import apply_cake_to_model, is_cake_available
+        from src.hace.models.cake_converter import apply_cake_to_model, is_cake_available
         
         if not is_cake_available():
             print("⚠️ CAKE不可用，跳过测试")

@@ -31,7 +31,7 @@ from collections import defaultdict
 from transformers import LogitsProcessor, LogitsProcessorList
 
 # 导入项目模块
-from hace_core import config
+from src.hace import config
 MODEL_CONFIG = config.MODEL_CONFIG
 EXPERIMENT_CONFIG = config.EXPERIMENT_CONFIG
 DATASET_CONFIG = config.DATASET_CONFIG
@@ -39,17 +39,17 @@ OUTPUT_CONFIG = config.OUTPUT_CONFIG
 MONITORING_CONFIG = config.MONITORING_CONFIG
 
 # 导入模块 - 更新路径以匹配新的目录结构
-from hace_core.models.model_loader import (
+from src.hace.models.model_loader import (
     load_model_and_tokenizer,
     configure_model_for_kv_cache_length,
     prepare_model_for_baseline,
     load_inference_backend
 )
-from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
-from hace_core.utils.unified_monitor import UnifiedMonitor
+from src.hace.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
+from src.hace.utils.unified_monitor import UnifiedMonitor
 from evaluation.eval_utils import score_dataset
-from hace_core.models.inference_backend import GenerationConfig
-import hace_core.config as hace_core_config
+from src.hace.models.inference_backend import GenerationConfig
+import src.hace.config as hace_core_config
 
 
 # 设置日志
@@ -186,7 +186,7 @@ def _load_cake_dataset_prompts():
     if _CAKE_DATASET_PROMPTS is not None:
         return _CAKE_DATASET_PROMPTS
 
-    prompt_path = Path(project_root_dir) / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench" / "config" / "dataset2prompt.json"
+    prompt_path = Path(project_root_dir) / "config" / "datasets" / "dataset2prompt.json"
     try:
         with open(prompt_path, "r", encoding="utf-8") as f:
             _CAKE_DATASET_PROMPTS = json.load(f)
@@ -201,7 +201,7 @@ def _load_cake_dataset_maxlen():
     if _CAKE_DATASET_MAXLEN is not None:
         return _CAKE_DATASET_MAXLEN
 
-    maxlen_path = Path(project_root_dir) / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench" / "config" / "dataset2maxlen.json"
+    maxlen_path = Path(project_root_dir) / "config" / "datasets" / "dataset2maxlen.json"
     try:
         with open(maxlen_path, "r", encoding="utf-8") as f:
             _CAKE_DATASET_MAXLEN = json.load(f)

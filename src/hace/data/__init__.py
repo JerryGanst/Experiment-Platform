@@ -4,7 +4,7 @@
 提供统一的数据加载接口，支持 HuggingFace 和本地文件。
 
 推荐使用:
-    from hace_core.data import load_data
+    from src.hace.data import load_data
 
     # 自动检测数据源
     data = load_data("hotpotqa")

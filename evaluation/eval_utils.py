@@ -10,7 +10,7 @@ import logging
 # 导入LongBench评分函数
 import sys
 project_root = Path(__file__).parents[1]
-longbench_metrics_path = project_root / "src" / "third_party" / "cakekv-main" / "cakekv-main" / "experiments" / "LongBench"
+longbench_metrics_path = project_root / "vendor" / "cake" / "longbench"
 if str(longbench_metrics_path) not in sys.path:
     sys.path.append(str(longbench_metrics_path))
 

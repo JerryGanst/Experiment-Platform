@@ -23,9 +23,9 @@ current_file_path = os.path.abspath(__file__)
 project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path)))
 if project_root_dir not in sys.path:
     sys.path.insert(0, project_root_dir)
-from hace_core.models.model_loader import load_model_and_tokenizer, prepare_model_for_baseline
-from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation
-from hace_core import config
+from src.hace.models.model_loader import load_model_and_tokenizer, prepare_model_for_baseline
+from src.hace.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation
+from src.hace import config
 
 # 导入评分功能（如果可用）
 try:

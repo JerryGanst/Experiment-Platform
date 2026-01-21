@@ -7,7 +7,7 @@
 - 自动检测数据源类型
 
 使用方式：
-    from hace_core.data.unified_loader import load_data, DataSource
+    from src.hace.data.unified_loader import load_data, DataSource
 
     # 自动检测
     data = load_data("hotpotqa")

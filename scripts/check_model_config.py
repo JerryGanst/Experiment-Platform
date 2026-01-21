@@ -10,7 +10,7 @@ from pathlib import Path
 
 # 导入配置模块
 try:
-    from hace_core.config import get_model_path, MODEL_CONFIG, EXPERIMENT_CONFIG
+    from src.hace.config import get_model_path, MODEL_CONFIG, EXPERIMENT_CONFIG
 except ImportError:
     print("❌ 无法导入配置模块，请确保项目结构正确")
     sys.exit(1)

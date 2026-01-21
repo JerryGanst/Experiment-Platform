@@ -12,7 +12,7 @@ CAKE-AdaKV 统一集成核心代码
 - integration_framework: 集成框架
 
 使用示例:
-    from hace_core.core import (
+    from src.hace.core import (
         UnifiedCakeAdaKVAllocator,
         UnifiedCacheConfig,
         CakeAdaKVIntegration,

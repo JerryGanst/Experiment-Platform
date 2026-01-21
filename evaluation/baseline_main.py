@@ -28,7 +28,7 @@ from datetime import datetime
 from transformers import LogitsProcessor, LogitsProcessorList
 
 # 导入项目模块
-from hace_core import config
+from src.hace import config
 MODEL_CONFIG = config.MODEL_CONFIG
 EXPERIMENT_CONFIG = config.EXPERIMENT_CONFIG
 DATASET_CONFIG = config.DATASET_CONFIG
@@ -36,13 +36,13 @@ OUTPUT_CONFIG = config.OUTPUT_CONFIG
 MONITORING_CONFIG = config.MONITORING_CONFIG
 
 # 导入模块 - 更新路径以匹配新的目录结构
-from hace_core.models.model_loader import (
+from src.hace.models.model_loader import (
     load_model_and_tokenizer,
     configure_model_for_kv_cache_length,
     prepare_model_for_baseline
 )
-from hace_core.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
-from hace_core.utils.unified_monitor import UnifiedMonitor
+from src.hace.data.dataset_loader import load_dataset_split, prepare_samples_for_evaluation, prepare_batch
+from src.hace.utils.unified_monitor import UnifiedMonitor
 from evaluation.eval_utils import score_dataset
 
 

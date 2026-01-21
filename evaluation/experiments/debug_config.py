@@ -20,7 +20,7 @@ print(f"Python路径: {sys.path[:3]}...")
 
 try:
     # 导入配置
-    from hace_core import config
+    from src.hace import config
     print("\n✅ config模块导入成功")
     
     # 检查DATASET_CONFIG

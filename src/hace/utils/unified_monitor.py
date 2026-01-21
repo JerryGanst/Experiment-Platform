@@ -52,7 +52,7 @@ class UnifiedMonitor:
             project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
             if project_root not in sys.path:
                 sys.path.insert(0, project_root)
-            from hace_core import config as global_config
+            from src.hace import config as global_config
         
         self.config = config or global_config.MONITORING_CONFIG
         self.experiment_id = experiment_id or datetime.now().strftime("%Y%m%d_%H%M%S")
