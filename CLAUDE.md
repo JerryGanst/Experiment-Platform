@@ -100,15 +100,24 @@ Preference modes:
 3. 因此需要 padding 到 max_budget
 4. **Padding 使用零向量**（`vendor/cake/cake_cache.py` 第 593-597 行），会干扰注意力计算
 
-**Padding 比例示例** (budget=[152, 134, 178, 140], max=178)：
-| Head | 真实 tokens | Padding | Padding 比例 |
-|------|------------|---------|-------------|
-| 0 | 152 | 26 | 14.6% |
-| 1 | 134 | 44 | 24.7% |
-| 2 | 178 | 0 | 0% |
-| 3 | 140 | 38 | 21.3% |
+**实际 AdaKV 实验数据** (2025-01-16, Qwen2.5-7B, alpha=0.8)：
 
-**重要澄清**：Qwen 在 `budget_realloc` 上"能用"**不是因为有 mask fix**，而是因为熵范围小（~0.75），budget variance 较小，padding 比例可容忍。
+从 `logs/smoke_adakv_alpha08.log` 观察到的 budget 分布：
+```
+[153, 81, 263, 107], range=182, max_padding=69.2%
+[161, 191, 371, 297], range=210, max_padding=56.6%
+[118, 91, 223, 92], range=132, max_padding=59.2%
+```
+
+| 样本 | Budget 分布 | Range | 最大 Padding 比例 |
+|-----|------------|-------|-----------------|
+| 1 | [153, 81, 263, 107] | 182 | **69.2%** (head 1) |
+| 2 | [161, 191, 371, 297] | 210 | **56.6%** (head 0) |
+| 3 | [118, 91, 223, 92] | 132 | **59.2%** (head 1) |
+
+**结论**：即使 alpha=0.8（80% uniform + 20% adaptive），padding 比例仍高达 **60-70%**，这解释了为什么 AdaKV (14.55%) 显著低于 uniform (21.75%)。
+
+**重要澄清**：Qwen 在 `budget_realloc` 上"能用"**不是因为有 mask fix**，而是因为熵范围小（~0.75），budget variance 相对较小。但 AdaKV 的 dispersion-based 算法产生更大的 variance。
 
 #### 模型兼容性矩阵
 
@@ -162,14 +171,16 @@ top_p=0.95            # Nucleus sampling
 
 ## Remote Execution
 
-Primary server: `ssh -p 23 root@117.50.34.209`
-Project root: `/cloud/cloud-ssd1/Experiment-Platform`
-Global models: `/model` (symlinked to project)
-Environment: `source /usr/local/miniconda3/bin/activate py312`
+Primary server: `ssh -p 23 root@117.50.241.187`
+- **GPU**: 双 RTX 4090 (24GB x 2)
+- **Project root**: `/cloud/cloud-ssd1/Experiment-Platform`
+- **Global models**: `/model` (symlinked to project)
+- **Environment**: `source /usr/local/miniconda3/bin/activate py310`
+- **Logs**: `logs/` 目录（实验日志按实验名命名）
 
 ```bash
 # Sync code to server
-rsync -avz -e "ssh -p 23" ./ root@117.50.34.209:/cloud/cloud-ssd1/Experiment-Platform/
+rsync -avz -e "ssh -p 23" ./ root@117.50.241.187:/cloud/cloud-ssd1/Experiment-Platform/
 
 # Monitor experiments
 bash scripts/shell/monitor_experiment.sh
