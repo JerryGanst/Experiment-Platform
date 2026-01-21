@@ -57,10 +57,10 @@ def main() -> None:
     if args.output_dir is None:
         args.output_dir = str(ROOT / "results_clean" / args.pred_name)
 
-    model2path = json.load(open(LONG_BENCH_DIR / "config" / "model2path.json", "r"))
-    model2maxlen = json.load(open(LONG_BENCH_DIR / "config" / "model2maxlen.json", "r"))
-    dataset2prompt = json.load(open(LONG_BENCH_DIR / "config" / "dataset2prompt.json", "r"))
-    dataset2maxlen = json.load(open(LONG_BENCH_DIR / "config" / "dataset2maxlen.json", "r"))
+    model2path = json.load(open(CONFIG_DIR / "models" / "model2path.json", "r"))
+    model2maxlen = json.load(open(CONFIG_DIR / "models" / "model2maxlen.json", "r"))
+    dataset2prompt = json.load(open(CONFIG_DIR / "datasets" / "dataset2prompt.json", "r"))
+    dataset2maxlen = json.load(open(CONFIG_DIR / "datasets" / "dataset2maxlen.json", "r"))
 
     model_name = args.model
     model_path = args.model_path or model2path[model_name]

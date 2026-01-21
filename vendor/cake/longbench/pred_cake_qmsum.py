@@ -14,7 +14,13 @@ import torch.multiprocessing as mp
 import sys
 from pathlib import Path
 
-from cake.cake_cache import CakeprefillKVCache 
+# 检测项目根目录
+_THIS_FILE = Path(__file__).resolve()
+# vendor/cake/longbench/pred_cake_qmsum.py -> 向上 4 级到项目根目录
+PROJECT_ROOT = _THIS_FILE.parents[3]
+CONFIG_DIR = PROJECT_ROOT / "config"
+
+from cake.cake_cache import CakeprefillKVCache
 from cake.utils import CompressConfig 
 
 def parse_args(args=None):
@@ -183,15 +189,15 @@ if __name__ == '__main__':
     compress = args.compress
     cascading = args.cascading
     compress_config = CompressConfig(compress, cascading)
-    model2path = json.load(open("config/model2path.json", "r"))
-    model2maxlen = json.load(open("config/model2maxlen.json", "r"))
+    model2path = json.load(open(CONFIG_DIR / "models" / "model2path.json", "r"))
+    model2maxlen = json.load(open(CONFIG_DIR / "models" / "model2maxlen.json", "r"))
     # define your model
     max_length = model2maxlen[model_name]
     if compress:
         compress_config.cache_size = args.cache_size
         compress_config.window_size = args.window_size
         cache_name = f"cache{args.cache_size}"
-        model2tau = json.load(open("config/model2tau.json", "r"))
+        model2tau = json.load(open(CONFIG_DIR / "models" / "model2tau.json", "r"))
         try:
             tau1 = model2tau[model_name][f"{args.cache_size}"]["tau1"]
             tau2 = model2tau[model_name][f"{args.cache_size}"]["tau2"]
@@ -212,8 +218,8 @@ if __name__ == '__main__':
                 
 
     # we design specific prompt format and max generation length for each task, feel free to modify them to optimize model output
-    dataset2prompt = json.load(open("config/dataset2prompt.json", "r"))
-    dataset2maxlen = json.load(open("config/dataset2maxlen.json", "r"))
+    dataset2prompt = json.load(open(CONFIG_DIR / "datasets" / "dataset2prompt.json", "r"))
+    dataset2maxlen = json.load(open(CONFIG_DIR / "datasets" / "dataset2maxlen.json", "r"))
     # predict on each dataset
     if not os.path.exists(f"./pred_result/{cache_name}/{pred_name}"):
         os.makedirs(f"./pred_result/{cache_name}/{pred_name}")

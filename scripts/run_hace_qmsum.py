@@ -72,11 +72,11 @@ def main() -> None:
     os.environ["HACE_PREF_MODE"] = args.pref_mode
     os.environ["HACE_HEAD_MODE"] = args.head_mode
 
-    model2path = json.load(open(LONG_BENCH_DIR / "config" / "model2path.json", "r"))
-    model2maxlen = json.load(open(LONG_BENCH_DIR / "config" / "model2maxlen.json", "r"))
-    dataset2prompt = json.load(open(LONG_BENCH_DIR / "config" / "dataset2prompt.json", "r"))
-    dataset2maxlen = json.load(open(LONG_BENCH_DIR / "config" / "dataset2maxlen.json", "r"))
-    model2tau = json.load(open(LONG_BENCH_DIR / "config" / "model2tau.json", "r"))
+    model2path = json.load(open(CONFIG_DIR / "models" / "model2path.json", "r"))
+    model2maxlen = json.load(open(CONFIG_DIR / "models" / "model2maxlen.json", "r"))
+    dataset2prompt = json.load(open(CONFIG_DIR / "datasets" / "dataset2prompt.json", "r"))
+    dataset2maxlen = json.load(open(CONFIG_DIR / "datasets" / "dataset2maxlen.json", "r"))
+    model2tau = json.load(open(CONFIG_DIR / "models" / "model2tau.json", "r"))
 
     model_name = args.model
     model_path = args.model_path or model2path[model_name]
